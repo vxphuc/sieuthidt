@@ -1,0 +1,9 @@
+.product_image {
+    width: 100px; /* Chiều rộng ảnh */
+    height: 100px; /* Chiều cao ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-radius: 8px; /* Bo góc cho ảnh */
+    display: block; /* Hiển thị dưới dạng block */
+    margin: 0 auto; /* Căn giữa trong ô */
+  }
+  
