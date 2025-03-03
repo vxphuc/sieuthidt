@@ -14,6 +14,7 @@ function RecycleBin() {
         console.error(error);
       });
   }, []);
+  console.log(items)
   const handleRestore = (id) => {
     axios
       .patch(`https://web-dt.onrender.com/product/${id}/restore`)
@@ -56,7 +57,7 @@ function RecycleBin() {
                 <th scope="row">{index + 1}</th>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
-                <td>{item.typeProduct[0].name}</td>
+                <td>{(item.typeProduct[0])?(item.typeProduct[0].name) : ''}</td>
                 <td>{item.deletedAt}</td>
                 <td>
                   <img

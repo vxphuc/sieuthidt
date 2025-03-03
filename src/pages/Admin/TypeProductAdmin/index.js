@@ -6,11 +6,13 @@ import style from "./TypeProduc.module.css";
 
 function TypeProductAdmin() {
   const [data, setData] = useState([]);
+  const [countDelete, setCountDelete] = useState(0);
   useEffect(() => {
     axios
       .get("https://web-dt.onrender.com/typeProduct")
       .then((res) => {
-        setData(res.data);
+        setData(res.data.typeProducts);
+        setCountDelete(res.data.count)
       })
       .catch((error) => {
         console.error(error);
@@ -34,7 +36,13 @@ function TypeProductAdmin() {
         className="btn btn-primary mb-2"
         to="/quan-tri/loai-san-pham/them-moi"
       >
-        Thêm mới
+        Thêm mới 
+      </NavLink>
+      <NavLink
+        className="btn btn-danger mb-2 ms-2"
+        to="/quan-tri/loai-san-pham/thung-rac"
+      >
+        Thùng rác ({countDelete})
       </NavLink>
       <table className="table table-hove">
         <thead>

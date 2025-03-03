@@ -9,7 +9,8 @@ function TypeProduct() {
     const fetchTypeProducts = async () => {
       try {
         const response = await axios.get("https://web-dt.onrender.com/typeProduct");
-        setData(response.data);
+        console.log(response.data)
+        setData(response.data.typeProducts);
       } catch (error) {
         console.error("Lỗi kết nối server:", error);
       }

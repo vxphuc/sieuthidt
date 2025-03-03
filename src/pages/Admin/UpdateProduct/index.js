@@ -14,11 +14,15 @@ function UpdateProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://web-dt.onrender.com/product/${slug}`);
+        const response = await axios.get(
+          `https://web-dt.onrender.com/product/${slug}`
+        );
         if (!response.data) throw new Error("Không tìm thấy sản phẩm!");
-        
+
         // Kiểm tra nếu response là mảng hay object
-        const product = Array.isArray(response.data) ? response.data[0] : response.data;
+        const product = Array.isArray(response.data)
+          ? response.data[0]
+          : response.data;
         setData(product);
       } catch (error) {
         console.error("Lỗi khi tải sản phẩm:", error);
@@ -33,8 +37,10 @@ function UpdateProduct() {
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
-        const response = await axios.get("https://web-dt.onrender.com/typeProduct");
-        if (response.data) setType(response.data);
+        const response = await axios.get(
+          "https://web-dt.onrender.com/typeProduct"
+        );
+        if (response.data) setType(response.data.typeProducts);
       } catch (error) {
         console.error("Lỗi khi tải loại sản phẩm:", error);
       }
@@ -46,15 +52,19 @@ function UpdateProduct() {
     const { name, value } = e.target;
     setData((prev) => ({
       ...prev,
-      [name]: value, 
+      [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Kiểm tra nếu dữ liệu chưa đầy đủ
-    if (!data?.name || !data?.price || !data?.description || !data?.typeProductId) {
+    if (
+      !data?.name ||
+      !data?.price ||
+      !data?.description ||
+      !data?.typeProductId
+    ) {
       alert("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
@@ -113,15 +123,18 @@ function UpdateProduct() {
           <select
             className="form-select"
             name="typeProductId"
-            value={data.typeProductId || ""}
+            value={data.typeProductId ?? ""}
             onChange={handleChange}
           >
-            <option value="" disabled>{data.Typeproduct?.[0]?.name || "Chọn danh mục"}</option>
-            {type.map((value) => (
-              <option key={value._id} value={value._id}>
-                {value.name}
-              </option>
-            ))}
+            <option value="" >
+              { 'Chọn danh mục'}
+            </option>
+            {
+              type.map((value) => (
+                <option key={value._id} value={value._id}>
+                  {value.name}
+                </option>
+              ))}
           </select>
         </div>
 

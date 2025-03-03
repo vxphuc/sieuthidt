@@ -14,6 +14,7 @@ import FillInformation from "../pages/fillInInformation";
 import ShowBanner from "../pages/Admin/ShowBanner";
 import UpdateProduct from "../pages/Admin/UpdateProduct";
 import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc"; 
+import RecycleBinTyproduct from "../pages/Admin/RecycleBinTypeProduct";
 
 
 
@@ -23,6 +24,7 @@ export const router = [
     {path: '/san-pham', component: Product},
     {path: '/quan-tri/cap-nhap-loai-san-pham/:id', component: UpdateTypeProduct, layout: AdminLayout},
     {path: '/dang-nhap', component: Login},
+    {path: '/quan-tri/loai-san-pham/thung-rac', component: RecycleBinTyproduct, layout: AdminLayout},
     {path: '/quan-tri', component: ManageAdmin, layout: AdminLayout},
     {path: '/quan-tri/them-moi-banner', component: CreateBanner, layout: AdminLayout},
     {path: '/quan-tri/san-pham', component: ProductAdmin, layout: AdminLayout},
