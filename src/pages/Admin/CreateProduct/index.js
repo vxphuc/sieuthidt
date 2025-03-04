@@ -55,16 +55,16 @@ function CreateProductForm() {
     }
 
     axios
-      .post("https://web-dt.onrender.com/product/create", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then(() => {
-        console.log("Product created successfully");
-        window.location.href = "/quan-tri/san-pham"; // Chuyển hướng sau khi thành công
-      })
-      .catch(() => {
-        console.log("Error creating product");
-      });
+    .post("https://web-dt.onrender.com/product/create", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then(() => {
+      console.log("Product created successfully");
+    })
+    .catch((error) => {
+      console.error("Error creating product:", error);
+    });
+  
   };
 
   
