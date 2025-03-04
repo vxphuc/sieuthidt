@@ -20,9 +20,10 @@ function CreateProductForm() {
   useEffect(() => {
     axios
       .get("https://web-dt.onrender.com/typeProduct")
-      .then(res => setData(res.data))
+      .then(res => setData(res.data.typeProducts))
       .catch((error) => console.error(error));
   }, []);
+
 
   const handleChangeName = (e) => {
     setName(e.target.value);
