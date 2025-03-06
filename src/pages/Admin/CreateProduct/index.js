@@ -1,169 +1,144 @@
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Grid, Typography, Box, Input } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import style from './CreateProduct.module.css'
+import style from "./CreateProduct.module.css";
 
 function CreateProductForm() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [product, setProduct] = useState({
+    name: "",
+    price: "",
+    description: "",
+    category: "",
+  });
   const [image, setImage] = useState(null);
-  const [data, setData] = useState([]);
-  const [category, setCategory] = useState('');
-
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://web-dt.onrender.com/typeProduct")
-      .then(res => setData(res.data.typeProducts))
-      .catch((error) => console.error(error));
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("https://web-dt.onrender.com/typeProduct");
+        setCategories(res.data.typeProducts);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
-
-  const handleChangeName = (e) => {
-    setName(e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChangePrice = (e) => {
-    setPrice(e.target.value);
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
   };
 
-  const handleChangeDescription = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleChangeImage = (e) => {
-    console.log(e.target.files[0]);
-    setImage(e.target.files[0]);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("price", price);
-    formData.append("description", description);
-    formData.append("typeProductId", category);
-    if (image) {
-      formData.append("image", image); // Gửi file ảnh
-    }
+    try {
+      const formData = new FormData();
+      formData.append("name", product.name);
+      formData.append("price", product.price);
+      formData.append("description", product.description);
+      formData.append("typeProductId", product.category);
+      if (image) {
+        formData.append("image", image);
+      }
 
-    axios
-    .post("https://web-dt.onrender.com/product/create", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-    .then(() => {
+      await axios.post("http://localhost:5000/product/create", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       console.log("Product created successfully");
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error("Error creating product:", error);
-    });
-  
+    }
   };
 
-  
-
   return (
-    <div>
-      <Box sx={{ maxWidth: 600, margin: "0 auto", padding: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Thêm Sản Phẩm
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Tên Sản Phẩm"
-                variant="outlined"
-                name="name"
-                value={name}
-                onChange={handleChangeName}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-      <TextField
-        select
-        fullWidth
-        label="Chọn danh mục"
-        margin="normal"
-        name="typeProductId"
-        value={category}
-        onChange={handleChange}
-      >
-      {
-        data.map((item, index)=>{
-
-          return(
-            <MenuItem key={index} value={item._id} className={style.list}>{item.name}</MenuItem>
-          )
-        })
-      }
-      </TextField>
-    </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Giá"
-                variant="outlined"
-                name="price"
-                type="number"
-                value={price}
-                onChange={handleChangePrice}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Mô Tả"
-                variant="outlined"
-                name="description"
-                multiline
-                rows={4}
-                value={description}
-                onChange={handleChangeDescription}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Typography variant="body1">Chọn Ảnh</Typography>
-              <Input
-                type="file"
-                accept="image/*"
-                name="image"
-                onChange={handleChangeImage}
-              />
-              {image && (
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  File: {image.name}
-                </Typography>
-              )}{" "}
-              {/* Hiển thị tên file hình ảnh */}
-            </Grid>
-
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Thêm Sản Phẩm
-              </Button>
-            </Grid>
+    <Box sx={{ maxWidth: 600, mx: "auto", p: 3 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Thêm Sản Phẩm
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Tên Sản Phẩm"
+              variant="outlined"
+              name="name"
+              value={product.name}
+              onChange={handleChange}
+            />
           </Grid>
-        </form>
-      </Box>
-    </div>
+          <Grid item xs={12}>
+            <TextField
+              select
+              fullWidth
+              label="Chọn danh mục"
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+              margin="normal"
+            >
+              {categories.map((item) => (
+                <MenuItem key={item._id} value={item._id} className={style.list}>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Giá"
+              variant="outlined"
+              name="price"
+              type="number"
+              value={product.price}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Mô Tả"
+              variant="outlined"
+              name="description"
+              multiline
+              rows={4}
+              value={product.description}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">Chọn Ảnh</Typography>
+            <Input
+              type="file"
+              accept="image/*"
+              name="image"
+              onChange={handleImageChange}
+            />
+            {image && (
+              <Typography variant="body2" sx={{ mt: 1 }}>
+                File: {image.name}
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Thêm Sản Phẩm
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
   );
 }
 
