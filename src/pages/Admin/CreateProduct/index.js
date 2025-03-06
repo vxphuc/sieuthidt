@@ -51,7 +51,7 @@ function CreateProductForm() {
         formData.append("image", image);
       }
 
-      await axios.post("http://localhost:5000/product/create", formData, {
+      await axios.post("https://web-dt.onrender.com/product/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Product created successfully");
