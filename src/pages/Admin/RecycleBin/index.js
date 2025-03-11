@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import style from "./RecycleBin.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate  } from "react-router-dom";
 function RecycleBin() {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   useEffect(() => {
     axios

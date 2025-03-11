@@ -3,8 +3,10 @@ import { TextField, Button, Grid, Typography, Box, Input } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import style from "./CreateProduct.module.css";
+import { useNavigate  } from "react-router-dom";
 
 function CreateProductForm() {
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -55,6 +57,7 @@ function CreateProductForm() {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Product created successfully");
+      navigate("/quan-tri/san-pham");
     } catch (error) {
       console.error("Error creating product:", error);
     }

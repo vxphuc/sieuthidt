@@ -97,7 +97,7 @@ function UpdateProduct() {
 
   if (loading) return <div>Đang tải...</div>;
   if (!data) return <div>Không tìm thấy sản phẩm</div>;
-
+console.log(data)
   return (
     <div className={`container ${style.container}`}>
       <div className="text-center">
@@ -172,6 +172,7 @@ function UpdateProduct() {
               setData((prev) => ({ ...prev, image: e.target.files[0] }))
             }
           />
+          <img src={`${data.image}`} width={`20%`}></img>
         </div>
 
         {/* Nút cập nhật */}
