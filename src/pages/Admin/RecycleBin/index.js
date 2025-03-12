@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import style from "./RecycleBin.module.css";
-import { NavLink, useNavigate  } from "react-router-dom";
+import { NavLink, useNavigate   } from "react-router-dom";
 function RecycleBin() {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
@@ -27,14 +27,9 @@ function RecycleBin() {
       });
   };
   const handleDelete = (id) => {
-    axios
-      .delete(`https://web-dt.onrender.com/product/${id}/delete`)
-      .then(()=>{
-        window.location.reload()
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    axios.delete(`https://web-dt.onrender.com/product/${id}/delete`)
+      window.location.reload()
+     
   };
   return (
     <div className="container">
