@@ -62,7 +62,7 @@ function TypeProductAdmin() {
                 <td>
                   <img
                     className={style.product_image}
-                    src={`https://web-dt.onrender.com/uploads/${item.image}`}
+                    src={`${item.image}`}
                   ></img>
                 </td>
                 <td>

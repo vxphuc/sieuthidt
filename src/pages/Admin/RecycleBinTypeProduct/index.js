@@ -59,7 +59,7 @@ function RecycleBinTyproduct() {
                   <img
                   width={`100px`}
                   height={`100px`}
-                    src={`https://web-dt.onrender.com/uploads/${item.image}`}
+                    src={`${item.image}`}
                   ></img>
                 </td>
                 <td>{date.toLocaleString("vi-VN")}</td>
