@@ -1,0 +1,105 @@
+.Nest{
+    background-color: rgb(255 255 255);
+    width: 100%;
+    border-top-width: 1px;
+    border-color: rgb(0 172 91);
+    margin-top: 28px;
+    border-top: 1px solid #009245;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.category_label {
+    display: inline-block;
+    background-color: #d4f4dd; /* nền nhạt */
+    color: #009245; /* chữ màu xanh */
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 2px solid #009245;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Tam giác hai bên */
+  .category_label::before,
+  .category_label::after {
+    content: "";
+    position: absolute;
+    top: 31%;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #009245 transparent transparent transparent;
+  }
+  
+  .category_label::before {
+    left: -10px;
+    transform: rotate(318deg);
+  }
+  
+  .category_label::after {
+    right: -10px;
+    transform: rotate(405deg);
+  }
+  .contentProduct{
+    padding-top: 28px;
+    padding-left: 2px;
+    padding-right: 2px;
+    flex-wrap: wrap;
+  }
+  .product{
+    width: calc(100% / 5);
+    box-shadow: 0 0 8px rgba(198, 218, 248, .4);
+    padding: 2px;
+    background-color: rgb(255 255 255);
+    border-color: rgb(228 233 242);
+    border-width: 1px;
+    height: 100%;
+  }
+  .imgproduct{
+    width: 100%;
+  }
+  .product_info{
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-top: 4px;
+  }
+  .product_name{
+    color: rgb(157 167 188);
+    line-height: 18px;
+    font-size: 14px;
+    height: 35px;
+    margin-bottom: 8px;
+  }
+  .product_price{
+    line-height: 18px;
+    font-size: 16px;
+    color: rgb(25 32 56);
+    font-weight: 700;
+    margin-top: .125rem;
+  }
+  .buy_button{
+    font-size: 16px;
+    height: 40px;
+    color: rgb(0 126 66);
+    text-transform: uppercase;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: rgb(240 255 243);
+    width: 100%;
+    margin-top: auto;
+    border: none;
+    margin-top: 20px;
+    font-weight: 700;
+  }
+  .viewMore{
+    color: rgb(81 87 100);
+    font-size: 13px;
+    width: 100%;
+    padding: 12px 8px;
+  }
+  .seeMore{
+    color: rgb(81 87 100);
+    cursor: pointer;
+  }

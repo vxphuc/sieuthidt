@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./TypeProduct.module.css";
+import { NavLink } from "react-router-dom";
 
 function TypeProduct() {
   const [data, setData] = useState([]);
@@ -9,7 +10,6 @@ function TypeProduct() {
     const fetchTypeProducts = async () => {
       try {
         const response = await axios.get("https://web-dt.onrender.com/typeProduct");
-        console.log(response.data)
         setData(response.data.typeProducts);
       } catch (error) {
         console.error("Lỗi kết nối server:", error);
@@ -20,22 +20,15 @@ function TypeProduct() {
   }, []);
 
   return (
-    <div className="mt-3 container">
-      <div className={`${styles.titleTypeProduct} text-center`}>
-        <h2>Danh mục sản phẩm</h2>
+    <div className={`${styles.container}`}>
+      <div className={`${styles.button} text-center`}>
+        <button>DANH MỤC SẢN PHẨM</button>
       </div>
-      <div className= {`row ${styles.containerTypeProduct}`}>
+      <div className= {`${styles.containerTypeProduct}`}>
         {data.map((element) => (
-          <div key={element._id} className="col-md-3 mt-4 text-center">
-            <div className="">
-              <img
-              className={styles.img}
-                width="100%"
-                height="100%"
-                src={`https://web-dt.onrender.com/uploads/${element.image}`}
-              ></img>
-            </div>
-          </div>
+          <NavLink to="" key={element._id} className={`${styles.typeProduct}`}>
+            <span>{element.name}</span>
+          </NavLink>
         ))}
       </div>
     </div>

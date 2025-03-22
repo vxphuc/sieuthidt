@@ -3,7 +3,7 @@ import styles from './Footer.module.css'
 function Footer() {
     return (
         <footer className="bg-light py-4 mt-5">
-          <div className={styles.container}>
+          <div className={`container ${styles.container} `}>
             <div className="row">
               <div className="col-md-3">
                 <h5>Tổng đài hỗ trợ</h5>

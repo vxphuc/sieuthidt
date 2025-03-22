@@ -1,7 +1,8 @@
 
 .container{
-    overflow: hidden;
-    position: relative;
+    background-color: aliceblue;
+    position: fixed;
+    width: 265px;
 }
 .banner{
     display: flex;
@@ -27,4 +28,24 @@
 .img{
     position: relative;
     border-radius: 30px;
+}
+.button{
+    height: 5vh;
+}
+.button button{
+    height: 100%;
+    width: 100%;
+    background-color: rgb(98 244 175);
+    color: #1B1B1B;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-bottom-left-radius: .375rem;
+    border-bottom-right-radius: .375rem;
+}
+.typeProduct{
+    padding: 12px 0;
+    border-top-width: 1px;
+    margin: 0 12px;
+    border-bottom: solid 1px #e0e0e0;
 }
