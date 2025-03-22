@@ -93,6 +93,9 @@
     margin-top: 20px;
     font-weight: 700;
   }
+  .buy_button:hover{
+    background-color: rgb(228 245 231);
+  }
   .viewMore{
     color: rgb(81 87 100);
     font-size: 13px;
