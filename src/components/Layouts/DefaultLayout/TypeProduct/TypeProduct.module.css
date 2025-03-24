@@ -24,6 +24,7 @@
 }
 .containerTypeProduct{
     justify-content: center;
+    background-color: rgb(240 255 243);
 }
 .img{
     position: relative;
@@ -48,4 +49,5 @@
     border-top-width: 1px;
     margin: 0 12px;
     border-bottom: solid 1px #e0e0e0;
+    color: rgb(0 126 66);
 }

@@ -28,7 +28,7 @@ function Nest() {
             });
             return (
               <div className={`${style.product}`} key={item._id}>
-                <NavLink>
+                <NavLink to = {`/${item.typeProduct[0].slug}/${item.slug}`}>
                   <img
                     className={`${style.imgproduct}`}
                     src={item.image}
@@ -36,7 +36,7 @@ function Nest() {
                   />
                 </NavLink>
                 <div className={`${style.product_info}`}>
-                  <NavLink>
+                  <NavLink to = {`/${item.typeProduct[0].slug}/${item.slug}`}>
                     <div className={`${style.product_name}`}>
                       {item.name.length > 35
                         ? item.name.slice(0, 30) + "..."

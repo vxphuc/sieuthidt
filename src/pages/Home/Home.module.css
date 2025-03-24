@@ -1,7 +1,7 @@
 .container {
   overflow: hidden;
   position: relative;
-  margin-top: 90px;
+  margin-top: 74px;
 }
 body {
   background-color: rgb(233 237 240) !important;
@@ -23,9 +23,7 @@ body {
   width: 95%;
   justify-content: space-between;
 }
-.typeProduct{
-  margin-top: 90px !important;
-}
+
 .newProduct {
   margin-top: 14px;
   background-color: rgb(239 255 242);

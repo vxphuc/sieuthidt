@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./Home.module.css";
-import TypeProduct from "../TypeProduct";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSolid,
@@ -81,12 +81,10 @@ function Home() {
   };
 
   return (
-    <div className="container">
-      <div className={`row`}>
-        <div className={`col-md-3 ${styles.typeProduct}`}>
-          <TypeProduct></TypeProduct>
-        </div>
-        <div className={`col-md-9`}>
+    <div className="">
+      <div className={``}>
+        
+        <div className={``}>
           <div className={`${styles.container}`}>
             <div ref={sliderRef} className={styles.banner}>
               {img.map((image, index) => {
@@ -121,21 +119,20 @@ function Home() {
           <div className={styles.newProduct}>
             <div className={`${styles.title} d-flex justify-content-between`}>
               <h2>Sản phẩm mới</h2>
-              <NavLink to="/san-pham">Xem thêm</NavLink>
             </div>
             <div className={`d-flex ${styles.products}`}>
               {newProduct.map((product, index) => {
-                let price = Number.parseInt(product.price);
+                let price = Number.parseInt(product.price.$numberDecimal);
                 price = price.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 });
                 return (
                   <div className={`${styles.boxProduct}`} key={index}>
-                    <NavLink to={``}>
+                    <NavLink to = {`/${product.typeProduct[0].slug}/${product.slug}`}>
                       <img
                         className={`${styles.imgNewProduct}`}
-                        src={`${product.product.image}`}
+                        src={`${product.image}`}
                         alt="product"
                       ></img>
                       <div
@@ -145,9 +142,9 @@ function Home() {
                       </div>
                       <div className={`${styles.infoProduct}`}>
                         <h5 ref={nameNewProduct}>
-                          {product.product.name.length > 18
-                            ? `${product.product.name.substring(0, 30)}...`
-                            : product.product.name}
+                          {product.name.length > 18
+                            ? `${product.name.substring(0, 30)}...`
+                            : product.name}
                         </h5>
                       </div>
                     </NavLink>

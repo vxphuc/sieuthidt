@@ -74,7 +74,7 @@ function ProductAdmin() {
                        <td>{parseFloat.toLocaleString('vi-VN', {style:"currency", currency:"VND"})}</td>
                        <td>{typeProduct}</td>
                        <td>{product.quantity}</td>
-                       <td><img className={style.product_image} src={`${product.image}`}></img></td>
+                       <td><img className={style.product_image} src={`${product.image[0]}`}></img></td>
                        <td>
                          <NavLink className="btn btn-primary "> Xem chi tiết</NavLink>
                          <NavLink to={`/quan-tri/san-pham/${product.slug}/cap-nhap-san-pham`} className="btn btn-success ms-2"> Sửa</NavLink>

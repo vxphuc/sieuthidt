@@ -15,13 +15,14 @@ import ShowBanner from "../pages/Admin/ShowBanner";
 import UpdateProduct from "../pages/Admin/UpdateProduct";
 import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc"; 
 import RecycleBinTyproduct from "../pages/Admin/RecycleBinTypeProduct";
+import DetailProduct from "../pages/DetailProduct";
 
 
 
 export const router = [
     {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},
     {path: '/', component: Home},
-    {path: '/san-pham', component: Product},
+    {path: '/san-pham/:slug', component: Product},
     {path: '/quan-tri/cap-nhap-loai-san-pham/:id', component: UpdateTypeProduct, layout: AdminLayout},
     {path: '/dang-nhap', component: Login},
     {path: '/quan-tri/loai-san-pham/thung-rac', component: RecycleBinTyproduct, layout: AdminLayout},
@@ -34,9 +35,7 @@ export const router = [
     {path: '/quan-tri/san-pham/thung-rac', component: RecycleBin, layout: AdminLayout},
     {path: '/quan-tri/banner', component: ShowBanner, layout: AdminLayout},
     {path: '/quan-tri/san-pham/:slug/cap-nhap-san-pham', component: UpdateProduct, layout: AdminLayout},
-
+    {path: '/:slug/:slug', component: DetailProduct},
     
-
-
 ]
 

@@ -26,7 +26,7 @@ function TypeProduct() {
       </div>
       <div className= {`${styles.containerTypeProduct}`}>
         {data.map((element) => (
-          <NavLink to="" key={element._id} className={`${styles.typeProduct}`}>
+          <NavLink to={`/san-pham/${element.slug}`} key={element._id} className={`${styles.typeProduct}`}>
             <span>{element.name}</span>
           </NavLink>
         ))}

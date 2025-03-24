@@ -3,20 +3,26 @@ import { TextField, Button, Grid, Typography, Box, Input } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import style from "./CreateProduct.module.css";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CreateProductForm() {
   const navigate = useNavigate();
+  
+  // State lưu thông tin sản phẩm
   const [product, setProduct] = useState({
     name: "",
     price: "",
     description: "",
     category: "",
   });
-  const [image, setImage] = useState(null);
+
+  // State lưu danh sách các file ảnh được chọn
+  const [images, setImages] = useState([]);
+
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    // Load danh sách các category từ server
     const fetchCategories = async () => {
       try {
         const res = await axios.get("https://web-dt.onrender.com/typeProduct");
@@ -25,21 +31,24 @@ function CreateProductForm() {
         console.error(error);
       }
     };
-
     fetchCategories();
   }, []);
 
+  // Hàm xử lý khi thay đổi input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Hàm xử lý khi người dùng chọn nhiều ảnh
   const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+    // Lấy tất cả file ảnh từ input
+    if (e.target.files) {
+      setImages(e.target.files);
     }
   };
 
+  // Xử lý submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,13 +58,17 @@ function CreateProductForm() {
       formData.append("price", product.price);
       formData.append("description", product.description);
       formData.append("typeProductId", product.category);
-      if (image) {
-        formData.append("image", image);
+
+      // Thêm nhiều ảnh vào formData bằng vòng lặp
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i]);
       }
 
+      // gửi yêu cầu tới server
       await axios.post("https://web-dt.onrender.com/product/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       console.log("Product created successfully");
       navigate("/quan-tri/san-pham");
     } catch (error) {
@@ -68,6 +81,7 @@ function CreateProductForm() {
       <Typography variant="h4" align="center" gutterBottom>
         Thêm Sản Phẩm
       </Typography>
+
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -80,6 +94,7 @@ function CreateProductForm() {
               onChange={handleChange}
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               select
@@ -88,7 +103,6 @@ function CreateProductForm() {
               name="category"
               value={product.category}
               onChange={handleChange}
-              margin="normal"
             >
               {categories.map((item) => (
                 <MenuItem key={item._id} value={item._id} className={style.list}>
@@ -97,6 +111,7 @@ function CreateProductForm() {
               ))}
             </TextField>
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -108,6 +123,7 @@ function CreateProductForm() {
               onChange={handleChange}
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -120,20 +136,30 @@ function CreateProductForm() {
               onChange={handleChange}
             />
           </Grid>
+
           <Grid item xs={12}>
-            <Typography variant="body1">Chọn Ảnh</Typography>
+            <Typography variant="body1">Chọn Nhiều Ảnh</Typography>
             <Input
               type="file"
               accept="image/*"
-              name="image"
+              name="images"
               onChange={handleImageChange}
+              inputProps={{ multiple: true }} // Cho phép chọn nhiều ảnh
             />
-            {image && (
-              <Typography variant="body2" sx={{ mt: 1 }}>
-                File: {image.name}
-              </Typography>
+
+            {/* Hiển thị danh sách ảnh đã chọn */}
+            {images.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2">Các file đã chọn:</Typography>
+                <ul>
+                  {Array.from(images).map((img, index) => (
+                    <li key={index}>{img.name}</li>
+                  ))}
+                </ul>
+              </Box>
             )}
           </Grid>
+
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Thêm Sản Phẩm

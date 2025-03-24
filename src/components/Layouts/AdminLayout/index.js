@@ -1,7 +1,7 @@
 import Header from "../../Layouts/DefaultLayout/Header";
 import Footer from "../DefaultLayout/Footer";
 import Sitebar from "./Sitebar";
-import Style from './Layout.module.css'
+import styles from './Layout.module.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 function AdminLayout({ children }) {
   return (
@@ -9,11 +9,11 @@ function AdminLayout({ children }) {
       <div>
         <Header></Header>
       </div>
-      <div className={`row mt-3 `}>
-        <div className="col-lg-2">
+      <div className={`row`}>
+        <div className= {`col-lg-2 ${styles.Sitebar}`}>
           <Sitebar></Sitebar>
         </div>
-        <div className="col-lg-9">{children}</div>
+        <div className= {`col-lg-9 ${styles.Sitebar}`}>{children}</div>
       </div>
       <div>
         <Footer></Footer>
