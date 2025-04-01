@@ -30,7 +30,7 @@ function SeaweedJelly() {
                 <NavLink to = {`/${item.typeProduct[0].slug}/${item.slug}`}>
                   <img
                     className={`${style.imgproduct}`}
-                    src={item.image}
+                    src={item.image[0]}
                     alt={item.name}
                   />
                 </NavLink>

@@ -1,0 +1,143 @@
+// components/ReviewForm.jsx
+import React, { memo, useState } from "react";
+import RatingStars from "../RatingStars";
+import styles from "./ReviewForm.module.css";
+import axios from "axios";
+
+const ReviewForm = ({ productId, onSuccess }) => {
+  const [rating, setRating] = useState(0);
+  const [name, setName] = useState("");
+  const [comment, setComment] = useState("");
+  const [phone, setPhone] = useState("");
+  const [img, setImg] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(true);
+
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
+  };
+
+  const handleImg = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 3) {
+      alert("bạn chỉ có thể tải tối đa 3 ảnh");
+      setImg(files.slice(0, 3));
+    } else {
+      setImg(files);
+    }
+  };
+
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+
+  const validateForm = () => {
+    const phoneRegex = /^(0|\+84)(\d{9})$/;
+    if(!name.trim()) return false;
+    if(!phoneRegex.test(phone)) return false;
+    if(rating <= 0) return false;
+    return true
+  }
+
+ 
+
+  const formData = new FormData();
+  formData.append("rate", rating);
+  formData.append("comment", comment);
+  formData.append("name", name);
+  formData.append("phone", phone);
+  formData.append("productID", productId);
+
+  img.forEach((file) => {
+    formData.append("img", file);
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(!validateForm()){
+      setIsSubmit(false)
+      return
+    }
+    
+    setIsSubmit(true)
+      axios
+      .post(`https://web-dt.onrender.com/ReviewForm/reviewProduct`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(function (response) {
+        console.log(response);
+        if(onSuccess){
+          console.log(onSuccess())
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  return (
+    <form className="my-4">
+      <div className={`${styles.RatingStars}`}>
+        <RatingStars
+          value={rating}
+          edit={true}
+          onSelect={(value) => {
+            setRating(value);
+          }}
+        />
+      </div>
+      <div>
+        <div className={`${styles.inputrating__group}`}>
+          <input
+            placeholder="mời bạn chia sẽ thêm cảm nhận..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="w-full border p-2 mt-2"
+          />
+        </div>
+        <div className={`${styles.item}`}>
+          <div className={`${styles.fRName}`}>
+            <span className={`text-danger ${(isSubmit) ? `d-none` : ``}`}>
+              * bạn cần phải nhập trường này
+            </span>
+            <input
+              onChange={handleName}
+              placeholder="Học tên (bắt buộc)"
+            ></input>
+          </div>
+          <div className={`${styles.fRPhone}`}>
+            <span className={`text-danger ${(isSubmit) ? `d-none` : ``}`}>
+              * số điện thoại phải đúng định dạng
+            </span>
+            <input
+              onChange={handlePhone}
+              placeholder="nhập số điện thoại (bắt buộc)"
+            ></input>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="formFileMultiple" className="form-label">
+              Gửi ảnh thực tế "tối đa 3 ảnh"
+            </label>
+            <input
+              onChange={handleImg}
+              name="image"
+              className={`form-control`}
+              type="file"
+              id="formFileMultiple"
+              multiple
+            ></input>
+          </div>
+        </div>
+        <div className={`${styles.dcap}`}>
+          <button
+            onClick={handleSubmit}
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 mt-2"
+          >
+            Gửi đánh giá
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+export default memo(ReviewForm);

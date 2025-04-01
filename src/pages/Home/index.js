@@ -132,7 +132,7 @@ function Home() {
                     <NavLink to = {`/${product.typeProduct[0].slug}/${product.slug}`}>
                       <img
                         className={`${styles.imgNewProduct}`}
-                        src={`${product.image}`}
+                        src={`${product.image[0]}`}
                         alt="product"
                       ></img>
                       <div

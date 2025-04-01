@@ -4,16 +4,20 @@ import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import style from "./CreateProduct.module.css";
 import { useNavigate } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 function CreateProductForm() {
+  const [editorData, setEditorData] = useState("");
   const navigate = useNavigate();
-  
+
   // State lưu thông tin sản phẩm
   const [product, setProduct] = useState({
     name: "",
     price: "",
     description: "",
     category: "",
+    quantity: "",
   });
 
   // State lưu danh sách các file ảnh được chọn
@@ -58,6 +62,7 @@ function CreateProductForm() {
       formData.append("price", product.price);
       formData.append("description", product.description);
       formData.append("typeProductId", product.category);
+      formData.append("quantity", product.quantity);
 
       // Thêm nhiều ảnh vào formData bằng vòng lặp
       for (let i = 0; i < images.length; i++) {
@@ -105,7 +110,11 @@ function CreateProductForm() {
               onChange={handleChange}
             >
               {categories.map((item) => (
-                <MenuItem key={item._id} value={item._id} className={style.list}>
+                <MenuItem
+                  key={item._id}
+                  value={item._id}
+                  className={style.list}
+                >
                   {item.name}
                 </MenuItem>
               ))}
@@ -127,13 +136,24 @@ function CreateProductForm() {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Mô Tả"
+              label="Số lượng"
               variant="outlined"
-              name="description"
-              multiline
-              rows={4}
-              value={product.description}
+              name="quantity"
+              type="number"
+              value={product.quantity}
               onChange={handleChange}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="body1">Mô Tả</Typography>
+            <CKEditor
+              editor={ClassicEditor}
+              data={product.description}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setProduct((prev) => ({ ...prev, description: data }));
+              }}
             />
           </Grid>
 

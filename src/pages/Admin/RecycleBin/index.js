@@ -28,7 +28,6 @@ function RecycleBin() {
   };
   const handleDelete = (id) => {
     axios.delete(`https://web-dt.onrender.com/product/${id}/delete`)
-      window.location.reload()
      
   };
   return (

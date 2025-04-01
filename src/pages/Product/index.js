@@ -13,7 +13,7 @@ function Product() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/typeProduct/detailTypeProduct/${slug}`)
+      .get(`https://web-dt.onrender.com/typeProduct/detailTypeProduct/${slug}`)
       .then((response) => {
         setTypeProduct(response.data);
       })
@@ -23,7 +23,7 @@ function Product() {
   }, [slug]);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/product/getProducts/${slug}`)
+      .get(`https://web-dt.onrender.com/product/getProducts/${slug}`)
       .then((response) => {
         setProduct(response.data);
       })
@@ -58,7 +58,7 @@ console.log(product)
                   <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
                     <img
                       className={`${style.imgProduct}`}
-                      src={item.image}
+                      src={item.image[0]}
                       alt="product"
                     />
                   </NavLink>

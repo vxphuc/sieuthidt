@@ -1,0 +1,54 @@
+.ListProductSames{
+    margin-top: 12px;
+}
+.titleListProductSame{
+    color: rgb(0 172 91/1);
+    font-size: 15px;
+}
+.listProductSame{
+    padding-bottom: 2px;
+    padding: 10px;
+    background-color: rgb(242 245 249 / 1);
+    border-radius: 8px;
+    margin-top: 12px;
+}
+.productSame{
+    scrollbar-width: none;
+    overflow-y: auto;
+    max-height: 220px;
+}
+.product{
+    padding: 5px 10px;
+    background-color: rgb(255 255 255);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.img{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    position: relative;
+}
+.img img{
+    color: transparent;
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+}
+.infoProduct{
+    flex-direction: column;
+    display: flex;
+    margin-right: auto;
+    margin-left: 8px;
+}
+.nameProduct{
+    font-size: 14px;
+    color: rgb(34 43 69);
+    overflow: hidden;
+}
+.priceProduct{
+    font-size: 14px;
+    color: rgb(34 43 69);
+    font-weight: 700;
+}
