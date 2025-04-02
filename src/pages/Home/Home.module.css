@@ -43,7 +43,7 @@ body {
   width: calc(100% / 5);
   padding: 2px;
   position: relative;
-  background: linear-gradient(180deg, #8eca51, #2c8e5f 84.5%, #5e9329);
+  background: #2c8e5f;
   border: solid 1px #fff;
 }
 .imgNewProduct {
