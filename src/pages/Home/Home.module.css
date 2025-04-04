@@ -44,6 +44,7 @@ body {
   padding: 2px;
   position: relative;
   background: #2c8e5f;
+  /* background: linear-gradient(180deg, #8eca51, #2c8e5f 84.5%, #5e9329); */
   border: solid 1px #fff;
 }
 .imgNewProduct {

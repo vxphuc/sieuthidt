@@ -41,4 +41,3 @@ export const router = [
     {path: '/:slug/:slug', component: DetailProduct},
     
 ]
-

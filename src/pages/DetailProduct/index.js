@@ -74,7 +74,7 @@ function DetailProduct() {
           })}
         </div>
       </div>
-      <div className={`d-flex mt-2`}>
+      <div className={`d-flex mt-2 flex-wrap`}>
         <div className={`${styles.product}`}>
           <div className={`${styles.image} py-2 position-relative`}>
             <div className={`${styles.h_full}`}>
