@@ -38,6 +38,15 @@ function Carts() {
                 </div>
               </div>
             </div>
+            <div className={`${styles.listCarts}`}>
+              <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp" alt="anh1" ></img>
+              <div className={`${styles.content}`}>
+                <p>Giá tiền: 100.000₫</p>
+                <button className={`${styles.tru}`}>-</button>
+                <input type="number" value="1" min="1" max="10"></input>
+                <button className={`${styles.cong}`}>+</button>
+              </div>
+            </div>
           </div>
         </main>
         

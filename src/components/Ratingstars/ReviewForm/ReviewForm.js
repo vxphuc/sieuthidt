@@ -9,21 +9,11 @@ const ReviewForm = ({ productId, onSuccess }) => {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const [phone, setPhone] = useState("");
-  const [img, setImg] = useState([]);
+
   const [isSubmit, setIsSubmit] = useState(true);
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
-  };
-
-  const handleImg = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 3) {
-      alert("bạn chỉ có thể tải tối đa 3 ảnh");
-      setImg(files.slice(0, 3));
-    } else {
-      setImg(files);
-    }
   };
 
   const handleName = (e) => {
@@ -47,9 +37,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
   formData.append("phone", phone);
   formData.append("productID", productId);
 
-  img.forEach((file) => {
-    formData.append("img", file);
-  });
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -110,19 +98,6 @@ const ReviewForm = ({ productId, onSuccess }) => {
             <input
               onChange={handlePhone}
               placeholder="nhập số điện thoại (bắt buộc)"
-            ></input>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="formFileMultiple" className="form-label">
-              Gửi ảnh thực tế "tối đa 3 ảnh"
-            </label>
-            <input
-              onChange={handleImg}
-              name="image"
-              className={`form-control`}
-              type="file"
-              id="formFileMultiple"
-              multiple
             ></input>
           </div>
         </div>
