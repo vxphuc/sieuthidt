@@ -1,100 +1,18 @@
-<<<<<<< HEAD
 .container {
-  background-color: aliceblue;
-  position: fixed;
-  width: 265px;
-}
-.banner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  margin-top: 1%;
-}
-.banner img {
-  width: 100%;
-  height: 100%;
-}
-.icons {
-  display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 95%;
-  justify-content: space-between;
-}
-.containerTypeProduct {
-  justify-content: center;
-  background-color: rgb(240 255 243);
-}
-.img {
-  position: relative;
-  border-radius: 30px;
-}
-.button {
-  height: 5vh;
-}
-.button button {
-  height: 100%;
-  width: 100%;
-  background: #2c8e5f;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-bottom-left-radius: 0.375rem;
-  border-bottom-right-radius: 0.375rem;
-}
-.typeProduct {
-  padding: 12px 0;
-  border-top-width: 1px;
-  margin: 0 12px;
-  border-bottom: solid 1px #e0e0e0;
-  color: rgb(0 126 66);
-}
-@media (max-width: 768px) {
-  .container {
-    position: relative !important; /* KHÔNG dùng fixed */
-    width: 100% !important;
-    z-index: 1; /* Đảm bảo thấp hơn header */
-    top: 10%;
-    left: 0;
-    margin-top: 56px; /* hoặc chiều cao header nếu có */
-  }
-
-  .button {
-    width: 100%;
-  }
-  .containerTypeProduct {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    background-color: #f0fff3;
-  }
-
-  .typeProduct {
-    margin: 0 8px;
-    padding: 8px;
-    font-size: 14px;
-    border: none;
-    border-bottom: 1px solid #dcdcdc;
-  }
-=======
-
-.container{
     background-color: aliceblue;
     position: fixed;
     width: 265px;
-}
-.banner{
+  }
+  .banner {
     display: flex;
     transition: transform 0.5s ease-in-out;
     margin-top: 1%;
-}
-.banner img{
+  }
+  .banner img {
     width: 100%;
     height: 100%;
-}
-.icons{
+  }
+  .icons {
     display: flex;
     position: absolute;
     top: 50%;
@@ -102,64 +20,62 @@
     transform: translate(-50%, -50%);
     width: 95%;
     justify-content: space-between;
-}
-.containerTypeProduct{
+  }
+  .containerTypeProduct {
     justify-content: center;
     background-color: rgb(240 255 243);
-}
-.img{
+  }
+  .img {
     position: relative;
     border-radius: 30px;
-}
-.button{
+  }
+  .button {
     height: 5vh;
-}
-.button button{
+  }
+  .button button {
     height: 100%;
     width: 100%;
-        background: #2c8e5f;
-        color: white;
-    /* background-color: rgb(98 244 175);
-    color: #1B1B1B; */
+    background: #2c8e5f;
+    color: white;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-bottom-left-radius: .375rem;
-    border-bottom-right-radius: .375rem;
-}
-.typeProduct{
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+  }
+  .typeProduct {
     padding: 12px 0;
     border-top-width: 1px;
     margin: 0 12px;
     border-bottom: solid 1px #e0e0e0;
     color: rgb(0 126 66);
-}
-@media (max-width: 768px) {
-  .container {
-    position: relative !important; /* KHÔNG dùng fixed */
-    width: 100% !important;
-    z-index: 1; /* Đảm bảo thấp hơn header */
-    top: 10%;
-    left: 0;
-    margin-top: 100px; /* hoặc chiều cao header nếu có */
   }
-
-  .button {
-    width: 100%;
+  @media (max-width: 768px) {
+    .container {
+      position: relative !important; /* KHÔNG dùng fixed */
+      width: 100% !important;
+      z-index: 1; /* Đảm bảo thấp hơn header */
+      top: 10%;
+      left: 0;
+      margin-top: 56px; /* hoặc chiều cao header nếu có */
+    }
+  
+    .button {
+      width: 100%;
+    }
+    .containerTypeProduct {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #f0fff3;
+    }
+  
+    .typeProduct {
+      margin: 0 8px;
+      padding: 8px;
+      font-size: 14px;
+      border: none;
+      border-bottom: 1px solid #dcdcdc;
+    }
   }
-  .containerTypeProduct {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    background-color: #f0fff3;
-  }
-
-  .typeProduct {
-    margin: 0 8px;
-    padding: 8px;
-    font-size: 14px;
-    border: none;
-    border-bottom: 1px solid #dcdcdc;
-  }
->>>>>>> 22abaeb99c3a18bb503c1cf8b98e991abbad03b5
-}
+  
