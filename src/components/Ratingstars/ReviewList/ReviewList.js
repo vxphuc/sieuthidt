@@ -73,15 +73,6 @@ const ReviewList = ({ productId }) => {
                       {item.comment}
                     </p>
                   </div>
-                  <div className={`${styles.cmt_command}`}>
-                    {
-                      item.img.map((item, index) =>{
-                        return (
-                          <img key={index} src={item}></img>
-                        )
-                      })
-                    }
-                  </div>
                 </li>
               ))}
             </ul>

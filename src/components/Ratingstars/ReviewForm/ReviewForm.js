@@ -28,6 +28,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
     return true
   }
 
+  console.log(name, phone, rating, comment);
  
 
   const formData = new FormData();
@@ -45,13 +46,24 @@ const ReviewForm = ({ productId, onSuccess }) => {
       setIsSubmit(false)
       return
     }
+
+    const formData = new FormData();
+    formData.append("rate", rating);
+    formData.append("comment", comment);
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("productID", productId);
     
     setIsSubmit(true)
       axios
-      .post(`https://web-dt.onrender.com/ReviewForm/reviewProduct`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      .post(`https://web-dt.onrender.com/ReviewForm/reviewProduct`,{
+        rate: rating,
+        comment: comment,
+        name: name,
+        phone: phone,
+        productID: productId,
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response);
         if(onSuccess){
           console.log(onSuccess())
@@ -87,6 +99,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
               * bạn cần phải nhập trường này
             </span>
             <input
+            value={name}
               onChange={handleName}
               placeholder="Học tên (bắt buộc)"
             ></input>
@@ -96,6 +109,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
               * số điện thoại phải đúng định dạng
             </span>
             <input
+              value={phone}
               onChange={handlePhone}
               placeholder="nhập số điện thoại (bắt buộc)"
             ></input>
