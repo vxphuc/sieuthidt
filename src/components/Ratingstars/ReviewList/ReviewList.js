@@ -33,7 +33,6 @@ const ReviewList = ({ productId }) => {
           <h2>Đánh giá</h2>
           {/* tổng đánh giá */}
           <div className={`${styles.boxrate__top}`}></div>
-          {/* xem hình ảnh đánh giá */}
 
           {/* xem toàn bộ đánh giá của sản phẩm */}
           <div className={`${styles.rt_list}`}>
