@@ -4,6 +4,7 @@ import Product from "../pages/Product";
 import ProductAdmin from "../pages/Admin/ProductAdmin";
 import CreateProduct from "../pages/Admin/CreateProduct";
 import AdminLayout from "../components/Layouts/AdminLayout";
+import HeaderLayout from "../components/Layouts/HeaderLayout";
 import TypeProductAdmin from "../pages/Admin/TypeProductAdmin";
 import ManageAdmin from "../pages/Admin/ManageAdmin";
 import CreateTypeProductAdmin from "../pages/Admin/CreateTypeProductAdmin";
@@ -16,12 +17,14 @@ import UpdateProduct from "../pages/Admin/UpdateProduct";
 import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc"; 
 import RecycleBinTyproduct from "../pages/Admin/RecycleBinTypeProduct";
 import DetailProduct from "../pages/DetailProduct";
+import Carts from "../pages/Carts";
 
 
 
 export const router = [
     {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},
     {path: '/', component: Home},
+    {path: '/gio-hang', component: Carts, layout: HeaderLayout},
     {path: '/san-pham/:slug', component: Product},
     {path: '/quan-tri/cap-nhap-loai-san-pham/:id', component: UpdateTypeProduct, layout: AdminLayout},
     {path: '/dang-nhap', component: Login},
