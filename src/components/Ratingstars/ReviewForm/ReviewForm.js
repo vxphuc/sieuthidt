@@ -31,13 +31,6 @@ const ReviewForm = ({ productId, onSuccess }) => {
   console.log(name, phone, rating, comment);
  
 
-  const formData = new FormData();
-  formData.append("rate", rating);
-  formData.append("comment", comment);
-  formData.append("name", name);
-  formData.append("phone", phone);
-  formData.append("productID", productId);
-
 
 
   const handleSubmit = (e) => {
@@ -46,13 +39,6 @@ const ReviewForm = ({ productId, onSuccess }) => {
       setIsSubmit(false)
       return
     }
-
-    const formData = new FormData();
-    formData.append("rate", rating);
-    formData.append("comment", comment);
-    formData.append("name", name);
-    formData.append("phone", phone);
-    formData.append("productID", productId);
     
     setIsSubmit(true)
       axios
