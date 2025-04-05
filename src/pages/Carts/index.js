@@ -39,7 +39,12 @@ function Carts() {
               </div>
             </div>
             <div className={`${styles.listCarts}`}>
-              <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp" alt="anh1" ></img>
+              <div className={`${styles.nameproduct}`}>
+                <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp" alt="anh1" ></img>
+                <div className={styles.productInfo}>
+                  <p className={styles.productName}>Thịt bò MỹThịt bò MỹThịt bò MỹThịt bò Mỹ</p>
+                </div>
+              </div>
               <div className={`${styles.content}`}>
                 <p>Giá tiền: 100.000₫</p>
                 <button className={`${styles.tru}`}>-</button>
@@ -47,9 +52,41 @@ function Carts() {
                 <button className={`${styles.cong}`}>+</button>
               </div>
             </div>
+            
+            <div className={`${styles.delete}`}>
+              <button>Xóa tất cả</button>
+            </div>
+            <div className={`${styles.payment}`}>
+              <h3>Thông tin thanh toán</h3>
+              <table className={`${styles.table}`}>
+                <tbody>
+                  <tr>
+                    <td>Tổng tiền</td>
+                    <td>100.000₫</td>
+                  </tr>
+                  <tr>
+                    <td>Điểm: </td>
+                    <td>100.000đ</td>
+                  </tr>
+                  <tr>
+                    <td>Tổng đơn hàng</td>
+                    <td>100.000₫</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className={`${styles.description}`}>
+              <p>Nhập mô tả đơn hàng</p>
+              <textarea rows="4" cols="77" placeholder="Nhập yêu cầu của bạn (nếu có)"></textarea>
+            </div>
+            <footer>
+              <button>
+                <span className={styles.orderText}>Đặt hàng:</span>
+                <span className={styles.orderPrice}>100.000đ</span>
+              </button>
+            </footer>
           </div>
         </main>
-        
       </div>
     </div>
   );
