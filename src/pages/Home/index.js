@@ -19,6 +19,35 @@ function Home() {
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
 
+  const getcookie = (name) => {
+    const cookies = document.cookie.split(";");
+    for(const cookie of cookies) {
+      const [key, value] = cookie.trim().split("=");
+      if(key === name) {
+        return value;
+      }
+    }
+  };
+
+  const token = getcookie('authToken')
+
+  // mua sản phẩm
+  const handleBuy = (product) => {
+      axios
+        .post("http://localhost:5000/cart/create", {
+          productID: product,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => console.log(error));
+  }
+  
+
   //new product
   useEffect(() => {
     axios
@@ -153,7 +182,7 @@ function Home() {
                         <h6>{price}</h6>
                       </div>
                       <div className={`${styles.btnBuy}`}>
-                        <button className={`${styles.btn}`}>Mua</button>
+                        <button onClick={() => handleBuy(product._id)} className={`${styles.btn}`}>Mua</button>
                       </div>
                     </div>
                   </div>

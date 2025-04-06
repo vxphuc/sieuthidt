@@ -35,15 +35,14 @@ function Product() {
   const handleGoBack = () => {
     navigate(-1);
   };
-console.log(product)
   return (
     <div>
       <div className={`${style.titleTypeProduct} d-flex`}>
         <div onClick={handleGoBack} className={`${style.back} d-flex`}>
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </div>
-        {typeProduct.map((item) => {
-          return <span className={`d-flex`}>{item.name}</span>;
+        {typeProduct.map((item, index) => {
+          return <span key={index} className={`d-flex`}>{item.name}</span>;
         })}
       </div>
 
