@@ -27,7 +27,7 @@ function Carts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/cart", {
+      .get("https://web-dt.onrender.com/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
