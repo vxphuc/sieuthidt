@@ -69,7 +69,7 @@ function Carts() {
                     <div className={`${styles.pb4 }`}>
                         <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa</p>
                         <div className={`${styles.textBasic}`}>
-                            <div className={`${styles.name}`}>Anh Vinh</div>
+                            <div className={`${styles.name}`}>Anh Vinh a</div>
                             <div>0911147616</div>
                         </div>
                     </div>
@@ -87,7 +87,7 @@ function Carts() {
                 </div>
               </div>
               <div className={`${styles.content}`}>
-                <p>Giá tiền: 100.000₫</p>
+                <p>Giá tiền: 100.000₫ h</p>
                 <button className={`${styles.tru}`}>-</button>
                 <input type="number" value="1" min="1" max="10"></input>
                 <button className={`${styles.cong}`}>+</button>

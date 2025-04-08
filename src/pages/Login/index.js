@@ -107,8 +107,9 @@ function Login() {
   };
 
   return (
+    <div className={styles.wrapper}>
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} className={`p-4`}>
+      <Paper elevation={3} className={`p-4 ${styles.paper}`}>
         <Typography variant="h5" className="text-center mb-3">
           Đăng Nhập
         </Typography>
@@ -163,6 +164,7 @@ function Login() {
       </Paper>
       <div id="recaptcha-container"></div>
     </Container>
+    </div>
   );
 }
 
