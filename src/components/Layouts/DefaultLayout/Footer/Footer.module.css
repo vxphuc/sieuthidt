@@ -11,8 +11,20 @@ footer{
     display: block ;
 }
 .list_unstyled li{
-    padding: 5px 12px;
+    padding: 5px 1px;
 }
 .list_unstyled li a{
-    color: #ff9900;
+    color: black;
+}
+.partnerList{
+    display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: start;
+  margin-top: 10px;
+}
+.partnerItem{
+    width: 40px;
+  height: auto;
+  object-fit: contain;
 }
