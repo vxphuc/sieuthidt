@@ -62,15 +62,15 @@ function Carts() {
                 <div className={`${styles.pick_up_store}`}>
                   <div className={`${styles.chose_address}`}>giao đến</div>
                   <div className={`${styles.address_user}`}>
-                    <span>
-                      <NavLink>Đổi</NavLink>
-                    </span>
-                    <div className={`${styles.pb4}`}>
-                      <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa</p>
-                      <div className={`${styles.textBasic}`}>
-                        <div className={`${styles.name}`}>Anh Vinh</div>
-                        <div>0911147616</div>
-                      </div>
+
+                    <span><NavLink>Đổi</NavLink></span>
+                    <div className={`${styles.pb4 }`}>
+                        <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa</p>
+                        <div className={`${styles.textBasic}`}>
+                            <div className={`${styles.name}`}>Anh Vinh a</div>
+                            <div>0911147616</div>
+                        </div>
+
                     </div>
                   </div>
                 </div>
@@ -98,8 +98,21 @@ function Carts() {
                     <button className={`${styles.cong}`}>+</button>
                   </div>
                 </div>
+
+              </div>
+              <div className={`${styles.content}`}>
+                <p>Giá tiền: 100.000₫ h</p>
+                <button className={`${styles.tru}`}>-</button>
+                <input type="number" value="1" min="1" max="10"></input>
+                <button className={`${styles.cong}`}>+</button>
+              </div>
+            </div>
+            
+            
+
               );
             })}
+
 
             <div className={`${styles.delete}`}>
               <button>Xóa tất cả</button>

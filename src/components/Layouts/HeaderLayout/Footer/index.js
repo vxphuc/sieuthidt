@@ -2,7 +2,7 @@ import styles from './Footer.module.css'
 
 function Footer() {
     return (
-        <footer className="bg-light py-4 mt-5">
+        <footer className={`bg-light py-4 mt-5 ${styles.foot}`}>
           <div className={`container ${styles.container} `}>
             <div className="row">
               <div className="col-md-3">
