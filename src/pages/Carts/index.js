@@ -21,12 +21,9 @@ function Carts() {
         return value;
       }
     }
-
-
-  }
+  };
 
   const token = getcookie("authToken");
-
 
   useEffect(() => {
     axios
@@ -65,6 +62,7 @@ function Carts() {
                 <div className={`${styles.pick_up_store}`}>
                   <div className={`${styles.chose_address}`}>giao đến</div>
                   <div className={`${styles.address_user}`}>
+
                     <span><NavLink>Đổi</NavLink></span>
                     <div className={`${styles.pb4 }`}>
                         <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa</p>
@@ -72,19 +70,35 @@ function Carts() {
                             <div className={`${styles.name}`}>Anh Vinh a</div>
                             <div>0911147616</div>
                         </div>
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-
-            <div className={`${styles.listCarts}`}>
-              <div className={`${styles.nameproduct}`}>
-                <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp" alt="anh1" ></img>
-                <div className={styles.productInfo}>
-                  <p className={styles.productName}>Thịt bò MỹThịt bò MỹThịt bò MỹThịt bò Mỹ</p>
+            {product.map((item, index) => {
+              return (
+                <div className={`${styles.listCarts}`}>
+                  <div className={`${styles.nameproduct}`}>
+                    <img
+                      src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp"
+                      alt="anh1"
+                    ></img>
+                    <div className={styles.productInfo}>
+                      <p className={styles.productName}>
+                        Thịt bò MỹThịt bò MỹThịt bò MỹThịt bò Mỹ
+                      </p>
+                    </div>
+                  </div>
+                  <div className={`${styles.content}`}>
+                    <p>Giá tiền: 100.000₫</p>
+                    <button className={`${styles.tru}`}>-</button>
+                    <input type="number" value="1" min="1" max="10"></input>
+                    <button className={`${styles.cong}`}>+</button>
+                  </div>
                 </div>
+
               </div>
               <div className={`${styles.content}`}>
                 <p>Giá tiền: 100.000₫ h</p>
@@ -95,6 +109,11 @@ function Carts() {
             </div>
             
             
+
+              );
+            })}
+
+
             <div className={`${styles.delete}`}>
               <button>Xóa tất cả</button>
             </div>
@@ -119,7 +138,11 @@ function Carts() {
             </div>
             <div className={`${styles.description}`}>
               <p>Nhập mô tả đơn hàng</p>
-              <textarea rows="4" cols="77" placeholder="Nhập yêu cầu của bạn (nếu có)"></textarea>
+              <textarea
+                rows="4"
+                cols="77"
+                placeholder="Nhập yêu cầu của bạn (nếu có)"
+              ></textarea>
             </div>
             <footer>
               <button>
