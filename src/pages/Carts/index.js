@@ -12,6 +12,9 @@ function Carts() {
   let navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+
+  
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -35,6 +38,15 @@ function Carts() {
       .then((response) => {
         setProduct(response.data);
         setLoading(false);
+
+        const totalPrice = response.data.reduce((acc, item) => {
+          const price = Number.parseFloat(item.product.price.$numberDecimal);
+          return acc + price * item.quantity;
+        }, 0)
+        setTotal(totalPrice.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }));
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -42,7 +54,6 @@ function Carts() {
       });
   }, []);
 
-  console.log(product);
 
   return (
     <div className={`container ${styles.container} `}>
@@ -83,6 +94,7 @@ function Carts() {
                 <div key={index}>
                   <div className={`${styles.listCarts}`}>
                     <div className={`${styles.nameproduct}`}>
+                    <button className={`${styles.deletebtn}`}>x</button>
                       <img
                         src={item.product.image[0]}
                         alt="anh1"
@@ -95,9 +107,11 @@ function Carts() {
                     </div>
                     <div className={`${styles.content}`}>
                       <p>Giá tiền: {(price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                      <div className={styles.quantityControl}>
                       <button className={`${styles.tru}`}>-</button>
                       <input type="number" value={item.quantity} min="1" max="99"></input>
                       <button className={`${styles.cong}`}>+</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -113,7 +127,7 @@ function Carts() {
                 <tbody>
                   <tr>
                     <td>Tổng tiền</td>
-                    <td>100.000₫</td>
+                    <td>{total}</td>
                   </tr>
                   <tr>
                     <td>Điểm: </td>
