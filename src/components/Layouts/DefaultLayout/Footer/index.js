@@ -31,12 +31,12 @@ function Footer() {
               </div>
               <div className="col-md-3">
                 <h5>Thông tin đối tác</h5>
-                <div className="d-flex">
-                  <img src="partner1.png" alt="Robertet" className="me-2" width="50" />
-                  <img src="partner2.png" alt="Concung" className="me-2" width="50" />
-                  <img src="partner3.png" alt="Asia Group" className="me-2" width="50" />
-                  <img src="partner4.png" alt="Shopee" className="me-2" width="50" />
-                  <img src="partner5.png" alt="Alibaba" width="50" />
+                <div className={`d-flex ${styles.partnerList}`}>
+                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Robertet" className={`me-2 ${styles.partnerItem}`} />
+                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Concung" className={`me-2 ${styles.partnerItem}`} />
+                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Asia Group" className={`me-2 ${styles.partnerItem}`} />
+                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Shopee" className={`me-2 ${styles.partnerItem}`} />
+                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Alibaba" className={`me-2 ${styles.partnerItem}`} />
                 </div>
               </div>
             </div>
