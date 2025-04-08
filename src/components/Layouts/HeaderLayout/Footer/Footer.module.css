@@ -2,11 +2,11 @@
     position: relative;
     z-index: 1000;
     width: 80%;
+    height: 55vh;
     margin: 0 auto;
 }
 .container{
-    padding: 20px;
-
+    padding: 10px;
 }
 .list_unstyled{
     padding: 0;
