@@ -78,24 +78,25 @@ function Carts() {
             </div>
 
             {product.map((item, index) => {
+              const price = Number.parseFloat(item.product.price.$numberDecimal);
               return (
-                <div>
+                <div key={index}>
                   <div className={`${styles.listCarts}`}>
                     <div className={`${styles.nameproduct}`}>
                       <img
-                        src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp"
+                        src={item.product.image[0]}
                         alt="anh1"
                       ></img>
                       <div className={styles.productInfo}>
                         <p className={styles.productName}>
-                          Thịt bò MỹThịt bò MỹThịt bò MỹThịt bò Mỹ
+                          {item.product.name}
                         </p>
                       </div>
                     </div>
                     <div className={`${styles.content}`}>
-                      <p>Giá tiền: 100.000₫</p>
+                      <p>Giá tiền: {price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
                       <button className={`${styles.tru}`}>-</button>
-                      <input type="number" value="1" min="1" max="10"></input>
+                      <input type="number" value={item.quantity} min="1" max="99"></input>
                       <button className={`${styles.cong}`}>+</button>
                     </div>
                   </div>
