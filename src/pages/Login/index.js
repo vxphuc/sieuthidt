@@ -6,6 +6,7 @@ import {
   signInWithPhoneNumber,
 } from "../../config/firebaseConfig";
 import axios from "axios";
+import styles from "./Login.module.css";
 
 function Login() {
   const [phone, setPhone] = useState("");
@@ -107,7 +108,7 @@ function Login() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} className="p-4 mt-5">
+      <Paper elevation={3} className={`p-4`}>
         <Typography variant="h5" className="text-center mb-3">
           Đăng Nhập
         </Typography>
