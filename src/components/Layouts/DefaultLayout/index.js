@@ -15,10 +15,12 @@ function DefaultLayout({ children }) {
             <TypeProduct></TypeProduct>
           </div>
         </div>
-        <div className="col-md-9">{children}</div>
-      </div>
-      <div>
-        <Footer></Footer>
+        <div className="col-md-9">
+          {children}
+          <div>
+            <Footer></Footer>
+          </div>
+        </div>
       </div>
     </div>
   );

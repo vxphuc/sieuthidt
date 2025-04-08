@@ -27,7 +27,7 @@ export const router = [
     {path: '/gio-hang', component: Carts, layout: HeaderLayout},
     {path: '/san-pham/:slug', component: Product},
     {path: '/quan-tri/cap-nhap-loai-san-pham/:id', component: UpdateTypeProduct, layout: AdminLayout},
-    {path: '/dang-nhap', component: Login},
+    {path: '/dang-nhap', component: Login, layout: HeaderLayout},
     {path: '/quan-tri/loai-san-pham/thung-rac', component: RecycleBinTyproduct, layout: AdminLayout},
     {path: '/quan-tri', component: ManageAdmin, layout: AdminLayout},
     {path: '/quan-tri/them-moi-banner', component: CreateBanner, layout: AdminLayout},
