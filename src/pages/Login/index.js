@@ -6,7 +6,7 @@ import {
   signInWithPhoneNumber,
 } from "../../config/firebaseConfig";
 import axios from "axios";
-import styles from "./Login.module.css";
+import styles from "./login.module.css";
 
 function Login() {
   const [phone, setPhone] = useState("");

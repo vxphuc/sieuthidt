@@ -1,0 +1,18 @@
+footer{
+    position: relative;
+    z-index: 1000;
+}
+.container{
+    padding: 20px;
+
+}
+.list_unstyled{
+    padding: 0;
+    display: block ;
+}
+.list_unstyled li{
+    padding: 5px 12px;
+}
+.list_unstyled li a{
+    color: #ff9900;
+}

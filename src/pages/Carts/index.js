@@ -5,9 +5,48 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Carts() {
   let navigate = useNavigate();
+  const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getcookie = (name) => {
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const [key, value] = cookie.trim().split("=");
+      if (key === name) {
+        return value;
+      }
+    }
+
+
+  }
+
+  const token = getcookie("authToken");
+
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setProduct(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  console.log(product);
+
   return (
     <div className={`container ${styles.container} `}>
       <div className={`${styles.bg_black_20}`}>
@@ -38,6 +77,8 @@ function Carts() {
                 </div>
               </div>
             </div>
+
+
             <div className={`${styles.listCarts}`}>
               <div className={`${styles.nameproduct}`}>
                 <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp" alt="anh1" ></img>
@@ -52,6 +93,7 @@ function Carts() {
                 <button className={`${styles.cong}`}>+</button>
               </div>
             </div>
+            
             
             <div className={`${styles.delete}`}>
               <button>Xóa tất cả</button>
