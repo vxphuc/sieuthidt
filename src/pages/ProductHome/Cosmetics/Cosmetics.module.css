@@ -106,3 +106,20 @@
     color: rgb(81 87 100);
     cursor: pointer;
   }
+  @media screen and (max-width: 1200px) {
+    .product {
+      width: calc(100% / 4);
+    }
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .product {
+      width: calc(100% / 3);
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .product {
+      width: calc(100% / 2);
+    }
+  }

@@ -92,3 +92,21 @@ body {
   text-transform: uppercase;
   font-weight: 700;
 }
+@media screen and (max-width: 1200px) {
+  .boxProduct {
+    width: calc(100% / 4);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .boxProduct {
+    width: calc(100% / 3);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .boxProduct {
+    width: calc(100% / 2);
+  }
+}
+
