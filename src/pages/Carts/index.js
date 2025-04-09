@@ -14,8 +14,6 @@ function Carts() {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
 
-  
-
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
     for (const cookie of cookies) {
@@ -30,7 +28,7 @@ function Carts() {
 
   useEffect(() => {
     axios
-      .get("https://web-dt.onrender.com/cart", {
+      .get("http://localhost:5000/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,11 +40,13 @@ function Carts() {
         const totalPrice = response.data.reduce((acc, item) => {
           const price = Number.parseFloat(item.product.price.$numberDecimal);
           return acc + price * item.quantity;
-        }, 0)
-        setTotal(totalPrice.toLocaleString("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }));
+        }, 0);
+        setTotal(
+          totalPrice.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })
+        );
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -54,6 +54,36 @@ function Carts() {
       });
   }, []);
 
+  const handleDelete = (e) => {
+    axios
+      .delete(`http://localhost:5000/cart/delete/${e}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate(0);
+      });
+  };
+
+  const handleDeleteAll = () => {
+    for (let i = 0; i < product.length; i++) {
+      axios
+        .delete(`http://localhost:5000/cart/delete/${product[i].product._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          navigate(0);
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+        });
+    }
+  };
 
   return (
     <div className={`container ${styles.container} `}>
@@ -89,16 +119,20 @@ function Carts() {
             </div>
 
             {product.map((item, index) => {
-              const price = Number.parseFloat(item.product.price.$numberDecimal);
+              const price = Number.parseFloat(
+                item.product.price.$numberDecimal
+              );
               return (
                 <div key={index}>
                   <div className={`${styles.listCarts}`}>
                     <div className={`${styles.nameproduct}`}>
-                    <button className={`${styles.deletebtn}`}>x</button>
-                      <img
-                        src={item.product.image[0]}
-                        alt="anh1"
-                      ></img>
+                      <button
+                        onClick={() => handleDelete(item.product._id)}
+                        className={`${styles.deletebtn}`}
+                      >
+                        x
+                      </button>
+                      <img src={item.product.image[0]} alt="anh1"></img>
                       <div className={styles.productInfo}>
                         <p className={styles.productName}>
                           {item.product.name}
@@ -106,11 +140,22 @@ function Carts() {
                       </div>
                     </div>
                     <div className={`${styles.content}`}>
-                      <p>Giá tiền: {(price * item.quantity).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                      <p>
+                        Giá tiền:{" "}
+                        {(price * item.quantity).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </p>
                       <div className={styles.quantityControl}>
-                      <button className={`${styles.tru}`}>-</button>
-                      <input type="number" value={item.quantity} min="1" max="99"></input>
-                      <button className={`${styles.cong}`}>+</button>
+                        <button className={`${styles.tru}`}>-</button>
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          min="1"
+                          max="99"
+                        ></input>
+                        <button className={`${styles.cong}`}>+</button>
                       </div>
                     </div>
                   </div>
@@ -119,7 +164,7 @@ function Carts() {
             })}
 
             <div className={`${styles.delete}`}>
-              <button>Xóa tất cả</button>
+              <button onClick={handleDeleteAll}>Xóa tất cả</button>
             </div>
             <div className={`${styles.payment}`}>
               <h3>Thông tin thanh toán</h3>
