@@ -234,7 +234,7 @@ function Carts() {
                   <div className={`${styles.chose_address}`}>giao đến</div>
                   <div className={`${styles.address_user}`}>
                     <span>
-                      <NavLink>Đổi</NavLink>
+                      <NavLink to='/gio-hang/cap-nhap-dia-chi'>Đổi</NavLink>
                     </span>
                     <div className={`${styles.pb4}`}>
                       <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa dha</p>

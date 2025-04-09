@@ -19,10 +19,12 @@ import RecycleBinTyproduct from "../pages/Admin/RecycleBinTypeProduct";
 import DetailProduct from "../pages/DetailProduct";
 import Carts from "../pages/Carts";
 import HeaderOnly from "../components/Layouts/HeaderOnly";
+import Adress from "../pages/Adress";
 
 
 
 export const router = [
+    {path: '/gio-hang/cap-nhap-dia-chi', component: Adress, layout: HeaderOnly},
     {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},
     {path: '/', component: Home},
     {path: '/gio-hang', component: Carts, layout: HeaderOnly},
