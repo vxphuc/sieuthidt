@@ -27,7 +27,7 @@ function Carts() {
   };
 
   const token = getcookie("authToken");
-
+console.log(product);
   useEffect(() => {
     axios
       .get("http://localhost:5000/sign-in/user-profile", {
@@ -135,6 +135,19 @@ function Carts() {
     }
   }
 
+  const handleAddition = (id) => {
+    axios
+      .patch(`http://localhost:5000/cart/updateincrease/${id}`,{} ,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate(0);
+      });
+  }
+
   return (
     <div className={`container ${styles.container} `}>
       <div className={`${styles.bg_black_20}`}>
@@ -205,7 +218,7 @@ function Carts() {
                           min="1"
                           max="99"
                         ></input>
-                        <button className={`${styles.cong}`}>+</button>
+                        <button onClick={() =>  handleAddition(item.product._id)} className={`${styles.cong}`}>+</button>
                       </div>
                     </div>
                   </div>

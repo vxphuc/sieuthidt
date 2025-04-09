@@ -34,7 +34,7 @@ function Home() {
   // mua sản phẩm
   const handleBuy = (product) => {
       axios
-        .post("https://web-dt.onrender.com/cart/create", {
+        .post("http://localhost:5000/cart/create", {
           productID: product,
         }, {
           headers: {
@@ -47,7 +47,7 @@ function Home() {
         .catch((error) => console.log(error));
   }
   
-
+console.log(newProduct);
   //new product
   useEffect(() => {
     axios
