@@ -260,6 +260,9 @@ console.log(product);
               ></textarea>
             </div>
             <footer>
+              <div>
+                <p>chọn phương thức</p>
+              </div>
               <button>
                 <span className={styles.orderText}>Đặt hàng:</span>
                 <span className={styles.orderPrice}>{totalOrder}</span>
