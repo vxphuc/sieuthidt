@@ -265,3 +265,8 @@ footer button{
   color: white;
   border-color: red;
 }
+@media (max-width: 770px) {
+  .payment{
+    height: 175px;
+  }
+}

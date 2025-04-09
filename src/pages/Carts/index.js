@@ -13,8 +13,8 @@ function Carts() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
-  const [isChecked, setIsChecked] = useState(false);
   const [user, setUser] = useState([]);
+  const [totalOrder, setTotalOrder] = useState(0);
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -43,7 +43,6 @@ function Carts() {
       });
   }, []);
 
-  console.log(user);
 
   useEffect(() => {
     axios
@@ -61,6 +60,12 @@ function Carts() {
           return acc + price * item.quantity;
         }, 0);
         setTotal(
+          totalPrice.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })
+        );
+        setTotalOrder(
           totalPrice.toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND",
@@ -103,6 +108,37 @@ function Carts() {
         });
     }
   };
+
+  const handlechecker = (e) => {
+    if (e.target.checked) {
+      const totalPrice = product.reduce((acc, item) => {
+        console.log(item);
+      }, 0);
+      // const totalPrice = product.reduce((acc, item) => {
+      //   console.log(item);
+      //   // const price = Number.parseFloat(item.product.price.$numberDecimal);
+      //   // return acc + price * item.quantity;
+      // }, 0);
+      setTotalOrder(
+        (totalPrice - user.token).toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        })
+      );
+    }
+    if (!e.target.checked) {
+      const totalPrice = product.reduce((acc, item) => {
+        const price = Number.parseFloat(item.product.price.$numberDecimal);
+        return acc + price * item.quantity;
+      }, 0);
+      setTotalOrder(
+        totalPrice.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        })
+      );
+    }
+  }
 
   return (
     <div className={`container ${styles.container} `}>
@@ -196,13 +232,13 @@ function Carts() {
 
                   <tr>
                     <td>
-                      <input type="checkbox"></input>{" "}
+                      <input onClick={handlechecker} type="checkbox"></input>{" "}
                       {`sử dụng ${user.token} điểm`}
                     </td>
                   </tr>
                   <tr>
                     <td>Tổng đơn hàng</td>
-                    <td>100.000₫</td>
+                    <td>{totalOrder}</td>
                   </tr>
                 </tbody>
               </table>
