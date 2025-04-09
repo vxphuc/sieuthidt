@@ -31,7 +31,7 @@ function Footer() {
               </div>
               <div className="col-md-3">
                 <h5>Thông tin đối tác</h5>
-                <div className="d-flex">
+                <div className={`d-flex ${styles.partnerList}`}>
                   <img src="partner1.png" alt="Robertet" className="me-2" width="50" />
                   <img src="partner2.png" alt="Concung" className="me-2" width="50" />
                   <img src="partner3.png" alt="Asia Group" className="me-2" width="50" />
