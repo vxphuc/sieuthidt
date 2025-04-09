@@ -340,7 +340,7 @@ function Carts() {
                   className={styles.paybtn}
                   onClick={() => setShowPaymentMethod(!showPaymentMethod)}
                 >
-                  Đổi hình thức thanh toán^
+                  Đổi hình thức thanh toán
                 </button>
 
                 {showPaymentMethod && (
