@@ -162,7 +162,7 @@ function Carts() {
                       <NavLink>Đổi</NavLink>
                     </span>
                     <div className={`${styles.pb4}`}>
-                      <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa</p>
+                      <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa dha</p>
                       <div className={`${styles.textBasic}`}>
                         <div className={`${styles.name}`}>Anh Vinh</div>
                         <div>0911147616</div>
