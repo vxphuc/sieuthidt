@@ -12,6 +12,9 @@ function Carts() {
   let navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [user, setUser] = useState([]);
+  const [totalOrder, setTotalOrder] = useState(0);
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -27,6 +30,22 @@ function Carts() {
 
   useEffect(() => {
     axios
+      .get("http://localhost:5000/sign-in/user-profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  }, []);
+
+
+  useEffect(() => {
+    axios
       .get("http://localhost:5000/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -35,6 +54,23 @@ function Carts() {
       .then((response) => {
         setProduct(response.data);
         setLoading(false);
+
+        const totalPrice = response.data.reduce((acc, item) => {
+          const price = Number.parseFloat(item.product.price.$numberDecimal);
+          return acc + price * item.quantity;
+        }, 0);
+        setTotal(
+          totalPrice.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })
+        );
+        setTotalOrder(
+          totalPrice.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })
+        );
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -42,7 +78,67 @@ function Carts() {
       });
   }, []);
 
-  console.log(product);
+  const handleDelete = (e) => {
+    axios
+      .delete(`http://localhost:5000/cart/delete/${e}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate(0);
+      });
+  };
+
+  const handleDeleteAll = () => {
+    for (let i = 0; i < product.length; i++) {
+      axios
+        .delete(`http://localhost:5000/cart/delete/${product[i].product._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          navigate(0);
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+        });
+    }
+  };
+
+  const handlechecker = (e) => {
+    if (e.target.checked) {
+      const totalPrice = product.reduce((acc, item) => {
+        console.log(item);
+      }, 0);
+      // const totalPrice = product.reduce((acc, item) => {
+      //   console.log(item);
+      //   // const price = Number.parseFloat(item.product.price.$numberDecimal);
+      //   // return acc + price * item.quantity;
+      // }, 0);
+      setTotalOrder(
+        (totalPrice - user.token).toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        })
+      );
+    }
+    if (!e.target.checked) {
+      const totalPrice = product.reduce((acc, item) => {
+        const price = Number.parseFloat(item.product.price.$numberDecimal);
+        return acc + price * item.quantity;
+      }, 0);
+      setTotalOrder(
+        totalPrice.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        })
+      );
+    }
+  }
 
   return (
     <div className={`container ${styles.container} `}>
@@ -66,7 +162,7 @@ function Carts() {
                       <NavLink>Đổi</NavLink>
                     </span>
                     <div className={`${styles.pb4}`}>
-                      <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa</p>
+                      <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa dha</p>
                       <div className={`${styles.textBasic}`}>
                         <div className={`${styles.name}`}>Anh Vinh</div>
                         <div>0911147616</div>
@@ -78,25 +174,44 @@ function Carts() {
             </div>
 
             {product.map((item, index) => {
+              const price = Number.parseFloat(
+                item.product.price.$numberDecimal
+              );
               return (
-                <div>
+                <div key={index}>
                   <div className={`${styles.listCarts}`}>
                     <div className={`${styles.nameproduct}`}>
-                      <img
-                        src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492800/products/vreeh4bf0fgwho99ysdc.webp"
-                        alt="anh1"
-                      ></img>
+                      <button
+                        onClick={() => handleDelete(item.product._id)}
+                        className={`${styles.deletebtn}`}
+                      >
+                        x
+                      </button>
+                      <img src={item.product.image[0]} alt="anh1"></img>
                       <div className={styles.productInfo}>
                         <p className={styles.productName}>
-                          Thịt bò MỹThịt bò MỹThịt bò MỹThịt bò Mỹ
+                          {item.product.name}
                         </p>
                       </div>
                     </div>
                     <div className={`${styles.content}`}>
-                      <p>Giá tiền: 100.000₫</p>
-                      <button className={`${styles.tru}`}>-</button>
-                      <input type="number" value="1" min="1" max="10"></input>
-                      <button className={`${styles.cong}`}>+</button>
+                      <p>
+                        Giá tiền:{" "}
+                        {(price * item.quantity).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </p>
+                      <div className={styles.quantityControl}>
+                        <button className={`${styles.tru}`}>-</button>
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          min="1"
+                          max="99"
+                        ></input>
+                        <button className={`${styles.cong}`}>+</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -104,7 +219,7 @@ function Carts() {
             })}
 
             <div className={`${styles.delete}`}>
-              <button>Xóa tất cả</button>
+              <button onClick={handleDeleteAll}>Xóa tất cả</button>
             </div>
             <div className={`${styles.payment}`}>
               <h3>Thông tin thanh toán</h3>
@@ -112,15 +227,18 @@ function Carts() {
                 <tbody>
                   <tr>
                     <td>Tổng tiền</td>
-                    <td>100.000₫</td>
+                    <td>{total}</td>
                   </tr>
+
                   <tr>
-                    <td>Điểm: </td>
-                    <td>100.000đ</td>
+                    <td>
+                      <input onClick={handlechecker} type="checkbox"></input>{" "}
+                      {`sử dụng ${user.token} điểm`}
+                    </td>
                   </tr>
                   <tr>
                     <td>Tổng đơn hàng</td>
-                    <td>100.000₫</td>
+                    <td>{totalOrder}</td>
                   </tr>
                 </tbody>
               </table>
