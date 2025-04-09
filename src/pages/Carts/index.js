@@ -16,6 +16,8 @@ function Carts() {
   const [user, setUser] = useState([]);
   const [totalOrder, setTotalOrder] = useState(0);
 
+  const [showPaymentMethod, setShowPaymentMethod] = useState(false); //đoạn ẩn hiện phương thức thanh toán
+
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
     for (const cookie of cookies) {
@@ -259,15 +261,36 @@ console.log(product);
                 placeholder="Nhập yêu cầu của bạn (nếu có)"
               ></textarea>
             </div>
-            <footer>
-              <div>
-                <p>chọn phương thức</p>
+
+            <div className={styles.stickyFooter}>
+              <div className={styles.footerActions}>
+
+                {/* xử lý chọn phương thức thanh toán */}
+                <button
+                  className={styles.paybtn}
+                  onClick={() => setShowPaymentMethod(!showPaymentMethod)}
+                >
+                  Đổi hình thức thanh toán^
+                </button>
+
+                {showPaymentMethod && (
+                  <div className={styles.paymentPopup}>
+                    <ul>
+                      <li><input type="radio" name="payment" /> Tiền mặt khi nhận hàng</li>
+                      <li><input type="radio" name="payment" /> Thanh toán qua ngân hàng</li>
+                    </ul>
+                  </div>
+                )}
+                {/* kết thúc xử lý */}
+
+                <button className={styles.btn}>
+                  <span className={styles.orderText}>Đặt hàng:</span>
+                  <span className={styles.orderPrice}>{totalOrder}</span>
+                </button>
               </div>
-              <button>
-                <span className={styles.orderText}>Đặt hàng:</span>
-                <span className={styles.orderPrice}>{totalOrder}</span>
-              </button>
-            </footer>
+            </div>
+
+
           </div>
         </main>
       </div>
