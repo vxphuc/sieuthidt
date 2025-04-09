@@ -18,13 +18,14 @@ import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc";
 import RecycleBinTyproduct from "../pages/Admin/RecycleBinTypeProduct";
 import DetailProduct from "../pages/DetailProduct";
 import Carts from "../pages/Carts";
+import HeaderOnly from "../components/Layouts/HeaderOnly";
 
 
 
 export const router = [
     {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},
     {path: '/', component: Home},
-    {path: '/gio-hang', component: Carts, layout: HeaderLayout},
+    {path: '/gio-hang', component: Carts, layout: HeaderOnly},
     {path: '/san-pham/:slug', component: Product},
     {path: '/quan-tri/cap-nhap-loai-san-pham/:id', component: UpdateTypeProduct, layout: AdminLayout},
     {path: '/dang-nhap', component: Login, layout: HeaderLayout},
