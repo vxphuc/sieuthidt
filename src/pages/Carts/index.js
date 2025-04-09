@@ -27,7 +27,6 @@ function Carts() {
   };
 
   const token = getcookie("authToken");
-console.log(product);
   useEffect(() => {
     axios
       .get("http://localhost:5000/sign-in/user-profile", {
@@ -42,7 +41,6 @@ console.log(product);
         console.error("Error fetching user profile:", error);
       });
   }, []);
-
 
   useEffect(() => {
     axios
@@ -112,14 +110,15 @@ console.log(product);
   const handlechecker = (e) => {
     if (e.target.checked) {
       const totalPrice = product.reduce((acc, item) => {
-        const price = Number.parseFloat(item.product.price.$numberDecimal)
+        const price = Number.parseFloat(item.product.price.$numberDecimal);
         return acc + price * item.quantity;
       }, 0);
-      console.log(totalPrice);
       setTotalOrder(
-        (totalPrice - user.token).toLocaleString("vi-VN", { currency: "VND", style: "currency" })
-
-      )
+        (totalPrice - user.token).toLocaleString("vi-VN", {
+          currency: "VND",
+          style: "currency",
+        })
+      );
     }
     if (!e.target.checked) {
       const totalPrice = product.reduce((acc, item) => {
@@ -133,20 +132,47 @@ console.log(product);
         })
       );
     }
-  }
+  };
 
-  const handleAddition = (id) => {
-    axios
-      .patch(`http://localhost:5000/cart/updateincrease/${id}`,{} ,{
+  const handleAddition = async (id, e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(`http://localhost:5000/cart/updateincrease/${id}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigate(0);
       });
-  }
+  
+      // Gọi lại API giỏ hàng để cập nhật
+      const response = await axios.get("http://localhost:5000/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      setProduct(response.data);
+  
+      // Cập nhật tổng giá luôn
+      const totalPrice = response.data.reduce((acc, item) => {
+        const price = Number.parseFloat(item.product.price.$numberDecimal);
+        return acc + price * item.quantity;
+      }, 0);
+      setTotal(
+        totalPrice.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        })
+      );
+      setTotalOrder(
+        totalPrice.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        })
+      );
+    } catch (error) {
+      console.error("Lỗi khi tăng số lượng:", error);
+    }
+  };
 
   return (
     <div className={`container ${styles.container} `}>
@@ -218,7 +244,12 @@ console.log(product);
                           min="1"
                           max="99"
                         ></input>
-                        <button onClick={() =>  handleAddition(item.product._id)} className={`${styles.cong}`}>+</button>
+                        <button type="button"
+                          onClick={(e) => handleAddition(item.product._id, e)}
+                          className={`${styles.cong}`}
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
                   </div>
