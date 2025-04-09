@@ -174,6 +174,45 @@ function Carts() {
     }
   };
 
+  // Giảm số lượng sản phẩm trong giỏ hàng
+  const subtraction = async (id,e) => {
+    e.preventDefault();
+   await axios
+      .patch(`http://localhost:5000/cart/updateDecrease/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      })
+    const response = await axios.get("http://localhost:5000/cart", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const updatedCart = response.data;
+    setProduct(updatedCart);
+
+    // Cập nhật tổng giá 
+    const totalPrice = updatedCart.reduce((acc, item) => {
+
+      const price = Number.parseFloat(item.product.price.$numberDecimal);
+      return(acc + price * item.quantity) 
+      // return acc + price * item.quantity;
+    }, 0);
+    setTotal(
+      totalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      })
+    );
+    setTotalOrder(
+      totalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      })
+    );
+  }
+ 
+
   return (
     <div className={`container ${styles.container} `}>
       <div className={`${styles.bg_black_20}`}>
@@ -237,7 +276,7 @@ function Carts() {
                         })}
                       </p>
                       <div className={styles.quantityControl}>
-                        <button className={`${styles.tru}`}>-</button>
+                        <button onClick={(e) => subtraction(item.product._id, e)} className={`${styles.tru}`}>-</button>
                         <input
                           type="number"
                           value={item.quantity}
