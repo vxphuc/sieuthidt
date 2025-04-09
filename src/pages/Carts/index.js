@@ -13,6 +13,8 @@ function Carts() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [isChecked, setIsChecked] = useState(false);
+  const [user, setUser] = useState([]);
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -25,6 +27,23 @@ function Carts() {
   };
 
   const token = getcookie("authToken");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/sign-in/user-profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  }, []);
+
+  console.log(user);
 
   useEffect(() => {
     axios
@@ -174,9 +193,12 @@ function Carts() {
                     <td>Tổng tiền</td>
                     <td>{total}</td>
                   </tr>
+
                   <tr>
-                    <td>Điểm: </td>
-                    <td>100.000đ</td>
+                    <td>
+                      <input type="checkbox"></input>{" "}
+                      {`sử dụng ${user.token} điểm`}
+                    </td>
                   </tr>
                   <tr>
                     <td>Tổng đơn hàng</td>
