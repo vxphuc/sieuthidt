@@ -112,19 +112,14 @@ function Carts() {
   const handlechecker = (e) => {
     if (e.target.checked) {
       const totalPrice = product.reduce((acc, item) => {
-        console.log(item);
+        const price = Number.parseFloat(item.product.price.$numberDecimal)
+        return acc + price * item.quantity;
       }, 0);
-      // const totalPrice = product.reduce((acc, item) => {
-      //   console.log(item);
-      //   // const price = Number.parseFloat(item.product.price.$numberDecimal);
-      //   // return acc + price * item.quantity;
-      // }, 0);
+      console.log(totalPrice);
       setTotalOrder(
-        (totalPrice - user.token).toLocaleString("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        })
-      );
+        (totalPrice - user.token).toLocaleString("vi-VN", { currency: "VND", style: "currency" })
+
+      )
     }
     if (!e.target.checked) {
       const totalPrice = product.reduce((acc, item) => {
@@ -233,7 +228,7 @@ function Carts() {
                   <tr>
                     <td>
                       <input onClick={handlechecker} type="checkbox"></input>{" "}
-                      {`sử dụng ${user.token} điểm`}
+                      {`sử dụng${user.token} điểm`}
                     </td>
                   </tr>
                   <tr>
@@ -254,7 +249,7 @@ function Carts() {
             <footer>
               <button>
                 <span className={styles.orderText}>Đặt hàng:</span>
-                <span className={styles.orderPrice}>100.000đ</span>
+                <span className={styles.orderPrice}>{totalOrder}</span>
               </button>
             </footer>
           </div>
