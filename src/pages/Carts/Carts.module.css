@@ -79,20 +79,18 @@
   overflow: hidden;
 }
 .address_user span{
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 4px 19px;
     background-color: rgb(228 233 242);
-    border-radius: 16px;
+    border-radius: 10px;
     cursor: pointer;
     top: 40px;
-    right: 1rem;
+    right: 0.8rem;
     position: absolute;
 }
 .address_user span a{
     color: rgb(34 43 69);
     font-size: 12px;
+    font-weight: 600;
 }
 .pb4{
     padding-bottom: 1rem;
