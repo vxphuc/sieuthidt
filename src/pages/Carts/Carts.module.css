@@ -6,10 +6,13 @@
 }
 .carts {
   border-color: rgb(228 233 242);
-  border-width: 1px;
-  background-color: rgb(242 245 249);
-  width: 50%;
-  margin: 0 auto;
+    border-width: 1px;
+    background-color: rgb(242 245 249);
+    width: 50%;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    margin: 0 auto;
+    min-width: 550px;
 }
 .titleCarts {
   border-color: rgb(228 233 242);
@@ -195,16 +198,23 @@
   gap: 0.5rem;
 }
 .payment h3{
-  float: left;
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 .payment .table{
-  float : right;
+  width: 100%;
   border-bottom: 2px solid #eaeaea;
+  border-collapse: collapse;
 }
 .table td {
   padding: 0.5rem 1rem;
   font-size: 14px;
   color: #333;
+  vertical-align: middle;
+}
+.table input[type="checkbox"] {
+  margin-right: 6px;
 }
 .description{
   padding: 0.5rem;
@@ -314,7 +324,7 @@
     height: 175px;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .carts {
     width: 100%;
     margin: 0 auto;
