@@ -3,9 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BackgroundPopup from "../../components/BackgroundPopup";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Adress() {
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [Province, setProvince] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`https://provinces.open-api.vn/api/`)
+      .then((res) => setProvince(res.data))
+      .catch((err) => console.error("Lỗi khi fetch tỉnh/thành:", err));
+  }, []);
+
+  console.log(Province);
 
   const handleFix = (e) => {
     e.preventDefault();
@@ -73,7 +86,40 @@ function Adress() {
             <div className={`${styles.titlePopup}`}>
               Thêm địa chỉ nhận hàng{" "}
             </div>
-            <div className={`${styles.bodyPopup}`}></div>
+            <div className={`${styles.bodyPopup}`}>
+              <div className={`${styles.pdPopup}`}>
+                <div className={`${styles.popupAdress}`}>
+                  <div className={`${styles.distric}`}>
+                    <div className={`${styles.districSelect}`}>
+                      <select className={`${styles.selectDistric}`}>
+                        {
+                          Province.map((item, index) => {
+                            return (
+                              <option key={index} value={item.code}>{item.name}</option>
+                            )
+                          })
+                        }
+                      </select>
+                    </div>
+                  </div>
+                  <div className={`${styles.distric}`}>
+                    <div className={`${styles.districSelect}`}>
+                      <select className={`${styles.selectDistric}`}>
+                        <option value="1">Quận 1</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className={`${styles.wards}`}>
+                    <div className={`${styles.wardsSelect}`}>
+                      <select className={`${styles.selectWards}`}>
+                        <option value="1">Phường 1</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button></button>
+              </div>
+            </div>
           </div>
         </BackgroundPopup>
       </div>

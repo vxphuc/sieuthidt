@@ -134,21 +134,80 @@
   width: 50%;
   position: relative;
 }
-.titlePopup{
+.titlePopup {
   font-size: 16px;
   color: rgb(81 87 100);
   font-weight: 600;
   text-align: center;
-  padding: .75rem;
+  padding: 0.75rem;
   background-color: rgb(255 255 255);
   height: 46.5px;
   position: relative;
 }
 
-.bodyPopup{
+.bodyPopup {
   max-height: calc(-174.5px + 100vh);
   overflow-y: auto;
   margin-top: 10px;
+}
+
+.pdPopup {
+  padding: 10px;
+  background-color: rgb(255 255 255);
+  margin-bottom: 10px;
+}
+
+.popupAdress {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.distric {
+  width: 49%;
+  margin-top: 16px;
+  z-index: 7;
+}
+
+.districSelect {
+  cursor: pointer;
+  width: 100% !important;
+  z-index: 7;
+  position: relative;
+}
+
+.selectDistric {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgb(242 245 249);
+  padding-left: 10px;
+  border: none;
+}
+
+.wards {
+  cursor: pointer;
+  width: 100% !important;
+  margin-top: 1rem;
+  z-index: 5;
+  position: relative;
+}
+
+.wardsSelect {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-color: rgb(223 223 223);
+  border-width: 1px;
+  border-radius: 8px;
+}
+
+.selectWards{
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgb(242 245 249);
+  padding-left: 10px;
+  border: none;
 }
 
 @media (max-width: 400px) {
