@@ -218,10 +218,11 @@ function Carts() {
 
   return (
     <div className={`container ${styles.container} `}>
+
       {
         (!product || product.length ===0) ? (<div><CartsEmpty></CartsEmpty></div>) : (<div className={`${styles.bg_black_20}`}>
           <main>
-            <div className={`${styles.carts} container`}>
+            <div className={`${styles.carts}`}>
               <div className={`${styles.titleCarts}`}>
                 <div className={`${styles.iconTitlecarts}`}>
                   <span onClick={() => navigate(-1)}>
