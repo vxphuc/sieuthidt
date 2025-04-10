@@ -218,20 +218,11 @@ function Carts() {
 
   return (
     <div className={`container ${styles.container} `}>
-<<<<<<< HEAD
-      <div className={`${styles.bg_black_20}`}>
-        <main>
-          <div className={`${styles.carts}`}>
-            <div className={`${styles.titleCarts}`}>
-              <div className={`${styles.iconTitlecarts}`}>
-                <span onClick={() => navigate(-1)}>
-                  <FontAwesomeIcon icon={faChevronLeft} size="lg" />
-                </span>
-=======
+
       {
         (!product || product.length ===0) ? (<div><CartsEmpty></CartsEmpty></div>) : (<div className={`${styles.bg_black_20}`}>
           <main>
-            <div className={`${styles.carts} container`}>
+            <div className={`${styles.carts}`}>
               <div className={`${styles.titleCarts}`}>
                 <div className={`${styles.iconTitlecarts}`}>
                   <span onClick={() => navigate(-1)}>
@@ -239,7 +230,6 @@ function Carts() {
                   </span>
                 </div>
                 <span>Giỏ hàng</span>
->>>>>>> master
               </div>
               <div className={`${styles.bg_transparent}`}>
                 <div className={`${styles.address}`}>
