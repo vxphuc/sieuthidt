@@ -15,20 +15,21 @@ function RecycleBin() {
         console.error(error);
       });
   }, []);
-  console.log(items)
   const handleRestore = (id) => {
     axios
       .patch(`https://web-dt.onrender.com/product/${id}/restore`)
       .then(()=>{
-        window.location.reload()
+        navigate(0)
       })
       .catch(function (error) {
         console.log(error);
       });
   };
   const handleDelete = (id) => {
-    axios.delete(`https://web-dt.onrender.com/product/${id}/delete`)
-     
+    axios.delete(`http://localhost:5000/product/${id}/delete`)
+    .then(() => {
+      navigate(0)
+    })
   };
   return (
     <div className="container">
@@ -57,7 +58,7 @@ function RecycleBin() {
                 <td>
                   <img
                     className={style.product_image}
-                    src={`${item.image}`}
+                    src={`${item.image[0]}`}
                   ></img>
                 </td>
                 <td>
