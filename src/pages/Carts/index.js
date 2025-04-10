@@ -31,7 +31,7 @@ function Carts() {
   const token = getcookie("authToken");
   useEffect(() => {
     axios
-      .get("http://localhost:5000/sign-in/user-profile", {
+      .get("https://web-dt.onrender.com/sign-in/user-profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +46,7 @@ function Carts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/cart", {
+      .get("https://web-dt.onrender.com/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -80,7 +80,7 @@ function Carts() {
 
   const handleDelete = (e) => {
     axios
-      .delete(`http://localhost:5000/cart/delete/${e}`, {
+      .delete(`https://web-dt.onrender.com/cart/delete/${e}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -94,7 +94,7 @@ function Carts() {
   const handleDeleteAll = () => {
     for (let i = 0; i < product.length; i++) {
       axios
-        .delete(`http://localhost:5000/cart/delete/${product[i].product._id}`, {
+        .delete(`https://web-dt.onrender.com/cart/delete/${product[i].product._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -139,14 +139,14 @@ function Carts() {
   const handleAddition = async (id, e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:5000/cart/updateincrease/${id}`, {}, {
+      await axios.patch(`https://web-dt.onrender.com/cart/updateincrease/${id}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
   
       // Gọi lại API giỏ hàng để cập nhật
-      const response = await axios.get("http://localhost:5000/cart", {
+      const response = await axios.get("https://web-dt.onrender.com/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -180,12 +180,12 @@ function Carts() {
   const subtraction = async (id,e) => {
     e.preventDefault();
    await axios
-      .patch(`http://localhost:5000/cart/updateDecrease/${id}`, {}, {
+      .patch(`https://web-dt.onrender.com/cart/updateDecrease/${id}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
       })
-    const response = await axios.get("http://localhost:5000/cart", {
+    const response = await axios.get("https://web-dt.onrender.com/cart", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
