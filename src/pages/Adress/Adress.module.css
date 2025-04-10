@@ -9,32 +9,32 @@
   position: fixed;
   max-width: 640px;
 }
-.title{
-    border-color: rgb(228 233 242);
-    border-bottom-width: 1px;
-    margin-bottom: .5rem;
-    padding: .625rem;
-    background-color: rgb(255 255 255);
-    position: relative;
+.title {
+  border-color: rgb(228 233 242);
+  border-bottom-width: 1px;
+  margin-bottom: 0.5rem;
+  padding: 0.625rem;
+  background-color: rgb(255 255 255);
+  position: relative;
 }
-.items__center{
-    display: flex;
-    align-items: center;
-    position: absolute;
-    cursor: pointer;
-    width: 2.5rem;
-    height: 1.25rem;
-    left: 1rem;
+.items__center {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 1.25rem;
+  left: 1rem;
 }
-.title__text{
-  font-size: 15px;  
-    font-weight: 600;
-    color: rgb(51 51 51);
-    margin-left: 1.5rem;
-    text-align: center;
-    display: block;
+.title__text {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(51 51 51);
+  margin-left: 1.5rem;
+  text-align: center;
+  display: block;
 }
-.form__group{
+.form__group {
   width: 100%;
   padding: 16px 25px;
   background-color: rgb(255 255 255);
@@ -43,7 +43,7 @@
   position: relative;
   margin: 10px auto;
 }
-.info{
+.info {
   width: 68%;
   height: 30px;
   float: left;
@@ -53,7 +53,7 @@
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
-  border: 2px solid #4CAF50;
+  border: 2px solid #4caf50;
   border-radius: 50%;
   position: relative;
   cursor: pointer;
@@ -65,59 +65,60 @@
   content: "";
   position: absolute;
   top: 3px;
-    left: 3px;
-    width: 9px;
-    height: 9px;
-  background-color: #4CAF50;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  background-color: #4caf50;
   border-radius: 50%;
 }
-.info label{
+.info label {
   font-weight: bold;
   font-size: 16px;
 }
-.add{
+.add {
   margin-left: 30px;
   margin-top: 5px;
 }
-.change{
+.change {
   width: 32%;
   float: right;
   display: flex;
   justify-content: space-between;
 }
-.change button{
+.change button {
   border: none;
   padding: 3px 15px;
   border-radius: 10px;
   background-color: rgb(101, 241, 101);
 }
-.change button:hover{
+.change button:hover {
   background-color: rgb(247, 49, 49);
   color: white;
 }
-.a{
+.a {
   width: 30%;
   margin: 0 auto;
   text-align: center;
   border-radius: 10px;
   padding: 3px 8px;
   margin-top: 10px;
+  cursor: pointer;
 }
-.a:hover{
+.a:hover {
   background-color: green;
   color: rgb(255, 255, 255);
 }
-.role{
+.role {
   width: 100%;
   height: 60px;
   margin: 0 auto;
   background-color: white;
 }
-.role button{
+.role button {
   width: 90%;
   height: 40px;
   align-items: center;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   border: none;
   border-radius: 10px;
   color: white;
@@ -125,8 +126,33 @@
   font-size: 20px;
   margin: 10px 30px;
 }
-@media (max-width: 400px){
-  .info label{
+
+.popup {
+  background-color: rgb(255 255 255);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: 50%;
+  position: relative;
+}
+.titlePopup{
+  font-size: 16px;
+  color: rgb(81 87 100);
+  font-weight: 600;
+  text-align: center;
+  padding: .75rem;
+  background-color: rgb(255 255 255);
+  height: 46.5px;
+  position: relative;
+}
+
+.bodyPopup{
+  max-height: calc(-174.5px + 100vh);
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+@media (max-width: 400px) {
+  .info label {
     font-size: 14px;
   }
 }
