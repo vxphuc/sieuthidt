@@ -47,7 +47,7 @@ function Home() {
         .catch((error) => console.log(error));
   }
   
-console.log(newProduct);
+
   //new product
   useEffect(() => {
     axios

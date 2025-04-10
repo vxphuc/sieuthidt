@@ -12,6 +12,38 @@ function SeaweedJelly() {
         setProduct(response.data);
       });
   }, []);
+
+  const getcookie = (name) => {
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const [key, value] = cookie.trim().split("=");
+      if (key === name) {
+        return value;
+      }
+    }
+  };
+
+  const token = getcookie("authToken");
+
+  const handleBuy = (product) => {
+    axios
+      .post(
+        "http://localhost:5000/cart/create",
+        {
+          productID: product,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
       <div className={`position-relative ${style.Nest}`}>
@@ -27,7 +59,7 @@ function SeaweedJelly() {
             });
             return (
               <div className={`${style.product}`} key={item._id}>
-                <NavLink to = {`/${item.typeProduct[0].slug}/${item.slug}`}>
+                <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
                   <img
                     className={`${style.imgproduct}`}
                     src={item.image[0]}
@@ -35,7 +67,7 @@ function SeaweedJelly() {
                   />
                 </NavLink>
                 <div className={`${style.product_info}`}>
-                  <NavLink to = {`/${item.typeProduct[0].slug}/${item.slug}`}> 
+                  <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
                     <div className={`${style.product_name}`}>
                       {item.name.length > 35
                         ? item.name.slice(0, 30) + "..."
@@ -43,7 +75,12 @@ function SeaweedJelly() {
                     </div>
                   </NavLink>
                   <div className={`${style.product_price}`}>{price}</div>
-                  <button className={`${style.buy_button}`}>Mua</button>
+                  <button
+                    onClick={() => handleBuy(item._id)}
+                    className={`${style.buy_button}`}
+                  >
+                    Mua
+                  </button>
                 </div>
               </div>
             );

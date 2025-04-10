@@ -17,3 +17,27 @@
     background-color: rgb(255 255 255);
     position: relative;
 }
+.items__center{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    cursor: pointer;
+    width: 2.5rem;
+    height: 1.25rem;
+    left: 1rem;
+}
+.title__text{
+  font-size: 15px;  
+    font-weight: 600;
+    color: rgb(51 51 51);
+    margin-left: 1.5rem;
+    text-align: center;
+    display: block;
+}
+.form__group{
+  padding-top: 16px;
+  background-color: rgb(255 255 255);
+  overflow: auto;
+  height: calc(100vh - 95px);
+  position: relative;
+}
