@@ -35,9 +35,98 @@
     display: block;
 }
 .form__group{
-  padding-top: 16px;
+  width: 100%;
+  padding: 16px 25px;
   background-color: rgb(255 255 255);
   overflow: auto;
-  height: calc(100vh - 95px);
+  height: 100px;
   position: relative;
+  margin: 10px auto;
+}
+.info{
+  width: 68%;
+  height: 30px;
+  float: left;
+}
+.radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #4CAF50;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s;
+  margin: -3px 6px;
+}
+.radio:checked::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+    left: 3px;
+    width: 9px;
+    height: 9px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+}
+.info label{
+  font-weight: bold;
+  font-size: 16px;
+}
+.add{
+  margin-left: 30px;
+  margin-top: 5px;
+}
+.change{
+  width: 32%;
+  float: right;
+  display: flex;
+  justify-content: space-between;
+}
+.change button{
+  border: none;
+  padding: 3px 15px;
+  border-radius: 10px;
+  background-color: rgb(101, 241, 101);
+}
+.change button:hover{
+  background-color: rgb(247, 49, 49);
+  color: white;
+}
+.a{
+  width: 30%;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 10px;
+  padding: 3px 8px;
+  margin-top: 10px;
+}
+.a:hover{
+  background-color: green;
+  color: rgb(255, 255, 255);
+}
+.role{
+  width: 100%;
+  height: 60px;
+  margin: 0 auto;
+  background-color: white;
+}
+.role button{
+  width: 90%;
+  height: 40px;
+  align-items: center;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 10px 30px;
+}
+@media (max-width: 400px){
+  .info label{
+    font-size: 14px;
+  }
 }
