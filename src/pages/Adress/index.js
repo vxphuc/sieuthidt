@@ -9,7 +9,7 @@ import axios from "axios";
 function Adress() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
-  const [Province, setProvince] = useState("");
+  const [Province, setProvince] = useState([]);
 
   useEffect(() => {
     axios
