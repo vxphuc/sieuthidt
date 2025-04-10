@@ -221,6 +221,40 @@
 .role button:hover {
   background-color: #3e9141;
 }
+.buttonAdress{
+  color: rgb(0 172 91 );
+  font-weight: 600;
+  border-color: rgb(0 172 91 );
+  border-width: 1px;
+  border-radius: 6px;
+  width: 100%;
+  height: 44px;
+  margin-top: 10px;
+}
+.buttonAdress:hover{
+  color: rgb(255 255 255 );
+  background-color: rgb(0 172 91 );
+}
+.stress{
+  width: 100%;
+  margin-top: 1rem;
+}
+.inputStress{
+  font-size: 1em;
+  color: rgb(17 24 39);
+  padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background-color: rgb(255 255 255 );
+    border-color: rgb(223 223 223 );
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    width: 100%;
+    height: 42px;
+    display: block;
+}
 @media (max-width: 400px){
   .info label{
     font-size: 14px;

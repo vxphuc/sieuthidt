@@ -9,8 +9,17 @@ import axios from "axios";
 function Adress() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  //tỉnh thành
   const [Province, setProvince] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  // Huyện
+  const [District, setDistrict] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  // Xã, Phường
+  const [Ward, setWard] = useState([]);
+  const [selectedWard, setSelectedWard] = useState(null);
 
+  // tỉnh
   useEffect(() => {
     axios
       .get(`https://provinces.open-api.vn/api/`)
@@ -18,7 +27,47 @@ function Adress() {
       .catch((err) => console.error("Lỗi khi fetch tỉnh/thành:", err));
   }, []);
 
-  console.log(Province);
+  // huyện
+  useEffect(() => {
+    if (selectedProvince && selectedProvince.code) {
+      axios(
+        `https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`
+      )
+        .then((res) => setDistrict(res.data.districts))
+        .catch((err) => console.error("Lỗi khi fetch huyện:", err));
+    }
+  }, [selectedProvince]);
+
+  // xã phường
+  useEffect(() => {
+    if (selectedDistrict && selectedDistrict.code) {
+      axios(
+        `https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`
+      )
+        .then((res) => setWard(res.data.wards))
+        .catch((err) => console.error("Lỗi khi fetch huyện:", err));
+    }
+  }, [selectedDistrict]);
+
+  //lấy tỉnh thành
+  const handleProvinceChange = (e) => {
+    const selectedCode = e.target.value;
+    const province = Province.find(
+      (province) => province.code.toString() === selectedCode
+    );
+    setSelectedProvince(province);
+  };
+
+  //lấy huyện
+  const handleDistrictChange = (e) => {
+    const selectedCode = e.target.value;
+    const district = District.find(
+      (district) => district.code.toString() === selectedCode
+    );
+    setSelectedDistrict(district);
+  };
+
+  // lấy xã phường
 
   const handleFix = (e) => {
     e.preventDefault();
@@ -91,33 +140,59 @@ function Adress() {
                 <div className={`${styles.popupAdress}`}>
                   <div className={`${styles.distric}`}>
                     <div className={`${styles.districSelect}`}>
-                      <select className={`${styles.selectDistric}`}>
-                        {
-                          Province.map((item, index) => {
-                            return (
-                              <option key={index} value={item.code}>{item.name}</option>
-                            )
-                          })
-                        }
+                      <select
+                        onChange={handleProvinceChange}
+                        className={`${styles.selectDistric}`}
+                      >
+                        <option value="">Chọn tỉnh thành</option>
+                        {Province.map((item, index) => {
+                          return (
+                            <option key={index} value={item.code}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
                   </div>
                   <div className={`${styles.distric}`}>
                     <div className={`${styles.districSelect}`}>
-                      <select className={`${styles.selectDistric}`}>
-                        <option value="1">Quận 1</option>
+                      <select
+                        onChange={handleDistrictChange}
+                        className={`${styles.selectDistric}`}
+                      >
+                        <option value="">Chọn quận huyện</option>
+                        {District.map((item, index) => {
+                          return (
+                            <option key={index} value={item.code}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
                   </div>
                   <div className={`${styles.wards}`}>
                     <div className={`${styles.wardsSelect}`}>
                       <select className={`${styles.selectWards}`}>
-                        <option value="1">Phường 1</option>
+                        <option value="">Chọn phường xã</option>
+                        {Ward.map((item, index) => {
+                          return (
+                            <option key={index} value={item.code}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
                   </div>
+                  <div className={`${styles.stress}`}>
+                    <div className={`position-relative`}>
+                      <input placeholder="số nhà, tên đường" className={`${styles.inputStress}`}></input>
+                    </div>
+                  </div>
                 </div>
-                <button></button>
+                <button className={`${styles.buttonAdress}`}>Hoàn tất</button>
               </div>
             </div>
           </div>
