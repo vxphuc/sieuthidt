@@ -204,3 +204,17 @@
     height: 42px;
     display: block;
 }
+.closeIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: rgb(81 87 100);
+  cursor: pointer;
+}
+@media (max-width: 768px){
+  .popup{
+    width: 62%;
+  }
+}

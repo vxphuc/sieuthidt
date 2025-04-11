@@ -1,6 +1,6 @@
 import styles from "./Adress.module.css";
 import { useNavigate } from "react-router-dom";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { useEffect, useState } from "react";
@@ -102,7 +102,7 @@ function Adress() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post(
-      `http://localhost:5000/address/create`,
+      `https://web-dt.onrender.com/address/create`,
       {
         IDProvinces: selectedProvince.code,
         nameProvinces: selectedProvince.name,
@@ -122,7 +122,7 @@ function Adress() {
     .then(res => {
       setShowPopup(false);
       axios
-      .get("http://localhost:5000/address", {
+      .get("https://web-dt.onrender.com/address", {
         headers: {
           Authorization: `Bearer ${Token}`,
         },
@@ -136,7 +136,7 @@ function Adress() {
 
   //khởi tạo address từ đầu
   useEffect(() => {
-    axios.get("http://localhost:5000/address", {
+    axios.get("https://web-dt.onrender.com/address", {
       headers: {
         Authorization: `Bearer ${Token}`,
       }
@@ -154,7 +154,7 @@ function Adress() {
   };
 
   const handleSelect = () =>{
-    axios.patch(`http://localhost:5000/cart/updateAddress`, {
+    axios.patch(`https://web-dt.onrender.com/cart/updateAddress`, {
       roadID: selectedAddressId
     }, {
       headers: {
@@ -179,9 +179,11 @@ function Adress() {
         <p onClick={handleShow} className={`${styles.a}`}>
           + nhập địa chỉ khác
         </p>
+        {!showPopup && (
         <div className={`${styles.role}`}>
           <button onClick={handleSelect}>Xác nhận</button>
         </div>
+        )}
       </div>
       <div>
         <BackgroundPopup
@@ -192,8 +194,11 @@ function Adress() {
             onClick={(e) => e.stopPropagation()}
             className={`${styles.popup}`}
           >
-            <div className={`${styles.titlePopup}`}>
-              Thêm địa chỉ nhận hàng{" "}
+            <div className={`${styles.titlePopup} position-relative`}>
+              Thêm địa chỉ nhận hàng
+              <span onClick={handleClose} className={styles.closeIcon}>
+                <FontAwesomeIcon icon={faXmark} />
+              </span>
             </div>
             <div className={`${styles.bodyPopup}`}>
               <div className={`${styles.pdPopup}`}>

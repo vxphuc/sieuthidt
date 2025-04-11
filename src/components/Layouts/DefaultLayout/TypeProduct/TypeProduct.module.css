@@ -55,7 +55,7 @@
     .container {
       width: 100%;
       z-index: 100;
-      top: 7%;
+      top: 62px;
       left: 0;
       right: 0;
     }
@@ -98,9 +98,9 @@
     }
   }
   @media (max-width: 768px){
-    .containerTypeProduct{
+    /* .containerTypeProduct{
       display: none;
-    }
+    } */
     .icon{
       height: 30px;
       width: 30px;

@@ -4,11 +4,23 @@ import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-
+import { useState, useEffect, useRef } from "react";
+  
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
-
+  const menuRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className={style.container}>
       <div className={`container ${style.header}`}>
@@ -37,7 +49,8 @@ function Header() {
 
         {/* Menu điều hướng */}
         <nav>
-          <ul className={showMenu ? style.navMobileShown : style.navMobileHidden}>
+          <ul ref={menuRef}
+              className={showMenu ? style.navMobileShown : style.navMobileHidden}>
             <li>
               <NavLink
                 to="/"

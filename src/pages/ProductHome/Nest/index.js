@@ -31,7 +31,7 @@ function Nest() {
   const handleBuy = (product) => {
     axios
       .post(
-        "http://localhost:5000/cart/create",
+        "https://web-dt.onrender.com/cart/create",
         {
           productID: product,
         },
