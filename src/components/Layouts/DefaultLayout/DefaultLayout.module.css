@@ -5,3 +5,9 @@
   margin-left: auto;
   margin-right: auto;
 }
+@media (min-width: 993px) {
+  .col-md-9 {
+      flex: 0 0 auto;
+      width: 75%;
+  }
+}
