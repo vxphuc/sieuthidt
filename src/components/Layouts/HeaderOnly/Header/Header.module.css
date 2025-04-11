@@ -20,7 +20,12 @@
   display: flex;
   margin-top: 2%;
 }
-.nav li a {
+ul{
+  display: flex;
+  margin-top: 1rem !important;
+
+}
+nav li a {
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -28,8 +33,8 @@ li {
   padding: 12px;
   list-style-type: none;
 }
-.nav li a.active {
-  color: #ffd700; /* Màu vàng nhạt cho nổi bật */
+nav li a.active {
+  color: #ffd700;
 }
 a {
   text-decoration: none !important;
@@ -61,4 +66,75 @@ a {
 .main_menu a {
   color: #ffff;
   line-height: 16px;
+}
+.menuToggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 10px;
+  cursor: pointer;
+}
+@media (max-width: 993px){
+  nav a{
+    font-size: 13px;
+    color: black;
+
+  }
+}
+@media (max-width: 768px) {
+  .nav {
+    display: none; /* Ẩn menu điều hướng */
+  }
+  .menuToggle {
+    display: block; /* Chỉ hiện icon trên mobile */
+    z-index: 2000; /* thêm nếu bị che */
+    position: relative;
+  }
+
+  .navMobileShown {
+    display: block;
+    background-color: #ffffff;
+    position: absolute;
+    width: 30%;
+    top: 85%;
+    right: 0;
+    padding: 3px 0;
+    z-index: 999;
+  }
+
+  .navMobileShown li {
+    text-align: center;
+    padding: 2px;
+  }
+  .navMobileShown li a{
+    padding: 8px 10px;
+    background-color: #66e071;
+  }
+  .navMobileShown li a:hover{
+    background-color: rgb(244, 82, 82);
+    color: white;
+  }
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 15% !important;
+  }
+  .logo img{
+    width: 60%;
+    height: 60%;
+  }
+
+  .searchContainer {
+    width: 85% !important;
+  }
+  .navMobileHidden {
+    display: none; /* Ẩn menu khi chưa mở */
+  }
 }

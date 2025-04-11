@@ -6,7 +6,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 function TypeProduct() {
   const [data, setData] = useState([]);
-
+  const [showList, setShowList] = useState(false);
+  const [showTitle, setShowTitle] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+  
+      if (currentScrollY > lastScrollY) {
+        setShowTitle(false); // Cuộn xuống -> ẩn dòng tiêu đề
+      } else {
+        setShowTitle(true); // Cuộn lên -> hiện lại
+      }
+  
+      setLastScrollY(currentScrollY);
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+  
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
@@ -22,13 +41,20 @@ function TypeProduct() {
 
   return (
     <div className={`${styles.container}`}>
+      {showTitle && (
       <div className={`${styles.button} text-center`}>
         <button>
           DANH MỤC SẢN PHẨM
-          <FontAwesomeIcon className={`${styles.icon}`} icon={faCaretDown} />
+          <FontAwesomeIcon
+            className={styles.icon}
+            icon={faCaretDown}
+            onClick={() => setShowList(!showList)}
+            style={{ cursor: "pointer" }}
+          />
         </button>
       </div>
-      <div className= {`${styles.containerTypeProduct}`}>
+      )}
+      <div className={`${styles.containerTypeProduct} ${showList ? styles.show : styles.hide}`}>
         {data.map((element) => (
           <NavLink to={`/san-pham/${element.slug}`} key={element._id} className={`${styles.typeProduct}`}>
             <span>{element.name}</span>

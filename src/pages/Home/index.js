@@ -130,7 +130,7 @@ function Home() {
                 <FontAwesomeIcon
                   onClick={prevSlide}
                   icon={faCaretLeft}
-                  style={{ color: "brown" }}
+                  style={{ color: "#c0dbb68c" }}
                   size="2x"
                 />
               </div>
@@ -138,7 +138,7 @@ function Home() {
                 <FontAwesomeIcon
                   onClick={nextSlide}
                   icon={faCaretRight}
-                  style={{ color: "brown" }}
+                  style={{ color: "#c0dbb68c" }}
                   size="2x"
                 />
               </div>
