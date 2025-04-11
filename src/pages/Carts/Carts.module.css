@@ -1,5 +1,7 @@
 .container {
   padding-top: 74px;
+  --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 0;
 }
 .bg_black_20 {
   background-color: rgb(233 237 240);

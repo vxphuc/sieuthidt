@@ -1,7 +1,7 @@
 .container {
     background-color: aliceblue;
     position: fixed;
-    width: 265px;
+    width: 19%;
   }
   .banner {
     display: flex;
@@ -51,14 +51,13 @@
     border-bottom: solid 1px #e0e0e0;
     color: rgb(0 126 66);
   }
-  @media (max-width: 993px) {
+  @media (max-width: 768px) {
     .container {
-      position: relative !important; /* KHÔNG dùng fixed */
-      width: 100% !important;
-      z-index: 1; /* Đảm bảo thấp hơn header */
-      top: 10%;
+      width: 100%;
+      z-index: 100;
+      top: 7%;
       left: 0;
-      margin-top: 56px; /* hoặc chiều cao header nếu có */
+      right: 0;
     }
   
     .button {
@@ -77,6 +76,26 @@
       border: none;
       border-bottom: 1px solid #dcdcdc;
     }
+    .show {
+      display: flex;
+      flex-direction: column;
+      animation: slideDown 0.3s ease forwards;
+    }
+    
+    .hide {
+      display: none;
+    }
+    
+    @keyframes slideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   }
   @media (max-width: 768px){
     .containerTypeProduct{
@@ -89,4 +108,12 @@
       margin: -5px 1px;
     }
   }
-  
+  @media (min-width: 768px) and (max-width: 992px){
+    .container{
+      width: 20%;
+      margin-top: 20px;
+    }
+    .button button{
+      font-size: 14px;
+    }
+  }
