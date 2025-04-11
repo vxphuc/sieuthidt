@@ -72,3 +72,20 @@
     border: none;
     margin-top: 30px;
 }
+@media screen and (max-width: 1200px) {
+    .product {
+      width: calc(100% / 4);
+    }
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .product {
+      width: calc(100% / 3);
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .product {
+      width: calc(100% / 2);
+    }
+  }

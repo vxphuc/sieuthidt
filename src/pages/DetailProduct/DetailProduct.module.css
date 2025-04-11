@@ -230,7 +230,7 @@
   cursor: pointer;
   width: 100%;
 }
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .DetailProduct {
   margin-top: 25px;
   }
@@ -239,14 +239,14 @@
   }
 
   .product {
-    width: 100% !important; /* ảnh chiếm toàn bộ chiều rộng */
+    width: 100% !important;
   }
 
   .divPrice {
     width: 100% !important;
     margin-left: 0 !important;
     margin-top: 10px;
-    position: relative !important; /* bỏ sticky */
+    position: relative !important;
     top: auto;
   }
   .span_slide {
