@@ -199,7 +199,6 @@ function Carts() {
 
       const price = Number.parseFloat(item.product.price.$numberDecimal);
       return(acc + price * item.quantity) 
-      // return acc + price * item.quantity;
     }, 0);
     setTotal(
       totalPrice.toLocaleString("vi-VN", {
@@ -215,7 +214,8 @@ function Carts() {
     );
   }
  
-
+  
+console.log(product)
   return (
     <div className={`container ${styles.container} `}>
 

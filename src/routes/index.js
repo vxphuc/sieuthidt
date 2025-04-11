@@ -20,10 +20,12 @@ import DetailProduct from "../pages/DetailProduct";
 import Carts from "../pages/Carts";
 import HeaderOnly from "../components/Layouts/HeaderOnly";
 import Adress from "../pages/Adress";
+import Infomation from "../pages/Infomation"
 
 
 
 export const router = [
+    {path: '/thong-tin-khach-hang', component: Infomation, layout: HeaderLayout },
     {path: '/gio-hang/cap-nhap-dia-chi', component: Adress, layout: HeaderOnly},
     {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},
     {path: '/', component: Home},

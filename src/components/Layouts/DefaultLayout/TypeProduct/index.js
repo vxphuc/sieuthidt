@@ -4,11 +4,16 @@ import styles from "./TypeProduct.module.css";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { useRef } from "react";
+
 function TypeProduct() {
   const [data, setData] = useState([]);
   const [showList, setShowList] = useState(false);
   const [showTitle, setShowTitle] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const menuRef = useRef(null);
+
+  // xử lý ẩn hiện loại sp
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -26,6 +31,21 @@ function TypeProduct() {
   
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowList(false);
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  //kết thúc xử lý
+
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
@@ -54,7 +74,7 @@ function TypeProduct() {
         </button>
       </div>
       )}
-      <div className={`${styles.containerTypeProduct} ${showList ? styles.show : styles.hide}`}>
+      <div ref={menuRef} className={`${styles.containerTypeProduct} ${showList ? styles.show : styles.hide}`}>
         {data.map((element) => (
           <NavLink to={`/san-pham/${element.slug}`} key={element._id} className={`${styles.typeProduct}`}>
             <span>{element.name}</span>
