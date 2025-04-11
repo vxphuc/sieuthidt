@@ -114,7 +114,9 @@ function Adress() {
           Authorization: `Bearer ${Token}`,
         },
       }
-    );
+    )
+    .then(res => {setShowPopup(false)})
+    .catch(err => console.log(err))
   };
 
   const handleClose = () => {
@@ -124,7 +126,6 @@ function Adress() {
     setShowPopup(true);
   };
 
-  console.log(showPopup);
 
   return (
     <div className="container">
