@@ -2,9 +2,8 @@ import styles from "./FormAdress.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function FormAdress({ className }) {
-  const [adress, setAdress] = useState([]);
-
+function FormAdress({ className, adress, onSelect }) {
+console.log(adress)
   //lấy token
   const getToken = (name) => {
     const cookies = document.cookie.split(";");
@@ -15,25 +14,15 @@ function FormAdress({ className }) {
       }
     }
   };
-
   const Token = getToken("authToken");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/address", {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
-      })
-      .then((response) => {
-        setAdress(response.data);
-      });
-  }, []);
-
   console.log(adress);
   const handleFix = (e) => {
     e.preventDefault();
   };
+
+  const handleSelect = (e) => {
+    onSelect(e.target.value)
+  }
 
   return (
     <div>
@@ -47,7 +36,8 @@ function FormAdress({ className }) {
                   name="name"
                   id="A"
                   className={styles.radio}
-                  value=""
+                  value= {item._id}
+                  onChange={handleSelect}
                 />
                 <label htmlFor="name">Anh A,</label>
                 <label htmlFor="name">09999999</label>

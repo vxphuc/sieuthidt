@@ -20,7 +20,11 @@ function Adress() {
   const [Ward, setWard] = useState([]);
   const [selectedWard, setSelectedWard] = useState(null);
   //Địa chỉ
-  const [Address, setAddress] = useState("");
+  const [Address, setAddress] = useState('');
+  //truyền địa chỉ xuống form địa chỉ
+  const [data, setData] = useState([]);
+  //gửi địa chỉ vào shop
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
   //lấy token
   const getToken = (name) => {
@@ -115,9 +119,32 @@ function Adress() {
         },
       }
     )
-    .then(res => {setShowPopup(false)})
+    .then(res => {
+      setShowPopup(false);
+      axios
+      .get("http://localhost:5000/address", {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+      .then((response) => {
+        setData(response.data);
+      });
+    })
     .catch(err => console.log(err))
   };
+
+  //khởi tạo address từ đầu
+  useEffect(() => {
+    axios.get("http://localhost:5000/address", {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      }
+    })
+    .then(res => setData(res.data))
+    .catch(err => console.log(err));
+  }, []);
+  
 
   const handleClose = () => {
     setShowPopup(false);
@@ -125,6 +152,16 @@ function Adress() {
   const handleShow = () => {
     setShowPopup(true);
   };
+
+  const handleSelect = () =>{
+    axios.patch(`http://localhost:5000/cart/updateAddress`, {
+      roadID: selectedAddressId
+    }, {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      }
+    })
+  }
 
 
   return (
@@ -138,12 +175,12 @@ function Adress() {
           </div>
           <span className={`${styles.title__text}`}>Thông tin nhận hàng</span>
         </div>
-        <FormAdress className={styles.form}></FormAdress>
+        <FormAdress onSelect = {(id) => {setSelectedAddressId(id)}} adress = {data} className={styles.form}></FormAdress>
         <p onClick={handleShow} className={`${styles.a}`}>
           + nhập địa chỉ khác
         </p>
         <div className={`${styles.role}`}>
-          <button>Xác nhận</button>
+          <button onClick={handleSelect}>Xác nhận</button>
         </div>
       </div>
       <div>
