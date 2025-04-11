@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./TypeProduct.module.css";
 import { NavLink } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 function TypeProduct() {
   const [data, setData] = useState([]);
 
@@ -22,7 +23,10 @@ function TypeProduct() {
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.button} text-center`}>
-        <button>DANH MỤC SẢN PHẨM</button>
+        <button>
+          DANH MỤC SẢN PHẨM
+          <FontAwesomeIcon className={`${styles.icon}`} icon={faCaretDown} />
+        </button>
       </div>
       <div className= {`${styles.containerTypeProduct}`}>
         {data.map((element) => (

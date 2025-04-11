@@ -3,27 +3,41 @@ import style from "./Header.module.css";
 import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { faCartShopping, faBars } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 function Header() {
+  const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
 
   return (
-    <div className={`${style.container}`}>
+    <div className={style.container}>
       <div className={`container ${style.header}`}>
+        {/* Logo bên trái */}
         <div className={style.logo}>
           <NavLink to="/">
             <img
               width="70%"
               height="100%"
               src="http://dtgroup.lovestoblog.com/anh/logodt.png"
-            ></img>
+              alt="Logo"
+            />
           </NavLink>
         </div>
-        <Search></Search>
+
+        {/* Thanh tìm kiếm */}
+        <Search />
+
+        {/* Nút menu ba gạch trên mobile */}
+        <button
+          className={style.menuToggle}
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+
+        {/* Menu điều hướng */}
         <nav>
-          <ul className={style.nav}>
+          <ul className={showMenu ? style.navMobileShown : style.navMobileHidden}>
             <li>
               <NavLink
                 to="/"
@@ -45,11 +59,11 @@ function Header() {
                 to="/thu-vien"
                 className={({ isActive }) => (isActive ? style.active : "")}
               >
-                Thư Viện
+                Thư viện
               </NavLink>
             </li>
             <li>
-              <Auth></Auth>
+              <Auth />
             </li>
             <li>
               <NavLink
@@ -73,7 +87,6 @@ function Header() {
           </ul>
         </nav>
       </div>
-     
     </div>
   );
 }
