@@ -25,6 +25,7 @@ function Adress() {
   const [data, setData] = useState([]);
   //gửi địa chỉ vào shop
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+ 
 
   //lấy token
   const getToken = (name) => {
@@ -161,7 +162,11 @@ function Adress() {
         Authorization: `Bearer ${Token}`,
       }
     })
+    .then(res => {
+      navigate(-1)
+    })
   }
+
 
 
   return (

@@ -14,9 +14,9 @@ function Carts() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const [totalOrder, setTotalOrder] = useState(0);
-
+  const [address, setAddress] = useState([]);
   const [showPaymentMethod, setShowPaymentMethod] = useState(false); //đoạn ẩn hiện phương thức thanh toán
 
   const getcookie = (name) => {
@@ -28,6 +28,7 @@ function Carts() {
       }
     }
   };
+
 
   const token = getcookie("authToken");
   useEffect(() => {
@@ -95,11 +96,14 @@ function Carts() {
   const handleDeleteAll = () => {
     for (let i = 0; i < product.length; i++) {
       axios
-        .delete(`https://web-dt.onrender.com/cart/delete/${product[i].product._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(
+          `https://web-dt.onrender.com/cart/delete/${product[i].product._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((response) => {
           console.log(response.data);
           navigate(0);
@@ -140,21 +144,25 @@ function Carts() {
   const handleAddition = async (id, e) => {
     e.preventDefault();
     try {
-      await axios.patch(`https://web-dt.onrender.com/cart/updateincrease/${id}`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
+      await axios.patch(
+        `https://web-dt.onrender.com/cart/updateincrease/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       // Gọi lại API giỏ hàng để cập nhật
       const response = await axios.get("https://web-dt.onrender.com/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       setProduct(response.data);
-  
+
       // Cập nhật tổng giá luôn
       const totalPrice = response.data.reduce((acc, item) => {
         const price = Number.parseFloat(item.product.price.$numberDecimal);
@@ -178,14 +186,17 @@ function Carts() {
   };
 
   // Giảm số lượng sản phẩm trong giỏ hàng
-  const subtraction = async (id,e) => {
+  const subtraction = async (id, e) => {
     e.preventDefault();
-   await axios
-      .patch(`https://web-dt.onrender.com/cart/updateDecrease/${id}`, {}, {
+    await axios.patch(
+      `https://web-dt.onrender.com/cart/updateDecrease/${id}`,
+      {},
+      {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
-      })
+        },
+      }
+    );
     const response = await axios.get("https://web-dt.onrender.com/cart", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -194,11 +205,10 @@ function Carts() {
     const updatedCart = response.data;
     setProduct(updatedCart);
 
-    // Cập nhật tổng giá 
+    // Cập nhật tổng giá
     const totalPrice = updatedCart.reduce((acc, item) => {
-
       const price = Number.parseFloat(item.product.price.$numberDecimal);
-      return(acc + price * item.quantity) 
+      return acc + price * item.quantity;
     }, 0);
     setTotal(
       totalPrice.toLocaleString("vi-VN", {
@@ -212,15 +222,29 @@ function Carts() {
         currency: "VND",
       })
     );
-  }
- 
-  
-console.log(product)
+  };
+
+  //lấy địa chỉ
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/cart/getAdd", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setAddress(res.data);
+      });
+  }, []);
+
   return (
     <div className={`container ${styles.container} `}>
-
-      {
-        (!product || product.length ===0) ? (<div><CartsEmpty></CartsEmpty></div>) : (<div className={`${styles.bg_black_20}`}>
+      {!product || product.length === 0 ? (
+        <div>
+          <CartsEmpty></CartsEmpty>
+        </div>
+      ) : (
+        <div className={`${styles.bg_black_20}`}>
           <main>
             <div className={`${styles.carts}`}>
               <div className={`${styles.titleCarts}`}>
@@ -237,20 +261,20 @@ console.log(product)
                     <div className={`${styles.chose_address}`}>giao đến</div>
                     <div className={`${styles.address_user}`}>
                       <span>
-                        <NavLink to='/gio-hang/cap-nhap-dia-chi'>Đổi</NavLink>
+                        <NavLink to="/gio-hang/cap-nhap-dia-chi">Đổi</NavLink>
                       </span>
                       <div className={`${styles.pb4}`}>
-                        <p>12vdt, Xã Vĩnh Trung, TP. Nha Trang, Khánh Hòa dha</p>
+                        <p>{`${address[0].road.nameRoad}, ${address[0].wards.nameWards}, ${address[0].districts.nameDistricts}, ${address[0].provinces.nameProvinces}`}</p>
                         <div className={`${styles.textBasic}`}>
-                          <div className={`${styles.name}`}>Anh Vinh</div>
-                          <div>0911147616</div>
+                          <div className={`${styles.name}`}>{user.name}</div>
+                          <div>{user.phone}</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-  
+
               {product.map((item, index) => {
                 const price = Number.parseFloat(
                   item.product.price.$numberDecimal
@@ -281,14 +305,20 @@ console.log(product)
                           })}
                         </p>
                         <div className={styles.quantityControl}>
-                          <button onClick={(e) => subtraction(item.product._id, e)} className={`${styles.tru}`}>-</button>
+                          <button
+                            onClick={(e) => subtraction(item.product._id, e)}
+                            className={`${styles.tru}`}
+                          >
+                            -
+                          </button>
                           <input
                             type="number"
                             value={item.quantity}
                             min="1"
                             max="99"
                           ></input>
-                          <button type="button"
+                          <button
+                            type="button"
                             onClick={(e) => handleAddition(item.product._id, e)}
                             className={`${styles.cong}`}
                           >
@@ -300,7 +330,7 @@ console.log(product)
                   </div>
                 );
               })}
-  
+
               <div className={`${styles.delete}`}>
                 <button onClick={handleDeleteAll}>Xóa tất cả</button>
               </div>
@@ -312,11 +342,11 @@ console.log(product)
                       <td>Tổng tiền</td>
                       <td>{total}</td>
                     </tr>
-  
+
                     <tr>
                       <td>
                         <input onClick={handlechecker} type="checkbox"></input>{" "}
-                        {`sử dụng ${(user.token) ? user.token : 0} điểm`}
+                        {`sử dụng ${user.token ? user.token : 0} điểm`}
                       </td>
                     </tr>
                     <tr>
@@ -334,10 +364,9 @@ console.log(product)
                   placeholder="Nhập yêu cầu của bạn (nếu có)"
                 ></textarea>
               </div>
-  
+
               <div className={styles.stickyFooter}>
                 <div className={styles.footerActions}>
-  
                   {/* xử lý chọn phương thức thanh toán */}
                   <button
                     className={styles.paybtn}
@@ -345,29 +374,33 @@ console.log(product)
                   >
                     Đổi hình thức thanh toán
                   </button>
-  
+
                   {showPaymentMethod && (
                     <div className={styles.paymentPopup}>
                       <ul>
-                        <li><input type="radio" name="payment" /> Tiền mặt khi nhận hàng</li>
-                        <li><input type="radio" name="payment" /> Thanh toán qua ngân hàng</li>
+                        <li>
+                          <input type="radio" name="payment" /> Tiền mặt khi
+                          nhận hàng
+                        </li>
+                        <li>
+                          <input type="radio" name="payment" /> Thanh toán qua
+                          ngân hàng
+                        </li>
                       </ul>
                     </div>
                   )}
                   {/* kết thúc xử lý */}
-  
+
                   <button className={styles.btn}>
                     <span className={styles.orderText}>Đặt hàng:</span>
                     <span className={styles.orderPrice}>{totalOrder}</span>
                   </button>
                 </div>
               </div>
-  
-  
             </div>
           </main>
-        </div>)
-      }
+        </div>
+      )}
     </div>
   );
 }

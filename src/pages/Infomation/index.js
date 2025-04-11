@@ -1,4 +1,4 @@
-import styles from './Infomation.module.css'
+import styles from "./Infomation.module.css";
 
 function Infomation() {
   return (
