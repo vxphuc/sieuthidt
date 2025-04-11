@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import FormAdress from "../../components/formAdress";
 
 function Adress() {
   const navigate = useNavigate();
@@ -18,6 +19,21 @@ function Adress() {
   // Xã, Phường
   const [Ward, setWard] = useState([]);
   const [selectedWard, setSelectedWard] = useState(null);
+  //Địa chỉ
+  const [Address, setAddress] = useState("");
+
+  //lấy token
+  const getToken = (name) => {
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const [key, value] = cookie.trim().split("=");
+      if (key === name) {
+        return value;
+      }
+    }
+  };
+
+  const Token = getToken("authToken");
 
   // tỉnh
   useEffect(() => {
@@ -68,10 +84,47 @@ function Adress() {
   };
 
   // lấy xã phường
-
-  const handleFix = (e) => {
-    e.preventDefault();
+  const handleWardChange = (e) => {
+    const selectedCode = e.target.value;
+    const ward = Ward.find((ward) => ward.code.toString() === selectedCode);
+    setSelectedWard(ward);
   };
+
+  // lấy địa chỉ
+  const hadleAdress = (e) => {
+    setAddress(e.target.value);
+  };
+  // gửi địa chỉ lên server
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post(
+      `http://localhost:5000/address/create`,
+      {
+        IDProvinces: selectedProvince.code,
+        nameProvinces: selectedProvince.name,
+        IDDistricts: selectedDistrict.code,
+        nameDistricts: selectedDistrict.name,
+        IDWards: selectedWard.code,
+        nameWards: selectedWard.name,
+        nameRoad: Address,
+        idWards: selectedWard.code,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      }
+    );
+  };
+
+  const handleClose = () => {
+    setShowPopup(false);
+  };
+  const handleShow = () => {
+    setShowPopup(true);
+  };
+
+  console.log(showPopup);
 
   return (
     <div className="container">
@@ -84,54 +137,23 @@ function Adress() {
           </div>
           <span className={`${styles.title__text}`}>Thông tin nhận hàng</span>
         </div>
-        <form className={`${styles.form}`}>
-          <div className={`${styles.form__group}`}>
-            <div className={`${styles.info}`}>
-              <input
-                type="radio"
-                name="name"
-                id="A"
-                className={styles.radio}
-                value=""
-              />
-              <label htmlFor="name">Anh A,</label>
-              <label htmlFor="name">09999999</label>
-              <br />
-            </div>
-            <div className={`${styles.change}`}>
-              <button onClick={(e) => handleFix(e)}>Sửa</button>
-              <button>Xóa</button>
-            </div>
-            <p className={`${styles.add}`}>nha thk zinh, 11,111</p>
-          </div>
-          <div className={`${styles.form__group}`}>
-            <div className={`${styles.info}`}>
-              <input
-                type="radio"
-                name="name"
-                id="A"
-                className={styles.radio}
-                value=""
-              />
-              <label fohtmlForr="name">Anh A,</label>
-              <label htmlFor="name">09999999</label>
-              <br />
-            </div>
-            <div className={`${styles.change}`}>
-              <button onClick={(e) => handleFix(e)}>Sửa</button>
-              <button>Xóa</button>
-            </div>
-            <p className={`${styles.add}`}>nha thk zinh, 11,111</p>
-          </div>
-        </form>
-        <p className={`${styles.a}`}>+ nhập địa chỉ khác</p>
+        <FormAdress className={styles.form}></FormAdress>
+        <p onClick={handleShow} className={`${styles.a}`}>
+          + nhập địa chỉ khác
+        </p>
         <div className={`${styles.role}`}>
           <button>Xác nhận</button>
         </div>
       </div>
       <div>
-        <BackgroundPopup>
-          <div className={`${styles.popup}`}>
+        <BackgroundPopup
+          style={{ display: showPopup ? "" : "none" }}
+          onClick={handleClose}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`${styles.popup}`}
+          >
             <div className={`${styles.titlePopup}`}>
               Thêm địa chỉ nhận hàng{" "}
             </div>
@@ -174,7 +196,10 @@ function Adress() {
                   </div>
                   <div className={`${styles.wards}`}>
                     <div className={`${styles.wardsSelect}`}>
-                      <select className={`${styles.selectWards}`}>
+                      <select
+                        onChange={handleWardChange}
+                        className={`${styles.selectWards}`}
+                      >
                         <option value="">Chọn phường xã</option>
                         {Ward.map((item, index) => {
                           return (
@@ -188,11 +213,20 @@ function Adress() {
                   </div>
                   <div className={`${styles.stress}`}>
                     <div className={`position-relative`}>
-                      <input placeholder="số nhà, tên đường" className={`${styles.inputStress}`}></input>
+                      <input
+                        onChange={hadleAdress}
+                        placeholder="số nhà, tên đường"
+                        className={`${styles.inputStress}`}
+                      ></input>
                     </div>
                   </div>
                 </div>
-                <button className={`${styles.buttonAdress}`}>Hoàn tất</button>
+                <button
+                  onClick={handleSubmit}
+                  className={`${styles.buttonAdress}`}
+                >
+                  Hoàn tất
+                </button>
               </div>
             </div>
           </div>
