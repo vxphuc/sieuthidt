@@ -1,7 +1,11 @@
+.wrapper {
+  position: relative;
+}
 .container {
     background-color: aliceblue;
     position: fixed;
     width: 19%;
+    z-index: 100;
   }
   .banner {
     display: flex;
@@ -110,10 +114,18 @@
   }
   @media (min-width: 768px) and (max-width: 992px){
     .container{
-      width: 20%;
-      margin-top: 20px;
+      width: 19%;
     }
     .button button{
-      font-size: 14px;
+      font-size: 13.5px;
     }
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3); /* nền mờ đen nhẹ */
+    z-index: 99;
   }
