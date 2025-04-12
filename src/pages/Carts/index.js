@@ -222,7 +222,7 @@ function Carts() {
                   <span>
                     <NavLink to="/gio-hang/cap-nhap-dia-chi">Đổi</NavLink>
                   </span>
-                  <p>{`${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}`}</p>
+                  <p>{ (address.length > 0) ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}` : 'vui lòng nhập địa chỉ'}</p>
                   <div className={styles.textBasic}>
                     <div className={styles.name}>{user.name}</div>
                     <div>{user.phone}</div>
