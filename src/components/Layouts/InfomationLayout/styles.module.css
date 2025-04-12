@@ -1,7 +1,32 @@
-.def{
+/* Container chia layout 80% giữa màn hình */
+.container {
     width: 80%;
-    height: 90vh;
     margin: 0 auto;
     display: flex;
     gap: 20px;
-}
+    min-height: 90vh;
+  }
+  
+  /* Sidebar bên trái - 30% */
+  .sidebar {
+    flex: 0 0 30%;
+  }
+  
+  /* Nội dung chính - 70% */
+  .content {
+    flex: 0 0 70%;
+  }
+  
+  /* Responsive cho mobile */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      width: 95%;
+    }
+  
+    .sidebar,
+    .content {
+      flex: 1 1 100%;
+    }
+  }
+  

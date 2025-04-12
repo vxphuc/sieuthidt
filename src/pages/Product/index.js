@@ -37,8 +37,8 @@ function Product() {
   };
   return (
     <div>
-      <div className={`${style.titleTypeProduct} d-flex`}>
-        <div onClick={handleGoBack} className={`${style.back} d-flex`}>
+      <div className={`${style.titleTypeProduct}`}>
+        <div onClick={handleGoBack} className={`${style.back}`}>
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </div>
         {typeProduct.map((item, index) => {
@@ -46,14 +46,14 @@ function Product() {
         })}
       </div>
 
-      <div className={`${style.products} d-flex`}>
+      <div className={`${style.products}`}>
         {product.map((item, key) => {
           let price = item.price.$numberDecimal;
           price = Number.parseInt(price);
           return (
             <div key={key} className={`${style.product}`}>
               <div className={`${style.boxProduct}`}>
-                <div className={`d-flex flex-column`}>
+                <div className={`${style.pro}`}>
                   <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
                     <img
                       className={`${style.imgProduct}`}
@@ -61,7 +61,7 @@ function Product() {
                       alt="product"
                     />
                   </NavLink>
-                  <div className={`d-flex flex-column ${style.title}`}>
+                  <div className={`${style.title}`}>
                     <NavLink to={``}>
                       <h3 className={style.nameProduct}>
                         {item.name.length > 30

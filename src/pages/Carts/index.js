@@ -18,6 +18,12 @@ function Carts() {
   const [totalOrder, setTotalOrder] = useState(0);
   const [address, setAddress] = useState([]);
   const [showPaymentMethod, setShowPaymentMethod] = useState(false); //đoạn ẩn hiện phương thức thanh toán
+  const [payMent, setPayMent] = useState(''); //phương thức thanh toán
+
+  const handlePayment = (e) => {
+    e.preventDefault();
+    setPayMent(e.target.value)
+  }
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -28,7 +34,6 @@ function Carts() {
       }
     }
   };
-
 
   const token = getcookie("authToken");
   useEffect(() => {
@@ -237,6 +242,35 @@ function Carts() {
       });
   }, []);
 
+  //Thanh toán
+  const handlePay = async () => {
+    const productData = product.map((item) => {
+      return {
+        name: item.product.name,
+        price: item.product.price.$numberDecimal,
+        quantity: item.quantity,
+        img: item.product.image[0],
+      };
+    });
+    const response = await axios.post(
+      "http://localhost:5000/bill/create",
+      {
+        province: address[0].provinces.nameProvinces,
+        District: address[0].districts.nameDistricts,
+        ward: address[0].wards.nameWards,
+        road: address[0].road.nameRoad,
+        Intomoney: totalOrder,
+        productData,
+        PaymentForm: payMent
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  };
+
   return (
     <div className={`container ${styles.container} `}>
       {!product || product.length === 0 ? (
@@ -379,19 +413,29 @@ function Carts() {
                     <div className={styles.paymentPopup}>
                       <ul>
                         <li>
-                          <input type="radio" name="payment" /> Tiền mặt khi
-                          nhận hàng
+                          <input
+                            value="Tiền mặt khi nhận hàng"
+                            type="radio"
+                            name="payment"
+                            onChange={handlePayment}
+                          />{" "}
+                          Tiền mặt khi nhận hàng
                         </li>
                         <li>
-                          <input type="radio" name="payment" /> Thanh toán qua
-                          ngân hàng
+                          <input
+                            value="Thanh toán qua ngân hàng"
+                            type="radio"
+                            name="payment"
+                            onChange={handlePayment}
+                          />{" "}
+                          Thanh toán qua ngân hàng
                         </li>
                       </ul>
                     </div>
                   )}
                   {/* kết thúc xử lý */}
 
-                  <button className={styles.btn}>
+                  <button onClick={handlePay} className={styles.btn}>
                     <span className={styles.orderText}>Đặt hàng:</span>
                     <span className={styles.orderPrice}>{totalOrder}</span>
                   </button>
