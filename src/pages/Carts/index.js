@@ -124,11 +124,13 @@ function Carts() {
     setTotalOrder(updatedTotal.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
   };
 
+
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
     try {
       const products = product.map((item) => ({
+
         name: item.product.name,
         price: item.product.price.$numberDecimal,
         quantity: item.quantity,
@@ -143,7 +145,9 @@ function Carts() {
           ward: address[0].wards.nameWards,
           road: address[0].road.nameRoad,
           Intomoney: totalOrder,
+
           products,
+
           PaymentForm: payMent,
         },
         {
@@ -168,6 +172,7 @@ function Carts() {
                 <span onClick={() => navigate(-1)}>
                   <FontAwesomeIcon icon={faChevronLeft} size="lg" />
                 </span>
+
               </div>
               <span>Giỏ hàng</span>
             </div>
@@ -233,15 +238,44 @@ function Carts() {
               <textarea rows="4" cols="77" placeholder="Nhập yêu cầu của bạn (nếu có)" />
             </div>
 
+
             <div className={styles.stickyFooter}>
               <div className={styles.footerActions}>
                 <button onClick={() => setShowPaymentMethod(!showPaymentMethod)} className={styles.paybtn}>Đổi hình thức thanh toán</button>
                 {showPaymentMethod && (
-                  <div className={styles.paymentPopup}>
-                    <ul>
-                      <li><input type="radio" value="Tiền mặt khi nhận hàng" name="payment" onChange={handlePayment} /> Tiền mặt khi nhận hàng</li>
-                      <li><input type="radio" value="Thanh toán qua ngân hàng" name="payment" onChange={handlePayment} /> Thanh toán qua ngân hàng</li>
-                    </ul>
+
+                  <div
+                    className={styles.overlay}
+                    onClick={() => setShowPaymentMethod(false)} // click ra ngoài để tắt
+                  >
+                    <div
+                      className={styles.paymentPopup}
+                      onClick={(e) => e.stopPropagation()} // không tắt khi click vào trong
+                    >
+                      <ul>
+                        <li>
+                          <input
+                            type="radio"
+                            value="Tiền mặt khi nhận hàng"
+                            name="payment"
+                            onChange={handlePayment}
+                            checked={payMent === "Tiền mặt khi nhận hàng"} // để giữ trạng thái khi mở lại
+                          />{" "}
+                          Tiền mặt khi nhận hàng
+                        </li>
+                        <li>
+                          <input
+                            type="radio"
+                            value="Thanh toán qua ngân hàng"
+                            name="payment"
+                            onChange={handlePayment}
+                            checked={payMent === "Thanh toán qua ngân hàng"} // để giữ trạng thái khi mở lại
+                          />{" "}
+                          Thanh toán qua ngân hàng
+                        </li>
+                      </ul>
+                    </div>
+
                   </div>
                 )}
                 <button onClick={handlePay} className={styles.btn}>
