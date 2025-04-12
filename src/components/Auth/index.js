@@ -67,7 +67,7 @@ function Auth() {
             </NavLink>
         ) : (
             <NavLink
-                to="/thong-tin-khach-hang"
+                to="/thong-tin-khach-hang/hoa-don"
                 className={({ isActive }) => (isActive ? style.active : "")}
             >
                 {user.name}

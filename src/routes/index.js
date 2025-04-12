@@ -22,8 +22,10 @@ import HeaderOnly from "../components/Layouts/HeaderOnly";
 import Adress from "../pages/Adress";
 import Infomation from "../pages/Infomation"
 import InfomationLayout from '../components/Layouts/InfomationLayout'
+import Bill from '../pages/Bill'
 
 export const router = [
+    {path: '/thong-tin-khach-hang/hoa-don', component: Bill, layout: InfomationLayout },
     {path: '/thong-tin-khach-hang', component: Infomation, layout: InfomationLayout },
     {path: '/gio-hang/cap-nhap-dia-chi', component: Adress, layout: HeaderOnly},
     {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},

@@ -16,7 +16,7 @@ function Carts() {
   const [address, setAddress] = useState([]);
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
   const [payMent, setPayMent] = useState("");
-  
+
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
     for (const cookie of cookies) {
@@ -59,7 +59,7 @@ function Carts() {
 
   const fetchAddress = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/cart/getAdd", {
+      const res = await axios.get("https://web-dt.onrender.com/cart/getAdd", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAddress(res.data);
@@ -124,14 +124,13 @@ function Carts() {
     setTotalOrder(updatedTotal.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
   };
 
-  const handlePayment = (e) => {
-    setPayMent(e.target.value); // lưu phương thức
-    setShowPaymentMethod(false); // tắt popup sau khi chọn
-  };
+
+  const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
     try {
-      const productData = product.map((item) => ({
+      const products = product.map((item) => ({
+
         name: item.product.name,
         price: item.product.price.$numberDecimal,
         quantity: item.quantity,
@@ -146,7 +145,9 @@ function Carts() {
           ward: address[0].wards.nameWards,
           road: address[0].road.nameRoad,
           Intomoney: totalOrder,
-          productData,
+
+          products,
+
           PaymentForm: payMent,
         },
         {
@@ -171,6 +172,7 @@ function Carts() {
                 <span onClick={() => navigate(-1)}>
                   <FontAwesomeIcon icon={faChevronLeft} size="lg" />
                 </span>
+
               </div>
               <span>Giỏ hàng</span>
             </div>
@@ -236,10 +238,12 @@ function Carts() {
               <textarea rows="4" cols="77" placeholder="Nhập yêu cầu của bạn (nếu có)" />
             </div>
 
+
             <div className={styles.stickyFooter}>
               <div className={styles.footerActions}>
                 <button onClick={() => setShowPaymentMethod(!showPaymentMethod)} className={styles.paybtn}>Đổi hình thức thanh toán</button>
                 {showPaymentMethod && (
+
                   <div
                     className={styles.overlay}
                     onClick={() => setShowPaymentMethod(false)} // click ra ngoài để tắt
@@ -271,6 +275,7 @@ function Carts() {
                         </li>
                       </ul>
                     </div>
+
                   </div>
                 )}
                 <button onClick={handlePay} className={styles.btn}>
