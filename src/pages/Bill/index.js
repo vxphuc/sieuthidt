@@ -23,7 +23,7 @@ function Bill() {
 
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await axios.get("http://localhost:5000/bill/user", {
+      const response = await axios.get("https://web-dt.onrender.com/bill/user", {
         headers: {
           Authorization: `Bearer ${Token}`,
         },
