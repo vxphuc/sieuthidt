@@ -16,15 +16,18 @@ function TypeProduct() {
   // xử lý ẩn hiện loại sp
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      // chỉ áp dụng khi là mobile
+      if (window.innerWidth <= 768) {
+        const currentScrollY = window.scrollY;
   
-      if (currentScrollY > lastScrollY) {
-        setShowTitle(false); // Cuộn xuống -> ẩn dòng tiêu đề
-      } else {
-        setShowTitle(true); // Cuộn lên -> hiện lại
+        if (currentScrollY > lastScrollY) {
+          setShowTitle(false); // cuộn xuống thì ẩn
+        } else {
+          setShowTitle(true); // cuộn lên thì hiện
+        }
+  
+        setLastScrollY(currentScrollY);
       }
-  
-      setLastScrollY(currentScrollY);
     };
   
     window.addEventListener("scroll", handleScroll);
@@ -60,8 +63,17 @@ function TypeProduct() {
   }, []);
 
   return (
-    <div className={`${styles.container}`}>
-      {showTitle && (
+    <div className={styles.wrapper}>
+  {/* Overlay chỉ hiện khi mở danh mục */}
+  {showList && (
+    <div
+      className={styles.overlay}
+      onClick={() => setShowList(false)}
+    ></div>
+  )}
+
+  <div className={`${styles.container}`}>
+    {showTitle && (
       <div className={`${styles.button} text-center`}>
         <button>
           DANH MỤC SẢN PHẨM
@@ -73,15 +85,26 @@ function TypeProduct() {
           />
         </button>
       </div>
-      )}
-      <div ref={menuRef} className={`${styles.containerTypeProduct} ${showList ? styles.show : styles.hide}`}>
-        {data.map((element) => (
-          <NavLink to={`/san-pham/${element.slug}`} key={element._id} className={`${styles.typeProduct}`}>
-            <span>{element.name}</span>
-          </NavLink>
-        ))}
-      </div>
+    )}
+    <div
+      ref={menuRef}
+      className={`${styles.containerTypeProduct} ${
+        showList ? styles.show : styles.hide
+      }`}
+    >
+      {data.map((element) => (
+        <NavLink
+          to={`/san-pham/${element.slug}`}
+          key={element._id}
+          className={`${styles.typeProduct}`}
+          onClick={() => setShowList(false)}
+        >
+          <span>{element.name}</span>
+        </NavLink>
+      ))}
     </div>
+  </div>
+</div>
   );
 }
 

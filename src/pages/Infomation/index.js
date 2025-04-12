@@ -1,8 +1,11 @@
 import styles from "./Infomation.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash  } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
 
 function Infomation() {
+
+
   return (
     <div className={styles.wrapper}>
       {/* Thông tin cá nhân */}
