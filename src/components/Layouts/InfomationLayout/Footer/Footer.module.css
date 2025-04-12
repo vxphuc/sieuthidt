@@ -1,0 +1,49 @@
+.foot{
+    position: relative;
+    width: 80%;
+    height: 58vh;
+    margin: 0 auto;
+}
+.container{
+    padding: 10px;
+}
+.list_unstyled{
+    padding: 0;
+    display: block ;
+}
+.list_unstyled li{
+    padding: 5px 0px;
+}
+.list_unstyled li a{
+    color: black;
+}
+.partnerList{
+    display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: start;
+  margin-top: 10px;
+}
+.partnerItem{
+    width: 40px;
+  height: auto;
+  object-fit: contain;
+}
+@media (max-width: 768px) {
+    .foot,
+    .foot p,
+    .foot a,
+    .foot li,
+    .foot h5 {
+      font-size: 13px;
+    }
+    .foot{
+        height: 90vh;
+    }
+  
+    .partnerList img {
+      width: 40px;
+      height: auto;
+    }
+  }
+  

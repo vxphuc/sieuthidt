@@ -1,0 +1,7 @@
+.def{
+    width: 80%;
+    height: 90vh;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+}
