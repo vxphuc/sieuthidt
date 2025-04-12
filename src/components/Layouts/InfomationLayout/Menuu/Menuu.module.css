@@ -1,9 +1,10 @@
 .infomation{
-    width: 30%;
-    height: 55%;
+    width: 100%;
+    height: 100%;
     display: grid;
 }
 .order{
+    height: 40px;
     margin-top: 100px;
     border: none;
     border-radius: 5px;
@@ -15,7 +16,8 @@
     background-color: rgb(116, 228, 116);
 }
 .ifm{
-    margin-top: 3px;
+    height: 40px;
+    margin-top: 5px;
     border: none;
     border-radius: 5px;
 }
@@ -26,14 +28,17 @@
     background-color: rgb(116, 228, 116);
 }
 .logout{
+    height: 40px;
     margin-top: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 .logout:hover{
     background-color: rgb(236, 87, 87);
     color: white;
 }
 .point{
+    height: 40px;
     margin-top: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
+    background-color: rgb(151, 244, 151);
 }
