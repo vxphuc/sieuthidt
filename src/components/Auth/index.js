@@ -34,7 +34,7 @@ function Auth() {
   // Theo dõi khi user thay đổi
   useEffect(() => {
     if (user) {
-      console.log("User cập nhật:", user);
+      console.log("User cập nhật:");
       if (!user.name) {
         navigate("/cap-nhap-thong-tin", { replace: true });
       }

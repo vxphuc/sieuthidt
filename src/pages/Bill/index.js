@@ -17,8 +17,6 @@ function Bill() {
 
     fetchBills();
   }, []);
-
-  console.log(bills);
   return (
     <div className={styles.wrapper}>
       <div className={styles.addressBox}>
