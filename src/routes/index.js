@@ -1,5 +1,4 @@
-
-import Home from "../pages/Home"
+import Home from "../pages/Home";
 import Product from "../pages/Product";
 import ProductAdmin from "../pages/Admin/ProductAdmin";
 import CreateProduct from "../pages/Admin/CreateProduct";
@@ -14,36 +13,81 @@ import CreateBanner from "../pages/Admin/CreateBanner";
 import FillInformation from "../pages/fillInInformation";
 import ShowBanner from "../pages/Admin/ShowBanner";
 import UpdateProduct from "../pages/Admin/UpdateProduct";
-import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc"; 
+import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc";
 import RecycleBinTyproduct from "../pages/Admin/RecycleBinTypeProduct";
 import DetailProduct from "../pages/DetailProduct";
 import Carts from "../pages/Carts";
 import HeaderOnly from "../components/Layouts/HeaderOnly";
 import Adress from "../pages/Adress";
-import Infomation from "../pages/Infomation"
-import InfomationLayout from '../components/Layouts/InfomationLayout'
-import Bill from '../pages/Bill'
+import Infomation from "../pages/Infomation";
+import InfomationLayout from "../components/Layouts/InfomationLayout";
+import Bill from "../pages/Bill";
+import PayMentBank from "../pages/PayMentBank";
 
 export const router = [
-    {path: '/thong-tin-khach-hang/hoa-don', component: Bill, layout: InfomationLayout },
-    {path: '/thong-tin-khach-hang', component: Infomation, layout: InfomationLayout },
-    {path: '/gio-hang/cap-nhap-dia-chi', component: Adress, layout: HeaderOnly},
-    {path: '/cap-nhap-thong-tin', component: FillInformation, layout: null},
-    {path: '/', component: Home},
-    {path: '/gio-hang', component: Carts, layout: HeaderOnly},
-    {path: '/san-pham/:slug', component: Product},
-    {path: '/quan-tri/cap-nhap-loai-san-pham/:id', component: UpdateTypeProduct, layout: AdminLayout},
-    {path: '/dang-nhap', component: Login, layout: HeaderLayout},
-    {path: '/quan-tri/loai-san-pham/thung-rac', component: RecycleBinTyproduct, layout: AdminLayout},
-    {path: '/quan-tri', component: ManageAdmin, layout: AdminLayout},
-    {path: '/quan-tri/them-moi-banner', component: CreateBanner, layout: AdminLayout},
-    {path: '/quan-tri/san-pham', component: ProductAdmin, layout: AdminLayout},
-    {path: '/quan-tri/san-pham/them-moi-san-pham', component: CreateProduct, layout: AdminLayout},
-    {path: '/quan-tri/loai-san-pham', component: TypeProductAdmin, layout: AdminLayout},
-    {path: '/quan-tri/loai-san-pham/them-moi', component: CreateTypeProductAdmin, layout: AdminLayout},
-    {path: '/quan-tri/san-pham/thung-rac', component: RecycleBin, layout: AdminLayout},
-    {path: '/quan-tri/banner', component: ShowBanner, layout: AdminLayout},
-    {path: '/quan-tri/san-pham/:slug/cap-nhap-san-pham', component: UpdateProduct, layout: AdminLayout},
-    {path: '/:slug/:slug', component: DetailProduct},
-    
-]
+  {
+    path: "/gio-hang/thanh-toan/:id",
+    component: PayMentBank,
+    layout: HeaderOnly,
+  },
+  {
+    path: "/thong-tin-khach-hang/hoa-don",
+    component: Bill,
+    layout: InfomationLayout,
+  },
+  {
+    path: "/thong-tin-khach-hang",
+    component: Infomation,
+    layout: InfomationLayout,
+  },
+  { path: "/gio-hang/cap-nhap-dia-chi", component: Adress, layout: HeaderOnly },
+  { path: "/cap-nhap-thong-tin", component: FillInformation, layout: null },
+  { path: "/", component: Home },
+  { path: "/gio-hang", component: Carts, layout: HeaderOnly },
+  { path: "/san-pham/:slug", component: Product },
+  {
+    path: "/quan-tri/cap-nhap-loai-san-pham/:id",
+    component: UpdateTypeProduct,
+    layout: AdminLayout,
+  },
+  { path: "/dang-nhap", component: Login, layout: HeaderLayout },
+  {
+    path: "/quan-tri/loai-san-pham/thung-rac",
+    component: RecycleBinTyproduct,
+    layout: AdminLayout,
+  },
+  { path: "/quan-tri", component: ManageAdmin, layout: AdminLayout },
+  {
+    path: "/quan-tri/them-moi-banner",
+    component: CreateBanner,
+    layout: AdminLayout,
+  },
+  { path: "/quan-tri/san-pham", component: ProductAdmin, layout: AdminLayout },
+  {
+    path: "/quan-tri/san-pham/them-moi-san-pham",
+    component: CreateProduct,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/loai-san-pham",
+    component: TypeProductAdmin,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/loai-san-pham/them-moi",
+    component: CreateTypeProductAdmin,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/san-pham/thung-rac",
+    component: RecycleBin,
+    layout: AdminLayout,
+  },
+  { path: "/quan-tri/banner", component: ShowBanner, layout: AdminLayout },
+  {
+    path: "/quan-tri/san-pham/:slug/cap-nhap-san-pham",
+    component: UpdateProduct,
+    layout: AdminLayout,
+  },
+  { path: "/:slug/:slug", component: DetailProduct },
+];
