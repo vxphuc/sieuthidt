@@ -305,8 +305,14 @@
   padding: 1rem;
   animation: fadeIn 0.3s ease-in-out;
 }
-
+.overlay {
+  position: fixed;
+  inset: 0; /* phủ toàn bộ màn hình */
+  background-color: rgba(0, 0, 0, 0.4); /* nền mờ */
+  z-index: 9998; /* thấp hơn popup */
+}
 .paymentPopup ul {
+  display: block;
   list-style: none;
   padding-left: 0;
 }
