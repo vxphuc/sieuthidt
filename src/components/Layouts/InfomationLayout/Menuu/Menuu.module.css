@@ -1,0 +1,39 @@
+.infomation{
+    width: 30%;
+    height: 55%;
+    display: grid;
+}
+.order{
+    margin-top: 100px;
+    border: none;
+    border-radius: 5px;
+}
+.order:hover{
+    background-color: rgb(116, 228, 116);
+}
+.order:active{
+    background-color: rgb(116, 228, 116);
+}
+.ifm{
+    margin-top: 3px;
+    border: none;
+    border-radius: 5px;
+}
+.ifm:hover{
+    background-color: rgb(116, 228, 116);
+}
+.ifm:active{
+    background-color: rgb(116, 228, 116);
+}
+.logout{
+    margin-top: 20px;
+    border-radius: 5px;
+}
+.logout:hover{
+    background-color: rgb(236, 87, 87);
+    color: white;
+}
+.point{
+    margin-top: 20px;
+    border-radius: 5px;
+}
