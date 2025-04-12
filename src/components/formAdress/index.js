@@ -1,6 +1,4 @@
 import styles from "./FormAdress.module.css";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
 function FormAdress({ className, adress, onSelect }) {
 console.log(adress)
