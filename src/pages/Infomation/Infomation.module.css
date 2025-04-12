@@ -1,16 +1,63 @@
 
-
 .customer{
-    width: 70%;
-    height: 23%;
+    width: 100%;
+    height: 20%;
     margin-top: 100px;
     display: flex;
     flex-direction: column;
-    justify-content: start; /* Đẩy nội dung lên trên */
-    align-items: flex-start; /* Căn trái nội dung */
+    align-items: flex-start;
     padding: 20px;
     background: white;
     border-radius: 10px;
 }
-.orderadd{
+.fix{
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  
+}
+.addressBox{
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.addressHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addNew {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer
+}
+.addressList {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.addressItem {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions button {
+  margin-left: 10px;
+  border: none;
+  background-color: transparent;
+  color: #007bff;
+  cursor: pointer;
+}
+.actions .delete {
+  color: #dc3545;
 }
