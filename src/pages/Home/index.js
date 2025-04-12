@@ -146,10 +146,10 @@ function Home() {
           </div>
 
           <div className={styles.newProduct}>
-            <div className={`${styles.title} d-flex justify-content-between`}>
+            <div className={`${styles.title}`}>
               <h2>Sản phẩm mới</h2>
             </div>
-            <div className={`d-flex ${styles.products}`}>
+            <div className={`${styles.products}`}>
               {newProduct.map((product, index) => {
                 let price = Number.parseInt(product.price.$numberDecimal);
                 price = price.toLocaleString("vi-VN", {
@@ -165,7 +165,7 @@ function Home() {
                         alt="product"
                       ></img>
                       <div
-                        className={`position-absolute top-0 z-1 bg-success text-white ${styles.new}`}
+                        className={`${styles.new}`}
                       >
                         <p className={``}>new</p>
                       </div>

@@ -46,11 +46,11 @@ function Cosmetics() {
 
   return (
     <div>
-      <div className={`position-relative ${style.Nest}`}>
-        <div className={`${style.category_label} position-absolute`}>
+      <div className={`${style.Nest}`}>
+        <div className={`${style.category_label}`}>
           Mỹ phẩm{" "}
         </div>
-        <div className={`${style.contentProduct} d-flex`}>
+        <div className={`${style.contentProduct}`}>
           {product.map((item) => {
             let price = Number.parseInt(item.price.$numberDecimal);
             price = price.toLocaleString("vi-VN", {
@@ -85,7 +85,7 @@ function Cosmetics() {
               </div>
             );
           })}
-          <div className={`${style.viewMore} text-center`}>
+          <div className={`${style.viewMore}`}>
             <NavLink className={`${style.seeMore}`}>Xem thêm</NavLink>
           </div>
         </div>

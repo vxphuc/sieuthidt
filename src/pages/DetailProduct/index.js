@@ -63,11 +63,11 @@ function DetailProduct() {
 
   return (
     <div className={`${styles.DetailProduct}`}>
-      <div className={`${styles.titleDetailProduct} d-flex`}>
-        <button onClick={handleGoBack} className={`${styles.back} d-flex`}>
+      <div className={`${styles.titleDetailProduct}`}>
+        <button onClick={handleGoBack} className={`${styles.back}`}>
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </button>
-        <div className={`${styles.nameProduct} d-flex`}>
+        <div className={`${styles.nameProduct} `}>
           {" "}
           {product.map((item, index) => {
             return <span key={index}>{item.Typeproduct[0].name}</span>;
@@ -76,11 +76,11 @@ function DetailProduct() {
       </div>
       <div className={`d-flex mt-2 flex-wrap`}>
         <div className={`${styles.product}`}>
-          <div className={`${styles.image} py-2 position-relative`}>
+          <div className={`${styles.image} `}>
             <div className={`${styles.h_full}`}>
               <div
                 onClick={prevImage}
-                className={`${styles.left} position-absolute`}
+                className={`${styles.left} `}
               >
                 <button className={`d-flex`}>
                   {" "}
@@ -93,7 +93,7 @@ function DetailProduct() {
               </div>
               <div
                 onClick={nextImage}
-                className={`${styles.right} position-absolute`}
+                className={`${styles.right} `}
               >
                 <button className={`d-flex`}>
                   <FontAwesomeIcon
@@ -103,9 +103,9 @@ function DetailProduct() {
                   />
                 </button>
               </div>
-              <div className={`d-block position-relative ${styles.layout}`}>
+              <div className={`${styles.layout}`}>
                 <div
-                  className={` position-relative z-1 d-flex ${styles.LayoutImg}`}
+                  className={`${styles.LayoutImg}`}
                   style={{
                     transform: `translateX(-${currentImage * 100}%)`,
                     transition: "transform 0.3s ease-in-out",
@@ -119,7 +119,7 @@ function DetailProduct() {
                             className={`position-relative d-flex justify-content-center align-items-center`}
                           >
                             <span
-                              className={`${styles.span_slide} position-relative`}
+                              className={`${styles.span_slide} `}
                             >
                               <img src={img}></img>
                             </span>
@@ -132,7 +132,7 @@ function DetailProduct() {
               </div>
               <div className={`${styles.childrenImg}`}>
                 <div
-                  className={`${styles.swiperWrapper} position-relative z-1 d-flex`}
+                  className={`${styles.swiperWrapper}`}
                 >
                   {product.map((item) => {
                     return item.image.map((img, index) => {

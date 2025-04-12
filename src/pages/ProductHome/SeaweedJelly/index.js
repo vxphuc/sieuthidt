@@ -46,11 +46,11 @@ function SeaweedJelly() {
 
   return (
     <div>
-      <div className={`position-relative ${style.Nest}`}>
-        <div className={`${style.category_label} position-absolute`}>
+      <div className={`${style.Nest}`}>
+        <div className={`${style.category_label}`}>
           Thạch rong nho{" "}
         </div>
-        <div className={`${style.contentProduct} d-flex`}>
+        <div className={`${style.contentProduct}`}>
           {product.map((item) => {
             let price = Number.parseInt(item.price.$numberDecimal);
             price = price.toLocaleString("vi-VN", {

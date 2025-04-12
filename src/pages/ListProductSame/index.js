@@ -26,7 +26,7 @@ function ListProductSame() {
                   key={index}
                 >
                   <div>
-                    <div className={`${styles.product} d-flex`}>
+                    <div className={`${styles.product}`}>
                       <span className={`${styles.img}`}>
                         <img src={item.image[0]} alt={item.name} />
                       </span>
