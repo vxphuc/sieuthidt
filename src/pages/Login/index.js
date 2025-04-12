@@ -89,14 +89,13 @@ function Login() {
       const user = result.user;
       const idToken = await user.getIdToken(); // Lấy ID Token từ Firebase
       setToken(idToken);
-
-      //lưu vào cookie
-      document.cookie = `authToken=${idToken}`;
       alert("Xác thực thành công!");
       // Gửi token lên backend
-      const response = await axios.post("https://web-dt.onrender.com/sign-in", {
+      const response = await axios.post("http://localhost:5000/sign-in", {
         idToken,
         numberPhone: phone,
+      },{
+          withCredentials: true, 
       });
       console.log("Response từ backend:", response.data);
       window.location.href = '/'

@@ -7,26 +7,10 @@ import axios from "axios";
 function Bill() {
   const [bills, setBills] = useState([]);
 
-  //lấy token
-  const getToken = (name) => {
-    const cokkies = document.cookie.split(";");
-    for (const cookie of cokkies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) {
-        return value;
-      }
-      return null;
-    }
-  };
-
-  const Token = getToken("authToken");
-
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await axios.get("https://web-dt.onrender.com/bill/user", {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
+      const response = await axios.get("http://localhost:5000/bill/user", {
+        withCredentials: true,
       });
       setBills(response.data);
     };
@@ -59,8 +43,8 @@ function Bill() {
                 </div>
 
                 <div className={styles.orderActions}>
-                  <span className={styles.status}>Đã giao hàng</span>
-                  <span className={styles.total}>Tổng tiền: 120.000đ</span>
+                  <span className={styles.status}>{bill.OrderStatus}</span>
+                  <span className={styles.total}>Tổng tiền: {bill.Intomoney}</span>
                   <button className={styles.detailBtn}>Xem chi tiết</button>
                 </div>
               </div>
