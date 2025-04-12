@@ -30,9 +30,12 @@ function Carts() {
 
   const fetchUserProfile = async () => {
     try {
-      const res = await axios.get("https://web-dt.onrender.com/sign-in/user-profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        "https://web-dt.onrender.com/sign-in/user-profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUser(res.data);
     } catch (err) {
       console.error("Error fetching user profile:", err);
@@ -46,8 +49,15 @@ function Carts() {
       });
       const cartItems = res.data;
       setProduct(cartItems);
-      const totalPrice = cartItems.reduce((acc, item) => acc + parseFloat(item.product.price.$numberDecimal) * item.quantity, 0);
-      const formatted = totalPrice.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+      const totalPrice = cartItems.reduce(
+        (acc, item) =>
+          acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
+        0
+      );
+      const formatted = totalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
       setTotal(formatted);
       setTotalOrder(formatted);
     } catch (err) {
@@ -75,8 +85,15 @@ function Carts() {
   }, []);
 
   const updateTotal = (items) => {
-    const totalPrice = items.reduce((acc, item) => acc + parseFloat(item.product.price.$numberDecimal) * item.quantity, 0);
-    const formatted = totalPrice.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    const totalPrice = items.reduce(
+      (acc, item) =>
+        acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
+      0
+    );
+    const formatted = totalPrice.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
     setTotal(formatted);
     setTotalOrder(formatted);
   };
@@ -96,9 +113,12 @@ function Carts() {
     try {
       await Promise.all(
         product.map((item) =>
-          axios.delete(`https://web-dt.onrender.com/cart/delete/${item.product._id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          axios.delete(
+            `https://web-dt.onrender.com/cart/delete/${item.product._id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
         )
       );
       fetchCart();
@@ -109,9 +129,13 @@ function Carts() {
 
   const handleQuantityChange = async (id, type) => {
     try {
-      await axios.patch(`https://web-dt.onrender.com/cart/${type}/${id}`, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.patch(
+        `https://web-dt.onrender.com/cart/${type}/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       fetchCart();
     } catch (err) {
       console.error(`Error ${type} quantity:`, err);
@@ -119,18 +143,27 @@ function Carts() {
   };
 
   const handleChecker = (e) => {
-    const totalPrice = product.reduce((acc, item) => acc + parseFloat(item.product.price.$numberDecimal) * item.quantity, 0);
-    const updatedTotal = e.target.checked ? totalPrice - user.token : totalPrice;
-    setTotalOrder(updatedTotal.toLocaleString("vi-VN", { style: "currency", currency: "VND" }));
+    const totalPrice = product.reduce(
+      (acc, item) =>
+        acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
+      0
+    );
+    const updatedTotal = e.target.checked
+      ? totalPrice - user.token
+      : totalPrice;
+    setTotalOrder(
+      updatedTotal.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      })
+    );
   };
-
 
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
     try {
       const products = product.map((item) => ({
-
         name: item.product.name,
         price: item.product.price.$numberDecimal,
         quantity: item.quantity,
@@ -155,12 +188,18 @@ function Carts() {
         }
       );
       console.log("Order success:", response.data);
+      alert('mua hàng thành công')
+      const DeleteCart = await axios.delete('http://localhost:5000/cart/deleteCart', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      console.log("deleteSucsses", DeleteCart.data)
+      navigate('/')
     } catch (err) {
       console.error("Payment error:", err);
     }
   };
 
-  if (loading || !product) return <CartsEmpty />;
+  if (loading || product.length === 0 ) return <CartsEmpty />;
 
   return (
     <div className={`container ${styles.container}`}>
@@ -172,7 +211,6 @@ function Carts() {
                 <span onClick={() => navigate(-1)}>
                   <FontAwesomeIcon icon={faChevronLeft} size="lg" />
                 </span>
-
               </div>
               <span>Giỏ hàng</span>
             </div>
@@ -196,7 +234,12 @@ function Carts() {
             {product.map((item, index) => (
               <div key={index} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
-                  <button onClick={() => handleDelete(item.product._id)} className={styles.deletebtn}>x</button>
+                  <button
+                    onClick={() => handleDelete(item.product._id)}
+                    className={styles.deletebtn}
+                  >
+                    x
+                  </button>
                   <img src={item.product.image[0]} alt="product" />
                   <div className={styles.productInfo}>
                     <p className={styles.productName}>{item.product.name}</p>
@@ -204,15 +247,39 @@ function Carts() {
                 </div>
                 <div className={styles.content}>
                   <p>
-                    Giá tiền: {(parseFloat(item.product.price.$numberDecimal) * item.quantity).toLocaleString("vi-VN", {
+                    Giá tiền:{" "}
+                    {(
+                      parseFloat(item.product.price.$numberDecimal) *
+                      item.quantity
+                    ).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     })}
                   </p>
                   <div className={styles.quantityControl}>
-                    <button onClick={() => handleQuantityChange(item.product._id, "updateDecrease")} className={styles.tru}>-</button>
-                    <input type="number" value={item.quantity} readOnly min="1" max="99" />
-                    <button onClick={() => handleQuantityChange(item.product._id, "updateincrease")} className={styles.cong}>+</button>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item.product._id, "updateDecrease")
+                      }
+                      className={styles.tru}
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      readOnly
+                      min="1"
+                      max="99"
+                    />
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(item.product._id, "updateincrease")
+                      }
+                      className={styles.cong}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
@@ -226,24 +293,42 @@ function Carts() {
               <h3>Thông tin thanh toán</h3>
               <table className={styles.table}>
                 <tbody>
-                  <tr><td>Tổng tiền</td><td>{total}</td></tr>
-                  <tr><td><input onClick={handleChecker} type="checkbox" /> sử dụng {user.token || 0} điểm</td></tr>
-                  <tr><td>Tổng đơn hàng</td><td>{totalOrder}</td></tr>
+                  <tr>
+                    <td>Tổng tiền</td>
+                    <td>{total}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input onClick={handleChecker} type="checkbox" /> sử dụng{" "}
+                      {user.token || 0} điểm
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tổng đơn hàng</td>
+                    <td>{totalOrder}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
 
             <div className={styles.description}>
               <p>Nhập mô tả đơn hàng</p>
-              <textarea rows="4" cols="77" placeholder="Nhập yêu cầu của bạn (nếu có)" />
+              <textarea
+                rows="4"
+                cols="77"
+                placeholder="Nhập yêu cầu của bạn (nếu có)"
+              />
             </div>
-
 
             <div className={styles.stickyFooter}>
               <div className={styles.footerActions}>
-                <button onClick={() => setShowPaymentMethod(!showPaymentMethod)} className={styles.paybtn}>Đổi hình thức thanh toán</button>
+                <button
+                  onClick={() => setShowPaymentMethod(!showPaymentMethod)}
+                  className={styles.paybtn}
+                >
+                  Đổi hình thức thanh toán
+                </button>
                 {showPaymentMethod && (
-
                   <div
                     className={styles.overlay}
                     onClick={() => setShowPaymentMethod(false)} // click ra ngoài để tắt
@@ -275,7 +360,6 @@ function Carts() {
                         </li>
                       </ul>
                     </div>
-
                   </div>
                 )}
                 <button onClick={handlePay} className={styles.btn}>
@@ -284,7 +368,6 @@ function Carts() {
                 </button>
               </div>
             </div>
-
           </div>
         </main>
       </div>

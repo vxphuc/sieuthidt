@@ -27,7 +27,7 @@ body{
     width: 55%;
     height: 70%;
 }
-.imgempty button{
+.imgempty a{
     border: none;
     background-color: rgb(94, 219, 94);
     padding: 6px 15px;
@@ -36,6 +36,7 @@ body{
     font-weight: bold;
     display: block;
     margin: 0 auto;
+    width: 40%;
 }
 .imgempty button:hover{
     background-color: rgb(233, 86, 86);

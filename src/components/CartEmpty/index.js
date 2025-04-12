@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styles from "./CartsEmpty.module.css";
 
 function CartsEmpty() {
@@ -8,7 +9,7 @@ function CartsEmpty() {
         </div>
       <div className={`${styles.imgempty}`}>
         <img src="./cart-empty.png" alt="anh"></img>
-        <button>Tiếp tục mua hàng</button>
+        <NavLink to={`/`}>Tiếp tục mua hàng</NavLink>
       </div>
     </div>
   );
