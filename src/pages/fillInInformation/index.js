@@ -17,23 +17,14 @@ const UserForm = () => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [data, setData] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const getCookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for (let cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) return value;
-    }
-    return null;
-  };
-  const token = getCookie("authToken");
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         axios
           .get("https://web-dt.onrender.com/sign-in/user-profile", {
-            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           })
           .then((res) => {
             setData(res.data);
@@ -41,25 +32,46 @@ const UserForm = () => {
       } catch {}
     };
     fetchUserProfile();
-  }, [token]);
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.put(
-      `https://web-dt.onrender.com/sign-in/${data.uid}/fillInInformation`,
-      {
-        name,
-        gender,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
+  
+    try {
+      // Gửi PUT request để cập nhật thông tin
+      const response = await axios.put(
+        `https://web-dt.onrender.com/sign-in/${data.uid}/fillInInformation`,
+        {
+          name,
+          gender,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      console.log("PUT thành công, phản hồi:", response.data);
+
+  
+      // Gọi lại API lấy thông tin mới
+      const res = await axios.get("https://web-dt.onrender.com/sign-in/user-profile", {
+        withCredentials: true,
+      });
+  
+      // Đảm bảo lấy đúng object nếu là mảng
+      const updatedUser = Array.isArray(res.data) ? res.data[0] : res.data;
+  
+      console.log("Thông tin mới:", updatedUser);
+  
+      if (updatedUser.name) {
+        navigate("/", { replace: true });
       }
-    );
-    navigate('/', { replace: true })
-    if (data.name) {
-      navigate('/', { replace: true })
+    } catch (error) {
+      console.error("Lỗi khi cập nhật thông tin:", error);
     }
   };
+  
+
+ 
 
   return (
     <div className={Styles.container}>
