@@ -1,6 +1,6 @@
 .payMenMetho{
     width: 50%;
-    height: 600px;
+    height: 1170px;
     padding-top: 100px;
     background-color: white;
     margin: 0 auto;
@@ -21,10 +21,11 @@
     margin: 0 auto;
 }
 .typepayment button{
+    width: 100%;
     background-color: white;
     padding: 6px;
     border-radius: 10px;
-    border: ridge rgb(200, 222, 5);
+    border: dashed rgb(200, 222, 5);
 }
 .typepayment button div p{
     color: rgb(98, 105, 35);
@@ -63,4 +64,43 @@
 .contact a{
     margin-left: 10px;
     color: blue;
+}
+.qrcode{
+    width: 30%;
+    height: auto;
+    margin: 20px auto;
+}
+.qrcode img{
+    width: 100%;
+    height: 100%;
+}
+.detail{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 20px 0px;
+}
+.home{
+    background-color: rgb(128, 232, 128);
+    border: 2px solid green;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+.defaul{
+    background-color: rgb(128, 232, 128);
+    border: 2px solid green;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
+.home:hover{
+    background-color: rgb(230, 96, 96);
+    color: white;
+    border: 2px solid red;
+}
+.defaul:hover{
+    background-color: rgb(230, 96, 96);
+    color: white;
+    border: 2px solid red;
 }
