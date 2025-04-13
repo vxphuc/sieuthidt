@@ -23,13 +23,9 @@ import Infomation from "../pages/Infomation";
 import InfomationLayout from "../components/Layouts/InfomationLayout";
 import Bill from "../pages/Bill";
 import PayMentBank from "../pages/PayMentBank";
+import InvoiceDetails from "../pages/InvoiceDetails";
 
 export const router = [
-  {
-    path: "/gio-hang/thanh-toan/:id",
-    component: PayMentBank,
-    layout: HeaderOnly,
-  },
   {
     path: "/thong-tin-khach-hang/hoa-don",
     component: Bill,
@@ -44,6 +40,16 @@ export const router = [
   { path: "/cap-nhap-thong-tin", component: FillInformation, layout: null },
   { path: "/", component: Home },
   { path: "/gio-hang", component: Carts, layout: HeaderOnly },
+  {
+    path: "/thong-tin-khach-hang/hoa-don/:id",
+    component: InvoiceDetails,
+    layout: InfomationLayout,
+  },
+  {
+    path: "/gio-hang/thanh-toan/:id",
+    component: PayMentBank,
+    layout: HeaderOnly,
+  },
   { path: "/san-pham/:slug", component: Product },
   {
     path: "/quan-tri/cap-nhap-loai-san-pham/:id",

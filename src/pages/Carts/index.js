@@ -33,7 +33,7 @@ function Carts() {
       const res = await axios.get(
         "https://web-dt.onrender.com/sign-in/user-profile",
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       );
       setUser(res.data);
@@ -45,7 +45,7 @@ function Carts() {
   const fetchCart = async () => {
     try {
       const res = await axios.get("https://web-dt.onrender.com/cart", {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       const cartItems = res.data;
       setProduct(cartItems);
@@ -70,7 +70,7 @@ function Carts() {
   const fetchAddress = async () => {
     try {
       const res = await axios.get("https://web-dt.onrender.com/cart/getAdd", {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       setAddress(res.data);
     } catch (err) {
@@ -101,7 +101,7 @@ function Carts() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://web-dt.onrender.com/cart/delete/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       fetchCart();
     } catch (err) {
@@ -116,7 +116,7 @@ function Carts() {
           axios.delete(
             `https://web-dt.onrender.com/cart/delete/${item.product._id}`,
             {
-              headers: { Authorization: `Bearer ${token}` },
+              withCredentials: true,
             }
           )
         )
@@ -133,7 +133,7 @@ function Carts() {
         `https://web-dt.onrender.com/cart/${type}/${id}`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       );
       fetchCart();
@@ -171,7 +171,7 @@ function Carts() {
       }));
 
       const response = await axios.post(
-        "http://localhost:5000/bill/create",
+        "https://web-dt.onrender.com/bill/create",
         {
           province: address[0].provinces.nameProvinces,
           District: address[0].districts.nameDistricts,
@@ -184,13 +184,13 @@ function Carts() {
           PaymentForm: payMent,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       );
       console.log("Order success:", response.data);
       alert('mua hàng thành công')
-      const DeleteCart = await axios.delete('http://localhost:5000/cart/deleteCart', {
-        headers: { Authorization: `Bearer ${token}` },
+      const DeleteCart = await axios.delete('https://web-dt.onrender.com/cart/deleteCart', {
+        withCredentials: true,
       })
       console.log("deleteSucsses", DeleteCart.data)
       navigate('/')

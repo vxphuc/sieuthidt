@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 
 function Bill() {
   const [bills, setBills] = useState([]);
@@ -17,6 +18,8 @@ function Bill() {
 
     fetchBills();
   }, []);
+
+  console.log(bills)
   return (
     <div className={styles.wrapper}>
       <div className={styles.addressBox}>
@@ -31,7 +34,7 @@ function Bill() {
               <div key={index} className={styles.orderCard}>
                 <div className={styles.orderInfo}>
                   <img
-                    src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743492660/products/q4fn4lztuuvqowz01csu.webp"
+                    src={`${bill.products[0].img}`}
                     alt="product"
                   />
                   <div className={styles.orderText}>
@@ -43,7 +46,7 @@ function Bill() {
                 <div className={styles.orderActions}>
                   <span className={styles.status}>{bill.OrderStatus}</span>
                   <span className={styles.total}>Tổng tiền: {bill.Intomoney}</span>
-                  <button className={styles.detailBtn}>Xem chi tiết</button>
+                  <NavLink to={`/thong-tin-khach-hang/hoa-don/dădawd`} className={styles.detailBtn}>Xem chi tiết</NavLink>
                 </div>
               </div>
             );

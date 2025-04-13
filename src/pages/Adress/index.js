@@ -27,19 +27,6 @@ function Adress() {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
  
 
-  //lấy token
-  const getToken = (name) => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) {
-        return value;
-      }
-    }
-  };
-
-  const Token = getToken("authToken");
-
   // tỉnh
   useEffect(() => {
     axios
@@ -115,18 +102,14 @@ function Adress() {
         idWards: selectedWard.code,
       },
       {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
+        withCredentials: true
       }
     )
     .then(res => {
       setShowPopup(false);
       axios
       .get("https://web-dt.onrender.com/address", {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
+        withCredentials: true
       })
       .then((response) => {
         setData(response.data);
@@ -138,9 +121,7 @@ function Adress() {
   //khởi tạo address từ đầu
   useEffect(() => {
     axios.get("https://web-dt.onrender.com/address", {
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      }
+      withCredentials: true
     })
     .then(res => setData(res.data))
     .catch(err => console.log(err));
@@ -158,9 +139,7 @@ function Adress() {
     axios.patch(`https://web-dt.onrender.com/cart/updateAddress`, {
       roadID: selectedAddressId
     }, {
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      }
+      withCredentials: true
     })
     .then(res => {
       navigate(-1)
