@@ -10,7 +10,7 @@ const navigate = useNavigate();
 
 useEffect(()=>{
   const response = async () => {
-    const response = await axios.get("http://localhost:5000/sign-in/user-profile", {
+    const response = await axios.get("https://web-dt.onrender.com/sign-in/user-profile", {
       withCredentials: true,
     });
     setToken(response.data);
@@ -19,7 +19,7 @@ useEffect(()=>{
 },[])
 
 const logout = () =>{
-  axios.post("http://localhost:5000/sign-in/logout", {},{
+  axios.post("https://web-dt.onrender.com/sign-in/logout", {},{
     withCredentials: true
   })
   .then(()=>{

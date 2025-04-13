@@ -91,7 +91,7 @@ function Login() {
       setToken(idToken);
       alert("Xác thực thành công!");
       // Gửi token lên backend
-      const response = await axios.post("http://localhost:5000/sign-in", {
+      const response = await axios.post("https://web-dt.onrender.com/sign-in", {
         idToken,
         numberPhone: phone,
       },{

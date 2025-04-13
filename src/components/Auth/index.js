@@ -12,7 +12,7 @@ function Auth() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/sign-in/user-profile", {
+        const response = await axios.get("https://web-dt.onrender.com/sign-in/user-profile", {
           withCredentials: true, // gửi cookie
         });
 

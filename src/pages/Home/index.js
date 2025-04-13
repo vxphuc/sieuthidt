@@ -19,27 +19,13 @@ function Home() {
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
 
-  const getcookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for(const cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if(key === name) {
-        return value;
-      }
-    }
-  };
-
-  const token = getcookie('authToken')
-
   // mua sản phẩm
   const handleBuy = (product) => {
       axios
         .post("https://web-dt.onrender.com/cart/create", {
           productID: product,
         }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          withCredentials: true
         })
         .then((res) => {
           console.log(res.data);
