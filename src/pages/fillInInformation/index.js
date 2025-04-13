@@ -36,7 +36,7 @@ const UserForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       // Gửi PUT request để cập nhật thông tin
       const response = await axios.put(
@@ -48,20 +48,22 @@ const UserForm = () => {
         {
           withCredentials: true,
         }
-      )
+      );
       console.log("PUT thành công, phản hồi:", response.data);
 
-  
       // Gọi lại API lấy thông tin mới
-      const res = await axios.get("https://web-dt.onrender.com/sign-in/user-profile", {
-        withCredentials: true,
-      });
-  
+      const res = await axios.get(
+        "https://web-dt.onrender.com/sign-in/user-profile",
+        {
+          withCredentials: true,
+        }
+      );
+
       // Đảm bảo lấy đúng object nếu là mảng
       const updatedUser = Array.isArray(res.data) ? res.data[0] : res.data;
-  
+
       console.log("Thông tin mới:", updatedUser);
-  
+
       if (updatedUser.name) {
         navigate("/", { replace: true });
       }
@@ -69,9 +71,6 @@ const UserForm = () => {
       console.error("Lỗi khi cập nhật thông tin:", error);
     }
   };
-  
-
- 
 
   return (
     <div className={Styles.container}>
