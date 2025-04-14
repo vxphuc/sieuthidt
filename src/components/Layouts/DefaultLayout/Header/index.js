@@ -5,11 +5,14 @@ import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
+import axios from "axios";
   
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const menuRef = useRef(null);
 
+  const [userRole, setUserRole] = useState(null);  // dữ liệu người dùng đăng nhập
+  console.log(userRole);
   //hiển thị số lượng sản phẩm trong giỏ hàng
   const [cartCount, setCartCount] = useState(0);
   useEffect(() => {
@@ -30,6 +33,28 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  //phần ẩn quản trị viên
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          "https://web-dt.onrender.com/sign-in/user-profile",
+          {
+            withCredentials: true, // cho phép gửi cookie authToken
+          }
+        );
+        setUserRole(res.data.role); // lưu lại role từ response
+      } catch (err) {
+        console.error("Không lấy được user:", err);
+        setUserRole(null); // nếu lỗi hoặc chưa đăng nhập
+      }
+    };
+
+    fetchUser();
+  }, []);
+  const showAdminLink = userRole === "admin" || userRole === "editor";
+
   return (
     <div className={style.container}>
       <div className={`container ${style.header}`}>
@@ -87,6 +112,7 @@ function Header() {
             <li>
               <Auth />
             </li>
+            {showAdminLink && (
             <li>
               <NavLink
                 to="/quan-tri"
@@ -95,6 +121,7 @@ function Header() {
                 Quản trị
               </NavLink>
             </li>
+            )}
           </ul>
         </nav>
       </div>
