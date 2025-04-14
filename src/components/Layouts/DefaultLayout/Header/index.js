@@ -9,6 +9,15 @@ import { useState, useEffect, useRef } from "react";
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const menuRef = useRef(null);
+
+  //hiển thị số lượng sản phẩm trong giỏ hàng
+  const [cartCount, setCartCount] = useState(0);
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartCount(cart.length);
+  }, []);
+  // kết thúc
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -86,7 +95,7 @@ function Header() {
                 Quản trị
               </NavLink>
             </li>
-            <li>
+            <li className={style.cartWrapper}>
               <NavLink
                 to="/gio-hang"
                 className={({ isActive }) => (isActive ? style.active : "")}
@@ -95,6 +104,7 @@ function Header() {
                   icon={faCartShopping}
                   style={{ color: "rgb(19 17 51)" }}
                 />
+                {cartCount > 0 && <span className={style.cartBadge}>{cartCount}</span>}
               </NavLink>
             </li>
           </ul>
