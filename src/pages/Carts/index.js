@@ -162,7 +162,7 @@ function Carts() {
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
-    console.log(product)
+    console.log(product);
     try {
       const products = product.map((item) => ({
         uid: item.userID,
@@ -190,18 +190,31 @@ function Carts() {
         }
       );
       console.log("Order success:", response.data);
-      alert('mua hàng thành công')
-      const DeleteCart = await axios.delete('https://web-dt.onrender.com/cart/deleteCart', {
-        withCredentials: true,
-      })
-      console.log("deleteSucsses", DeleteCart.data)
-      navigate('/')
+      alert("mua hàng thành công");
+      const DeleteCart = await axios.delete(
+        "https://web-dt.onrender.com/cart/deleteCart",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("deleteSucsses", DeleteCart.data);
+      if (payMent === "Thanh toán qua ngân hàng") {
+        console.log(response.data._id)
+        if (response.data && response.data._id) {
+          navigate(`/gio-hang/thanh-toan/${response.data._id}`);
+        } else {
+          console.error("Không có ID đơn hàng trong response:", response.data);
+          alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
+        }
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error("Payment error:", err);
     }
-  }
+  };
 
-  if (loading || product.length === 0 ) return <CartsEmpty />;
+  if (loading || product.length === 0) return <CartsEmpty />;
 
   return (
     <div className={`container ${styles.container}`}>
@@ -224,7 +237,11 @@ function Carts() {
                   <span>
                     <NavLink to="/gio-hang/cap-nhap-dia-chi">Đổi</NavLink>
                   </span>
-                  <p>{ (address.length > 0) ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}` : 'vui lòng nhập địa chỉ'}</p>
+                  <p>
+                    {address.length > 0
+                      ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}`
+                      : "vui lòng nhập địa chỉ"}
+                  </p>
                   <div className={styles.textBasic}>
                     <div className={styles.name}>{user.name}</div>
                     <div>{user.phone}</div>
