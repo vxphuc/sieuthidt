@@ -1,7 +1,7 @@
 .container {
   overflow: hidden;
   position: relative;
-  margin-top: 45px;
+  margin-top: 80px;
 }
 body {
   background-color: rgb(233 237 240) !important;
@@ -113,6 +113,9 @@ body {
 @media screen and (max-width: 768px) {
   .boxProduct {
     width: calc(100% / 2);
+  }
+  .container{
+    margin-top: 30px;
   }
 }
 
