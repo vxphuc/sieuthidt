@@ -343,3 +343,49 @@
   }
 
 }
+.confirmButton {
+  width: 50%;
+  margin: 10px 20%;
+  text-align: center;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.confirmButton:hover {
+  background-color: #45a049;
+}
+
+.closeButton {
+  position: absolute;
+  top: 2px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 25px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  z-index: 10000;
+}
+.closeButton:hover {
+  color: red;
+}
+label{
+  font-size: 16px;
+}
+.footerActionsRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 0.5rem;
+}
+
+.paymentMethodInfo {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}

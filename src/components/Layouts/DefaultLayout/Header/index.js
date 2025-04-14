@@ -12,7 +12,6 @@ function Header() {
   const menuRef = useRef(null);
 
   const [userRole, setUserRole] = useState(null);  // dữ liệu người dùng đăng nhập
-  console.log(userRole);
   //hiển thị số lượng sản phẩm trong giỏ hàng
   const [cartCount, setCartCount] = useState(0);
   useEffect(() => {
