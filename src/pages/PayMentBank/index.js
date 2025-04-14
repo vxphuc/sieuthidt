@@ -110,8 +110,8 @@ function PayMentBank() {
                 </td>
               </tr>
               <tr>
-                <td>Nội dung:</td>
-                <td className={`${styles.tdin}`}>{bill._id}</td>
+                <td>Nội dung chuyển khoản:</td>
+                <td className={`${styles.tdin}`}>{bill._id}<button>sao chép</button></td>
               </tr>
             </table>
             <p className={`${styles.contact}`}>
@@ -127,27 +127,21 @@ function PayMentBank() {
             <table>
               <tr>
                 <td>Ngân hàng:</td>
-                <td className={`${styles.tdin}`}>Viettinbank</td>
+                <td className={`${styles.tdin}`}>Anh zinh, 0999999</td>
               </tr>
               <tr>
-                <td>Số tài khoản:</td>
-                <td className={`${styles.tdin}`}>
-                  09999999999 <button>sao chép</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Người hưởng thụ:</td>
-                <td className={`${styles.tdin}`}>Zinh cắn ác</td>
+                <td>Thanh toán: </td>
+                <td className={`${styles.tdin}`}>Tiền mặt khi nhận hàng</td>
               </tr>
               <tr>
                 <td>Số tiền:</td>
                 <td className={`${styles.tdin}`}>
-                  1.000.000.000đ <button>sao chép</button>
+                  1.000.000.000đ
                 </td>
               </tr>
               <tr>
-                <td>Nội dung:</td>
-                <td className={`${styles.tdin}`}>zinh quá tệ</td>
+                <td>Địa chỉ:</td>
+                <td className={`${styles.tdin}`}>nha trang khanh hoanha trang khanh hoa</td>
               </tr>
             </table>
             <p className={`${styles.contact}`}>
