@@ -173,7 +173,7 @@ function Carts() {
       }));
 
       const response = await axios.post(
-        "http://localhost:5000/bill/create",
+        "https://web-dt.onrender.com/bill/create",
         {
           province: address[0].provinces.nameProvinces,
           District: address[0].districts.nameDistricts,
@@ -191,11 +191,11 @@ function Carts() {
       );
       console.log("Order success:", response.data);
       alert('mua hàng thành công')
-      // const DeleteCart = await axios.delete('https://web-dt.onrender.com/cart/deleteCart', {
-      //   withCredentials: true,
-      // })
-      // console.log("deleteSucsses", DeleteCart.data)
-      // navigate('/')
+      const DeleteCart = await axios.delete('https://web-dt.onrender.com/cart/deleteCart', {
+        withCredentials: true,
+      })
+      console.log("deleteSucsses", DeleteCart.data)
+      navigate('/')
     } catch (err) {
       console.error("Payment error:", err);
     }
