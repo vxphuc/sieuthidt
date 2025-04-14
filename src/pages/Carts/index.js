@@ -162,8 +162,10 @@ function Carts() {
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
+    console.log(product)
     try {
       const products = product.map((item) => ({
+        uid: item.userID,
         name: item.product.name,
         price: item.product.price.$numberDecimal,
         quantity: item.quantity,
@@ -171,7 +173,7 @@ function Carts() {
       }));
 
       const response = await axios.post(
-        "https://web-dt.onrender.com/bill/create",
+        "http://localhost:5000/bill/create",
         {
           province: address[0].provinces.nameProvinces,
           District: address[0].districts.nameDistricts,
@@ -189,15 +191,15 @@ function Carts() {
       );
       console.log("Order success:", response.data);
       alert('mua hàng thành công')
-      const DeleteCart = await axios.delete('https://web-dt.onrender.com/cart/deleteCart', {
-        withCredentials: true,
-      })
-      console.log("deleteSucsses", DeleteCart.data)
-      navigate('/')
+      // const DeleteCart = await axios.delete('https://web-dt.onrender.com/cart/deleteCart', {
+      //   withCredentials: true,
+      // })
+      // console.log("deleteSucsses", DeleteCart.data)
+      // navigate('/')
     } catch (err) {
       console.error("Payment error:", err);
     }
-  };
+  }
 
   if (loading || product.length === 0 ) return <CartsEmpty />;
 
