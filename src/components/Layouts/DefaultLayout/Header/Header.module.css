@@ -79,7 +79,10 @@ a {
 .cartWrapper {
   position: relative;
 }
-
+.cartWrapper {
+  position: relative;
+  margin-left: auto;
+}
 .cartBadge {
   position: absolute;
   top: -5px;
@@ -103,6 +106,7 @@ a {
   .nav {
     display: none; /* Ẩn menu điều hướng */
   }
+
   .menuToggle {
     display: block; /* Chỉ hiện icon trên mobile */
     z-index: 2000; /* thêm nếu bị che */

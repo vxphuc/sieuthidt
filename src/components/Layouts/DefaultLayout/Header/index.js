@@ -46,8 +46,8 @@ function Header() {
         </div>
 
         {/* Thanh tìm kiếm */}
-        <Search />
-
+        <Search cartCount={cartCount} />
+        
         {/* Nút menu ba gạch trên mobile */}
         <button
           className={style.menuToggle}
@@ -93,18 +93,6 @@ function Header() {
                 className={({ isActive }) => (isActive ? style.active : "")}
               >
                 Quản trị
-              </NavLink>
-            </li>
-            <li className={style.cartWrapper}>
-              <NavLink
-                to="/gio-hang"
-                className={({ isActive }) => (isActive ? style.active : "")}
-              >
-                <FontAwesomeIcon
-                  icon={faCartShopping}
-                  style={{ color: "rgb(19 17 51)" }}
-                />
-                {cartCount > 0 && <span className={style.cartBadge}>{cartCount}</span>}
               </NavLink>
             </li>
           </ul>
