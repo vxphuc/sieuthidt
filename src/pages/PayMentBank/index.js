@@ -4,27 +4,63 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PayMentBank() {
   const { id } = useParams();
   const bank_id = process.env.REACT_APP_BANK_ID;
   const ACCOUNT_NO = process.env.REACT_APP_ACCOUNT_NO;
-  const CASSO_Getpage = process.env.REACT_APP_API_CASSO_Getpage;
-  const ApiKey = process.env.REACT_APP_API_CASSO;
   const [bill, setBill] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
     axios
-      .get(`https://web-dt.onrender.com/bill/${id}`,{
-        withCredentials: true
+      .get(`https://web-dt.onrender.com/bill/${id}`, {
+        withCredentials: true,
       })
       .then((res) => setBill(res.data))
       .catch((err) => console.log(err));
   }, []);
-  const cleanAmount = bill.Intomoney ? Number(bill.Intomoney.replace(/[.,₫\s]/g, "")) : 0;
+  const cleanAmount = bill.Intomoney
+    ? Number(bill.Intomoney.replace(/[.,₫\s]/g, ""))
+    : 0;
   const qrUrl = `https://img.vietqr.io/image/${bank_id}-${ACCOUNT_NO}-compact2.png?amount=${cleanAmount}&addInfo=${bill._id}&accountName=Phung The Vinh`;
-  
+
+  useEffect(() => {
+    if (!bill._id || !bill.Intomoney) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await axios.post(
+          `https://web-dt.onrender.com/server/casso`,
+          {
+            orderId: bill._id,
+            amount: bill.Intomoney,
+          },
+          { withCredentials: true }
+        );
+
+        console.log("Kết quả thanh toán:", res.data);
+
+        if (res.data.paid) {
+          clearInterval(interval); // ✅ Dừng kiểm tra
+          alert("✅ Thanh toán đã được xác nhận!"); // hoặc set trạng thái để hiển thị lên UI
+          await axios.patch(`https://web-dt.onrender.com/bill/status/${id}`,{},{
+            withCredentials: true
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err));
+          navigate('/')
+        }
+      } catch (err) {
+        console.error("Lỗi kiểm tra thanh toán:", err.message);
+      }
+    }, 15000); // mỗi 15 giây kiểm tra 1 lần
+
+    return () => clearInterval(interval); // cleanup khi component bị unmount
+  }, [bill]);
+
   return (
     <div className={`${styles.PayMentBank}`}>
       <div className={`${styles.payMenMetho}`}>
