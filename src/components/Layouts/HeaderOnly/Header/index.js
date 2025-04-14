@@ -4,11 +4,31 @@ import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect, useRef} from "react";
+import axios from "axios";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
-
+  const [userRole, setUserRole] = useState(null);
+  useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const res = await axios.get(
+            "https://web-dt.onrender.com/sign-in/user-profile",
+            {
+              withCredentials: true, // cho phép gửi cookie authToken
+            }
+          );
+          setUserRole(res.data.role); // lưu lại role từ response
+        } catch (err) {
+          console.error("Không lấy được user:", err);
+          setUserRole(null); // nếu lỗi hoặc chưa đăng nhập
+        }
+      };
+  
+      fetchUser();
+    }, []);
+    const showAdminLink = userRole === "admin" || userRole === "editor";
   return (
     <div className={style.container}>
       <div className={`container ${style.header}`}>
@@ -65,6 +85,7 @@ function Header() {
             <li>
               <Auth />
             </li>
+            {showAdminLink && (
             <li>
               <NavLink
                 to="/quan-tri"
@@ -73,17 +94,7 @@ function Header() {
                 Quản trị
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/gio-hang"
-                className={({ isActive }) => (isActive ? style.active : "")}
-              >
-                <FontAwesomeIcon
-                  icon={faCartShopping}
-                  style={{ color: "rgb(19 17 51)" }}
-                />
-              </NavLink>
-            </li>
+            )}
           </ul>
         </nav>
       </div>

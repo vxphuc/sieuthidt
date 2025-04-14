@@ -1,6 +1,6 @@
 import styles from "./Carts.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -341,12 +341,18 @@ function Carts() {
 
             <div className={styles.stickyFooter}>
               <div className={styles.footerActions}>
+              <div className={styles.footerActionsRow}>
+                <div className={styles.paymentMethodInfo}>
+                <FontAwesomeIcon icon={faWallet} style={{ marginRight: "6px", color: "#3a3a3a" }} />
+                  {payMent || "Chưa chọn hình thức thanh toán"}
+                </div>
                 <button
                   onClick={() => setShowPaymentMethod(!showPaymentMethod)}
                   className={styles.paybtn}
                 >
                   Đổi hình thức thanh toán
                 </button>
+              </div>
                 {showPaymentMethod && (
                   <div
                     className={styles.overlay}
@@ -356,8 +362,15 @@ function Carts() {
                       className={styles.paymentPopup}
                       onClick={(e) => e.stopPropagation()} // không tắt khi click vào trong
                     >
+                      <button
+                        className={styles.closeButton}
+                        onClick={() => setShowPaymentMethod(false)}
+                      >
+                        &times;
+                      </button>
                       <ul>
                         <li>
+                        <label onClick={() => setPayMent("Tiền mặt khi nhận hàng")}>
                           <input
                             type="radio"
                             value="Tiền mặt khi nhận hàng"
@@ -366,8 +379,10 @@ function Carts() {
                             checked={payMent === "Tiền mặt khi nhận hàng"} // để giữ trạng thái khi mở lại
                           />{" "}
                           Tiền mặt khi nhận hàng
+                          </label>
                         </li>
                         <li>
+                        <label onClick={() => setPayMent("Thanh toán qua ngân hàng")}>
                           <input
                             type="radio"
                             value="Thanh toán qua ngân hàng"
@@ -376,8 +391,15 @@ function Carts() {
                             checked={payMent === "Thanh toán qua ngân hàng"} // để giữ trạng thái khi mở lại
                           />{" "}
                           Thanh toán qua ngân hàng
+                          </label>
                         </li>
                       </ul>
+                      <button
+                        className={styles.confirmButton}
+                        onClick={() => setShowPaymentMethod(false)}
+                      >
+                        Xác nhận
+                      </button>
                     </div>
                   </div>
                 )}
