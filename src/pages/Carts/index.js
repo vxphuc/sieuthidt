@@ -15,7 +15,7 @@ function Carts() {
   const [totalOrder, setTotalOrder] = useState(0);
   const [address, setAddress] = useState([]);
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
-  const [payMent, setPayMent] = useState("");
+  const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");

@@ -19,7 +19,6 @@ function Bill() {
     fetchBills();
   }, []);
 
-  console.log(bills)
   return (
     <div className={styles.wrapper}>
       <div className={styles.addressBox}>
@@ -46,7 +45,7 @@ function Bill() {
                 <div className={styles.orderActions}>
                   <span className={styles.status}>{bill.OrderStatus}</span>
                   <span className={styles.total}>Tổng tiền: {bill.Intomoney}</span>
-                  <NavLink to={`/thong-tin-khach-hang/hoa-don/dădawd`} className={styles.detailBtn}>Xem chi tiết</NavLink>
+                  <NavLink to={`/thong-tin-khach-hang/hoa-don/${bill._id}`} className={styles.detailBtn}>Xem chi tiết</NavLink>
                 </div>
               </div>
             );
