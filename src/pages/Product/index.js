@@ -35,6 +35,24 @@ function Product() {
   const handleGoBack = () => {
     navigate(-1);
   };
+
+  const handleBuy = (product) => {
+    axios
+      .post(
+        "https://web-dt.onrender.com/cart/create",
+        {
+          productID: product,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
       <div className={`${style.titleTypeProduct}`}>
@@ -73,7 +91,7 @@ function Product() {
                       {price.toLocaleString()} VNĐ
                     </div>
                   </div>
-                  <button className={` ${style.btnBuy}`}>Mua ngay</button>
+                  <button onClick={() => handleBuy(item._id)} className={` ${style.btnBuy}`}>Mua ngay</button>
                 </div>
               </div>
             </div>

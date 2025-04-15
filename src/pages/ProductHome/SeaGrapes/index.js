@@ -33,9 +33,7 @@ function SeaGrapes() {
           productID: product,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         }
       )
       .then((res) => {

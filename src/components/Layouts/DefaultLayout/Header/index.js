@@ -12,13 +12,34 @@ function Header() {
   const menuRef = useRef(null);
   const [searh, setSearch] = useState("");
   const [userRole, setUserRole] = useState(null);  // dữ liệu người dùng đăng nhập
+  const navigate = useNavigate();
+  const location = useLocation();
   //hiển thị số lượng sản phẩm trong giỏ hàng
   const [cartCount, setCartCount] = useState(0);
+
+
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartCount(cart.length);
   }, []);
-  // kết thúc
+  
+  //tìm kiếm sản phẩm
+  useEffect(()=>{
+    const delay = setTimeout(() => {
+      if(searh.trim()){
+        if(!location.pathname.includes('/tim-kiem')){
+          navigate(`/tim-kiem?q=${encodeURIComponent(searh)}`);
+        }else{
+          navigate(`/tim-kiem?q=${encodeURIComponent(searh)}`, { replace: true });
+        }
+      }else if(searh.trim() === ""){
+        navigate('/');
+      }
+    }, 500)
+
+    return () => clearInterval(delay)
+
+  },[searh, navigate, location.pathname])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -74,7 +95,7 @@ function Header() {
         </div>
 
         {/* Thanh tìm kiếm */}
-        <Search onChane={handleSearch} searchValue = {searh} cartCount={cartCount} />
+        <Search onChange={handleSearch} searchValue={searh} cartCount={cartCount} />
         
         {/* Nút menu ba gạch trên mobile */}
         <button
