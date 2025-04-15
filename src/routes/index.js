@@ -24,8 +24,14 @@ import InfomationLayout from "../components/Layouts/InfomationLayout";
 import Bill from "../pages/Bill";
 import PayMentBank from "../pages/PayMentBank";
 import InvoiceDetails from "../pages/InvoiceDetails";
+import SearchPage from "../pages/SearchPage";
 
 export const router = [
+  {
+    path: "/tim-kiem",
+    component: SearchPage,
+  }
+  ,
   {
     path: "/thong-tin-khach-hang/hoa-don",
     component: Bill,

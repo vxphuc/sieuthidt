@@ -4,11 +4,11 @@ import { faSearch, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import style from "./Search.module.css";
 import { NavLink } from "react-router-dom";
 
-function Search({ cartCount }) {
+function Search({ onChange, cartCount, searchValue }) {
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
-        <input placeholder="Tìm kiếm..." />
+        <input value={searchValue} onChange={onChange} placeholder="Tìm kiếm..." />
 
         {/* Giỏ hàng chèn vào trong ô tìm kiếm */}
         <NavLink

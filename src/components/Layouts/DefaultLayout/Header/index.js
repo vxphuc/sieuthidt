@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import style from "./Header.module.css";
 import Auth from "../../../Auth";
 import Search from "../../Search";
@@ -10,7 +10,7 @@ import axios from "axios";
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const menuRef = useRef(null);
-
+  const [searh, setSearch] = useState("");
   const [userRole, setUserRole] = useState(null);  // dữ liệu người dùng đăng nhập
   //hiển thị số lượng sản phẩm trong giỏ hàng
   const [cartCount, setCartCount] = useState(0);
@@ -54,6 +54,10 @@ function Header() {
   }, []);
   const showAdminLink = userRole === "admin" || userRole === "editor";
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  }
+
   return (
     <div className={style.container}>
       <div className={`container ${style.header}`}>
@@ -70,7 +74,7 @@ function Header() {
         </div>
 
         {/* Thanh tìm kiếm */}
-        <Search cartCount={cartCount} />
+        <Search onChane={handleSearch} searchValue = {searh} cartCount={cartCount} />
         
         {/* Nút menu ba gạch trên mobile */}
         <button
