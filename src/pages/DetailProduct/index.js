@@ -61,6 +61,23 @@ function DetailProduct() {
     setCurrentImage(index);
   };
 
+  const handleBuy = (product) => {
+    axios
+      .post(
+        "https://web-dt.onrender.com/cart/create",
+        {
+          productID: product,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className={`${styles.DetailProduct}`}>
       <div className={`${styles.titleDetailProduct}`}>
@@ -189,6 +206,7 @@ function DetailProduct() {
               );
             })}
             <button
+            onClick={() => handleBuy(product[0]._id)}
               style={{
                 backgroundPositionY: `50%`,
                 backgroundPositionX: `${bgX}%`,
