@@ -344,7 +344,7 @@ function Carts() {
               <div className={styles.footerActionsRow}>
                 <div className={styles.paymentMethodInfo}>
                 <FontAwesomeIcon icon={faWallet} style={{ marginRight: "6px", color: "#3a3a3a" }} />
-                  {payMent || "Chưa chọn hình thức thanh toán"}
+                  {payMent || "Thanh toán bằng tiền mặt"}
                 </div>
                 <button
                   onClick={() => setShowPaymentMethod(!showPaymentMethod)}
