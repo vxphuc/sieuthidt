@@ -32,8 +32,6 @@ function Header() {
         }else{
           navigate(`/tim-kiem?q=${encodeURIComponent(searh)}`, { replace: true });
         }
-      }else if(searh.trim() === ""){
-        navigate('/');
       }
     }, 500)
 
