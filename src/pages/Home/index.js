@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./Home.module.css";
-
+import ScrollToTopButton from "../../components/ScrollToTopButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSolid,
@@ -176,7 +176,7 @@ function Home() {
               })}
             </div>
           </div>
-
+          <ScrollToTopButton></ScrollToTopButton>
           <div className={`${styles.product}`}>
               <ProductHome></ProductHome>
           </div>
