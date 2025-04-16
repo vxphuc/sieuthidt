@@ -10,12 +10,12 @@ function DefaultLayout({ children }) {
         <Header></Header>
       </div>
       <div className={`${styles.container} row container`}>
-        <div className="col-md-3">
+        <div className={styles.listType}>
           <div className={` ${styles.typeProduct}`}>
             <TypeProduct></TypeProduct>
           </div>
         </div>
-        <div className="col-md-9">
+        <div className={styles.productList}>
           {children}
           <div>
             <Footer></Footer>

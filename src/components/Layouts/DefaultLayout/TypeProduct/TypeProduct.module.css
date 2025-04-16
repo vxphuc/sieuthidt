@@ -56,7 +56,10 @@
     border-bottom: solid 1px #e0e0e0;
     color: rgb(0 126 66);
   }
-  @media (max-width: 768px) {
+  .icon{
+    display: none;
+  }
+  @media (max-width: 769px) {
     .container {
       width: 100%;
       z-index: 100;
@@ -103,18 +106,19 @@
       }
     }
   }
-  @media (max-width: 768px){
+  @media (max-width: 769px){
     /* .containerTypeProduct{
       display: none;
     } */
-    .icon{
+    .icon {
+      display: inline-block;
       height: 30px;
       width: 30px;
-      float: right;
+
       margin: -5px 1px;
     }
   }
-  @media (min-width: 768px) and (max-width: 992px){
+  @media (min-width: 769px) and (max-width: 992px){
     .container{
       width: 18%;
     }
@@ -131,3 +135,8 @@
     background-color: rgba(0, 0, 0, 0.3); /* nền mờ đen nhẹ */
     z-index: 99;
   }
+@media (width: 768px){
+  .button button{
+    margin-top: 22px;
+  }
+}
