@@ -5,8 +5,14 @@
   margin-left: auto;
   margin-right: auto;
 }
-@media (min-width: 993px) {
-  .col-md-9 {
+@media (min-width: 769px ) {
+  .listType {
+      flex: 0 0 auto;
+      width: 25%;
+  }
+}
+@media (min-width: 769px) {
+  .productList {
       flex: 0 0 auto;
       width: 75%;
   }

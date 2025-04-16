@@ -99,6 +99,25 @@ body {
   text-transform: uppercase;
   font-weight: 700;
 }
+.alertBuy {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  background-color: #0eb730;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
 @media screen and (max-width: 1200px) {
   .boxProduct {
     width: calc(100% / 4);
@@ -111,12 +130,12 @@ body {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 769px) {
   .boxProduct {
     width: calc(100% / 2);
   }
   .container{
-    margin-top: 30px;
+    margin-top: 40px;
   }
 }
 

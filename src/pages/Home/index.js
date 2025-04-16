@@ -19,6 +19,8 @@ function Home() {
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
 
+  const [showAlert, setShowAlert] = useState(false);
+
   // mua sản phẩm
   const handleBuy = (product) => {
       axios
@@ -29,6 +31,8 @@ function Home() {
         })
         .then((res) => {
           console.log(res.data);
+          setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
         })
         .catch((error) => console.log(error));
   }
@@ -182,6 +186,11 @@ function Home() {
           </div>
         </div>
       </div>
+      {showAlert && (
+        <div className={styles.alertBuy}>
+          🛒 Đã thêm vào giỏ hàng!
+        </div>
+      )}
     </div>
   );
 }
