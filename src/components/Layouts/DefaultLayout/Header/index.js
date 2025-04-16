@@ -23,21 +23,6 @@ function Header() {
     setCartCount(cart.length);
   }, []);
   
-  //tìm kiếm sản phẩm
-  useEffect(()=>{
-    const delay = setTimeout(() => {
-      if(searh.trim()){
-        if(!location.pathname.includes('/tim-kiem')){
-          navigate(`/tim-kiem?q=${encodeURIComponent(searh)}`);
-        }else{
-          navigate(`/tim-kiem?q=${encodeURIComponent(searh)}`, { replace: true });
-        }
-      }
-    }, 500)
-
-    return () => clearInterval(delay)
-
-  },[searh, navigate, location.pathname])
 
   useEffect(() => {
     const handleClickOutside = (event) => {

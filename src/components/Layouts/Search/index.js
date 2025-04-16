@@ -3,12 +3,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import style from "./Search.module.css";
 import { NavLink } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Search({ onChange, cartCount, searchValue }) {
+  const [input, setInput] = useState(searchValue || "");
+  const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() =>{
+    const deylayTimeOut = setTimeout( async () =>{
+      if(input.trim()){
+        try{
+          const res = await axios.get(`https://web-dt.onrender.com/product/search?q=${encodeURIComponent(input)}`)
+          console.log(res.data)
+        }catch (error){
+          console.log(error);
+        }
+      }
+    }, 500)
+
+    return () => clearTimeout(deylayTimeOut);
+
+  }, [input])
+
+
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
-        <input value={searchValue} onChange={onChange} placeholder="Tìm kiếm..." />
+        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Tìm kiếm..." />
 
         {/* Giỏ hàng chèn vào trong ô tìm kiếm */}
         <NavLink
