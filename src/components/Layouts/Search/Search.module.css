@@ -39,16 +39,44 @@
   top: 60px;
   position: fixed;
   background-color: #fff;
-  height: 300px;
+  max-height: 50%;
   width: 26%;
   padding: 10px;
   border-radius: 15px;
+  overflow-y: auto;
+  z-index: 100;
 }
-.Product{
-
+.listProduct{
+  width: 100%;
+  margin: 8px 1px;
+}
+.imgProduct{
+  width: 100%;
+  display: flex;
+}
+.imgProduct .listImg{
+  width: 40%;
+}
+.imgProduct .listImg img{
+  width: 60%;
+  height: auto;
+}
+.content{
+  width: 60%;
+  float: right;
+}
+.content h3{
+  font-size: 16px;
+}
+.popUpHeader::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }
 @media (max-width: 768px) {
     .searchContainer {
       width: 90% !important;
+    }
+    .popUpHeader{
+      width: 50%;
     }
   }
