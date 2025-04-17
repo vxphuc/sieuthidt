@@ -49,25 +49,29 @@
 }
 .listProduct{
   width: 100%;
-  margin: 8px 1px;
+  margin: 10px 1px;
 }
 .imgProduct{
   width: 100%;
   display: flex;
 }
 .imgProduct .listImg{
-  width: 40%;
+  width: 35%;
 }
 .imgProduct .listImg img{
-  width: 60%;
+  width: 65%;
   height: auto;
 }
 .content{
-  width: 60%;
+  width: 65%;
   float: right;
+  padding-right: 10px;
 }
 .content h3{
   font-size: 16px;
+}
+.content strong{
+  color: red;
 }
 .popUpHeader::-webkit-scrollbar {
   width: 0px;
