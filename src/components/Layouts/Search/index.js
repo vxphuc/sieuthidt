@@ -12,39 +12,52 @@ function Search({ onChange, cartCount, searchValue }) {
   const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
 
-  useEffect(() =>{
-    const deylayTimeOut = setTimeout( async () =>{
-      if(input.trim()){
-        try{
-          const res = await axios.get(`https://web-dt.onrender.com/product/search?q=${encodeURIComponent(input)}`)
-          console.log(res.data)
-        }catch (error){
+  useEffect(() => {
+    const deylayTimeOut = setTimeout(async () => {
+      if (input.trim()) {
+        try {
+          const res = await axios.get(
+            `https://web-dt.onrender.com/product/search?q=${encodeURIComponent(
+              input
+            )}`
+          );
+          setSuggestions(res.data);
+        } catch (error) {
           console.log(error);
         }
       }
-    }, 500)
+    }, 500);
 
     return () => clearTimeout(deylayTimeOut);
+  }, [input]);
 
-  }, [input])
-
+  console.log(suggestions)
 
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
-        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Tìm kiếm..." />
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Tìm kiếm..."
+        />
 
         {/* Giỏ hàng chèn vào trong ô tìm kiếm */}
-        <NavLink
-        to="/gio-hang">
-                
-        <div className={style.cartInside}>
-          <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
-          {cartCount > 0 && (
-            <span className={style.cartBadge}>{cartCount}</span>
-          )}
-        </div>
-        </NavLink>  
+        <NavLink to="/gio-hang">
+          <div className={style.cartInside}>
+            <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
+            {cartCount > 0 && (
+              <span className={style.cartBadge}>{cartCount}</span>
+            )}
+          </div>
+        </NavLink>
+      </div>
+      <div className={style.popUpHeader}>
+      <p>sản phẩm gợi ý</p>
+        {suggestions.map((item, index) => {
+          return (<div className={style.Product}>
+          </div>);
+        })}
       </div>
     </div>
   );
