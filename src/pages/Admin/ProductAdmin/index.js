@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import style from "./productAdmin.module.css";
+import Pagination from"../../../components/Pagination"
 
 function ProductAdmin() {
   const [products, setProducts] = useState([]);
@@ -93,6 +94,7 @@ function ProductAdmin() {
           }
         </tbody>
       </table>
+      <Pagination></Pagination>
     </div>
   );
 }
