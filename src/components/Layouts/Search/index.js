@@ -4,7 +4,7 @@ import { faSearch, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import style from "./Search.module.css";
 import { NavLink } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState, useRef  } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 function Search({ onChange, cartCount, searchValue }) {
@@ -53,13 +53,17 @@ function Search({ onChange, cartCount, searchValue }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(suggestions);
-
 
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
         <input
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && input.trim()) {
+              navigate(`/tim-kiem?q=${encodeURIComponent(input)}`);
+              setIsOpen(false); // ẩn popup nếu có
+            }
+          }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Tìm kiếm..."
@@ -77,31 +81,41 @@ function Search({ onChange, cartCount, searchValue }) {
       </div>
 
       {isOpen && suggestions.length > 0 && (
-      <div className={style.popUpHeader} ref={popUpRef}>
-        <p>sản phẩm gợi ý</p>
-        {suggestions.map((item, index) => {
-          const giatien = Number.parseInt(item.price.$numberDecimal);
-          const x = giatien.toLocaleString("vi", { style: "currency", currency: "VND" });
-          console.log(x);
-  
-          return (
-            <div key={index} className={style.Product}>
-              <div className={`${style.listProduct}`}>
-                <a className={style.imgProduct} href="#">
-                  <div className={style.listImg}>
-                    <img src={item.image[0]}></img>
-                  </div>
-                  <div className={style.content}>
-                    <h3>{(item.name.length > 30)? item.name.slice(0, 30) + `...` : item.name}</h3>
-                    <strong>{x}</strong>
-                  </div>
-                </a>
+        <div className={style.popUpHeader} ref={popUpRef}>
+          <p>sản phẩm gợi ý</p>
+          {suggestions.map((item, index) => {
+            const giatien = Number.parseInt(item.price.$numberDecimal);
+            const x = giatien.toLocaleString("vi", {
+              style: "currency",
+              currency: "VND",
+            });
+            console.log(item);
+
+            return (
+              <div key={index} className={style.Product}>
+                <div className={`${style.listProduct}`}>
+                  <NavLink
+                    className={style.imgProduct}
+                    to={`/${item.typeProduct[0].slug}/${item.slug}`}
+                  >
+                    <div className={style.listImg}>
+                      <img src={item.image[0]}></img>
+                    </div>
+                    <div className={style.content}>
+                      <h3>
+                        {item.name.length > 30
+                          ? item.name.slice(0, 30) + `...`
+                          : item.name}
+                      </h3>
+                      <strong>{x}</strong>
+                    </div>
+                  </NavLink>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-       )}
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
