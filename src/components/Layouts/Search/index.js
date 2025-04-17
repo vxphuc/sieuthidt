@@ -31,8 +31,6 @@ function Search({ onChange, cartCount, searchValue }) {
     return () => clearTimeout(deylayTimeOut);
   }, [input]);
 
-  console.log(suggestions)
-
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
@@ -53,10 +51,9 @@ function Search({ onChange, cartCount, searchValue }) {
         </NavLink>
       </div>
       <div className={style.popUpHeader}>
-      <p>sản phẩm gợi ý</p>
+        <p>sản phẩm gợi ý</p>
         {suggestions.map((item, index) => {
-          return (<div className={style.Product}>
-          </div>);
+          return <div className={style.Product}>aa</div>;
         })}
       </div>
     </div>
