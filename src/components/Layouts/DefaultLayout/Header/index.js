@@ -71,7 +71,7 @@ function Header() {
             <img
               width="70%"
               height="100%"
-              src="http://dtgroup.lovestoblog.com/anh/logodt.png"
+              src="https://web-dt.onrender.com/uploads/favicon.png"
               alt="Logo"
             />
           </NavLink>
