@@ -35,6 +35,7 @@
     border-radius: 25px;
     border: 1px solid #2ECC71;
 }
+
 .popUpHeader{
   top: 60px;
   position: fixed;
@@ -72,6 +73,7 @@
   width: 0px;
   background: transparent;
 }
+
 @media (max-width: 768px) {
     .searchContainer {
       width: 90% !important;

@@ -55,6 +55,7 @@ function Search({ onChange, cartCount, searchValue }) {
   }, []);
   console.log(suggestions);
 
+
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
@@ -74,6 +75,7 @@ function Search({ onChange, cartCount, searchValue }) {
           </div>
         </NavLink>
       </div>
+
       {isOpen && suggestions.length > 0 && (
       <div className={style.popUpHeader} ref={popUpRef}>
         <p>sản phẩm gợi ý</p>
