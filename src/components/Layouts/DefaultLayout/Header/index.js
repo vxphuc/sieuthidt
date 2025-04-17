@@ -100,22 +100,22 @@ function Header() {
                 Trang chủ
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="/tin-tuc"
                 className={({ isActive }) => (isActive ? style.active : "")}
               >
                 Tin tức
               </NavLink>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <NavLink
                 to="/thu-vien"
                 className={({ isActive }) => (isActive ? style.active : "")}
               >
                 Thư viện
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <Auth />
             </li>
