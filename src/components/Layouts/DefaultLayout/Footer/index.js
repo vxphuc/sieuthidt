@@ -32,11 +32,21 @@ function Footer() {
               <div className="col-md-3">
                 <h5>Thông tin đối tác</h5>
                 <div className={`d-flex ${styles.partnerList}`}>
-                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Robertet" className={`me-2 ${styles.partnerItem}`} />
-                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Concung" className={`me-2 ${styles.partnerItem}`} />
-                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Asia Group" className={`me-2 ${styles.partnerItem}`} />
-                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Shopee" className={`me-2 ${styles.partnerItem}`} />
-                  <img src="https://res.cloudinary.com/dlqxlgre4/image/upload/v1743081708/products/xm82b6kcxdiihxjacmxh.webp" alt="Alibaba" className={`me-2 ${styles.partnerItem}`} />
+                  <a href='https://shopee.vn/dtvietnam2023?categoryId=100629&entryPoint=ShopByPDP&itemId=27913405107' target="_blank" rel="noopener noreferrer">
+                  <img src="https://vectordohoa.com/wp-content/uploads/2023/10/logo-shopee-vectordohoa.com-3-01.jpg" alt="Shopee" className={`me-2 ${styles.partnerItem}`} />
+                  </a>
+                  <a href='https://www.lazada.vn/catalog/?q=y%E1%BA%BFn%20dt' target="_blank" rel="noopener noreferrer">
+                  <img src="https://classic.vn/wp-content/uploads/2022/04/logo-lazada.png" alt="lazada" className={`me-2 ${styles.partnerItem}`} />
+                  </a>
+                  <a href='https://tiki.vn/' target="_blank" rel="noopener noreferrer">
+                  <img src="https://storage.googleapis.com/hust-files/images/tiki_21.1k.png" alt="tiki" className={`me-2 ${styles.partnerItem}`} />
+                  </a>
+                  <a href='https://concung.com/?srsltid=AfmBOoroDP5oib1dSz_Soj5L_1zsoj2K2VrN5P1spkpm3ujtgWlHeaRb' target="_blank" rel="noopener noreferrer">
+                  <img src="https://hrc.com.vn/wp-content/uploads/2024/09/Logo-Con-Cung.png" alt="concung" className={`me-2 ${styles.partnerItem}`} />
+                  </a>
+                  <a href='https://winmart.vn/?srsltid=AfmBOoor9SPMSnmVxQ7_HymoE-iQmF854Bqa_RCqMGSTnwWtyvFLrcf0' target="_blank" rel="noopener noreferrer">
+                  <img src="https://cdn.prod.website-files.com/5fb85f26f126ce08d792d2d9/628c054a618e1928c739eb83_After_winmart-100.jpg" alt="Alibaba" className={`me-2 ${styles.partnerItem}`} />
+                  </a>
                 </div>
               </div>
             </div>
