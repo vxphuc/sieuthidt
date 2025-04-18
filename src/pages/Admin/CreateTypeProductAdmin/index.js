@@ -19,7 +19,7 @@ function CreateTypeProductAdmin() {
 
     const handleChangeSubmit = (e) => {
       e.preventDefault();
-      axios.post('https://web-dt.onrender.com/typeProduct/create',{
+      axios.post('https://dtweb.onrender.com/typeProduct/create',{
         name: formData.name,
         image: formData.image
       },{

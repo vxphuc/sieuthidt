@@ -16,7 +16,7 @@ function PayMentBank() {
   useEffect(() => {
     if (!id) return;
     axios
-      .get(`https://web-dt.onrender.com/bill/${id}`, {
+      .get(`https://dtweb.onrender.com/bill/${id}`, {
         withCredentials: true,
       })
       .then((res) => setBill(res.data))
@@ -33,7 +33,7 @@ function PayMentBank() {
     const interval = setInterval(async () => {
       try {
         const res = await axios.post(
-          `https://web-dt.onrender.com/server/casso`,
+          `https://dtweb.onrender.com/server/casso`,
           {
             orderId: bill._id,
             amount: bill.Intomoney,
@@ -46,7 +46,7 @@ function PayMentBank() {
         if (res.data.paid) {
           clearInterval(interval); // ✅ Dừng kiểm tra
           alert("✅ Thanh toán đã được xác nhận!"); // hoặc set trạng thái để hiển thị lên UI
-          await axios.patch(`https://web-dt.onrender.com/bill/status/${id}`,{},{
+          await axios.patch(`https://dtweb.onrender.com/bill/status/${id}`,{},{
             withCredentials: true
           })
           .then((res) => console.log(res.data))

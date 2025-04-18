@@ -31,7 +31,7 @@ function Carts() {
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(
-        "https://web-dt.onrender.com/sign-in/user-profile",
+        "https://dtweb.onrender.com/sign-in/user-profile",
         {
           withCredentials: true,
         }
@@ -44,7 +44,7 @@ function Carts() {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("https://web-dt.onrender.com/cart", {
+      const res = await axios.get("https://dtweb.onrender.com/cart", {
         withCredentials: true,
       });
       const cartItems = res.data;
@@ -69,7 +69,7 @@ function Carts() {
 
   const fetchAddress = async () => {
     try {
-      const res = await axios.get("https://web-dt.onrender.com/cart/getAdd", {
+      const res = await axios.get("https://dtweb.onrender.com/cart/getAdd", {
         withCredentials: true,
       });
       setAddress(res.data);
@@ -100,7 +100,7 @@ function Carts() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://web-dt.onrender.com/cart/delete/${id}`, {
+      await axios.delete(`https://dtweb.onrender.com/cart/delete/${id}`, {
         withCredentials: true,
       });
       fetchCart();
@@ -114,7 +114,7 @@ function Carts() {
       await Promise.all(
         product.map((item) =>
           axios.delete(
-            `https://web-dt.onrender.com/cart/delete/${item.product._id}`,
+            `https://dtweb.onrender.com/cart/delete/${item.product._id}`,
             {
               withCredentials: true,
             }
@@ -130,7 +130,7 @@ function Carts() {
   const handleQuantityChange = async (id, type) => {
     try {
       await axios.patch(
-        `https://web-dt.onrender.com/cart/${type}/${id}`,
+        `https://dtweb.onrender.com/cart/${type}/${id}`,
         {},
         {
           withCredentials: true,
@@ -173,7 +173,7 @@ function Carts() {
       }));
 
       const response = await axios.post(
-        "https://web-dt.onrender.com/bill/create",
+        "https://dtweb.onrender.com/bill/create",
         {
           province: address[0].provinces.nameProvinces,
           District: address[0].districts.nameDistricts,
@@ -192,7 +192,7 @@ function Carts() {
       console.log("Order success:", response.data);
       alert("mua hàng thành công");
       const DeleteCart = await axios.delete(
-        "https://web-dt.onrender.com/cart/deleteCart",
+        "https://dtweb.onrender.com/cart/deleteCart",
         {
           withCredentials: true,
         }

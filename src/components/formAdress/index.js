@@ -8,7 +8,7 @@ function FormAdress({ className, adress, onSelect }) {
   useEffect(() => {
     const fecthUser = async () => {
       const res = await axios.get(
-        "https://web-dt.onrender.com/sign-in/user-profile",
+        "https://dtweb.onrender.com/sign-in/user-profile",
         {
           withCredentials: true,
         }

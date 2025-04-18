@@ -19,7 +19,7 @@ function Cosmetics() {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/product/ProductsNest/My-Pham`)
+      .get(`https://dtweb.onrender.com/product/ProductsNest/My-Pham`)
       .then((response) => {
         setProduct(response.data);
       });
@@ -28,7 +28,7 @@ function Cosmetics() {
   const handleBuy = (product) => {
     axios
       .post(
-        "https://web-dt.onrender.com/cart/create",
+        "https://dtweb.onrender.com/cart/create",
         {
           productID: product,
         },

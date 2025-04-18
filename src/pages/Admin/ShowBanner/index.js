@@ -18,7 +18,7 @@ return null
 const token = getCookie('authToken')
  useEffect(()=>{
     axios
-    .get("https://web-dt.onrender.com/sign-in/banner",{
+    .get("https://dtweb.onrender.com/sign-in/banner",{
         headers: { Authorization: `Bearer ${token}` }
     })
         .then((res) => setDataBanner(res.data));
@@ -40,7 +40,7 @@ const token = getCookie('authToken')
             return (
               <tr key={index}>
                 <th scope="row">{index+1}</th>
-                <td><img width= '300px' height='200px' src={`https://web-dt.onrender.com/uploads/${banner.image}`}></img></td>
+                <td><img width= '300px' height='200px' src={`https://dtweb.onrender.com/uploads/${banner.image}`}></img></td>
                 <td>{banner.dateCreate}</td>
                 <td>
                   <NavLink className= {`btn btn-danger`}>Xóa</NavLink>

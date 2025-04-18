@@ -13,7 +13,7 @@ function Product() {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/typeProduct/detailTypeProduct/${slug}`)
+      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${slug}`)
       .then((response) => {
         setTypeProduct(response.data);
       })
@@ -23,7 +23,7 @@ function Product() {
   }, [slug]);
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/product/getProducts/${slug}`)
+      .get(`https://dtweb.onrender.com/product/getProducts/${slug}`)
       .then((response) => {
         setProduct(response.data);
       })
@@ -39,7 +39,7 @@ function Product() {
   const handleBuy = (product) => {
     axios
       .post(
-        "https://web-dt.onrender.com/cart/create",
+        "https://dtweb.onrender.com/cart/create",
         {
           productID: product,
         },

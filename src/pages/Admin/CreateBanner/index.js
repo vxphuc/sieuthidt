@@ -29,7 +29,7 @@ const CreateBanner = () => {
 
     setUploading(true);
     try {
-      const response = await axios.post("https://web-dt.onrender.com/sign-in/upload-banner", formData, {
+      const response = await axios.post("https://dtweb.onrender.com/sign-in/upload-banner", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

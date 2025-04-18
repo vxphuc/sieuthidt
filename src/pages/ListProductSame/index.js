@@ -7,7 +7,7 @@ function ListProductSame() {
   const [product, Setproduct] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/product/getAllProducts`)
+      .get(`https://dtweb.onrender.com/product/getAllProducts`)
       .then((res) => Setproduct(res.data));
   }, []);
 

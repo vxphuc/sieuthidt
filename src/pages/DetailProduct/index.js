@@ -48,7 +48,7 @@ function DetailProduct() {
   };
 
   useEffect(() => {
-    axios.get(`https://web-dt.onrender.com/product/${slug}`).then((response) => {
+    axios.get(`https://dtweb.onrender.com/product/${slug}`).then((response) => {
       setProduct(response.data);
     });
   }, [slug]);
@@ -64,7 +64,7 @@ function DetailProduct() {
   const handleBuy = (product) => {
     axios
       .post(
-        "https://web-dt.onrender.com/cart/create",
+        "https://dtweb.onrender.com/cart/create",
         {
           productID: product,
         },

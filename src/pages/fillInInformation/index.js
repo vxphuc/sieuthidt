@@ -23,7 +23,7 @@ const UserForm = () => {
     const fetchUserProfile = async () => {
       try {
         axios
-          .get("https://web-dt.onrender.com/sign-in/user-profile", {
+          .get("https://dtweb.onrender.com/sign-in/user-profile", {
             withCredentials: true,
           })
           .then((res) => {
@@ -40,7 +40,7 @@ const UserForm = () => {
     try {
       // Gửi PUT request để cập nhật thông tin
       const response = await axios.put(
-        `https://web-dt.onrender.com/sign-in/${data.uid}/fillInInformation`,
+        `https://dtweb.onrender.com/sign-in/${data.uid}/fillInInformation`,
         {
           name,
           gender,
@@ -53,7 +53,7 @@ const UserForm = () => {
 
       // Gọi lại API lấy thông tin mới
       const res = await axios.get(
-        "https://web-dt.onrender.com/sign-in/user-profile",
+        "https://dtweb.onrender.com/sign-in/user-profile",
         {
           withCredentials: true,
         }

@@ -9,7 +9,7 @@ function TypeProductAdmin() {
   const [countDelete, setCountDelete] = useState(0);
   useEffect(() => {
     axios
-      .get("https://web-dt.onrender.com/typeProduct")
+      .get("https://dtweb.onrender.com/typeProduct")
       .then((res) => {
         setData(res.data.typeProducts);
         setCountDelete(res.data.count)
@@ -20,7 +20,7 @@ function TypeProductAdmin() {
   }, []);
   
   const handleDelete = async (e) =>{
-       axios.patch(`https://web-dt.onrender.com/typeProduct/delete-sort/${e}`)
+       axios.patch(`https://dtweb.onrender.com/typeProduct/delete-sort/${e}`)
         .then((res) => {
           console.log('update successFully', res.data);
           window.location.reload();

@@ -11,7 +11,7 @@ function ProductAdmin() {
 
   useEffect(() => {
     axios
-      .get("https://web-dt.onrender.com/product")
+      .get("https://dtweb.onrender.com/product")
       .then((res) => {
         setProducts(res.data);
         
@@ -23,7 +23,7 @@ function ProductAdmin() {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/product?page=${currentPage}`)
+      .get(`https://dtweb.onrender.com/product?page=${currentPage}`)
       .then((res) => {
         setProducts(res.data);
         setTotalPages(res.data.totalPages || 1);
@@ -35,7 +35,7 @@ function ProductAdmin() {
 
   const handldeleted = (id) => {
     axios
-      .patch(`https://web-dt.onrender.com/product/${id}/destroy`)
+      .patch(`https://dtweb.onrender.com/product/${id}/destroy`)
       .then(() => {
         window.location.href = "/quan-tri/san-pham";
       })

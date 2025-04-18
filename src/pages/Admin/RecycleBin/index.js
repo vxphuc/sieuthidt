@@ -7,7 +7,7 @@ function RecycleBin() {
   const [items, setItems] = useState([]);
   useEffect(() => {
     axios
-      .get("https://web-dt.onrender.com/product/Recycle-Bin")
+      .get("https://dtweb.onrender.com/product/Recycle-Bin")
       .then((response) => {
         setItems(response.data);
       })
@@ -17,7 +17,7 @@ function RecycleBin() {
   }, []);
   const handleRestore = (id) => {
     axios
-      .patch(`https://web-dt.onrender.com/product/${id}/restore`)
+      .patch(`https://dtweb.onrender.com/product/${id}/restore`)
       .then(()=>{
         navigate(0)
       })
@@ -26,7 +26,7 @@ function RecycleBin() {
       });
   };
   const handleDelete = (id) => {
-    axios.delete(`https://web-dt.onrender.com/product/${id}/delete`)
+    axios.delete(`https://dtweb.onrender.com/product/${id}/delete`)
     .then(() => {
       navigate(0)
     })

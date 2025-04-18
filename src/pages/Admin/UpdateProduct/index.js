@@ -15,7 +15,7 @@ function UpdateProduct() {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `https://web-dt.onrender.com/product/${slug}`
+          `https://dtweb.onrender.com/product/${slug}`
         );
         if (!response.data) throw new Error("Không tìm thấy sản phẩm!");
 
@@ -38,7 +38,7 @@ function UpdateProduct() {
     const fetchTypeProducts = async () => {
       try {
         const response = await axios.get(
-          "https://web-dt.onrender.com/typeProduct"
+          "https://dtweb.onrender.com/typeProduct"
         );
         if (response.data) setType(response.data.typeProducts);
       } catch (error) {
@@ -80,7 +80,7 @@ function UpdateProduct() {
 
     try {
       await axios.put(
-        `https://web-dt.onrender.com/product/${data._id}/fixProduct`,
+        `https://dtweb.onrender.com/product/${data._id}/fixProduct`,
         formData,
         {
           headers: {

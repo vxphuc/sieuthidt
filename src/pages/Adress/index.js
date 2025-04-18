@@ -90,7 +90,7 @@ function Adress() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post(
-      `https://web-dt.onrender.com/address/create`,
+      `https://dtweb.onrender.com/address/create`,
       {
         IDProvinces: selectedProvince.code,
         nameProvinces: selectedProvince.name,
@@ -108,7 +108,7 @@ function Adress() {
     .then(res => {
       setShowPopup(false);
       axios
-      .get("https://web-dt.onrender.com/address", {
+      .get("https://dtweb.onrender.com/address", {
         withCredentials: true
       })
       .then((response) => {
@@ -120,7 +120,7 @@ function Adress() {
 
   //khởi tạo address từ đầu
   useEffect(() => {
-    axios.get("https://web-dt.onrender.com/address", {
+    axios.get("https://dtweb.onrender.com/address", {
       withCredentials: true
     })
     .then(res => setData(res.data))
@@ -136,7 +136,7 @@ function Adress() {
   };
 
   const handleSelect = () =>{
-    axios.patch(`https://web-dt.onrender.com/cart/updateAddress`, {
+    axios.patch(`https://dtweb.onrender.com/cart/updateAddress`, {
       roadID: selectedAddressId
     }, {
       withCredentials: true

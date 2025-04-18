@@ -8,7 +8,7 @@ function UpdateTypeProduc() {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/typeProduct/detailTypeProduct/${id}`)
+      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${id}`)
       .then((res) => {
         const result = Array.isArray(res.data) ? res.data[0] : res.data;
         setData(result);
@@ -25,7 +25,7 @@ function UpdateTypeProduc() {
       formData.append("image", data.image);
     }
     try {
-     await axios.put(`https://web-dt.onrender.com/typeProduct/update/${id}`, formData, {
+     await axios.put(`https://dtweb.onrender.com/typeProduct/update/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

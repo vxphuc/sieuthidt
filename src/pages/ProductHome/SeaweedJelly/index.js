@@ -7,7 +7,7 @@ function SeaweedJelly() {
   const [product, setProduct] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/product/ProductsNest/Thach-rong-nho`)
+      .get(`https://dtweb.onrender.com/product/ProductsNest/Thach-rong-nho`)
       .then((response) => {
         setProduct(response.data);
       });
@@ -28,7 +28,7 @@ function SeaweedJelly() {
   const handleBuy = (product) => {
     axios
       .post(
-        "https://web-dt.onrender.com/cart/create",
+        "https://dtweb.onrender.com/cart/create",
         {
           productID: product,
         },

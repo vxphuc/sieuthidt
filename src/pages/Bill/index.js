@@ -10,7 +10,7 @@ function Bill() {
 
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await axios.get("https://web-dt.onrender.com/bill/user", {
+      const response = await axios.get("https://dtweb.onrender.com/bill/user", {
         withCredentials: true,
       });
       setBills(response.data);

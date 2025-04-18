@@ -21,7 +21,7 @@ function Nest() {
   useEffect(() => {
     axios
       .get(
-        `https://web-dt.onrender.com/product/ProductsNest/Yen-DTNEST-hop-qua`
+        `https://dtweb.onrender.com/product/ProductsNest/Yen-DTNEST-hop-qua`
       )
       .then((response) => {
         setProduct(response.data);
@@ -31,7 +31,7 @@ function Nest() {
   const handleBuy = (product) => {
     axios
       .post(
-        "https://web-dt.onrender.com/cart/create",
+        "https://dtweb.onrender.com/cart/create",
         {
           productID: product,
         },

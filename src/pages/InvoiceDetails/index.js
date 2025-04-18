@@ -10,7 +10,7 @@ function InvoiceDetails() {
   useEffect(() => {
     const fetchs = async () => {
       const res = await axios.get(
-        `https://web-dt.onrender.com/bill/${params.id}`,
+        `https://dtweb.onrender.com/bill/${params.id}`,
         {
           withCredentials: true,
         }

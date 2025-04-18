@@ -29,7 +29,7 @@ function CreateProductForm() {
     // Load danh sách các category từ server
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("https://web-dt.onrender.com/typeProduct");
+        const res = await axios.get("https://dtweb.onrender.com/typeProduct");
         setCategories(res.data.typeProducts);
       } catch (error) {
         console.error(error);
@@ -70,7 +70,7 @@ function CreateProductForm() {
       }
 
       // gửi yêu cầu tới server
-      await axios.post("https://web-dt.onrender.com/product/create", formData, {
+      await axios.post("https://dtweb.onrender.com/product/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

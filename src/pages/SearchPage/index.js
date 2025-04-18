@@ -25,7 +25,7 @@ function SearchPage() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `https://web-dt.onrender.com/product/search?q=${query}`
+          `https://dtweb.onrender.com/product/search?q=${query}`
         );
         setProducts(res.data);
       } catch (err) {

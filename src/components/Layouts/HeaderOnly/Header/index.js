@@ -14,7 +14,7 @@ function Header() {
       const fetchUser = async () => {
         try {
           const res = await axios.get(
-            "https://web-dt.onrender.com/sign-in/user-profile",
+            "https://dtweb.onrender.com/sign-in/user-profile",
             {
               withCredentials: true, // cho phép gửi cookie authToken
             }

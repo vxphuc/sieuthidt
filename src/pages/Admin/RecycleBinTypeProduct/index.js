@@ -7,7 +7,7 @@ function RecycleBinTyproduct() {
 
   const fetchData = () => {
     axios
-      .get("https://web-dt.onrender.com/typeProduct/delete-typeProduct")
+      .get("https://dtweb.onrender.com/typeProduct/delete-typeProduct")
       .then((res) => setData(res.data))
       .catch((error) => console.log(error));
   };
@@ -18,7 +18,7 @@ function RecycleBinTyproduct() {
 
   const handleRestore = (id) => {
     axios
-      .patch(`https://web-dt.onrender.com/typeProduct/restore/${id}`)
+      .patch(`https://dtweb.onrender.com/typeProduct/restore/${id}`)
       .then(() => {
         fetchData();
       })
@@ -26,7 +26,7 @@ function RecycleBinTyproduct() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`https://web-dt.onrender.com/typeProduct/delete/${id}`)
+    axios.delete(`https://dtweb.onrender.com/typeProduct/delete/${id}`)
     .then(() => {
       fetchData()
     })

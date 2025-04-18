@@ -24,7 +24,7 @@ function Home() {
   // mua sản phẩm
   const handleBuy = (product) => {
       axios
-        .post("https://web-dt.onrender.com/cart/create", {
+        .post("https://dtweb.onrender.com/cart/create", {
           productID: product,
         }, {
           withCredentials: true
@@ -41,7 +41,7 @@ function Home() {
   //new product
   useEffect(() => {
     axios
-      .get("https://web-dt.onrender.com/product/newProduct")
+      .get("https://dtweb.onrender.com/product/newProduct")
       .then((res) => setNewProduct(res.data))
       .catch((error) => console.log(error));
   }, []);
@@ -49,7 +49,7 @@ function Home() {
   //banner
   useEffect(() => {
     axios
-      .get("https://web-dt.onrender.com/sign-in/banner")
+      .get("https://dtweb.onrender.com/sign-in/banner")
       .then((res) => setImg(res.data))
       .catch((error) => console.log(error));
   }, []);
@@ -110,7 +110,7 @@ function Home() {
                 return (
                   <img
                     key={index}
-                    src={`https://web-dt.onrender.com/uploads/${image.image}`}
+                    src={`https://dtweb.onrender.com/uploads/${image.image}`}
                   ></img>
                 );
               })}

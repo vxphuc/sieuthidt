@@ -38,7 +38,7 @@ function Infomation() {
 
   //Hàm gửi dữ liệu sửa
   const handleEditAddress = () => {
-    axios.patch(`https://web-dt.onrender.com/address/update/${editAddress._id}`, {
+    axios.patch(`https://dtweb.onrender.com/address/update/${editAddress._id}`, {
       IDProvinces: editAddress.provinces.code,
       nameProvinces: editAddress.provinces.name,
       IDDistricts: editAddress.districts.code,
@@ -52,7 +52,7 @@ function Infomation() {
     })
     .then(() => {
       setShowEditForm(false);
-      axios.get("https://web-dt.onrender.com/address", { withCredentials: true })
+      axios.get("https://dtweb.onrender.com/address", { withCredentials: true })
         .then(res => setAddress(res.data));
     });
   }
@@ -60,7 +60,7 @@ function Infomation() {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/sign-in/user-profile`, {
+      .get(`https://dtweb.onrender.com/sign-in/user-profile`, {
         withCredentials: true,
       })
       .then((res) => setData(res.data));
@@ -68,7 +68,7 @@ function Infomation() {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/address`, {
+      .get(`https://dtweb.onrender.com/address`, {
         withCredentials: true,
       })
       .then((res) => setAddress(res.data));
@@ -77,7 +77,7 @@ function Infomation() {
   const handleDelete = (id, wards_id, districts_id, provinces_id) => {
     axios
       .delete(
-        `https://web-dt.onrender.com/address/delete/${id}/${wards_id}/${districts_id}/${provinces_id}`,
+        `https://dtweb.onrender.com/address/delete/${id}/${wards_id}/${districts_id}/${provinces_id}`,
         {
           withCredentials: true,
         }
@@ -85,7 +85,7 @@ function Infomation() {
       .then((res) => {
         console.log(res.data);
         axios
-          .get(`https://web-dt.onrender.com/address`, {
+          .get(`https://dtweb.onrender.com/address`, {
             withCredentials: true,
           })
           .then((res) => setAddress(res.data));

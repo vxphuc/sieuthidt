@@ -17,7 +17,7 @@ const ReviewList = ({ productId }) => {
 
   useEffect(() => {
     axios
-      .get(`https://web-dt.onrender.com/ReviewForm/${productId}`)
+      .get(`https://dtweb.onrender.com/ReviewForm/${productId}`)
       .then((response) => {
         setReviews(response.data);
       })

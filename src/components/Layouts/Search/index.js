@@ -19,7 +19,7 @@ function Search({ onChange, cartCount, searchValue }) {
       if (input.trim()) {
         try {
           const res = await axios.get(
-            `https://web-dt.onrender.com/product/search?q=${encodeURIComponent(
+            `https://dtweb.onrender.com/product/search?q=${encodeURIComponent(
               input
             )}`
           );

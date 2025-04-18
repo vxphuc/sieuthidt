@@ -42,7 +42,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
     
     setIsSubmit(true)
       axios
-      .post(`https://web-dt.onrender.com/ReviewForm/reviewProduct`,{
+      .post(`https://dtweb.onrender.com/ReviewForm/reviewProduct`,{
         rate: rating,
         comment: comment,
         name: name,
