@@ -7,7 +7,7 @@ function SeaGrapes() {
   const [product, setProduct] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://dtweb.onrender.com/product/ProductsNest/Rong-nho`)
+      .get(`https://dtweb.onrender.com/product/ProductsNest/Rong-Nho`)
       .then((response) => {
         setProduct(response.data);
       });
