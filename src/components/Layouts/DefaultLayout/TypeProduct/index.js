@@ -52,7 +52,7 @@ function TypeProduct() {
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
-        const response = await axios.get("https://web-dt.onrender.com/typeProduct");
+        const response = await axios.get("https://dtweb.onrender.com/typeProduct");
         setData(response.data.typeProducts);
       } catch (error) {
         console.error("Lỗi kết nối server:", error);
