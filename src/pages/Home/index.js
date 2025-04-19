@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import styles from "./Home.module.css";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import ProductHome from "../ProductHome";
+import {CartContext} from "../../contexts/CartContext";
 
 function Home() {
   const [img, setImg] = useState([]);
@@ -20,6 +21,7 @@ function Home() {
   const nameNewProduct = useRef(null);
 
   const [showAlert, setShowAlert] = useState(false);
+  const {fetchCartCount} = useContext(CartContext);
 
   // mua sản phẩm
   const handleBuy = (product) => {
@@ -31,6 +33,7 @@ function Home() {
         })
         .then((res) => {
           console.log(res.data);
+          fetchCartCount()
           setShowAlert(true);
           setTimeout(() => setShowAlert(false), 3000);
         })

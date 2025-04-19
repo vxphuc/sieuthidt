@@ -49,7 +49,7 @@ function Carts() {
       });
       const cartItems = res.data;
       setProduct(cartItems);
-      const totalPrice = cartItems.reduce(
+      const totalPrice = cartItems.carts.reduce(
         (acc, item) =>
           acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
         0
@@ -162,9 +162,9 @@ function Carts() {
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
-    console.log(product);
+    
     try {
-      const products = product.map((item) => ({
+      const products = product.carts.map((item) => ({
         uid: item.userID,
         name: item.product.name,
         price: item.product.price.$numberDecimal,
@@ -199,7 +199,7 @@ function Carts() {
       );
       console.log("deleteSucsses", DeleteCart.data);
       if (payMent === "Thanh toán qua ngân hàng") {
-        console.log(response.data._id)
+        
         if (response.data && response.data._id) {
           navigate(`/gio-hang/thanh-toan/${response.data._id}`);
         } else {
@@ -215,6 +215,8 @@ function Carts() {
   };
 
   if (loading || product.length === 0) return <CartsEmpty />;
+
+  console.log("product", product);
 
   return (
     <div className={`container ${styles.container}`}>
@@ -250,7 +252,7 @@ function Carts() {
               </div>
             </div>
 
-            {product.map((item, index) => (
+            {product.carts.map((item, index) => (
               <div key={index} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button

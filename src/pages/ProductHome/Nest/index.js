@@ -1,10 +1,12 @@
 import style from "./Nest.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { CartContext } from "../../../contexts/CartContext";
 
 function Nest() {
   const [product, setProduct] = useState([]);
+  const { fetchCartCount } = useContext(CartContext);
 
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -41,6 +43,7 @@ function Nest() {
       )
       .then((res) => {
         console.log(res.data);
+        fetchCartCount()
       })
       .catch((error) => console.log(error));
   };
