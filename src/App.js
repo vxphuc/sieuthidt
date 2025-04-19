@@ -2,10 +2,12 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import { router } from './routes';
 import DefaultLayout from './components/Layouts/DefaultLayout';
 import { Fragment } from 'react';
+import { CartProvider } from './contexts/CartContext';
 
 function App() {
   return (
-    <Router>
+    <CartProvider>
+      <Router>
       <div className="App">
         <Routes>
             {router.map((router, index) => {
@@ -22,6 +24,7 @@ function App() {
         </Routes>
     </div>
     </Router>
+    </CartProvider>
     
   );
 }

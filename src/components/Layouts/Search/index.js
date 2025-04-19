@@ -4,15 +4,20 @@ import { faSearch, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import style from "./Search.module.css";
 import { NavLink } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
+import {CartContext} from "../../../contexts/CartContext";
 
-function Search({ onChange, cartCount, searchValue }) {
+
+function Search({ onChange, onCartChange, searchValue }) {
   const [input, setInput] = useState(searchValue || "");
   const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const popUpRef = useRef(null);
+  const {cartCount} = useContext(CartContext); // lấy số lượng sản phẩm trong giỏ hàng từ context
+ 
+  
 
   useEffect(() => {
     const deylayTimeOut = setTimeout(async () => {
@@ -73,12 +78,12 @@ function Search({ onChange, cartCount, searchValue }) {
         <NavLink to="/gio-hang">
           <div className={style.cartInside}>
             <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
-            {cartCount > 0 && (
-              <span className={style.cartBadge}>{cartCount}</span>
-            )}
           </div>
         </NavLink>
       </div>
+
+      <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+
 
       {isOpen && suggestions.length > 0 && (
         <div className={style.popUpHeader} ref={popUpRef}>
@@ -89,7 +94,6 @@ function Search({ onChange, cartCount, searchValue }) {
               style: "currency",
               currency: "VND",
             });
-            console.log(item);
 
             return (
               <div key={index} className={style.Product}>

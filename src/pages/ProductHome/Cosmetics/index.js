@@ -1,9 +1,11 @@
 import style from "./Cosmetics.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import { CartContext } from "../../../contexts/CartContext";
 
 function Cosmetics() {
+  const { fetchCartCount } = useContext(CartContext);
   const [product, setProduct] = useState([]);
   const getcookie = (name) => {
     const cookies = document.cookie.split(";");
@@ -38,6 +40,7 @@ function Cosmetics() {
       )
       .then((res) => {
         console.log(res.data);
+        fetchCartCount()
       })
       .catch((error) => console.log(error));
   };

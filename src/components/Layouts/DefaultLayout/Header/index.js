@@ -6,23 +6,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-  
+
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const menuRef = useRef(null);
   const [searh, setSearch] = useState("");
-  const [userRole, setUserRole] = useState(null);  // dữ liệu người dùng đăng nhập
-  const navigate = useNavigate();
-  const location = useLocation();
-  //hiển thị số lượng sản phẩm trong giỏ hàng
+  const [userRole, setUserRole] = useState(null); // dữ liệu người dùng đăng nhập
   const [cartCount, setCartCount] = useState(0);
 
-
+  // lấy số lượng sản phẩm trong giỏ hàng
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartCount(cart.length);
+    const fetch = async () => {
+      try {
+        const res = await axios.get("https://dtweb.onrender.com/cart", {
+          withCredentials: true,
+        });
+        
+        setCartCount(res.data.itemCount);
+      } catch (err) {
+        console.error("Không lấy được số lượng sản phẩm trong giỏ hàng:", err);
+      }
+    };
+    fetch();
   }, []);
-  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -30,7 +36,7 @@ function Header() {
         setShowMenu(false);
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -60,7 +66,7 @@ function Header() {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
   return (
     <div className={style.container}>
@@ -78,8 +84,8 @@ function Header() {
         </div>
 
         {/* Thanh tìm kiếm */}
-        <Search onChange={handleSearch} searchValue={searh} cartCount={cartCount} />
-        
+        <Search onChange={handleSearch} onCartChange = {cartCount} searchValue={searh} />
+
         {/* Nút menu ba gạch trên mobile */}
         <button
           className={style.menuToggle}
@@ -90,8 +96,10 @@ function Header() {
 
         {/* Menu điều hướng */}
         <nav>
-          <ul ref={menuRef}
-              className={showMenu ? style.navMobileShown : style.navMobileHidden}>
+          <ul
+            ref={menuRef}
+            className={showMenu ? style.navMobileShown : style.navMobileHidden}
+          >
             <li>
               <NavLink
                 to="/"
@@ -120,14 +128,14 @@ function Header() {
               <Auth />
             </li>
             {showAdminLink && (
-            <li>
-              <NavLink
-                to="/quan-tri"
-                className={({ isActive }) => (isActive ? style.active : "")}
-              >
-                Quản trị
-              </NavLink>
-            </li>
+              <li>
+                <NavLink
+                  to="/quan-tri"
+                  className={({ isActive }) => (isActive ? style.active : "")}
+                >
+                  Quản trị
+                </NavLink>
+              </li>
             )}
           </ul>
         </nav>

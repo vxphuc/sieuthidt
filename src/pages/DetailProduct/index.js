@@ -5,11 +5,12 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useParams, useNavigate, data } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
 import ListProductSame from "../ListProductSame";
 import ReviewList from "../../components/Ratingstars/ReviewList/ReviewList.js";
 import ReviewForm from "../../components/Ratingstars//ReviewForm/ReviewForm.js";
+import {CartContext} from "../../contexts/CartContext.js";
 
 function DetailProduct() {
   const { slug } = useParams();
@@ -17,6 +18,7 @@ function DetailProduct() {
   const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
   const [bgX, setBgX] = useState(0);
+  const {fetchCartCount} = useContext(CartContext);
 
   const bgXRef = useRef(0);
   const [moreDescription, setMoreDescription] = useState(false);
@@ -74,6 +76,7 @@ function DetailProduct() {
       )
       .then((res) => {
         console.log(res.data);
+        fetchCartCount(); // Cập nhật số lượng giỏ hàng sau khi thêm sản phẩm
       })
       .catch((error) => console.log(error));
   };

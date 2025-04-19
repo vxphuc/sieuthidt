@@ -11,18 +11,6 @@ function ProductAdmin() {
 
   useEffect(() => {
     axios
-      .get("https://dtweb.onrender.com/product")
-      .then((res) => {
-        setProducts(res.data);
-        
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
       .get(`https://dtweb.onrender.com/product?page=${currentPage}`)
       .then((res) => {
         setProducts(res.data);
