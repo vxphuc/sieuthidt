@@ -29,13 +29,14 @@ function Bill() {
         <div className={styles.addressList}>
           {/* Đơn hàng 1 */}
           {bills.map((bill, index) => {
+            const totalPrice = bill.Intomoney.$numberDecimal;
+            const totalPriceFormatted = Number.parseFloat(
+              totalPrice
+            ).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
             return (
               <div key={index} className={styles.orderCard}>
                 <div className={styles.orderInfo}>
-                  <img
-                    src={`${bill.products[0].img}`}
-                    alt="product"
-                  />
+                  <img src={`${bill.products[0].img}`} alt="product" />
                   <div className={styles.orderText}>
                     {`
                       ${bill.road} - ${bill.ward} - ${bill.District} - ${bill.province}`}
@@ -44,8 +45,13 @@ function Bill() {
 
                 <div className={styles.orderActions}>
                   <span className={styles.status}>{bill.OrderStatus}</span>
-                  <span className={styles.total}>Tổng tiền: {bill.Intomoney}</span>
-                  <NavLink to={`/thong-tin-khach-hang/hoa-don/${bill._id}`} className={styles.detailBtn}>Xem chi tiết</NavLink>
+                  <span className={styles.total}>Tổng tiền: {totalPriceFormatted}</span>
+                  <NavLink
+                    to={`/thong-tin-khach-hang/hoa-don/${bill._id}`}
+                    className={styles.detailBtn}
+                  >
+                    Xem chi tiết
+                  </NavLink>
                 </div>
               </div>
             );

@@ -25,11 +25,17 @@ import Bill from "../pages/Bill";
 import PayMentBank from "../pages/PayMentBank";
 import InvoiceDetails from "../pages/InvoiceDetails";
 import SearchPage from "../pages/SearchPage";
+import OrderManagement from "../pages/Admin/OrderManagement";
 
 export const router = [
   {
     path: "/tim-kiem",
     component: SearchPage,
+  },
+  {
+    path: "/quan-tri/hoa-don",
+    component: OrderManagement,
+    layout: AdminLayout,
   }
   ,
   {

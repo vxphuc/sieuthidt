@@ -112,7 +112,7 @@ function Carts() {
   const handleDeleteAll = async () => {
     try {
       await Promise.all(
-        product.map((item) =>
+        product.carts.map((item) =>
           axios.delete(
             `https://dtweb.onrender.com/cart/delete/${item.product._id}`,
             {

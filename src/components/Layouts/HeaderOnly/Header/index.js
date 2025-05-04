@@ -66,7 +66,7 @@ function Header() {
                 Trang chủ
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="/tin-tuc"
                 className={({ isActive }) => (isActive ? style.active : "")}
@@ -81,7 +81,7 @@ function Header() {
               >
                 Thư viện
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <Auth />
             </li>
