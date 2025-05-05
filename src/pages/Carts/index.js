@@ -17,17 +17,6 @@ function Carts() {
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
   const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
 
-  const getcookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) return value;
-    }
-    return null;
-  };
-
-  const token = getcookie("authToken");
-
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(

@@ -1,0 +1,14 @@
+.container{
+    justify-content: space-evenly;
+}
+.cards{
+    background-color: rgb(216 236 212);
+    color: rgb(0 126 66);
+    font-weight: 600;
+    border-radius: 0.5rem;
+    padding: 1px;
+    border: 1px solid rgb(0 126 66);
+}
+.cardBody{
+    font-size: 1.25rem;
+}
