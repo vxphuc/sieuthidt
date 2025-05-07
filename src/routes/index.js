@@ -26,11 +26,17 @@ import PayMentBank from "../pages/PayMentBank";
 import InvoiceDetails from "../pages/InvoiceDetails";
 import SearchPage from "../pages/SearchPage";
 import OrderManagement from "../pages/Admin/OrderManagement";
+import ChatBot from "../pages/Admin/ChatBot";
 
 export const router = [
   {
     path: "/tim-kiem",
     component: SearchPage,
+  },
+  {
+    path: "/quan-tri/chat-bot",
+    component: ChatBot,
+    layout: AdminLayout,
   },
   {
     path: "/quan-tri/hoa-don",
@@ -74,7 +80,7 @@ export const router = [
     component: RecycleBinTyproduct,
     layout: AdminLayout,
   },
-  { path: "/quan-tri", component: ManageAdmin, layout: AdminLayout },
+  { path: "/quan-tri/tong-quan", component: ManageAdmin, layout: AdminLayout },
   {
     path: "/quan-tri/them-moi-banner",
     component: CreateBanner,

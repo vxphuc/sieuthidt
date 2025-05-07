@@ -6,6 +6,16 @@ function Sitebar() {
   return (
     <div className="container color-red">
       <div>
+        <h3>Dashboard</h3>
+        <NavLink
+          to="/quan-tri/tong-quan"
+          className={({ isActive }) => (isActive ? Style.active : "")}
+        >
+          {" "}
+          Tổng quan
+        </NavLink>
+      </div>
+      <div>
         <h3>Sản phẩm</h3>
         <NavLink
           to="/quan-tri/san-pham"

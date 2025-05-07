@@ -1,23 +1,14 @@
 import style from "./Cosmetics.module.css";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 
 function Cosmetics() {
   const { fetchCartCount } = useContext(CartContext);
   const [product, setProduct] = useState([]);
-  const getcookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) {
-        return value;
-      }
-    }
-  };
+  const navigate = useNavigate();
 
-  const token = getcookie("authToken");
 
   useEffect(() => {
     axios
@@ -42,7 +33,7 @@ function Cosmetics() {
         console.log(res.data);
         fetchCartCount()
       })
-      .catch((error) => console.log(error));
+      .catch((error) => navigate("/dang-nhap"));
   };
 
   return (

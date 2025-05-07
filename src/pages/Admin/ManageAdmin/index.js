@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./styles.module.css";
 import ChartColum from "../../../components/ChartColumn";
+import { NavLink } from "react-router-dom";
 
 function ManageAdmin() {
   const [totalRevenueYear, setTotalRevenueYear] = useState([]);
   const [Top10Product, setTop10Product] = useState([]);
   const [revenueWeek, setRevenueWeek] = useState([]);
+  const [revenueDay, setRevenueDay] = useState([]);
 
   useEffect(() => {
     // Lấy tổng doanh thu và đơn hàng đã bán được trong năm
@@ -51,11 +53,10 @@ function ManageAdmin() {
             withCredentials: true,
           }
         );
-        console.log("response", response.data);
-        const transformed  = response.data.weeklyRevenue.map((item) => {
+        const transformed = response.data.weeklyRevenue.map((item) => {
           return {
             name: `Tuần ${item._id.week}`,
-            'số tiền': item.totalRevenue.$numberDecimal,
+            "số tiền": item.totalRevenue.$numberDecimal,
           };
         });
         setRevenueWeek(transformed);
@@ -65,8 +66,40 @@ function ManageAdmin() {
     };
     fetchRevenueWeek();
   }, []);
+
+  //lấy ra doanh thu theo ngày của tuần hiện tại
+  useEffect(() => {
+    const fetchRevenueDay = async () => {
+      try {
+        const response = await axios.get(
+          `https://dtweb.onrender.com/chart/getDayRevenue`,
+          {
+            withCredentials: true,
+          }
+        );
+        const transformed = response.data.dailyRevenue.map((item) => {
+          return {
+            name: `Thứ ${item._id.dayOfWeek}`,
+            "số tiền": item.totalRevenue.$numberDecimal,
+          }
+        })
+        setRevenueDay(transformed);
+        
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchRevenueDay();
+  }, []);
+
   return (
     <div>
+      <NavLink to="/quan-tri/chat-bot" className="btn btn-primary">sử dụng AI để phân tích</NavLink>
+      {/* tiêu đề */}
+      <div className="text-center">
+        <h2>Quản lý doanh thu</h2>
+        <p>Thống kê doanh thu và đơn hàng đã bán được trong thời gian qua</p>
+      </div>
       {/* hiển thị tổng số lượng doanh thu, và đơn hàng đã bán được trong thời gian qua */}
       <div className={`${styles.container} row`}>
         <DashboardSummaryCards
@@ -121,6 +154,12 @@ function ManageAdmin() {
             <ChartColum data={revenueWeek}></ChartColum>
           </div>
         </div>
+        <div className="col-md-6">
+          <p className="text-center">Thống kê tuần này</p>
+          <div>
+            <ChartColum data={revenueDay}></ChartColum>
+          </div>
+          </div>
       </div>
       <div className={`${styles.container} mt-3`}>
         {/* hiển thị số lượng sản phẩm được bán nhiều nhất */}

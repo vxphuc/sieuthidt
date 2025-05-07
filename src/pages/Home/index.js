@@ -8,11 +8,12 @@ import {
   faCaretRight,
   faCaretLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate  } from "react-router-dom";
 import ProductHome from "../ProductHome";
 import {CartContext} from "../../contexts/CartContext";
 
 function Home() {
+  const navigate = useNavigate();
   const [img, setImg] = useState([]);
   const sliderRef = useRef(null);
   const currentIndex = useRef(0);
@@ -37,7 +38,7 @@ function Home() {
           setShowAlert(true);
           setTimeout(() => setShowAlert(false), 3000);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => navigate("/dang-nhap"));
   }
   
 

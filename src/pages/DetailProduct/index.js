@@ -78,7 +78,7 @@ function DetailProduct() {
         console.log(res.data);
         fetchCartCount(); // Cập nhật số lượng giỏ hàng sau khi thêm sản phẩm
       })
-      .catch((error) => console.log(error));
+      .catch((error) => navigate("/dang-nhap"));
   };
 
   return (

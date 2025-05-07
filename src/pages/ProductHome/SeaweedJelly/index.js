@@ -1,12 +1,13 @@
 import style from "./SeaweedJelly.module.css";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 
 function SeaweedJelly() {
   const [product, setProduct] = useState([]);
   const { fetchCartCount } = useContext(CartContext);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`https://dtweb.onrender.com/product/ProductsNest/Thach-Rong-Nho`)
@@ -15,17 +16,6 @@ function SeaweedJelly() {
       });
   }, []);
 
-  const getcookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) {
-        return value;
-      }
-    }
-  };
-
-  const token = getcookie("authToken");
 
   const handleBuy = (product) => {
     axios
@@ -42,7 +32,7 @@ function SeaweedJelly() {
         console.log(res.data);
         fetchCartCount()
       })
-      .catch((error) => console.log(error));
+      .catch((error) => navigate("/dang-nhap"));
   };
 
   return (

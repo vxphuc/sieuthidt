@@ -130,7 +130,7 @@ function Header() {
             {showAdminLink && (
               <li>
                 <NavLink
-                  to="/quan-tri"
+                  to="/quan-tri/tong-quan"
                   className={({ isActive }) => (isActive ? style.active : "")}
                 >
                   Quản trị
