@@ -27,6 +27,7 @@ import InvoiceDetails from "../pages/InvoiceDetails";
 import SearchPage from "../pages/SearchPage";
 import OrderManagement from "../pages/Admin/OrderManagement";
 import ChatBot from "../pages/Admin/ChatBot";
+import DetailProductBill from "../pages/Admin/DetailProductBill";
 
 export const router = [
   {
@@ -72,6 +73,11 @@ export const router = [
   {
     path: "/quan-tri/cap-nhap-loai-san-pham/:id",
     component: UpdateTypeProduct,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/chi-tiet/:id",
+    component: DetailProductBill,
     layout: AdminLayout,
   },
   { path: "/dang-nhap", component: Login, layout: HeaderLayout },

@@ -1,7 +1,7 @@
 import axios from "axios";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 function InvoiceDetails() {
   const [data, setData] = useState([]);
@@ -27,7 +27,7 @@ function InvoiceDetails() {
         <div className={`${styles.detailProduct}`}>
           <div className={`${styles.header}`}>
             <h3>
-              Chi tiết đơn hàng {data._id} - {data.OrderStatus}
+              Chi tiết đơn hàng {data.bill ? `${data.bill._id} - ${data.bill.OrderStatus}` : 'đang tải...'}
             </h3>
           </div>
           <div className={styles.info}>
@@ -38,24 +38,24 @@ function InvoiceDetails() {
                   <tbody>
                     <tr>
                       <td>Người nhận: </td>
-                      <td>Anh thế zinh - 0773915146</td>
+                      <td>{data.bill ? `Anh ${data.user.name} - ${data.user.numberPhone}` : 'đang tải...'}</td>
                     </tr>
                     <tr>
                       <td>Địa chỉ: </td>
-                      <td>Nha trang, Khánh hòa Nha trang, Khánh hòa</td>
+                      <td>{data.bill ? `${data.bill.road} - ${data.bill.ward} - ${data.bill.District} - ${data.bill.province}` : 'đang tải...'}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div className={styles.payment}>
                 <h5>Hình thức thanh toán</h5>
-                <p>{data.PaymentForm}</p>
+                <p>{data.bill ? data.bill.PaymentForm : 'đang tải...'}</p>
               </div>
             </div>
           </div>
           <div className={styles.listProduct}>
             <h5>Thông tin sản phẩm</h5>
-            {Array.isArray(data.products) ? data.products.map((item, index) => {
+            {data.bill && Array.isArray(data.bill.products) ? data.bill.products.map((item, index) => {
               return (
                 <div className={styles.infoProduct}>
                   <div className={styles.imgName}>
@@ -64,17 +64,19 @@ function InvoiceDetails() {
                   </div>
                   <div className={styles.infoContent}>
                     <p>số lượng: {item.quantity}</p>
-                    <p>Đơn giá: </p>
+                    <p>Đơn giá: {Number.parseFloat(item.price.$numberDecimal).toLocaleString('vi-VN')}</p>
                   </div>
                 </div>
               );
             }): ''}
           </div>
           <div className={styles.button}>
-            <button className={styles.backHome}>
+            <NavLink to={'/thong-tin-khach-hang/hoa-don'} className={styles.backHome}>
               Về trang danh sách đơn hàng
-            </button>
-            <button className={styles.cancelOrder}>Hủy đơn hàng</button>
+            </NavLink>
+            {
+              data.bill && data.bill.OrderStatus === 'chờ xác nhận' ? (<button className={styles.cancelOrder}>Hủy đơn hàng</button>): ''
+            }
           </div>
         </div>
       </div>

@@ -1,10 +1,15 @@
 import styles from "./Carts.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faWallet } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faWallet,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CartsEmpty from "../../components/CartEmpty";
+import BackgroundPopup from "../../components/BackgroundPopup";
 
 function Carts() {
   const navigate = useNavigate();
@@ -16,6 +21,7 @@ function Carts() {
   const [address, setAddress] = useState([]);
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
   const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
+  const [popupSuccess, setpopupSuccess] = useState(false);
 
   const fetchUserProfile = async () => {
     try {
@@ -151,8 +157,8 @@ function Carts() {
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
-    
     try {
+      setpopupSuccess(!popupSuccess)
       const products = product.carts.map((item) => ({
         uid: item.userID,
         name: item.product.name,
@@ -179,7 +185,6 @@ function Carts() {
         }
       );
       console.log("Order success:", response.data);
-      alert("mua hàng thành công");
       const DeleteCart = await axios.delete(
         "https://dtweb.onrender.com/cart/deleteCart",
         {
@@ -188,7 +193,6 @@ function Carts() {
       );
       console.log("deleteSucsses", DeleteCart.data);
       if (payMent === "Thanh toán qua ngân hàng") {
-        
         if (response.data && response.data._id) {
           navigate(`/gio-hang/thanh-toan/${response.data._id}`);
         } else {
@@ -199,7 +203,7 @@ function Carts() {
         navigate("/");
       }
     } catch (err) {
-      console.error("Payment error:", err);
+      alert("vui lòng nhập địa chỉ giao hàng:...");
     }
   };
 
@@ -332,18 +336,21 @@ function Carts() {
 
             <div className={styles.stickyFooter}>
               <div className={styles.footerActions}>
-              <div className={styles.footerActionsRow}>
-                <div className={styles.paymentMethodInfo}>
-                <FontAwesomeIcon icon={faWallet} style={{ marginRight: "6px", color: "#3a3a3a" }} />
-                  {payMent || "Thanh toán bằng tiền mặt"}
+                <div className={styles.footerActionsRow}>
+                  <div className={styles.paymentMethodInfo}>
+                    <FontAwesomeIcon
+                      icon={faWallet}
+                      style={{ marginRight: "6px", color: "#3a3a3a" }}
+                    />
+                    {payMent || "Thanh toán bằng tiền mặt"}
+                  </div>
+                  <button
+                    onClick={() => setShowPaymentMethod(!showPaymentMethod)}
+                    className={styles.paybtn}
+                  >
+                    Đổi hình thức thanh toán
+                  </button>
                 </div>
-                <button
-                  onClick={() => setShowPaymentMethod(!showPaymentMethod)}
-                  className={styles.paybtn}
-                >
-                  Đổi hình thức thanh toán
-                </button>
-              </div>
                 {showPaymentMethod && (
                   <div
                     className={styles.overlay}
@@ -361,27 +368,33 @@ function Carts() {
                       </button>
                       <ul>
                         <li>
-                        <label onClick={() => setPayMent("Tiền mặt khi nhận hàng")}>
-                          <input
-                            type="radio"
-                            value="Tiền mặt khi nhận hàng"
-                            name="payment"
-                            onChange={handlePayment}
-                            checked={payMent === "Tiền mặt khi nhận hàng"} // để giữ trạng thái khi mở lại
-                          />{" "}
-                          Tiền mặt khi nhận hàng
+                          <label
+                            onClick={() => setPayMent("Tiền mặt khi nhận hàng")}
+                          >
+                            <input
+                              type="radio"
+                              value="Tiền mặt khi nhận hàng"
+                              name="payment"
+                              onChange={handlePayment}
+                              checked={payMent === "Tiền mặt khi nhận hàng"} // để giữ trạng thái khi mở lại
+                            />{" "}
+                            Tiền mặt khi nhận hàng
                           </label>
                         </li>
                         <li>
-                        <label onClick={() => setPayMent("Thanh toán qua ngân hàng")}>
-                          <input
-                            type="radio"
-                            value="Thanh toán qua ngân hàng"
-                            name="payment"
-                            onChange={handlePayment}
-                            checked={payMent === "Thanh toán qua ngân hàng"} // để giữ trạng thái khi mở lại
-                          />{" "}
-                          Thanh toán qua ngân hàng
+                          <label
+                            onClick={() =>
+                              setPayMent("Thanh toán qua ngân hàng")
+                            }
+                          >
+                            <input
+                              type="radio"
+                              value="Thanh toán qua ngân hàng"
+                              name="payment"
+                              onChange={handlePayment}
+                              checked={payMent === "Thanh toán qua ngân hàng"} // để giữ trạng thái khi mở lại
+                            />{" "}
+                            Thanh toán qua ngân hàng
                           </label>
                         </li>
                       </ul>
@@ -394,6 +407,21 @@ function Carts() {
                     </div>
                   </div>
                 )}
+                <div>
+                  <BackgroundPopup className={`${(popupSuccess === false)? styles.popupSuccess : ''}`}>
+                    <div className={`${styles.popUp}`}>
+                      <div className={styles.checkIcon}>
+                        {" "}
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          style={{ color: "#48bf40", width: '50%', height: '50%', marginTop: '22%' }}
+                        />
+                      </div>
+                      <h3 className="text-success">Thành công</h3>
+                      <p>chúng tôi đã nhận được đơn đặt hàng của bạn, bạn sẽ trở về trang chủ sau 2 giây</p>
+                    </div>
+                  </BackgroundPopup>
+                </div>
                 <button onClick={handlePay} className={styles.btn}>
                   <span className={styles.orderText}>Đặt hàng:</span>
                   <span className={styles.orderPrice}>{totalOrder}</span>
