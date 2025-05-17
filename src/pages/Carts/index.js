@@ -158,7 +158,6 @@ function Carts() {
 
   const handlePay = async () => {
     try {
-      setpopupSuccess(!popupSuccess)
       const products = product.carts.map((item) => ({
         uid: item.userID,
         name: item.product.name,
@@ -200,7 +199,10 @@ function Carts() {
           alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
         }
       } else {
-        navigate("/");
+        setpopupSuccess(!popupSuccess)
+        const myTimeout = setTimeout(() =>{navigate("/")}, 3000);
+        return () => clearTimeout(myTimeout);
+        
       }
     } catch (err) {
       alert("vui lòng nhập địa chỉ giao hàng:...");

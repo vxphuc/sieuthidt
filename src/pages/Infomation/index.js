@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function Infomation() {
+  
   const [data, setData] = useState([]);
   const [address, setAddress] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -21,6 +22,7 @@ function Infomation() {
     const res = await axios.get("https://provinces.open-api.vn/api/");
     setProvinces(res.data);
   };
+  
   
   useEffect(() => {
     if (editAddress?.provinces?.code) {
@@ -91,6 +93,20 @@ function Infomation() {
           .then((res) => setAddress(res.data));
       });
   };
+console.log(data)
+  const handleSubmitName = async () =>{
+    const name = document.querySelector('#name').value
+    const numberPhone = document.querySelector('#phone').value
+    const sex = document.querySelector('input[name="gender"]:checked').value;
+    const response = await axios.put(`https://dtweb.onrender.com/sign-in/editProfile`,{
+      name,
+      numberPhone,
+      sex
+    },{
+      withCredentials: true
+    })
+    console.log(response.data)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -98,7 +114,7 @@ function Infomation() {
       <div className={styles.customer}>
         <h3>Thông tin cá nhân</h3>
         <p>
-          Anh {data.name} - {data.phone}
+          {data.gender} {data.name} - {data.phone}
         </p>
         <button
           type="button"
@@ -135,7 +151,7 @@ function Infomation() {
 
           <div className={styles.saveInfo}>
             <button type="button" className={styles.cancelBtn} onClick={() => setShowForm(false)}>Hủy</button>
-            <button type="submit" className={styles.saveBtn}>Lưu</button>
+            <button type="submit" onClick={handleSubmitName} className={styles.saveBtn}>Lưu</button>
           </div>
         </div>
         )}
