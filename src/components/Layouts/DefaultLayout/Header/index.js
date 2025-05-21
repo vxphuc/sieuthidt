@@ -28,10 +28,6 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartCount(cartData.length);
-  }, []);
   //phần ẩn quản trị viên
   useEffect(() => {
     const fetchUser = async () => {
