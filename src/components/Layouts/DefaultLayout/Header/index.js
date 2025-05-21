@@ -4,31 +4,17 @@ import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef,useContext } from "react";
 import axios from "axios";
+import { CartContext } from "../../../../contexts/CartContext";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const menuRef = useRef(null);
   const [searh, setSearch] = useState("");
   const [userRole, setUserRole] = useState(null); // dữ liệu người dùng đăng nhập
-  const [cartCount, setCartCount] = useState(0);
-
-  // lấy số lượng sản phẩm trong giỏ hàng
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await axios.get("https://dtweb.onrender.com/cart", {
-          withCredentials: true,
-        });
-        
-        setCartCount(res.data.itemCount);
-      } catch (err) {
-        console.error("Không lấy được số lượng sản phẩm trong giỏ hàng:", err);
-      }
-    };
-    fetch();
-  }, []);
+  const { cartCount } = useContext(CartContext);
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -105,11 +91,13 @@ function Header() {
           >
             <li>
               <NavLink to="/gio-hang">
-                <div className={style.cartInside}>
-                  <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
-                </div>
-              </NavLink>
-              <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+
+              <div className={style.cartInside}>
+                <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
+              </div>
+            </NavLink>
+            <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+
             </li>
             <li>
               <NavLink
