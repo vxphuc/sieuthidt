@@ -42,7 +42,10 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartCount(cartData.length);
+  }, []);
   //phần ẩn quản trị viên
   useEffect(() => {
     const fetchUser = async () => {
@@ -100,6 +103,14 @@ function Header() {
             ref={menuRef}
             className={showMenu ? style.navMobileShown : style.navMobileHidden}
           >
+            <li>
+              <NavLink to="/gio-hang">
+                <div className={style.cartInside}>
+                  <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
+                </div>
+              </NavLink>
+              <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+            </li>
             <li>
               <NavLink
                 to="/"

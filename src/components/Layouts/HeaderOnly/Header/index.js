@@ -10,6 +10,7 @@ import axios from "axios";
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const [userRole, setUserRole] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   useEffect(() => {
       const fetchUser = async () => {
         try {
@@ -58,6 +59,14 @@ function Header() {
         {/* Menu điều hướng */}
         <nav>
           <ul className={showMenu ? style.navMobileShown : style.navMobileHidden}>
+            <li>
+              <NavLink to="/gio-hang">
+                <div className={style.cartInside}>
+                  <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
+                </div>
+              </NavLink>
+              <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+            </li>
             <li>
               <NavLink
                 to="/"
