@@ -76,6 +76,20 @@ a {
   margin-left: 10px;
   cursor: pointer;
 }
+.NumberPopUp {
+  position: absolute;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* căn giữa ngang */
+  align-items: center;
+  top: 22%;
+  margin-left: 10px;
+}
 @media (max-width: 993px){
   nav a{
     font-size: 13px;
@@ -86,6 +100,9 @@ a {
 @media (max-width: 768px) {
   .nav {
     display: none; /* Ẩn menu điều hướng */
+  }
+  .NumberPopUp{
+    display: none;
   }
   .menuToggle {
     display: block; /* Chỉ hiện icon trên mobile */

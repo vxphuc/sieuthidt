@@ -95,6 +95,20 @@ a {
   font-weight: bold;
   z-index: 1;
 }
+.NumberPopUp {
+  position: absolute;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* căn giữa ngang */
+  align-items: center;
+  top: 22%;
+  margin-left: 10px;
+}
 @media (max-width: 993px){
   nav a{
     font-size: 13px;
@@ -106,7 +120,9 @@ a {
   .nav {
     display: none; /* Ẩn menu điều hướng */
   }
-
+  .NumberPopUp{
+    display: none; /* Hiện số lượng sản phẩm trong giỏ hàng */
+  }
   .menuToggle {
     display: block; /* Chỉ hiện icon trên mobile */
     z-index: 2000; /* thêm nếu bị che */
