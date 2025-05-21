@@ -106,7 +106,9 @@ a {
   display: flex;
   justify-content: center; /* căn giữa ngang */
   align-items: center;
+
   top: 20%;
+
   margin-left: 10px;
 }
 @media (max-width: 993px){
@@ -120,7 +122,9 @@ a {
   .nav {
     display: none; /* Ẩn menu điều hướng */
   }
-
+  .NumberPopUp{
+    display: none; /* Hiện số lượng sản phẩm trong giỏ hàng */
+  }
   .menuToggle {
     display: block; /* Chỉ hiện icon trên mobile */
     z-index: 2000; /* thêm nếu bị che */

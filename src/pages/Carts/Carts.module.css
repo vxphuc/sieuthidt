@@ -157,6 +157,7 @@
 }
 .content p {
   margin-bottom: 6px;
+  font-weight: bold;
 }
 .cong {
   padding: 3px 10px;
@@ -214,6 +215,7 @@
   font-size: 14px;
   color: #333;
   vertical-align: middle;
+  font-weight: bold;
 }
 .table input[type="checkbox"] {
   margin-right: 6px;
@@ -310,6 +312,7 @@
   z-index: 9999;
   padding: 1rem;
   animation: fadeIn 0.3s ease-in-out;
+  text-align: center;
 }
 .popUp {
   position: fixed;
@@ -341,6 +344,7 @@
   display: block;
   list-style: none;
   padding-left: 0;
+  text-align: center;
 }
 
 .paymentPopup li {
