@@ -28,7 +28,6 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   //phần ẩn quản trị viên
   useEffect(() => {
     const fetchUser = async () => {
@@ -88,11 +87,13 @@ function Header() {
           >
             <li>
               <NavLink to="/gio-hang">
+
               <div className={style.cartInside}>
                 <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
               </div>
             </NavLink>
             <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+
             </li>
             <li>
               <NavLink

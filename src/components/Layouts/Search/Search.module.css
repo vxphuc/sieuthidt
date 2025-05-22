@@ -107,4 +107,10 @@
   .popUpHeader {
     width: 50%;
   }
+  .cartInside {
+    display: block;
+  }
+  .NumberPopUp {
+    display: block;
+  }
 }

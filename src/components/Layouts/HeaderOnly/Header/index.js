@@ -10,6 +10,27 @@ import axios from "axios";
 function Header() {
   const [showMenu, setShowMenu] = useState(false); // toggle menu trạng thái mở/đóng
   const [userRole, setUserRole] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+      const fetch = async () => {
+        try {
+          const res = await axios.get("https://dtweb.onrender.com/cart", {
+            withCredentials: true,
+          });
+          
+          setCartCount(res.data.itemCount);
+        } catch (err) {
+          console.error("Không lấy được số lượng sản phẩm trong giỏ hàng:", err);
+        }
+      };
+      fetch();
+    }, []);
+    useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+    setCartCount(cartData.length);
+  }, []);
+
   useEffect(() => {
       const fetchUser = async () => {
         try {
@@ -58,6 +79,14 @@ function Header() {
         {/* Menu điều hướng */}
         <nav>
           <ul className={showMenu ? style.navMobileShown : style.navMobileHidden}>
+            <li>
+              <NavLink to="/gio-hang">
+                <div className={style.cartInside}>
+                  <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
+                </div>
+              </NavLink>
+              <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
+            </li>
             <li>
               <NavLink
                 to="/"
