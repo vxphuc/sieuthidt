@@ -11,6 +11,7 @@
   top: 58%;
   transform: translateY(-50%);
   cursor: pointer;
+  display: none;
 }
 .cartIcon {
   color: rgb(19 17 51);
@@ -90,11 +91,18 @@
   align-items: center;
   top: 0;
   left: 88%;
+  display: none;
 }
 
 @media (max-width: 768px) {
   .searchContainer {
     width: 90% !important;
+  }
+  .cartInside{
+    display: block;
+  }
+  .NumberPopUp{
+    display: block;
   }
   .popUpHeader {
     width: 50%;
