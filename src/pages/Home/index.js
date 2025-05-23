@@ -4,6 +4,9 @@ import styles from "./Home.module.css";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faPlus, 
+  faMinus, 
+  faXmark,
   faSolid,
   faCaretRight,
   faCaretLeft,
@@ -11,6 +14,7 @@ import {
 import { NavLink, useNavigate  } from "react-router-dom";
 import ProductHome from "../ProductHome";
 import {CartContext} from "../../contexts/CartContext";
+import BackgroundPopup from "../../components/BackgroundPopup";
 
 function Home() {
   const navigate = useNavigate();
@@ -24,23 +28,42 @@ function Home() {
   const [showAlert, setShowAlert] = useState(false);
   const {fetchCartCount} = useContext(CartContext);
 
+  const [popupProduct, setPopupProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
   // mua sản phẩm
-  const handleBuy = (product) => {
-      axios
-        .post("https://dtweb.onrender.com/cart/create", {
-          productID: product,
-        }, {
-          withCredentials: true
-        })
-        .then((res) => {
-          console.log(res.data);
-          fetchCartCount()
-          setShowAlert(true);
-          setTimeout(() => setShowAlert(false), 3000);
-        })
-        .catch((error) => navigate("/dang-nhap"));
-  }
-  
+  // const handleBuy = (product) => {
+  //     axios
+  //       .post("https://dtweb.onrender.com/cart/create", {
+  //         productID: product,
+  //       }, {
+  //         withCredentials: true
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data);
+  //         fetchCartCount()
+  //         setShowAlert(true);
+  //         setTimeout(() => setShowAlert(false), 3000);
+  //       })
+  //       .catch((error) => navigate("/dang-nhap"));
+  // }
+  const openPopupBuy = (product) => {
+    setPopupProduct(product);
+    setQuantity(1); // reset về 1
+  };
+
+  const confirmAddToCart = () => {
+    axios
+      .post("https://dtweb.onrender.com/cart/create", {
+        productID: popupProduct._id,
+        quantity: quantity,
+      }, { withCredentials: true })
+      .then((res) => {
+        fetchCartCount();
+        setPopupProduct(null); // đóng popup
+      })
+      .catch((error) => navigate("/dang-nhap"));
+  };
 
   //new product
   useEffect(() => {
@@ -176,7 +199,7 @@ function Home() {
                         <h6>{price}</h6>
                       </div>
                       <div className={`${styles.btnBuy}`}>
-                        <button onClick={() => handleBuy(product._id)} className={`${styles.btn}`}>Mua</button>
+                        <button onClick={() => openPopupBuy(product)} className={`${styles.btn}`}>Mua</button>
                       </div>
                     </div>
                   </div>
@@ -195,7 +218,48 @@ function Home() {
           🛒 Đã thêm vào giỏ hàng!
         </div>
       )}
+      {popupProduct && (
+        <BackgroundPopup
+          onClick={() => setPopupProduct(null)}
+          className={styles.popupWrapper}
+        >
+          <div className={styles.popupCard} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.popupClose} onClick={() => setPopupProduct(null)}>
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <img src={popupProduct.image[0]} className={styles.popupImage} />
+            <h5>{popupProduct.name}</h5>
+            <p className={styles.popupPrice}>
+              {Number.parseInt(popupProduct.price.$numberDecimal).toLocaleString("vi-VN", {
+                style: "currency", currency: "VND"
+              })}
+            </p>
+            <div className={styles.quantityControl}>
+              <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}>
+                <FontAwesomeIcon icon={faMinus} />
+              </button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  setQuantity(isNaN(value) || value < 1 ? 1 : value);
+                }}
+                className={styles.quantityInput}
+              />
+              <button onClick={() => setQuantity(prev => prev + 1)}>
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+            <button className={styles.confirmBtn} onClick={confirmAddToCart}>
+              Thêm vào giỏ hàng
+            </button>
+          </div>
+        </BackgroundPopup>
+      )}
     </div>
+    
   );
 }
 
