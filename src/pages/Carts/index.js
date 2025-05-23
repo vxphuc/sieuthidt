@@ -138,7 +138,7 @@ function Carts() {
   };
 
   const handleChecker = (e) => {
-    const totalPrice = product.reduce(
+    const totalPrice = product.carts.reduce(
       (acc, item) =>
         acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
       0
@@ -234,15 +234,16 @@ function Carts() {
                   <span>
                     <NavLink to="/gio-hang/cap-nhap-dia-chi">Đổi</NavLink>
                   </span>
+                  <div className={styles.textBasic}>
+                    <div className={styles.name}>{user.name}</div>
+                    <div>{user.phone}</div>
+                  </div>
                   <p>
                     {address.length > 0
                       ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}`
                       : "vui lòng nhập địa chỉ"}
                   </p>
-                  <div className={styles.textBasic}>
-                    <div className={styles.name}>{user.name}</div>
-                    <div>{user.phone}</div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -311,7 +312,7 @@ function Carts() {
                 <tbody>
                   <tr>
                     <td>Tổng tiền</td>
-                    <td>{total}</td>
+                    <td className={styles.totalAll}>{total}</td>
                   </tr>
                   <tr>
                     <td>
@@ -321,7 +322,7 @@ function Carts() {
                   </tr>
                   <tr>
                     <td>Tổng đơn hàng</td>
-                    <td>{totalOrder}</td>
+                    <td className={styles.totalAll}>{totalOrder}</td>
                   </tr>
                 </tbody>
               </table>

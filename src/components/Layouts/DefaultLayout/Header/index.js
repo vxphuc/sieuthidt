@@ -15,7 +15,6 @@ function Header() {
   const [userRole, setUserRole] = useState(null); // dữ liệu người dùng đăng nhập
   const { cartCount } = useContext(CartContext);
   
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
