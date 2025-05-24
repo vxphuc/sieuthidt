@@ -11,8 +11,10 @@ import axios from "axios";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
+import { useRef } from "react";
 
 function Carts() {
+  const changeAddressRef = useRef(null);
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,7 +122,9 @@ function Carts() {
           )
         )
       );
-      fetchCart();
+      await fetchCart();
+
+      window.location.reload();
     } catch (err) {
       console.error("Error deleting all:", err);
     }
@@ -162,6 +166,23 @@ function Carts() {
 
   const handlePay = async () => {
     try {
+      if (!address || address.length === 0) {
+        alert("Vui lòng nhập địa chỉ giao hàng.");
+
+        // Scroll và highlight phần đổi địa chỉ
+        if (changeAddressRef.current) {
+          changeAddressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          changeAddressRef.current.classList.add(styles.highlightChangeAddress);
+
+          setTimeout(() => {
+            if (changeAddressRef.current) {
+              changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
+            }
+          }, 3000);
+        }
+
+        return; // Dừng xử lý đặt hàng nếu thiếu địa chỉ
+      }
       const products = product.carts.map((item) => ({
         uid: item.userID,
         name: item.product.name,
@@ -211,6 +232,7 @@ function Carts() {
       }
     } catch (err) {
       alert("vui lòng nhập địa chỉ giao hàng:...");
+      console.error(err);
     }
   };
 
@@ -236,7 +258,7 @@ function Carts() {
               <div className={styles.pick_up_store}>
                 <div className={styles.chose_address}>Giao đến</div>
                 <div className={styles.address_user}>
-                  <span>
+                  <span ref={changeAddressRef}>
                     <NavLink to="/gio-hang/cap-nhap-dia-chi">Đổi</NavLink>
                   </span>
                   <div className={styles.textBasic}>
