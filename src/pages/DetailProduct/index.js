@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
+  faPlus, faMinus, faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useParams, useNavigate, data } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
@@ -11,6 +12,7 @@ import ListProductSame from "../ListProductSame";
 import ReviewList from "../../components/Ratingstars/ReviewList/ReviewList.js";
 import ReviewForm from "../../components/Ratingstars//ReviewForm/ReviewForm.js";
 import {CartContext} from "../../contexts/CartContext.js";
+import BackgroundPopup from "../../components/BackgroundPopup";
 
 function DetailProduct() {
   const { slug } = useParams();
@@ -22,6 +24,26 @@ function DetailProduct() {
 
   const bgXRef = useRef(0);
   const [moreDescription, setMoreDescription] = useState(false);
+
+  const [popupProduct, setPopupProduct] = useState(null); // sản phẩm đang được mở popup
+  const [quantity, setQuantity] = useState(1);
+
+  const openPopupBuy = (product) => {
+    setPopupProduct(product);
+    setQuantity(1); // reset về 1
+  };
+  const confirmAddToCart = () => {
+    axios
+      .post("https://dtweb.onrender.com/cart/create", {
+        productID: popupProduct._id,
+        quantity: quantity,
+      }, { withCredentials: true })
+      .then((res) => {
+        fetchCartCount();
+        setPopupProduct(null); // đóng popup
+      })
+      .catch((error) => navigate("/dang-nhap"));
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -209,7 +231,7 @@ function DetailProduct() {
               );
             })}
             <button
-            onClick={() => handleBuy(product[0]._id)}
+            onClick={() => openPopupBuy(product[0])}
               style={{
                 backgroundPositionY: `50%`,
                 backgroundPositionX: `${bgX}%`,
@@ -250,6 +272,52 @@ function DetailProduct() {
       <ReviewList
         productId={product.length > 0 ? product[0]._id : ""}
       ></ReviewList>
+      
+      {popupProduct && (
+        <BackgroundPopup
+          onClick={() => setPopupProduct(null)}
+          className={styles.popupWrapper}
+        >
+          <div className={styles.popupCard} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.popupClose} onClick={() => setPopupProduct(null)}>
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <img src={popupProduct.image[0]} className={styles.popupImage} />
+            <h3>{popupProduct.name}</h3>
+            <p className={styles.popupPrice}>
+              {Number.parseInt(
+                typeof popupProduct.price === "object" && popupProduct.price.$numberDecimal
+                  ? popupProduct.price.$numberDecimal
+                  : popupProduct.price
+              ).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </p>
+            <div className={styles.quantityControl}>
+              <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}>
+                <FontAwesomeIcon icon={faMinus} />
+              </button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  setQuantity(isNaN(value) || value < 1 ? 1 : value);
+                }}
+                className={styles.quantityInput}
+              />
+              <button onClick={() => setQuantity(prev => prev + 1)}>
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+            <button className={styles.confirmBtn} onClick={confirmAddToCart}>
+              Thêm vào giỏ hàng
+            </button>
+          </div>
+        </BackgroundPopup>
+      )}
     </div>
   );
 }

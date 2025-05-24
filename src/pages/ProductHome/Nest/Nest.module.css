@@ -109,7 +109,78 @@
     color: rgb(81 87 100);
     cursor: pointer;
   }
+  .popupWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
 
+  .popupCard {
+    background: #fff;
+    padding: 28px;
+    border-radius: 12px;
+    position: relative;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+
+  .popupClose {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+  }
+
+  .popupImage {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .popupPrice {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .quantityControl {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    align-items: center;
+  }
+  .quantityInput {
+    width: 70px;
+    text-align: center;
+    font-size: 16px;
+    padding: 4px;
+    border: none;
+    background-color: #8ef0a1;
+  }
+
+  .quantityControl button {
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+  }
+
+  .confirmBtn {
+    background-color: #28a745;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  .quantityInput::-webkit-outer-spin-button,
+  .quantityInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  } 
   @media screen and (max-width: 1200px) {
     .product {
       width: calc(100% / 4);
