@@ -165,6 +165,7 @@ function Carts() {
   const handlePayment = (e) => setPayMent(e.target.value);
 
   const handlePay = async () => {
+    console.log("handlePay", address);
     try {
       if (!address || address.length === 0) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
@@ -184,6 +185,7 @@ function Carts() {
         return; // Dừng xử lý đặt hàng nếu thiếu địa chỉ
       }
       const products = product.carts.map((item) => ({
+        productID: item.product._id,
         uid: item.userID,
         name: item.product.name,
         price: item.product.price.$numberDecimal,
@@ -226,6 +228,7 @@ function Carts() {
       } else {
         setpopupSuccess(!popupSuccess);
         const myTimeout = setTimeout(() => {
+          window.location.reload();
           navigate("/");
         }, 3000);
         return () => clearTimeout(myTimeout);
