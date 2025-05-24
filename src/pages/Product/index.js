@@ -1,9 +1,10 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
-import style from "./Product.module.css";
+import style from "./Product.module.css"; // chú ý tên biến style
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faPlus, faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import BackgroundPopup from "../../components/BackgroundPopup";
 
 function Product() {
   const { slug } = useParams();
@@ -11,46 +12,58 @@ function Product() {
   const [product, setProduct] = useState([]);
   const [typeProduct, setTypeProduct] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${slug}`)
-      .then((response) => {
-        setTypeProduct(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [slug]);
-  useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/product/getProducts/${slug}`)
-      .then((response) => {
-        setProduct(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [slug]);
+  const [popupProduct, setPopupProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
-  const handleGoBack = () => {
-    navigate(-1);
+  // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
+  const fetchCartCount = () => {
+    axios
+      .get("https://dtweb.onrender.com/cart/count", { withCredentials: true })
+      .then((res) => {
+        console.log("Số lượng giỏ hàng hiện tại:", res.data.count);
+        // Có thể cập nhật state hoặc context nếu có
+      })
+      .catch((err) => console.error("Lỗi lấy số lượng giỏ hàng:", err));
   };
 
-  const handleBuy = (product) => {
+  const openPopupBuy = (product) => {
+    setPopupProduct(product);
+    setQuantity(1);
+  };
+
+  const confirmAddToCart = () => {
     axios
       .post(
         "https://dtweb.onrender.com/cart/create",
         {
-          productID: product,
+          productID: popupProduct._id,
+          quantity: quantity,
         },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       )
       .then((res) => {
-        console.log(res.data);
+        fetchCartCount(); // gọi đúng hàm này
+        setPopupProduct(null);
       })
+      .catch((error) => navigate("/dang-nhap"));
+  };
+
+  useEffect(() => {
+    axios
+      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${slug}`)
+      .then((response) => setTypeProduct(response.data))
       .catch((error) => console.log(error));
+  }, [slug]);
+
+  useEffect(() => {
+    axios
+      .get(`https://dtweb.onrender.com/product/getProducts/${slug}`)
+      .then((response) => setProduct(response.data))
+      .catch((error) => console.log(error));
+  }, [slug]);
+
+  const handleGoBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -59,9 +72,9 @@ function Product() {
         <div onClick={handleGoBack} className={`${style.back}`}>
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </div>
-        {typeProduct.map((item, index) => {
-          return <span key={index} className={`d-flex`}>{item.name}</span>;
-        })}
+        {typeProduct.map((item, index) => (
+          <span key={index} className={`d-flex`}>{item.name}</span>
+        ))}
       </div>
 
       <div className={`${style.products}`}>
@@ -73,31 +86,67 @@ function Product() {
               <div className={`${style.boxProduct}`}>
                 <div className={`${style.pro}`}>
                   <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
-                    <img
-                      className={`${style.imgProduct}`}
-                      src={item.image[0]}
-                      alt="product"
-                    />
+                    <img className={`${style.imgProduct}`} src={item.image[0]} alt="product" />
                   </NavLink>
                   <div className={`${style.title}`}>
                     <NavLink to={``}>
                       <h3 className={style.nameProduct}>
-                        {item.name.length > 30
-                          ? item.name.slice(0, 30) + "..."
-                          : item.name}
+                        {item.name.length > 30 ? item.name.slice(0, 30) + "..." : item.name}
                       </h3>
                     </NavLink>
-                    <div className={style.priceProduct}>
-                      {price.toLocaleString()} VNĐ
-                    </div>
+                    <div className={style.priceProduct}>{price.toLocaleString()} VNĐ</div>
                   </div>
-                  <button onClick={() => handleBuy(item._id)} className={` ${style.btnBuy}`}>Mua ngay</button>
+                  <button onClick={() => openPopupBuy(item)} className={`${style.btnBuy}`}>
+                    Mua ngay
+                  </button>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
+
+      {popupProduct && (
+        <BackgroundPopup
+          onClick={() => setPopupProduct(null)}
+          className={style.popupWrapper} // Sửa từ styles -> style
+        >
+          <div className={style.popupCard} onClick={(e) => e.stopPropagation()}>
+            <button className={style.popupClose} onClick={() => setPopupProduct(null)}>
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <img src={popupProduct.image[0]} className={style.popupImage} />
+            <h3>{popupProduct.name}</h3>
+            <p className={style.popupPrice}>
+              {Number.parseInt(popupProduct.price.$numberDecimal).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </p>
+            <div className={style.quantityControl}>
+              <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}>
+                <FontAwesomeIcon icon={faMinus} />
+              </button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  setQuantity(isNaN(value) || value < 1 ? 1 : value);
+                }}
+                className={style.quantityInput}
+              />
+              <button onClick={() => setQuantity(prev => prev + 1)}>
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+            <button className={style.confirmBtn} onClick={confirmAddToCart}>
+              Thêm vào giỏ hàng
+            </button>
+          </div>
+        </BackgroundPopup>
+      )}
     </div>
   );
 }
