@@ -6,10 +6,11 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
+import { CartContext } from "../../contexts/CartContext";
 
 function Carts() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function Carts() {
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
   const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
   const [popupSuccess, setpopupSuccess] = useState(false);
+  const { fetchCartCount } = useContext(CartContext);
 
   const fetchUserProfile = async () => {
     try {
@@ -99,6 +101,8 @@ function Carts() {
         withCredentials: true,
       });
       fetchCart();
+      await fetchCart();
+      await fetchCartCount();
     } catch (err) {
       console.error("Delete failed:", err);
     }
@@ -199,10 +203,11 @@ function Carts() {
           alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
         }
       } else {
-        setpopupSuccess(!popupSuccess)
-        const myTimeout = setTimeout(() =>{navigate("/")}, 3000);
+        setpopupSuccess(!popupSuccess);
+        const myTimeout = setTimeout(() => {
+          navigate("/");
+        }, 3000);
         return () => clearTimeout(myTimeout);
-        
       }
     } catch (err) {
       alert("vui lòng nhập địa chỉ giao hàng:...");
@@ -243,7 +248,6 @@ function Carts() {
                       ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}`
                       : "vui lòng nhập địa chỉ"}
                   </p>
-
                 </div>
               </div>
             </div>
@@ -411,17 +415,29 @@ function Carts() {
                   </div>
                 )}
                 <div>
-                  <BackgroundPopup className={`${(popupSuccess === false)? styles.popupSuccess : ''}`}>
+                  <BackgroundPopup
+                    className={`${
+                      popupSuccess === false ? styles.popupSuccess : ""
+                    }`}
+                  >
                     <div className={`${styles.popUp}`}>
                       <div className={styles.checkIcon}>
                         {" "}
                         <FontAwesomeIcon
                           icon={faCheck}
-                          style={{ color: "#48bf40", width: '50%', height: '50%', marginTop: '22%' }}
+                          style={{
+                            color: "#48bf40",
+                            width: "50%",
+                            height: "50%",
+                            marginTop: "22%",
+                          }}
                         />
                       </div>
                       <h3 className="text-success">Thành công</h3>
-                      <p>chúng tôi đã nhận được đơn đặt hàng của bạn, bạn sẽ trở về trang chủ sau 2 giây</p>
+                      <p>
+                        chúng tôi đã nhận được đơn đặt hàng của bạn, bạn sẽ trở
+                        về trang chủ sau 2 giây
+                      </p>
                     </div>
                   </BackgroundPopup>
                 </div>
