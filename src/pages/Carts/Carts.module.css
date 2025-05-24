@@ -68,10 +68,11 @@
   left: 14px;
   top: -8px;
   position: absolute;
-  color: #9da7bcb2;
+  color: #3c568fb2;
   font-size: 14px;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
+  font-weight: 500;
   background-color: rgb(255 255 255);
 }
 .address_user {
@@ -84,17 +85,18 @@
   overflow: hidden;
 }
 .address_user span {
-  padding: 4px 19px;
-  background-color: rgb(228 233 242);
+  padding: 4px 20px;
+  background-color: rgb(53, 217, 111);
   border-radius: 10px;
   cursor: pointer;
   top: 40px;
   right: 0.8rem;
   position: absolute;
+  
 }
 .address_user span a {
-  color: rgb(34 43 69);
-  font-size: 12px;
+  color: white;
+  font-size: 1.1rem;
   font-weight: 600;
 }
 .pb4 {
@@ -106,8 +108,8 @@
   font-size: 13px;
 }
 .textBasic {
-  color: rgb(81 87 100);
-  font-size: 14px;
+  color: rgb(0, 0, 0);
+  font-size: 15px;
   margin-top: 0.25rem;
 }
 .name {
@@ -212,10 +214,13 @@
 }
 .table td {
   padding: 0.5rem 1rem;
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
   vertical-align: middle;
   font-weight: bold;
+}
+.table .totalAll{
+  font-size: 1.1rem;
 }
 .table input[type="checkbox"] {
   margin-right: 6px;
