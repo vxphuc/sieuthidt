@@ -20,23 +20,24 @@ export const CartProvider = ({ children }) => {
   };
 
   useEffect(() => {
-  const handleCartChange = () => {
-    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartCount(cartData.length); // hoặc dùng reduce nếu muốn
-  };
+    const handleCartChange = () => {
+      const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+      setCartCount(cartData.length); // hoặc dùng reduce nếu muốn
+    };
+    fetchCartCount();
 
-  // 🔄 Lắng nghe cả 2 loại sự kiện: storage (đa tab) và cart-updated (cùng tab)
-  window.addEventListener("storage", handleCartChange);
-  window.addEventListener("cart-updated", handleCartChange);
+    // 🔄 Lắng nghe cả 2 loại sự kiện: storage (đa tab) và cart-updated (cùng tab)
+    window.addEventListener("storage", handleCartChange);
+    window.addEventListener("cart-updated", handleCartChange);
 
-  // Gọi lần đầu
-  handleCartChange();
+    // Gọi lần đầu
+    handleCartChange();
 
-  return () => {
-    window.removeEventListener("storage", handleCartChange);
-    window.removeEventListener("cart-updated", handleCartChange);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("storage", handleCartChange);
+      window.removeEventListener("cart-updated", handleCartChange);
+    };
+  }, []);
 
   return (
     <CartContext.Provider value={{ cartCount, setCartCount, fetchCartCount }}>
