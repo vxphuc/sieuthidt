@@ -179,7 +179,11 @@ body {
   border-radius: 6px;
   margin-top: 10px;
 }
-
+.quantityInput::-webkit-outer-spin-button,
+.quantityInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 @keyframes fadeOut {
   0% { opacity: 1; }
   80% { opacity: 1; }
