@@ -234,6 +234,10 @@ function Carts() {
         return () => clearTimeout(myTimeout);
       }
     } catch (err) {
+      if(err.response.status === 400) {
+        alert("Không đủ số dư sản phẩm trong kho hàng, vui lòng liên hệ với chung tôi để được hỗ trợ.");
+        return;
+      }
       alert("vui lòng nhập địa chỉ giao hàng:...");
       console.error(err);
     }
