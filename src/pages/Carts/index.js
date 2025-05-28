@@ -172,9 +172,7 @@ function Carts() {
         };
       });
 
-      // Gọi fetchCart() sau khi update backend thành công để đồng bộ dữ liệu
-      await fetchCart();
-      await fetchCartCount();
+
 
     } catch (err) {
       console.error(`Error ${type} quantity:`, err);
