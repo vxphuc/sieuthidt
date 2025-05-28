@@ -101,7 +101,7 @@ function Cosmetics() {
             );
           })}
           <div className={`${style.viewMore}`}>
-            <NavLink className={`${style.seeMore}`}>Xem thêm</NavLink>
+            <NavLink to={"/san-pham/My-Pham"} className={`${style.seeMore}`}>Xem thêm</NavLink>
           </div>
         </div>
       </div>
