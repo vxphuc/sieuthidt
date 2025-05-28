@@ -15,7 +15,7 @@
 .productSame{
     scrollbar-width: none;
     overflow-y: auto;
-    max-height: 220px;
+    max-height: 300px;
 }
 .product{
     padding: 5px 10px;

@@ -102,7 +102,7 @@ function SeaweedJelly() {
             );
           })}
           <div className={`${style.viewMore} text-center`}>
-            <NavLink className={`${style.seeMore}`}>Xem thêm</NavLink>
+            <NavLink to={"/san-pham/Thach-Rong-Nho"} className={`${style.seeMore}`}>Xem thêm</NavLink>
           </div>
         </div>
       </div>

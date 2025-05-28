@@ -149,6 +149,11 @@
   text-overflow: ellipsis;
   max-width: 200px;
 }
+.productPrice {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
 .content {
   float: none;
   margin: 0;

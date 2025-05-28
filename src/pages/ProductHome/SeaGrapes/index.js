@@ -104,7 +104,7 @@ function SeaGrapes() {
             );
           })}
           <div className={`${style.viewMore}`}>
-            <NavLink className={`${style.seeMore}`}>Xem thêm</NavLink>
+            <NavLink to={"/san-pham/Rong-Nho"} className={`${style.seeMore}`}>Xem thêm</NavLink>
           </div>
         </div>
       </div>

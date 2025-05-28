@@ -26,6 +26,23 @@ function Carts() {
   const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
   const [popupSuccess, setpopupSuccess] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
+  const [inputQuantities, setInputQuantities] = useState({});
+
+  const handleQuantityInputChange = async (id, newQuantity) => {
+  try {
+    // Gửi request update số lượng theo id sản phẩm và số lượng mới
+    await axios.patch(
+      `https://dtweb.onrender.com/cart/updateQuantity/${id}`,
+      { quantity: newQuantity },  // gửi dữ liệu mới theo chuẩn API backend (cần backend hỗ trợ)
+      { withCredentials: true }
+    );
+    // Sau khi update thành công, tải lại giỏ hàng mới
+    await fetchCart();
+    await fetchCartCount();
+  } catch (err) {
+    console.error("Error updating quantity:", err);
+  }
+};
 
   const fetchUserProfile = async () => {
     try {
@@ -48,6 +65,11 @@ function Carts() {
       });
       const cartItems = res.data;
       setProduct(cartItems);
+      const quantities = {};
+      cartItems.carts.forEach(item => {
+        quantities[item.product._id] = item.quantity;
+      });
+      setInputQuantities(quantities);
       const totalPrice = cartItems.carts.reduce(
         (acc, item) =>
           acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
@@ -139,11 +161,44 @@ function Carts() {
           withCredentials: true,
         }
       );
-      fetchCart();
+
+      // Cập nhật ngay inputQuantities để UI phản hồi nhanh
+      setInputQuantities(prev => {
+        const currentVal = prev[id] || 1;
+        const newVal = type === "updateincrease" ? currentVal + 1 : Math.max(1, currentVal - 1);
+        return {
+          ...prev,
+          [id]: newVal,
+        };
+      });
+
+      // Gọi fetchCart() sau khi update backend thành công để đồng bộ dữ liệu
+      await fetchCart();
+      await fetchCartCount();
+
     } catch (err) {
       console.error(`Error ${type} quantity:`, err);
     }
   };
+
+  useEffect(() => {
+    // Khi inputQuantities hoặc product thay đổi, cập nhật tổng tiền
+    if (!product.carts) return;
+
+    let totalPrice = 0;
+    product.carts.forEach(item => {
+      const qty = inputQuantities[item.product._id] ?? item.quantity;
+      totalPrice += parseFloat(item.product.price.$numberDecimal) * qty;
+    });
+
+    const formatted = totalPrice.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+    setTotal(formatted);
+    setTotalOrder(formatted);
+  }, [inputQuantities, product]);
+
 
   const handleChecker = (e) => {
     const totalPrice = product.carts.reduce(
@@ -293,14 +348,21 @@ function Carts() {
                   <img src={item.product.image[0]} alt="product" />
                   <div className={styles.productInfo}>
                     <p className={styles.productName}>{item.product.name}</p>
+                    <p className={styles.productPrice}>Giá tiền:{" "}
+                    {(
+                      parseFloat(item.product.price.$numberDecimal)
+                    ).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}</p>
                   </div>
                 </div>
                 <div className={styles.content}>
                   <p>
-                    Giá tiền:{" "}
+                    Tổng tiền:{" "}
                     {(
                       parseFloat(item.product.price.$numberDecimal) *
-                      item.quantity
+                      (inputQuantities[item.product._id] ?? item.quantity)
                     ).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
@@ -317,10 +379,35 @@ function Carts() {
                     </button>
                     <input
                       type="number"
-                      value={item.quantity}
-                      readOnly
                       min="1"
-                      max="99"
+                      max="999"
+                      value={inputQuantities[item.product._id] ?? item.quantity}
+                      onChange={(e) => {
+                        let val = e.target.value;
+                        if (val === '') {
+                          // cho phép input trống để nhập lại
+                          setInputQuantities(prev => ({
+                            ...prev,
+                            [item.product._id]: val,
+                          }));
+                          return;
+                        }
+                        val = Math.max(1, Math.min(999, parseInt(val)));
+
+                        setInputQuantities(prev => ({
+                          ...prev,
+                          [item.product._id]: val,
+                        }));
+                      }}
+                      onBlur={() => {
+                        const val = inputQuantities[item.product._id];
+                        if (val === '' || val == null) return; // bỏ qua nếu rỗng
+
+                        const valNum = Number(val);
+                        if (valNum !== item.quantity) {
+                          handleQuantityInputChange(item.product._id, valNum);
+                        }
+                      }}
                     />
                     <button
                       onClick={() =>
