@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 function FormAdress({ className, adress, onSelect }) {
   const [name, setName] = useState([]);
-
   useEffect(() => {
     const fecthUser = async () => {
       const res = await axios.get(
@@ -18,14 +17,19 @@ function FormAdress({ className, adress, onSelect }) {
     fecthUser();
   }, []);
 
-  console.log(name)
-  const handleFix = (e) => {
-    e.preventDefault();
-  };
 
   const handleSelect = (e) => {
     onSelect(e.target.value);
   };
+   const handledelete = (e, index) =>{
+    e.preventDefault();
+    axios.delete(`https://dtweb.onrender.com/address/delete/${adress[index]._id}/${adress[index].wards._id}/${adress[index].districts._id}/${adress[index].provinces._id}`,{
+      withCredentials: true,
+    })
+
+    window.location.reload()
+    
+   }
 
   return (
     <div>
@@ -46,8 +50,7 @@ function FormAdress({ className, adress, onSelect }) {
                 <br />
               </div>
               <div className={`${styles.change}`}>
-                <button onClick={(e) => handleFix(e)}>Sửa</button>
-                <button>Xóa</button>
+                <button onClick={(e) => handledelete(e, index)}>Xóa</button>
               </div>
               <p className={`${styles.add}`}>
                 {item.nameRoad}, {item.wards.nameWards},{" "}

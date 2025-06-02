@@ -6,12 +6,11 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import axios from "axios";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
-import { useRef } from "react";
 
 function Carts() {
   const changeAddressRef = useRef(null);
@@ -27,30 +26,29 @@ function Carts() {
   const [popupSuccess, setpopupSuccess] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
   const [inputQuantities, setInputQuantities] = useState({});
+  const [outOfStockProducts, setOutOfStockProducts] = useState([]); // Thông báo sản phẩm hết hàng
 
+  // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
-  try {
-    // Gửi request update số lượng theo id sản phẩm và số lượng mới
-    await axios.patch(
-      `https://dtweb.onrender.com/cart/updateQuantity/${id}`,
-      { quantity: newQuantity },  // gửi dữ liệu mới theo chuẩn API backend (cần backend hỗ trợ)
-      { withCredentials: true }
-    );
-    // Sau khi update thành công, tải lại giỏ hàng mới
-    await fetchCart();
-    await fetchCartCount();
-  } catch (err) {
-    console.error("Error updating quantity:", err);
-  }
-};
+    try {
+      await axios.patch(
+        `https://dtweb.onrender.com/cart/updateQuantity/${id}`,
+        { quantity: newQuantity },
+        { withCredentials: true }
+      );
+      await fetchCart();
+      await fetchCartCount();
+    } catch (err) {
+      console.error("Error updating quantity:", err);
+    }
+  };
 
+  // Lấy thông tin user
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(
         "https://dtweb.onrender.com/sign-in/user-profile",
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       setUser(res.data);
     } catch (err) {
@@ -58,6 +56,7 @@ function Carts() {
     }
   };
 
+  // Lấy giỏ hàng
   const fetchCart = async () => {
     try {
       const res = await axios.get("https://dtweb.onrender.com/cart", {
@@ -66,7 +65,7 @@ function Carts() {
       const cartItems = res.data;
       setProduct(cartItems);
       const quantities = {};
-      cartItems.carts.forEach(item => {
+      cartItems.carts.forEach((item) => {
         quantities[item.product._id] = item.quantity;
       });
       setInputQuantities(quantities);
@@ -88,6 +87,7 @@ function Carts() {
     }
   };
 
+  // Lấy địa chỉ user
   const fetchAddress = async () => {
     try {
       const res = await axios.get("https://dtweb.onrender.com/cart/getAdd", {
@@ -105,26 +105,27 @@ function Carts() {
     fetchAddress();
   }, []);
 
-  const updateTotal = (items) => {
-    const totalPrice = items.reduce(
-      (acc, item) =>
-        acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
-      0
-    );
+  // Tính lại tổng tiền khi số lượng thay đổi
+  useEffect(() => {
+    if (!product.carts) return;
+    let totalPrice = 0;
+    product.carts.forEach((item) => {
+      const qty = inputQuantities[item.product._id] ?? item.quantity;
+      totalPrice += parseFloat(item.product.price.$numberDecimal) * qty;
+    });
     const formatted = totalPrice.toLocaleString("vi-VN", {
       style: "currency",
       currency: "VND",
     });
     setTotal(formatted);
     setTotalOrder(formatted);
-  };
+  }, [inputQuantities, product]);
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://dtweb.onrender.com/cart/delete/${id}`, {
         withCredentials: true,
       });
-      fetchCart();
       await fetchCart();
       await fetchCartCount();
     } catch (err) {
@@ -138,66 +139,42 @@ function Carts() {
         product.carts.map((item) =>
           axios.delete(
             `https://dtweb.onrender.com/cart/delete/${item.product._id}`,
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           )
         )
       );
       await fetchCart();
-
       window.location.reload();
     } catch (err) {
       console.error("Error deleting all:", err);
     }
   };
 
+  // Thay đổi số lượng bằng nút + -
   const handleQuantityChange = async (id, type) => {
     try {
       await axios.patch(
         `https://dtweb.onrender.com/cart/${type}/${id}`,
         {},
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-
-      // Cập nhật ngay inputQuantities để UI phản hồi nhanh
-      setInputQuantities(prev => {
+      setInputQuantities((prev) => {
         const currentVal = prev[id] || 1;
-        const newVal = type === "updateincrease" ? currentVal + 1 : Math.max(1, currentVal - 1);
+        const newVal =
+          type === "updateincrease"
+            ? currentVal + 1
+            : Math.max(1, currentVal - 1);
         return {
           ...prev,
           [id]: newVal,
         };
       });
-
-
-
     } catch (err) {
       console.error(`Error ${type} quantity:`, err);
     }
   };
 
-  useEffect(() => {
-    // Khi inputQuantities hoặc product thay đổi, cập nhật tổng tiền
-    if (!product.carts) return;
-
-    let totalPrice = 0;
-    product.carts.forEach(item => {
-      const qty = inputQuantities[item.product._id] ?? item.quantity;
-      totalPrice += parseFloat(item.product.price.$numberDecimal) * qty;
-    });
-
-    const formatted = totalPrice.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-    setTotal(formatted);
-    setTotalOrder(formatted);
-  }, [inputQuantities, product]);
-
-
+  // Dùng điểm khi thanh toán
   const handleChecker = (e) => {
     const totalPrice = product.carts.reduce(
       (acc, item) =>
@@ -217,32 +194,34 @@ function Carts() {
 
   const handlePayment = (e) => setPayMent(e.target.value);
 
+  // Đặt hàng và kiểm tra tồn kho từng sản phẩm
   const handlePay = async () => {
-    console.log("handlePay", address);
     try {
       if (!address || address.length === 0) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
-
-        // Scroll và highlight phần đổi địa chỉ
         if (changeAddressRef.current) {
-          changeAddressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          changeAddressRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
           changeAddressRef.current.classList.add(styles.highlightChangeAddress);
-
           setTimeout(() => {
             if (changeAddressRef.current) {
-              changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
+              changeAddressRef.current.classList.remove(
+                styles.highlightChangeAddress
+              );
             }
           }, 3000);
         }
-
-        return; // Dừng xử lý đặt hàng nếu thiếu địa chỉ
+        return;
       }
+      // Dùng số lượng nhập tay mới nhất
       const products = product.carts.map((item) => ({
         productID: item.product._id,
         uid: item.userID,
         name: item.product.name,
         price: item.product.price.$numberDecimal,
-        quantity: item.quantity,
+        quantity: inputQuantities[item.product._id] ?? item.quantity,
         img: item.product.image[0],
       }));
 
@@ -254,51 +233,45 @@ function Carts() {
           ward: address[0].wards.nameWards,
           road: address[0].road.nameRoad,
           Intomoney: totalOrder,
-
           products,
-
           PaymentForm: payMent,
         },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      console.log("Order success:", response.data);
-      const DeleteCart = await axios.delete(
-        "https://dtweb.onrender.com/cart/deleteCart",
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("deleteSucsses", DeleteCart.data);
+
+      // Đặt hàng thành công
+      await axios.delete("https://dtweb.onrender.com/cart/deleteCart", {
+        withCredentials: true,
+      });
       if (payMent === "Thanh toán qua ngân hàng") {
         if (response.data && response.data._id) {
           navigate(`/gio-hang/thanh-toan/${response.data._id}`);
         } else {
-          console.error("Không có ID đơn hàng trong response:", response.data);
           alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
         }
       } else {
-        setpopupSuccess(!popupSuccess);
-        const myTimeout = setTimeout(() => {
+        setpopupSuccess(true);
+        setTimeout(() => {
           window.location.reload();
           navigate("/");
-        }, 3000);
-        return () => clearTimeout(myTimeout);
+        }, 2000);
       }
     } catch (err) {
-      if(err.response.status === 400) {
-        alert("Không đủ số dư sản phẩm trong kho hàng, vui lòng liên hệ với chung tôi để được hỗ trợ.");
+      // Nếu lỗi tồn kho trả về mảng sản phẩm hết hàng
+      if (
+        err.response &&
+        err.response.status === 400 &&
+        Array.isArray(err.response.data?.products)
+      ) {
+        setOutOfStockProducts(err.response.data.products);
         return;
       }
-      alert("vui lòng nhập địa chỉ giao hàng:...");
+      alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
       console.error(err);
     }
   };
 
   if (loading || product.length === 0) return <CartsEmpty />;
-
-  console.log("product", product);
 
   return (
     <div className={`container ${styles.container}`}>
@@ -334,6 +307,32 @@ function Carts() {
               </div>
             </div>
 
+            {/* Hiện thông báo sản phẩm không đủ tồn kho */}
+            {outOfStockProducts.length > 0 && (
+              <BackgroundPopup>
+                <div className={styles.popUp}>
+                  <h4>Các sản phẩm không đủ tồn kho:</h4>
+                  <ul className={styles.soluongkho}>
+                    {outOfStockProducts.map((item) => (
+                      <li key={item.productID}>
+                        <strong>{item.name}</strong>
+                        {item.reason && <> – {item.reason}</>}
+                        {typeof item.stock !== "undefined" && (
+                          <> (Còn lại: {item.stock})</>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    className={styles.closePopup}
+                    onClick={() => setOutOfStockProducts([])}
+                  >
+                    Đóng
+                  </button>
+                </div>
+              </BackgroundPopup>
+            )}
+
             {product.carts.map((item, index) => (
               <div key={index} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
@@ -346,13 +345,15 @@ function Carts() {
                   <img src={item.product.image[0]} alt="product" />
                   <div className={styles.productInfo}>
                     <p className={styles.productName}>{item.product.name}</p>
-                    <p className={styles.productPrice}>Giá tiền:{" "}
-                    {(
-                      parseFloat(item.product.price.$numberDecimal)
-                    ).toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}</p>
+                    <p className={styles.productPrice}>
+                      Giá tiền:{" "}
+                      {parseFloat(
+                        item.product.price.$numberDecimal
+                      ).toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
                   </div>
                 </div>
                 <div className={styles.content}>
@@ -382,25 +383,22 @@ function Carts() {
                       value={inputQuantities[item.product._id] ?? item.quantity}
                       onChange={(e) => {
                         let val = e.target.value;
-                        if (val === '') {
-                          // cho phép input trống để nhập lại
-                          setInputQuantities(prev => ({
+                        if (val === "") {
+                          setInputQuantities((prev) => ({
                             ...prev,
                             [item.product._id]: val,
                           }));
                           return;
                         }
                         val = Math.max(1, Math.min(999, parseInt(val)));
-
-                        setInputQuantities(prev => ({
+                        setInputQuantities((prev) => ({
                           ...prev,
                           [item.product._id]: val,
                         }));
                       }}
                       onBlur={() => {
                         const val = inputQuantities[item.product._id];
-                        if (val === '' || val == null) return; // bỏ qua nếu rỗng
-
+                        if (val === "" || val == null) return;
                         const valNum = Number(val);
                         if (valNum !== item.quantity) {
                           handleQuantityInputChange(item.product._id, valNum);
@@ -475,11 +473,11 @@ function Carts() {
                 {showPaymentMethod && (
                   <div
                     className={styles.overlay}
-                    onClick={() => setShowPaymentMethod(false)} // click ra ngoài để tắt
+                    onClick={() => setShowPaymentMethod(false)}
                   >
                     <div
                       className={styles.paymentPopup}
-                      onClick={(e) => e.stopPropagation()} // không tắt khi click vào trong
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <button
                         className={styles.closeButton}
@@ -497,7 +495,7 @@ function Carts() {
                               value="Tiền mặt khi nhận hàng"
                               name="payment"
                               onChange={handlePayment}
-                              checked={payMent === "Tiền mặt khi nhận hàng"} // để giữ trạng thái khi mở lại
+                              checked={payMent === "Tiền mặt khi nhận hàng"}
                             />{" "}
                             Tiền mặt khi nhận hàng
                           </label>
@@ -513,7 +511,7 @@ function Carts() {
                               value="Thanh toán qua ngân hàng"
                               name="payment"
                               onChange={handlePayment}
-                              checked={payMent === "Thanh toán qua ngân hàng"} // để giữ trạng thái khi mở lại
+                              checked={payMent === "Thanh toán qua ngân hàng"}
                             />{" "}
                             Thanh toán qua ngân hàng
                           </label>
@@ -536,7 +534,6 @@ function Carts() {
                   >
                     <div className={`${styles.popUp}`}>
                       <div className={styles.checkIcon}>
-                        {" "}
                         <FontAwesomeIcon
                           icon={faCheck}
                           style={{

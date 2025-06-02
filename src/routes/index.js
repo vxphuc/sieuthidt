@@ -28,6 +28,8 @@ import SearchPage from "../pages/SearchPage";
 import OrderManagement from "../pages/Admin/OrderManagement";
 import ChatBot from "../pages/Admin/ChatBot";
 import DetailProductBill from "../pages/Admin/DetailProductBill";
+import Taikhoanquanly from "../pages/Admin/Taikhoanquanly";
+import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
 
 export const router = [
   {
@@ -37,6 +39,16 @@ export const router = [
   {
     path: "/quan-tri/chat-bot",
     component: ChatBot,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/quan-ly-tai-khoan",
+    component: Taikhoanquanly,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/sua-tai-khoan-nguoi-dung",
+    component: Suataikhoannguoidung,
     layout: AdminLayout,
   },
   {
