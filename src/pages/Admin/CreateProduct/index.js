@@ -18,6 +18,7 @@ function CreateProductForm() {
     description: "",
     category: "",
     quantity: "",
+    discount: "",
   });
 
   // State lưu danh sách các file ảnh được chọn
@@ -63,6 +64,7 @@ function CreateProductForm() {
       formData.append("description", product.description);
       formData.append("typeProductId", product.category);
       formData.append("quantity", product.quantity);
+      formData.append("discount", product.discount);
 
       // Thêm nhiều ảnh vào formData bằng vòng lặp
       for (let i = 0; i < images.length; i++) {
@@ -129,6 +131,17 @@ function CreateProductForm() {
               name="price"
               type="number"
               value={product.price}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="% giảm giá nếu có"
+              variant="outlined"
+              name="discount"
+              type="number"
+              value={product.discount}
               onChange={handleChange}
             />
           </Grid>

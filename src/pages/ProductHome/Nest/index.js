@@ -69,6 +69,11 @@ function Nest() {
         </div>
         <div className={`${style.contentProduct}`}>
           {product.map((item) => {
+            let priceDiscount = Number.parseInt(item.priceDiscount.$numberDecimal);
+            priceDiscount = priceDiscount.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            });
             let price = Number.parseInt(item.price.$numberDecimal);
             price = price.toLocaleString("vi-VN", {
               style: "currency",
@@ -91,7 +96,11 @@ function Nest() {
                         : item.name}
                     </div>
                   </NavLink>
-                  <div className={`${style.product_price}`}>{price}</div>
+                  <div className={`${style.product_price}`}>{priceDiscount}</div>
+                  <div>
+                    <span className={style.discount}>{price}</span>
+                    <span className={style.pricediscount}> -{item.discount}%</span>
+                  </div>
                   <button
                     onClick={() => openPopupBuy(item)}
                     className={`${style.buy_button}`}
@@ -119,7 +128,7 @@ function Nest() {
             <img src={popupProduct.image[0]} className={style.popupImage} />
             <h4>{popupProduct.name}</h4>
             <p className={style.popupPrice}>
-              {Number.parseInt(popupProduct.price.$numberDecimal).toLocaleString("vi-VN", {
+              {Number.parseInt(popupProduct.priceDiscount.$numberDecimal).toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND"
               })}

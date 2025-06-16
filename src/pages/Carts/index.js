@@ -71,7 +71,7 @@ function Carts() {
       setInputQuantities(quantities);
       const totalPrice = cartItems.carts.reduce(
         (acc, item) =>
-          acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
+          acc + parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
         0
       );
       const formatted = totalPrice.toLocaleString("vi-VN", {
@@ -111,7 +111,7 @@ function Carts() {
     let totalPrice = 0;
     product.carts.forEach((item) => {
       const qty = inputQuantities[item.product._id] ?? item.quantity;
-      totalPrice += parseFloat(item.product.price.$numberDecimal) * qty;
+      totalPrice += parseFloat(item.product.priceDiscount.$numberDecimal) * qty;
     });
     const formatted = totalPrice.toLocaleString("vi-VN", {
       style: "currency",
@@ -178,7 +178,7 @@ function Carts() {
   const handleChecker = (e) => {
     const totalPrice = product.carts.reduce(
       (acc, item) =>
-        acc + parseFloat(item.product.price.$numberDecimal) * item.quantity,
+        acc + parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
       0
     );
     const updatedTotal = e.target.checked
@@ -220,7 +220,7 @@ function Carts() {
         productID: item.product._id,
         uid: item.userID,
         name: item.product.name,
-        price: item.product.price.$numberDecimal,
+        price: item.product.priceDiscount.$numberDecimal,
         quantity: inputQuantities[item.product._id] ?? item.quantity,
         img: item.product.image[0],
       }));
@@ -348,7 +348,7 @@ function Carts() {
                     <p className={styles.productPrice}>
                       Giá tiền:{" "}
                       {parseFloat(
-                        item.product.price.$numberDecimal
+                        item.product.priceDiscount.$numberDecimal
                       ).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
@@ -360,7 +360,7 @@ function Carts() {
                   <p>
                     Tổng tiền:{" "}
                     {(
-                      parseFloat(item.product.price.$numberDecimal) *
+                      parseFloat(item.product.priceDiscount.$numberDecimal) *
                       (inputQuantities[item.product._id] ?? item.quantity)
                     ).toLocaleString("vi-VN", {
                       style: "currency",

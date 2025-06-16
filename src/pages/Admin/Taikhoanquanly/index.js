@@ -48,8 +48,7 @@ function Taikhoanquanly() {
                 <td>{user.numberPhone}</td>
                 <td>{user.role}</td>
                 <td>
-                  <NavLink to={'/quan-tri/sua-tai-khoan-nguoi-dung'} className="btn btn-primary">Sửa</NavLink>
-                  <button className="btn btn-danger">Xóa</button>
+                  <NavLink to={`/quan-tri/sua-tai-khoan-nguoi-dung/${user.uid}`} className="btn btn-primary">Sửa</NavLink>
                 </td>
               </tr>
             );

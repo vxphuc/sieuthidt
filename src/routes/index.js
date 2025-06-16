@@ -46,11 +46,7 @@ export const router = [
     component: Taikhoanquanly,
     layout: AdminLayout,
   },
-  {
-    path: "/quan-tri/sua-tai-khoan-nguoi-dung",
-    component: Suataikhoannguoidung,
-    layout: AdminLayout,
-  },
+  
   {
     path: "/quan-tri/hoa-don",
     component: OrderManagement,
@@ -72,6 +68,11 @@ export const router = [
   { path: "/", component: Home },
   { path: "/gio-hang", component: Carts, layout: HeaderOnly },
   {
+    path: "/quan-tri/sua-tai-khoan-nguoi-dung/:uid",
+    component: Suataikhoannguoidung,
+    layout: AdminLayout,
+  },
+  {
     path: "/thong-tin-khach-hang/hoa-don/:id",
     component: InvoiceDetails,
     layout: InfomationLayout,
@@ -81,7 +82,6 @@ export const router = [
     component: PayMentBank,
     layout: HeaderOnly,
   },
-  { path: "/san-pham/:slug", component: Product },
   {
     path: "/quan-tri/cap-nhap-loai-san-pham/:id",
     component: UpdateTypeProduct,
@@ -131,5 +131,7 @@ export const router = [
     component: UpdateProduct,
     layout: AdminLayout,
   },
+  { path: "/san-pham/:slug", component: Product },
   { path: "/:slug/:slug", component: DetailProduct },
+   
 ];

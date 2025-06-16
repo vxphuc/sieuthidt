@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
-  faPlus, faMinus, faXmark
+  faPlus,
+  faMinus,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useParams, useNavigate, data } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
@@ -11,7 +13,7 @@ import axios from "axios";
 import ListProductSame from "../ListProductSame";
 import ReviewList from "../../components/Ratingstars/ReviewList/ReviewList.js";
 import ReviewForm from "../../components/Ratingstars//ReviewForm/ReviewForm.js";
-import {CartContext} from "../../contexts/CartContext.js";
+import { CartContext } from "../../contexts/CartContext.js";
 import BackgroundPopup from "../../components/BackgroundPopup";
 
 function DetailProduct() {
@@ -20,7 +22,7 @@ function DetailProduct() {
   const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
   const [bgX, setBgX] = useState(0);
-  const {fetchCartCount} = useContext(CartContext);
+  const { fetchCartCount } = useContext(CartContext);
 
   const bgXRef = useRef(0);
   const [moreDescription, setMoreDescription] = useState(false);
@@ -34,10 +36,14 @@ function DetailProduct() {
   };
   const confirmAddToCart = () => {
     axios
-      .post("https://dtweb.onrender.com/cart/create", {
-        productID: popupProduct._id,
-        quantity: quantity,
-      }, { withCredentials: true })
+      .post(
+        "https://dtweb.onrender.com/cart/create",
+        {
+          productID: popupProduct._id,
+          quantity: quantity,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         fetchCartCount();
         setPopupProduct(null); // đóng popup
@@ -120,10 +126,7 @@ function DetailProduct() {
         <div className={`${styles.product}`}>
           <div className={`${styles.image} `}>
             <div className={`${styles.h_full}`}>
-              <div
-                onClick={prevImage}
-                className={`${styles.left} `}
-              >
+              <div onClick={prevImage} className={`${styles.left} `}>
                 <button className={`d-flex`}>
                   {" "}
                   <FontAwesomeIcon
@@ -133,10 +136,7 @@ function DetailProduct() {
                   />
                 </button>
               </div>
-              <div
-                onClick={nextImage}
-                className={`${styles.right} `}
-              >
+              <div onClick={nextImage} className={`${styles.right} `}>
                 <button className={`d-flex`}>
                   <FontAwesomeIcon
                     icon={faChevronRight}
@@ -160,9 +160,7 @@ function DetailProduct() {
                           <div
                             className={`position-relative d-flex justify-content-center align-items-center`}
                           >
-                            <span
-                              className={`${styles.span_slide} `}
-                            >
+                            <span className={`${styles.span_slide} `}>
                               <img src={img}></img>
                             </span>
                           </div>
@@ -173,12 +171,9 @@ function DetailProduct() {
                 </div>
               </div>
               <div className={`${styles.childrenImg}`}>
-                <div
-                  className={`${styles.swiperWrapper}`}
-                >
+                <div className={`${styles.swiperWrapper}`}>
                   {product.map((item) => {
                     return item.image.map((img, index) => {
-                      
                       return (
                         <div
                           className={`${styles.swiper_slide_img}`}
@@ -222,16 +217,26 @@ function DetailProduct() {
             {product.map((item, index) => {
               return (
                 <div key={index}>
-                  <div className={`mb-2 d-flex align-items-center`}>
-                    <div className={`text-danger ${styles.textPrice}`}>
-                      {Number.parseInt(item.price).toLocaleString() + "đ"}
+                  <div className={`mb-2 align-items-center`}>
+                    <div className={`${styles.textPrice}`}>
+                      {Number.parseInt(
+                        item.priceDiscount.$numberDecimal
+                      ).toLocaleString() + "đ"}
+                    </div>
+                    <div>
+                      <span className={styles.discount}>
+                        {Number.parseInt(item.price).toLocaleString()}
+                      </span>
+                      <span className={styles.pricediscount}>
+                        -{item.discount}%
+                      </span>
                     </div>
                   </div>
                 </div>
               );
             })}
             <button
-            onClick={() => openPopupBuy(product[0])}
+              onClick={() => openPopupBuy(product[0])}
               style={{
                 backgroundPositionY: `50%`,
                 backgroundPositionX: `${bgX}%`,
@@ -272,30 +277,39 @@ function DetailProduct() {
       <ReviewList
         productId={product.length > 0 ? product[0]._id : ""}
       ></ReviewList>
-      
+
       {popupProduct && (
         <BackgroundPopup
           onClick={() => setPopupProduct(null)}
           className={styles.popupWrapper}
         >
-          <div className={styles.popupCard} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.popupClose} onClick={() => setPopupProduct(null)}>
+          <div
+            className={styles.popupCard}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.popupClose}
+              onClick={() => setPopupProduct(null)}
+            >
               <FontAwesomeIcon icon={faXmark} />
             </button>
             <img src={popupProduct.image[0]} className={styles.popupImage} />
             <h3>{popupProduct.name}</h3>
             <p className={styles.popupPrice}>
               {Number.parseInt(
-                typeof popupProduct.price === "object" && popupProduct.price.$numberDecimal
-                  ? popupProduct.price.$numberDecimal
-                  : popupProduct.price
+                typeof popupProduct.price === "object" &&
+                  popupProduct.priceDiscount.$numberDecimal
+                  ? popupProduct.priceDiscount.$numberDecimal
+                  : popupProduct.priceDiscount.$numberDecimal
               ).toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND",
               })}
             </p>
             <div className={styles.quantityControl}>
-              <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}>
+              <button
+                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
               <input
@@ -308,7 +322,7 @@ function DetailProduct() {
                 }}
                 className={styles.quantityInput}
               />
-              <button onClick={() => setQuantity(prev => prev + 1)}>
+              <button onClick={() => setQuantity((prev) => prev + 1)}>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>

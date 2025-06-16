@@ -79,7 +79,10 @@ function Product() {
 
       <div className={`${style.products}`}>
         {product.map((item, key) => {
-          let price = item.price.$numberDecimal;
+          console.log(item)
+          let priceDiscount = item.priceDiscount.$numberDecimal;
+          priceDiscount = Number.parseInt(priceDiscount);
+          let price = item.price.$numberDecimal
           price = Number.parseInt(price);
           return (
             <div key={key} className={`${style.product}`}>
@@ -94,7 +97,11 @@ function Product() {
                         {item.name.length > 30 ? item.name.slice(0, 30) + "..." : item.name}
                       </h3>
                     </NavLink>
-                    <div className={style.priceProduct}>{price.toLocaleString()} VNĐ</div>
+                    <div className={style.priceProduct}>{priceDiscount.toLocaleString()} VNĐ</div>
+                    <div className={``}>
+                      <span className={style.discount}>{price.toLocaleString()} vnđ</span>
+                      <span className={style.pricediscount}> -{item.discount}%</span>
+                    </div>
                   </div>
                   <button onClick={() => openPopupBuy(item)} className={`${style.btnBuy}`}>
                     Mua ngay
@@ -118,7 +125,7 @@ function Product() {
             <img src={popupProduct.image[0]} className={style.popupImage} />
             <h3>{popupProduct.name}</h3>
             <p className={style.popupPrice}>
-              {Number.parseInt(popupProduct.price.$numberDecimal).toLocaleString("vi-VN", {
+              {Number.parseInt(popupProduct.priceDiscount.$numberDecimal).toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND",
               })}
