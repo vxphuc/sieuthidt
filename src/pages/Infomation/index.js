@@ -176,16 +176,7 @@ console.log(data)
                 {data.phone}
               </div>
               <div className={styles.actions}>
-              <button
-                className={styles.edit}
-                onClick={() => {
-                  setEditAddress(item);
-                  setShowEditForm(true);
-                  fetchProvinces(); // Gọi khi mở
-                }}
-              >
-                <FontAwesomeIcon icon={faPenToSquare} /> Sửa
-              </button>
+             
                 <button
                   onClick={() =>
                     handleDelete(

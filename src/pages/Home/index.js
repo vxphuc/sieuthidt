@@ -4,16 +4,16 @@ import styles from "./Home.module.css";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlus, 
-  faMinus, 
+  faPlus,
+  faMinus,
   faXmark,
   faSolid,
   faCaretRight,
   faCaretLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useNavigate  } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ProductHome from "../ProductHome";
-import {CartContext} from "../../contexts/CartContext";
+import { CartContext } from "../../contexts/CartContext";
 import BackgroundPopup from "../../components/BackgroundPopup";
 
 function Home() {
@@ -26,27 +26,11 @@ function Home() {
   const nameNewProduct = useRef(null);
 
   const [showAlert, setShowAlert] = useState(false);
-  const {fetchCartCount} = useContext(CartContext);
+  const { fetchCartCount } = useContext(CartContext);
 
   const [popupProduct, setPopupProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  // mua sản phẩm
-  // const handleBuy = (product) => {
-  //     axios
-  //       .post("https://dtweb.onrender.com/cart/create", {
-  //         productID: product,
-  //       }, {
-  //         withCredentials: true
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         fetchCartCount()
-  //         setShowAlert(true);
-  //         setTimeout(() => setShowAlert(false), 3000);
-  //       })
-  //       .catch((error) => navigate("/dang-nhap"));
-  // }
   const openPopupBuy = (product) => {
     setPopupProduct(product);
     setQuantity(1); // reset về 1
@@ -54,10 +38,14 @@ function Home() {
 
   const confirmAddToCart = () => {
     axios
-      .post("https://dtweb.onrender.com/cart/create", {
-        productID: popupProduct._id,
-        quantity: quantity,
-      }, { withCredentials: true })
+      .post(
+        "https://dtweb.onrender.com/cart/create",
+        {
+          productID: popupProduct._id,
+          quantity: quantity,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         fetchCartCount();
         setPopupProduct(null); // đóng popup
@@ -129,7 +117,6 @@ function Home() {
   return (
     <div className="">
       <div className={``}>
-        
         <div className={``}>
           <div className={`${styles.container}`}>
             <div ref={sliderRef} className={styles.banner}>
@@ -173,17 +160,24 @@ function Home() {
                   style: "currency",
                   currency: "VND",
                 });
+                let priceDiscount = Number.parseInt(
+                  product.priceDiscount.$numberDecimal
+                );
+                priceDiscount = priceDiscount.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                });
                 return (
                   <div className={`${styles.boxProduct}`} key={index}>
-                    <NavLink to = {`/${product.typeProduct[0].slug}/${product.slug}`}>
+                    <NavLink
+                      to={`/${product.typeProduct[0].slug}/${product.slug}`}
+                    >
                       <img
                         className={`${styles.imgNewProduct}`}
                         src={`${product.image[0]}`}
                         alt="product"
                       ></img>
-                      <div
-                        className={`${styles.new}`}
-                      >
+                      <div className={`${styles.new}`}>
                         <p className={``}>new</p>
                       </div>
                       <div className={`${styles.infoProduct}`}>
@@ -194,13 +188,25 @@ function Home() {
                         </h5>
                       </div>
                     </NavLink>
-                    <div className={`${styles.content} d-flex`}>
+                    <div className={`${styles.content}`}>
                       <div className={`${styles.price}`}>
-                        <h6>{price}</h6>
+                        <h6>{priceDiscount}</h6>
+                        <div>
+                          <span className={styles.discount}>{price}</span>
+                          <span className={styles.pricediscount}>
+                            {" "}
+                            -{product.discount}%
+                          </span>
+                        </div>
                       </div>
-                      <div className={`${styles.btnBuy}`}>
-                        <button onClick={() => openPopupBuy(product)} className={`${styles.btn}`}>Mua</button>
-                      </div>
+                    </div>
+                    <div className={`${styles.btnBuy}`}>
+                      <button
+                        onClick={() => openPopupBuy(product)}
+                        className={`${styles.btn}`}
+                      >
+                        Mua
+                      </button>
                     </div>
                   </div>
                 );
@@ -209,33 +215,42 @@ function Home() {
           </div>
           <ScrollToTopButton></ScrollToTopButton>
           <div className={`${styles.product}`}>
-              <ProductHome></ProductHome>
+            <ProductHome></ProductHome>
           </div>
         </div>
       </div>
       {showAlert && (
-        <div className={styles.alertBuy}>
-          🛒 Đã thêm vào giỏ hàng!
-        </div>
+        <div className={styles.alertBuy}>🛒 Đã thêm vào giỏ hàng!</div>
       )}
       {popupProduct && (
         <BackgroundPopup
           onClick={() => setPopupProduct(null)}
           className={styles.popupWrapper}
         >
-          <div className={styles.popupCard} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.popupClose} onClick={() => setPopupProduct(null)}>
+          <div
+            className={styles.popupCard}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.popupClose}
+              onClick={() => setPopupProduct(null)}
+            >
               <FontAwesomeIcon icon={faXmark} />
             </button>
             <img src={popupProduct.image[0]} className={styles.popupImage} />
             <h5>{popupProduct.name}</h5>
             <p className={styles.popupPrice}>
-              {Number.parseInt(popupProduct.price.$numberDecimal).toLocaleString("vi-VN", {
-                style: "currency", currency: "VND"
+              {Number.parseInt(
+                popupProduct.priceDiscount.$numberDecimal
+              ).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
               })}
             </p>
             <div className={styles.quantityControl}>
-              <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}>
+              <button
+                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
               <input
@@ -248,7 +263,7 @@ function Home() {
                 }}
                 className={styles.quantityInput}
               />
-              <button onClick={() => setQuantity(prev => prev + 1)}>
+              <button onClick={() => setQuantity((prev) => prev + 1)}>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
@@ -259,7 +274,6 @@ function Home() {
         </BackgroundPopup>
       )}
     </div>
-    
   );
 }
 

@@ -10,45 +10,61 @@ function PayMentBank() {
   const { id } = useParams();
   const bank_id = process.env.REACT_APP_BANK_ID;
   const ACCOUNT_NO = process.env.REACT_APP_ACCOUNT_NO;
-  const [bill, setBill] = useState([]);
+  const [bill, setBill] = useState({});
   const navigate = useNavigate();
-  console.log(bill);
+  let data = bill.bill ? bill.bill : bill; 
+
+  const handleCopy = (text) => {
+    if (!navigator.clipboard) {
+      alert("Trình duyệt của bạn không hỗ trợ copy!");
+      return;
+    }
+    navigator.clipboard
+      .writeText(text)
+      .then(() => alert("Đã sao chép!"))
+      .catch((err) => alert("Sao chép thất bại!"));
+  };
+
+useEffect(() => {
+  if (!id) return;
+  axios
+    .get(`https://dtweb.onrender.com/bill/${id}`, {
+      withCredentials: true,
+    })
+    .then((res) => {// Thêm dòng này
+      setBill(res.data)
+    })
+    .catch((err) => console.log(err));
+}, [id]);
+  
+  const qrUrl = `https://img.vietqr.io/image/${bank_id}-${ACCOUNT_NO}-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
 
   useEffect(() => {
-    if (!id) return;
-    axios
-      .get(`https://dtweb.onrender.com/bill/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => setBill(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-  console.log(bill);
-  const cleanAmount = bill.Intomoney
-    ? Number(bill.Intomoney.$numberDecimal.replace(/[.,₫\s]/g, ""))
-    : 0;
-  const qrUrl = `https://img.vietqr.io/image/${bank_id}-${ACCOUNT_NO}-compact2.png?amount=${cleanAmount}&addInfo=${bill._id}&accountName=Phung The Vinh`;
-
-  useEffect(() => {
-    if (!bill._id || !bill.Intomoney) return;
+    if (!data._id || !data.Intomoney) return;
 
     const interval = setInterval(async () => {
       try {
         const res = await axios.post(
-          `https://dtweb.onrender.com/webhook/check`,{
-            id: bill._id,
+          `https://dtweb.onrender.com/webhook/check`,
+          {
+            id: data._id,
           }
         );
         console.log(res.data);
         if (res.data.code === 200) {
           clearInterval(interval); // ✅ Dừng kiểm tra
           alert("✅ Thanh toán đã được xác nhận!"); // hoặc set trạng thái để hiển thị lên UI
-          await axios.patch(`https://dtweb.onrender.com/bill/status/${id}`,{},{
-            withCredentials: true
-          })
-          .then((res) => console.log(res.data))
-          .catch((err) => console.log(err));
-          navigate('/')
+          await axios
+            .patch(
+              `https://dtweb.onrender.com/bill/status/${id}`,
+              {},
+              {
+                withCredentials: true,
+              }
+            )
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err));
+          navigate("/");
         }
       } catch (err) {
         console.error("Lỗi kiểm tra thanh toán:", err.message);
@@ -93,7 +109,10 @@ function PayMentBank() {
               <tr>
                 <td>Số tài khoản:</td>
                 <td className={`${styles.tdin}`}>
-                  {ACCOUNT_NO} <button>sao chép</button>
+                  {ACCOUNT_NO}
+                  <button type="button" onClick={() => handleCopy(ACCOUNT_NO)}>
+                    sao chép
+                  </button>
                 </td>
               </tr>
               <tr>
@@ -103,12 +122,23 @@ function PayMentBank() {
               <tr>
                 <td>Số tiền:</td>
                 <td className={`${styles.tdin}`}>
-                  {bill.Intomoney?.$numberDecimal} <button>sao chép</button>
+                  {data.Intomoney?.$numberDecimal}
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(data.Intomoney?.$numberDecimal)}
+                  >
+                    sao chép
+                  </button>
                 </td>
               </tr>
               <tr>
                 <td>Nội dung chuyển khoản:</td>
-                <td className={`${styles.tdin}`}>{bill._id}<button>sao chép</button></td>
+                <td className={`${styles.tdin}`}>
+                  {data._id}
+                  <button type="button" onClick={() => handleCopy(data._id)}>
+                    sao chép
+                  </button>
+                </td>
               </tr>
             </table>
             <p className={`${styles.contact}`}>
@@ -127,9 +157,11 @@ function PayMentBank() {
           <p>4. Nhập số tiền và nội dung chuyển khoản</p>
           <p>5. Nhấn nút thanh toán</p>
           <p>6. Chờ xác nhận thanh toán</p>
-          </div>
+        </div>
         <div className={`${styles.detail}`}>
-          <NavLink to={'/'} className={`${styles.home}`}>Trang chủ</NavLink>
+          <NavLink to={"/"} className={`${styles.home}`}>
+            Trang chủ
+          </NavLink>
           <button className={`${styles.defaul}`}>Xem đơn hàng</button>
         </div>
       </div>

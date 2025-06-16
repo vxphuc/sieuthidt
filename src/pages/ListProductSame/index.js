@@ -37,7 +37,7 @@ function ListProductSame() {
                             : item.name}
                         </div>
                         <div className={`${styles.priceProduct}`}>
-                          {Number.parseInt(item.price.$numberDecimal).toLocaleString() + `đ`}
+                          {Number.parseInt(item.priceDiscount.$numberDecimal).toLocaleString() + `đ`}
                         </div>
                       </div>
                     </div>

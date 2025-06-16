@@ -45,6 +45,13 @@ function Sitebar() {
       <div>
         <h3>Chức năng</h3>
         <NavLink
+          to="/quan-tri/quan-ly-tai-khoan"
+          className={({ isActive }) => (isActive ? Style.active : "")}
+        >
+          {" "}
+          quản lý tài khoản
+        </NavLink>
+        <NavLink
           to="/quan-tri/banner"
           className={({ isActive }) => (isActive ? Style.active : "")}
         >

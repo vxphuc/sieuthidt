@@ -16,69 +16,65 @@ function Login() {
   const [token, setToken] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
 
+  // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
     return regex.test(phone);
   };
-  const checkNumber = (number) => {
-    const regex = /[^0-9]/;
-    return regex.test(number);
-  };
 
   const formatPhoneNumber = (phone) => {
     if (!phone.startsWith("+")) {
-      return `+84${phone.slice(1)}`; // Chuyển 0901234567 thành +84901234567
+      return `+84${phone.slice(1)}`; // 0901234567 -> +84901234567
     }
     return phone;
   };
 
   const inputPhone = (e) => {
-    setPhone(e.target.value);
-    if (checkNumber(e.target.value)) {
-      setPhone("");
-    }
+    const value = e.target.value.replace(/\D/g, ""); // Chỉ nhận số
+    setPhone(value);
+    if (error) setError(false);
   };
 
+  // Gửi OTP
   const handleSendOtp = async () => {
-    // Kiểm tra số điện thoại
     if (!isValidVietnamPhoneNumber(phone)) {
       setError(true);
       setPhone("");
-    } else {
-      setError(false);
-      setIsOtpSent(true);
-      try {
-        if (!window.recaptchaVerifier) {
-          window.recaptchaVerifier = new RecaptchaVerifier(
-            auth,
-            "recaptcha-container",
-            {
-              size: "invisible",
-              callback: (response) => {
-                console.log("reCAPTCHA solved:", response);
-              },
-            }
-          );
-        }
+      return;
+    }
 
-        // Chuyển số điện thoại sang định dạng +84
-        const formattedPhone = formatPhoneNumber(phone);
-
-        // Gửi OTP với số điện thoại đã định dạng
-        const appVerifier = window.recaptchaVerifier;
-        const confirmation = await signInWithPhoneNumber(
+    try {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
           auth,
-          formattedPhone,
-          appVerifier
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: (response) => {
+              console.log("reCAPTCHA solved:", response);
+            },
+          }
         );
-        setConfirmationResult(confirmation);
-        alert("OTP đã được gửi!");
-      } catch (error) {
-        console.error("Lỗi gửi OTP:", error);
       }
+
+      const formattedPhone = formatPhoneNumber(phone);
+
+      const appVerifier = window.recaptchaVerifier;
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        formattedPhone,
+        appVerifier
+      );
+      setConfirmationResult(confirmation);
+      setIsOtpSent(true);
+      alert("OTP đã được gửi!");
+    } catch (error) {
+      console.error("Lỗi gửi OTP:", error);
+      alert("Không thể gửi OTP. Vui lòng thử lại sau.");
     }
   };
 
+  // Xác thực OTP
   const handleVerifyOtp = async () => {
     if (!confirmationResult) {
       alert("Không tìm thấy kết quả xác thực.");
@@ -91,14 +87,18 @@ function Login() {
       setToken(idToken);
       alert("Xác thực thành công!");
       // Gửi token lên backend
-      const response = await axios.post("https://dtweb.onrender.com/sign-in", {
-        idToken,
-        numberPhone: phone,
-      },{
-          withCredentials: true, 
-      });
+      const response = await axios.post(
+        "https://dtweb.onrender.com/sign-in",
+        {
+          idToken,
+          numberPhone: phone,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       console.log("Response từ backend:", response.data);
-      window.location.href = '/'
+      window.location.href = "/";
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
@@ -107,62 +107,68 @@ function Login() {
 
   return (
     <div className={styles.wrapper}>
-    <Container component="main" maxWidth="xs">
-      <Paper elevation={3} className={`${styles.paper}`}>
-        <Typography variant="h5" className="text-center mb-3">
-          Đăng Nhập
-        </Typography>
-        <form>
-          <TextField
-            fullWidth
-            label="Số điện thoại"
-            variant="outlined"
-            margin="normal"
-            value={phone}
-            onChange={inputPhone}
-          />
-          {error ? (
-            <Typography variant="body2" color="error">
-              *vui lòng nhập sô điện thoại hợp lệ
-            </Typography>
-          ) : (
-            ""
-          )}
-          {isOtpSent && (
+      <Container component="main" maxWidth="xs">
+        <Paper elevation={3} className={`${styles.paper}`}>
+          <Typography variant="h5" className="text-center mb-3">
+            Đăng Nhập
+          </Typography>
+          <form onSubmit={(e) => e.preventDefault()}>
             <TextField
               fullWidth
-              label="Mã OTP"
+              label="Số điện thoại"
               variant="outlined"
               margin="normal"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              value={phone}
+              onChange={inputPhone}
+              inputProps={{ maxLength: 10 }}
+              autoFocus
             />
-          )}
-          {!isOtpSent ? (
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="mt-3"
-              onClick={handleSendOtp}
-            >
-              Gửi OTP
-            </Button>
-          ) : (
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="mt-3"
-              onClick={handleVerifyOtp}
-            >
-              Xác thực OTP
-            </Button>
-          )}
-        </form>
-      </Paper>
-      <div id="recaptcha-container"></div>
-    </Container>
+            {error ? (
+              <Typography variant="body2" color="error">
+                *vui lòng nhập số điện thoại hợp lệ
+              </Typography>
+            ) : (
+              ""
+            )}
+            {isOtpSent && (
+              <TextField
+                fullWidth
+                label="Mã OTP"
+                variant="outlined"
+                margin="normal"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                inputProps={{ maxLength: 6 }}
+              />
+            )}
+            {!isOtpSent ? (
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="mt-3"
+                onClick={handleSendOtp}
+                disabled={phone.length !== 10}
+              >
+                Gửi OTP
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="mt-3"
+                onClick={handleVerifyOtp}
+                disabled={otp.length < 4}
+              >
+                Xác thực OTP
+              </Button>
+            )}
+          </form>
+        </Paper>
+        {/* Đảm bảo luôn có div này trên DOM! */}
+        <div id="recaptcha-container"></div>
+      </Container>
     </div>
   );
 }

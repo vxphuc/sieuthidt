@@ -11,9 +11,10 @@ const firebaseConfig = {
   projectId: "dtshop-50141",
   storageBucket: "dtshop-50141.firebasestorage.app",
   messagingSenderId: "25769242398",
-  appId: "1:25769242398:web:3588c0392fcbb53780a30f",
-  measurementId: "G-5X8K17NRP7",
+  appId: "1:25769242398:web:3ddac9805b87f84280a30f",
+  measurementId: "G-WJ0J6JQKZ7"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
