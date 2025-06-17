@@ -1,31 +1,44 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-import style from './ShowBanner.module.css'
+import style from "./ShowBanner.module.css";
 
 function ShowBanner() {
   const [dataBanner, setDataBanner] = useState([]);
 
-  const getCookie = (name)=>{
-    const cookies = document.cookie.split(';')
-    for(let cookie of cookies){
-        const [key, value] = cookie.trim().split('=');
-        if(key === name) return(value)
+  const getCookie = (name) => {
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies) {
+      const [key, value] = cookie.trim().split("=");
+      if (key === name) return value;
     }
-return null
-}
+    return null;
+  };
 
-const token = getCookie('authToken')
- useEffect(()=>{
+  const token = getCookie("authToken");
+  useEffect(() => {
     axios
-    .get("https://dtweb.onrender.com/sign-in/banner",{
-        headers: { Authorization: `Bearer ${token}` }
-    })
-        .then((res) => setDataBanner(res.data));
- }, [])
+      .get("https://dtweb.onrender.com/sign-in/banner", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setDataBanner(res.data));
+  }, []);
+
+  const handledelete = async (id) => {
+  try {
+    await axios.delete(`https://dtweb.onrender.com/sign-in/banner/${id}/delete`);
+    const dt = await axios.get("https://dtweb.onrender.com/sign-in/banner");
+    setDataBanner(dt.data);
+  } catch (err) {
+    console.error("Lỗi khi xóa banner:", err);
+  }
+};
+
   return (
     <div>
-      <NavLink className= "btn btn-primary" to= '/quan-tri/them-moi-banner'>Thêm mới banner</NavLink>
+      <NavLink className="btn btn-primary" to="/quan-tri/them-moi-banner">
+        Thêm mới banner
+      </NavLink>
       <table class="table">
         <thead>
           <tr>
@@ -39,11 +52,22 @@ const token = getCookie('authToken')
           {dataBanner.map((banner, index) => {
             return (
               <tr key={index}>
-                <th scope="row">{index+1}</th>
-                <td><img width= '300px' height='200px' src={`https://dtweb.onrender.com/uploads/${banner.image}`}></img></td>
+                <th scope="row">{index + 1}</th>
+                <td>
+                  <img
+                    width="300px"
+                    height="200px"
+                    src={`https://dtweb.onrender.com/uploads/${banner.image}`}
+                  ></img>
+                </td>
                 <td>{banner.dateCreate}</td>
                 <td>
-                  <NavLink className= {`btn btn-danger`}>Xóa</NavLink>
+                  <button
+                    onClick={() => handledelete(banner.id)}
+                    className={`btn btn-danger`}
+                  >
+                    Xóa
+                  </button>
                 </td>
               </tr>
             );

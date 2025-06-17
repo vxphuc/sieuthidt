@@ -35,7 +35,7 @@ function Cosmetics() {
 
   useEffect(() => {
     axios
-      .get(`https://dtweb.onrender.com/product/ProductsNest/My-Pham`)
+      .get(`https://dtweb.onrender.com/product/ProductsNest/Yen-Sao`)
       .then((response) => {
         setProduct(response.data);
       });
@@ -63,7 +63,7 @@ function Cosmetics() {
     <div>
       <div className={`${style.Nest}`}>
         <div className={`${style.category_label}`}>
-          Mỹ phẩm{" "}
+          Yến sào{" "}
         </div>
         <div className={`${style.contentProduct}`}>
           {product.map((item) => {
@@ -110,7 +110,7 @@ function Cosmetics() {
             );
           })}
           <div className={`${style.viewMore}`}>
-            <NavLink to={"/san-pham/My-Pham"} className={`${style.seeMore}`}>Xem thêm</NavLink>
+            <NavLink to={"/san-pham/Yen-Sao"} className={`${style.seeMore}`}>Xem thêm</NavLink>
           </div>
         </div>
       </div>
