@@ -76,6 +76,29 @@ a {
   margin-left: 10px;
   cursor: pointer;
 }
+.cartWrapper {
+  position: relative;
+}
+.cartWrapper {
+  position: relative;
+  margin-left: auto;
+}
+.cartBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1;
+}
+.menuWrapper {
+  position: relative;
+  z-index: 3000;
+}
 .NumberPopUp {
   position: absolute;
   border-radius: 50%;
@@ -87,7 +110,9 @@ a {
   display: flex;
   justify-content: center; /* căn giữa ngang */
   align-items: center;
-  top: 22%;
+
+  top: 20%;
+
   margin-left: 10px;
 }
 @media (max-width: 993px){
@@ -114,9 +139,9 @@ a {
     display: block;
     background-color: #ffffff;
     position: absolute;
-    width: 30%;
+    width: 400%;
     top: 85%;
-    right: 0;
+    right: 0px;
     padding: 3px 0;
     z-index: 999;
   }
@@ -154,4 +179,18 @@ a {
   .navMobileHidden {
     display: none; /* Ẩn menu khi chưa mở */
   }
+}
+@media (min-width: 769px) {
+  .overlay {
+    display: none; /* ẩn khi không phải mobile */
+  }
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3); /* nền mờ tối */
+  z-index: 998; /* dưới menu nhưng trên các phần còn lại */
 }
