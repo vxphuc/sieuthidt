@@ -89,7 +89,7 @@ function Search({ onChange, onCartChange, searchValue }) {
         <div className={style.popUpHeader} ref={popUpRef}>
           <p>sản phẩm gợi ý</p>
           {suggestions.map((item, index) => {
-            const giatien = Number.parseInt(item.price.$numberDecimal);
+            const giatien = Number.parseInt(item.priceDiscount.$numberDecimal);
             const x = giatien.toLocaleString("vi", {
               style: "currency",
               currency: "VND",

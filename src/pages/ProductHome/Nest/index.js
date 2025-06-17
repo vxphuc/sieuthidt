@@ -36,7 +36,7 @@ function Nest() {
   useEffect(() => {
     axios
       .get(
-        `https://dtweb.onrender.com/product/ProductsNest/Yen-DTNest`
+        `https://dtweb.onrender.com/product/ProductsNest/Thach`
       )
       .then((response) => {
         setProduct(response.data);
@@ -65,7 +65,7 @@ function Nest() {
     <div>
       <div className={`${style.Nest}`}>
         <div className={`${style.category_label}`}>
-          Yến DTNEST{" "}
+          Thạch{" "}
         </div>
         <div className={`${style.contentProduct}`}>
           {product.map((item) => {
@@ -112,7 +112,7 @@ function Nest() {
             );
           })}
           <div className={`${style.viewMore}`}>
-            <NavLink to={"/san-pham/Yen-DTNest"} className={`${style.seeMore}`}>Xem thêm</NavLink>
+            <NavLink to={"/san-pham/Thach"} className={`${style.seeMore}`}>Xem thêm</NavLink>
           </div>
         </div>
       </div>

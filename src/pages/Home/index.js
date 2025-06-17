@@ -91,28 +91,6 @@ function Home() {
     }, 3000);
   };
 
-  const nextSlide = () => {
-    if (sliderRef.current && img.length > 0) {
-      currentIndex.current = (currentIndex.current + 1) % img.length;
-      sliderRef.current.style.transform = `translateX(-${
-        currentIndex.current * 100
-      }%)`;
-      clearInterval(intervalRef.current);
-      AutoSlide();
-    }
-  };
-
-  const prevSlide = () => {
-    if (sliderRef.current && img.length > 0) {
-      currentIndex.current =
-        (currentIndex.current - 1 + img.length) % img.length;
-      sliderRef.current.style.transform = `translateX(-${
-        currentIndex.current * 100
-      }%)`;
-      clearInterval(intervalRef.current);
-      AutoSlide();
-    }
-  };
 
   return (
     <div className="">
@@ -128,24 +106,6 @@ function Home() {
                   ></img>
                 );
               })}
-            </div>
-            <div className={styles.icons}>
-              <div>
-                <FontAwesomeIcon
-                  onClick={prevSlide}
-                  icon={faCaretLeft}
-                  style={{ color: "#c0dbb68c" }}
-                  size="2x"
-                />
-              </div>
-              <div>
-                <FontAwesomeIcon
-                  onClick={nextSlide}
-                  icon={faCaretRight}
-                  style={{ color: "#c0dbb68c" }}
-                  size="2x"
-                />
-              </div>
             </div>
           </div>
 

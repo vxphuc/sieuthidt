@@ -34,7 +34,7 @@ const CreateBanner = () => {
       });
 
       alert("Ảnh đã được tải lên thành công!");
-      window.location.href = '/quan-tri'
+      window.location.href = '/quan-tri/banner'
     } catch (error) {
       console.error("Lỗi khi tải ảnh lên:", error);
       alert("Tải ảnh lên thất bại!");
