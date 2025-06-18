@@ -72,16 +72,15 @@ function TypeProduct() {
     ></div>
   )}
 
-  <div className={`${styles.container}`}>
+  <div className={`${styles.container}`} ref={menuRef}>
     {showTitle && (
       <div className={`${styles.button} text-center`}>
-        <button>
+        <button onClick={() => setShowList(!showList)}>
           DANH MỤC SẢN PHẨM
           <FontAwesomeIcon
             className={styles.icon}
             icon={faCaretDown}
-            onClick={() => setShowList(!showList)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", marginLeft: "8px" }}
           />
         </button>
       </div>

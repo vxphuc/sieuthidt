@@ -95,6 +95,10 @@ a {
   font-weight: bold;
   z-index: 1;
 }
+.menuWrapper {
+  position: relative;
+  z-index: 3000;
+}
 .NumberPopUp {
   position: absolute;
   border-radius: 50%;
@@ -135,9 +139,9 @@ a {
     display: block;
     background-color: #ffffff;
     position: absolute;
-    width: 30%;
+    width: 400%;
     top: 85%;
-    right: 0;
+    right: 0px;
     padding: 3px 0;
     z-index: 999;
   }
@@ -175,4 +179,18 @@ a {
   .navMobileHidden {
     display: none; /* Ẩn menu khi chưa mở */
   }
+}
+@media (min-width: 769px) {
+  .overlay {
+    display: none; /* ẩn khi không phải mobile */
+  }
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3); /* nền mờ tối */
+  z-index: 998; /* dưới menu nhưng trên các phần còn lại */
 }

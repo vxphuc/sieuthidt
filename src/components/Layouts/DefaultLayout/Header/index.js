@@ -71,15 +71,17 @@ function Header() {
         <Search onChange={handleSearch} onCartChange = {cartCount} searchValue={searh} />
 
         {/* Nút menu ba gạch trên mobile */}
-        <button
-          className={style.menuToggle}
-          onClick={() => setShowMenu(!showMenu)}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </button>
 
         {/* Menu điều hướng */}
         <nav>
+          <div className={style.menuWrapper} ref={menuRef}>
+            {/* Nút menu ba gạch */}
+            <button
+              className={style.menuToggle}
+              onClick={() => setShowMenu((prev) => !prev)}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </button>
           <ul
             ref={menuRef}
             className={showMenu ? style.navMobileShown : style.navMobileHidden}
@@ -132,7 +134,14 @@ function Header() {
               </li>
             )}
           </ul>
+          </div>
         </nav>
+        {showMenu && (
+          <div
+            className={style.overlay}
+            onClick={() => setShowMenu(false)} // click nền tối cũng tắt menu
+          ></div>
+        )}
       </div>
     </div>
   );
