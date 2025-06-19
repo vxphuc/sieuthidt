@@ -12,7 +12,6 @@ import {
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
 
-
 function SearchPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -21,8 +20,7 @@ function SearchPage() {
   const [popup, setPopup] = useState(false);
   const [popupProduct, setPopupProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-   const { fetchCartCount } = useContext(CartContext);
- 
+  const { fetchCartCount } = useContext(CartContext);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -120,13 +118,17 @@ function SearchPage() {
                       <div className={style.priceProduct}>
                         {priceDiscount.toLocaleString()} VNĐ
                       </div>
-                      <div>
-                        <span className={style.discount}>{price}</span>
-                        <span className={style.pricediscount}>
-                          {" "}
-                          -{item.discount}%
-                        </span>
-                      </div>
+                      {item.discount > 0 ? (
+                        <div>
+                          <span className={style.discount}>{price}</span>
+                          <span className={style.pricediscount}>
+                            {" "}
+                            -{item.discount}%
+                          </span>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <button
                       onClick={() => handlclickpopup(item)}

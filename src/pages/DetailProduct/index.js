@@ -223,14 +223,18 @@ function DetailProduct() {
                         item.priceDiscount.$numberDecimal
                       ).toLocaleString() + "đ"}
                     </div>
-                    <div>
-                      <span className={styles.discount}>
-                        {Number.parseInt(item.price).toLocaleString()}
-                      </span>
-                      <span className={styles.pricediscount}>
-                        -{item.discount}%
-                      </span>
-                    </div>
+                    {item.discount > 0 ? (
+                      <div>
+                        <span className={styles.discount}>
+                          {Number.parseInt(item.price).toLocaleString()}
+                        </span>
+                        <span className={styles.pricediscount}>
+                          -{item.discount}%
+                        </span>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               );

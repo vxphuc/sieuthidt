@@ -35,17 +35,20 @@ function Taikhoanquanly() {
             <th scope="col">mã tài khoản</th>
             <th scope="col">họ và tên</th>
             <th scope="col">số điện thoại</th>
+            <th scope="col">Điểm tích lũy</th>
             <th scope="col">phân quyền</th>
             <th scope="col">tùy chọn</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user, index) => {
+            console.log(user)
             return (
               <tr key={index}>
                 <th scope="row">{user.uid}</th>
                 <td>{user.name}</td>
                 <td>{user.numberPhone}</td>
+                <td>{user.token}</td>
                 <td>{user.role}</td>
                 <td>
                   <NavLink to={`/quan-tri/sua-tai-khoan-nguoi-dung/${user.uid}`} className="btn btn-primary">Sửa</NavLink>

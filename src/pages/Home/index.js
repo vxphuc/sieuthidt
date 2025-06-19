@@ -91,7 +91,6 @@ function Home() {
     }, 3000);
   };
 
-
   return (
     <div className="">
       <div className={``}>
@@ -151,13 +150,16 @@ function Home() {
                     <div className={`${styles.content}`}>
                       <div className={`${styles.price}`}>
                         <h6>{priceDiscount}</h6>
-                        <div>
+                        {
+                          (product.discount > 0) ? (<div>
                           <span className={styles.discount}>{price}</span>
                           <span className={styles.pricediscount}>
                             {" "}
                             -{product.discount}%
                           </span>
-                        </div>
+                        </div>) : ""
+                        }
+                        
                       </div>
                     </div>
                     <div className={`${styles.btnBuy}`}>
