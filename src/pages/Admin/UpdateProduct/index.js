@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import style from "./UpdateProduct.module.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 function UpdateProduct() {
   const { slug } = useParams();
@@ -74,6 +76,8 @@ function UpdateProduct() {
     formData.append("price", data.price);
     formData.append("description", data.description);
     formData.append("typeProductId", data.typeProductId);
+    formData.append("discount", data.discount);
+    formData.append("quantity", data.quantity);
     if (data.image) {
       formData.append("image", data.image);
     }
@@ -94,10 +98,11 @@ function UpdateProduct() {
       alert("Cập nhật thất bại!");
     }
   };
+  console.log(data);
 
   if (loading) return <div>Đang tải...</div>;
   if (!data) return <div>Không tìm thấy sản phẩm</div>;
-console.log(data)
+  console.log(data);
   return (
     <div className={`container ${style.container}`}>
       <div className="text-center">
@@ -126,15 +131,12 @@ console.log(data)
             value={data.typeProductId ?? ""}
             onChange={handleChange}
           >
-            <option value="" >
-              { 'Chọn danh mục'}
-            </option>
-            {
-              type.map((value) => (
-                <option key={value._id} value={value._id}>
-                  {value.name}
-                </option>
-              ))}
+            <option value="">{"Chọn danh mục"}</option>
+            {type.map((value) => (
+              <option key={value._id} value={value._id}>
+                {value.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -149,20 +151,46 @@ console.log(data)
             onChange={handleChange}
           />
         </div>
+        <div>
+          <label className="form-label">Số lượng</label>
+          <input
+            type="number"
+            className="form-control"
+            name="quantity"
+            value={data.quantity ?? ""}
+            onChange={handleChange}
+          />
+        </div>
 
         {/* Miêu tả sản phẩm */}
         <div>
           <label className="form-label">Miêu tả sản phẩm</label>
-          <textarea
+          <CKEditor
+            editor={ClassicEditor}
+            data={data.description || ""}
+            onChange={(event, editor) => {
+              const value = editor.getData();
+              setData((prev) => ({
+                ...prev,
+                description: value,
+              }));
+            }}
+          />
+        </div>
+
+        <div>
+          <label className="form-label">Giảm giá (nếu không có thì nhập là 0)</label>
+          <input
+            type="number"
             className="form-control"
-            name="description"
-            value={data.description || ""}
+            name="discount"
+            value={data.discount ?? ""}
             onChange={handleChange}
           />
         </div>
 
         {/* Ảnh sản phẩm */}
-        <div>
+        {/* <div>
           <label className="form-label">Chọn ảnh</label>
           <input
             type="file"
@@ -173,7 +201,7 @@ console.log(data)
             }
           />
           <img src={`${data.image}`} width={`20%`}></img>
-        </div>
+        </div> */}
 
         {/* Nút cập nhật */}
         <div className="text-end">

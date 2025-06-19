@@ -20,19 +20,22 @@ function SeaGrapes() {
   };
   const confirmAddToCart = () => {
     axios
-      .post("https://dtweb.onrender.com/cart/create", {
-        productID: popupProduct._id,
-        quantity: quantity,
-      }, {
-        withCredentials: true
-      })
+      .post(
+        "https://dtweb.onrender.com/cart/create",
+        {
+          productID: popupProduct._id,
+          quantity: quantity,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         fetchCartCount();
         setPopupProduct(null); // đóng popup
       })
       .catch((error) => navigate("/dang-nhap"));
   };
-
 
   useEffect(() => {
     axios
@@ -42,8 +45,6 @@ function SeaGrapes() {
       });
   }, []);
 
-
-
   const handleBuy = (product) => {
     axios
       .post(
@@ -52,12 +53,12 @@ function SeaGrapes() {
           productID: product,
         },
         {
-          withCredentials: true
+          withCredentials: true,
         }
       )
       .then((res) => {
         console.log(res.data);
-        fetchCartCount()
+        fetchCartCount();
       })
       .catch((error) => navigate("/dang-nhap"));
   };
@@ -65,12 +66,12 @@ function SeaGrapes() {
   return (
     <div>
       <div className={` ${style.Nest}`}>
-        <div className={`${style.category_label}`}>
-          Rong Nho{" "}
-        </div>
+        <div className={`${style.category_label}`}>Rong Nho </div>
         <div className={`${style.contentProduct}`}>
           {product.map((item) => {
-            let priceDiscount = Number.parseInt(item.priceDiscount.$numberDecimal);
+            let priceDiscount = Number.parseInt(
+              item.priceDiscount.$numberDecimal
+            );
             priceDiscount = priceDiscount.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
@@ -97,11 +98,20 @@ function SeaGrapes() {
                         : item.name}
                     </div>
                   </NavLink>
-                  <div className={`${style.product_price}`}>{priceDiscount}</div>
-                  <div>
-                    <span className={style.discount}>{price}</span>
-                    <span className={style.pricediscount}> -{item.discount}%</span>
+                  <div className={`${style.product_price}`}>
+                    {priceDiscount}
                   </div>
+                  {product.discount > 0 ? (
+                    <div>
+                      <span className={style.discount}>{price}</span>
+                      <span className={style.pricediscount}>
+                        {" "}
+                        -{item.discount}%
+                      </span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <button
                     onClick={() => openPopupBuy(item)}
                     className={`${style.buy_button}`}
@@ -113,7 +123,9 @@ function SeaGrapes() {
             );
           })}
           <div className={`${style.viewMore}`}>
-            <NavLink to={"/san-pham/Rong-Nho"} className={`${style.seeMore}`}>Xem thêm</NavLink>
+            <NavLink to={"/san-pham/Rong-Nho"} className={`${style.seeMore}`}>
+              Xem thêm
+            </NavLink>
           </div>
         </div>
       </div>
@@ -123,19 +135,26 @@ function SeaGrapes() {
           className={style.popupWrapper}
         >
           <div className={style.popupCard} onClick={(e) => e.stopPropagation()}>
-            <button className={style.popupClose} onClick={() => setPopupProduct(null)}>
+            <button
+              className={style.popupClose}
+              onClick={() => setPopupProduct(null)}
+            >
               <FontAwesomeIcon icon={faXmark} />
             </button>
             <img src={popupProduct.image[0]} className={style.popupImage} />
             <h4>{popupProduct.name}</h4>
             <p className={style.popupPrice}>
-              {Number.parseInt(popupProduct.priceDiscount.$numberDecimal).toLocaleString("vi-VN", {
+              {Number.parseInt(
+                popupProduct.priceDiscount.$numberDecimal
+              ).toLocaleString("vi-VN", {
                 style: "currency",
-                currency: "VND"
+                currency: "VND",
               })}
             </p>
             <div className={style.quantityControl}>
-              <button onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}>
+              <button
+                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
               <input
@@ -148,7 +167,7 @@ function SeaGrapes() {
                 }}
                 className={style.quantityInput}
               />
-              <button onClick={() => setQuantity(prev => prev + 1)}>
+              <button onClick={() => setQuantity((prev) => prev + 1)}>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
