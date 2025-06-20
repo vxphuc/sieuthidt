@@ -170,7 +170,7 @@ function Product() {
           className={style.showProduct}
           onClick={(e) => handleShowMore(e)}
         >
-          xem thêm 10 sản phẩm
+          xem thêm
         </button>
       </div>
 
