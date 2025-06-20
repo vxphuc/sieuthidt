@@ -5,9 +5,9 @@ import Cosmetics from "./Cosmetics";
 function ProductHome() {
   return (
     <div>
+      <Cosmetics></Cosmetics>
       <Nest />
       <SeaGrapes></SeaGrapes>
-      <Cosmetics></Cosmetics>
       {/* <SeaweedJelly></SeaweedJelly> */}
     </div>
   );

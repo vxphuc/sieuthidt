@@ -142,7 +142,7 @@ function Home() {
                       <div className={`${styles.infoProduct}`}>
                         <h5 ref={nameNewProduct}>
                           {product.name.length > 18
-                            ? `${product.name.substring(0, 25)}...`
+                            ? `${product.name.substring(0, 30)}...`
                             : product.name}
                         </h5>
                       </div>
