@@ -27,6 +27,7 @@ function Carts() {
   const { fetchCartCount } = useContext(CartContext);
   const [inputQuantities, setInputQuantities] = useState({});
   const [outOfStockProducts, setOutOfStockProducts] = useState([]); // Thông báo sản phẩm hết hàng
+  const [useToken, setUseToken] = useState(false);
 
   // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
@@ -176,6 +177,7 @@ function Carts() {
 
   // Dùng điểm khi thanh toán
   const handleChecker = (e) => {
+    setUseToken(e.target.checked);
     const totalPrice = product.carts.reduce(
       (acc, item) =>
         acc + parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
@@ -235,6 +237,7 @@ function Carts() {
           Intomoney: totalOrder,
           products,
           PaymentForm: payMent,
+          useToken
         },
         { withCredentials: true }
       );
