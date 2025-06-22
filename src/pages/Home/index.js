@@ -15,6 +15,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ProductHome from "../ProductHome";
 import { CartContext } from "../../contexts/CartContext";
 import BackgroundPopup from "../../components/BackgroundPopup";
+import { io } from "socket.io-client";
 
 function Home() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function Home() {
   const intervalRef = useRef(null);
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
+  // const socket = io('http://localhost:5000');
 
   const [showAlert, setShowAlert] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
@@ -35,6 +37,10 @@ function Home() {
     setPopupProduct(product);
     setQuantity(1); // reset về 1
   };
+
+  // socket.on("notification", (msg) => {
+  //   console.log("Notification received:", msg);
+  // });
 
   const confirmAddToCart = () => {
     axios
