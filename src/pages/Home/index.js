@@ -25,7 +25,7 @@ function Home() {
   const intervalRef = useRef(null);
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
-  // const socket = io('http://localhost:5000');
+  const socket = io('http://localhost:5000');
 
   const [showAlert, setShowAlert] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
@@ -38,9 +38,9 @@ function Home() {
     setQuantity(1); // reset về 1
   };
 
-  // socket.on("notification", (msg) => {
-  //   console.log("Notification received:", msg);
-  // });
+  socket.on("notification", (msg) => {
+    console.log("Notification received:", msg);
+  });
 
   const confirmAddToCart = () => {
     axios
