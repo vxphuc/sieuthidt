@@ -115,6 +115,42 @@ a {
 
   margin-left: 10px;
 }
+
+.notificationPopup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  background: white;
+  color: black;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  padding: 1rem;
+  font-size: 14px;
+  max-height: 400px; /* Giới hạn chiều cao tối đa */
+  overflow-y: auto;  /* Cho phép cuộn khi nội dung vượt quá */
+}
+
+.notificationPopup h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.notificationList {
+  display: block;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.notificationList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f1f1f1;
+  word-wrap: break-word;
+}
+
 @media (max-width: 993px){
   nav a{
     font-size: 13px;

@@ -22,7 +22,7 @@ function Product() {
   const [quantity, setQuantity] = useState(1);
   const [filterPopup, setFilterPopup] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
-  const [showProduct, setShowProduct] = useState(10);
+  const [showProduct, setShowProduct] = useState(20);
 
   // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
   const fetchCartCount = () => {
