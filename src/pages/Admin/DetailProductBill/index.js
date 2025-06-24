@@ -73,6 +73,12 @@ function DetailProductBill() {
                 {order ? order.bill.PaymentForm : "đang tải..."}
               </span>
             </p>
+            <p>
+              Trạng thái thanh toán:{" "}
+              <span className={`${order ? order.bill.statusPay === "chưa thanh toán" ? "text-danger" : "text-success" : "text-warning"}`}>
+                {order ? order.bill.statusPay : "đang tải..."}
+              </span>
+            </p>
           </div>
         </div>
       </div>
