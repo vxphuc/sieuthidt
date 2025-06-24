@@ -29,7 +29,7 @@ const DetailUser = () => {
       console.log("UID truyền lên là:", uid);
       try {
         const response = await axios.get(
-          `http://localhost:5000/address/user-address/${uid}`,
+          `https://dtweb.onrender.com/address/user-address/${uid}`,
           {
             withCredentials: true,
           }
