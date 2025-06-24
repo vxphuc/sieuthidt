@@ -72,7 +72,8 @@ function Carts() {
       setInputQuantities(quantities);
       const totalPrice = cartItems.carts.reduce(
         (acc, item) =>
-          acc + parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
+          acc +
+          parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
         0
       );
       const formatted = totalPrice.toLocaleString("vi-VN", {
@@ -180,7 +181,8 @@ function Carts() {
     setUseToken(e.target.checked);
     const totalPrice = product.carts.reduce(
       (acc, item) =>
-        acc + parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
+        acc +
+        parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
       0
     );
     const updatedTotal = e.target.checked
@@ -237,7 +239,7 @@ function Carts() {
           Intomoney: totalOrder,
           products,
           PaymentForm: payMent,
-          useToken
+          useToken,
         },
         { withCredentials: true }
       );
@@ -294,9 +296,9 @@ function Carts() {
               <div className={styles.pick_up_store}>
                 <div className={styles.chose_address}>Giao đến</div>
                 <div className={styles.address_user}>
-                  <span ref={changeAddressRef}>
-                    <NavLink to="/gio-hang/cap-nhap-dia-chi">Đổi</NavLink>
-                  </span>
+                  <NavLink to="/gio-hang/cap-nhap-dia-chi">
+                    <span ref={changeAddressRef}>Đổi</span>
+                  </NavLink>
                   <div className={styles.textBasic}>
                     <div className={styles.name}>{user.name}</div>
                     <div>{user.phone}</div>
