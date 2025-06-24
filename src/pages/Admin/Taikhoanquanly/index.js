@@ -26,7 +26,6 @@ function Taikhoanquanly() {
     fetchUsers();
   }, []);
 
-  console.log(users);
   return (
     <div>
       <table class="table">
@@ -42,7 +41,6 @@ function Taikhoanquanly() {
         </thead>
         <tbody>
           {users.map((user, index) => {
-            console.log(user)
             return (
               <tr key={index}>
                 <th scope="row">{user.uid}</th>
@@ -52,6 +50,7 @@ function Taikhoanquanly() {
                 <td>{user.role}</td>
                 <td>
                   <NavLink to={`/quan-tri/sua-tai-khoan-nguoi-dung/${user.uid}`} className="btn btn-primary">Sửa</NavLink>
+                  <NavLink to={`/quan-tri/chi-tiet-tai-khoan/${user.uid}`} className="btn btn-success ms-2">xem chi tiết</NavLink>
                 </td>
               </tr>
             );

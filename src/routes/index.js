@@ -30,6 +30,7 @@ import ChatBot from "../pages/Admin/ChatBot";
 import DetailProductBill from "../pages/Admin/DetailProductBill";
 import Taikhoanquanly from "../pages/Admin/Taikhoanquanly";
 import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
+import DetailUsers from "../pages/Admin/DetailUser";
 
 export const router = [
   {
@@ -70,6 +71,11 @@ export const router = [
   {
     path: "/quan-tri/sua-tai-khoan-nguoi-dung/:uid",
     component: Suataikhoannguoidung,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/chi-tiet-tai-khoan/:uid",
+    component: DetailUsers,
     layout: AdminLayout,
   },
   {
