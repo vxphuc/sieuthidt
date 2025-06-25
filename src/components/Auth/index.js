@@ -31,16 +31,6 @@ function Auth() {
     fetchUserProfile();
   }, []);
 
-  // Theo dõi khi user thay đổi
-  useEffect(() => {
-    if (user) {
-      console.log("User cập nhật:");
-      if (!user.name) {
-        navigate("/cap-nhap-thong-tin", { replace: true });
-      }
-    }
-  }, [user, navigate]);
-
   if (loading) return <p>Đang tải...</p>;
 
   return user ?(
@@ -48,7 +38,7 @@ function Auth() {
       to="/thong-tin-khach-hang/hoa-don"
       className={({ isActive }) => (isActive ? style.active : "")}
     >
-      {user.name}
+      {user.phone}
     </NavLink>
   ) : (
     <NavLink

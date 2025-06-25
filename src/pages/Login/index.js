@@ -122,6 +122,11 @@ function Login() {
               onChange={inputPhone}
               inputProps={{ maxLength: 10 }}
               autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !isOtpSent && phone.length === 10) {
+                  handleSendOtp();
+                }
+              }}
             />
             {error ? (
               <Typography variant="body2" color="error">
@@ -139,6 +144,11 @@ function Login() {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 inputProps={{ maxLength: 6 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && otp.length >= 4) {
+                    handleVerifyOtp();
+                  }
+                }}
               />
             )}
             {!isOtpSent ? (

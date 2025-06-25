@@ -6,6 +6,7 @@ import { NavLink, useParams } from "react-router-dom";
 function InvoiceDetails() {
   const [data, setData] = useState({});
   let params = useParams();
+  console.log("Params:", data);
 
     // Hàm lấy dữ liệu đơn hàng
   const fetchOrder = async () => {
@@ -77,6 +78,9 @@ function InvoiceDetails() {
               <div className={styles.payment}>
                 <h5>Hình thức thanh toán</h5>
                 <p>{data.bill ? data.bill.PaymentForm : "đang tải..."}</p>
+                {
+                  data?.bill?.statusPay === "chưa thanh toán" && data?.bill?.OrderStatus === 'chờ xác nhận' ? (<NavLink to={`/gio-hang/thanh-toan/${params.id}`} className={'btn btn-primary'}>Thanh toán bằng ngân hàng</NavLink>) : "" 
+                }
               </div>
             </div>
           </div>
