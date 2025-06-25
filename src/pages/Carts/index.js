@@ -34,6 +34,8 @@ function Carts() {
     phone: "",
   });
 
+  const [receiverPhoneError, setReceiverPhoneError] = useState("");
+
   // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
     try {
@@ -127,6 +129,11 @@ function Carts() {
     setTotal(formatted);
     setTotalOrder(formatted);
   }, [inputQuantities, product]);
+  const isValidVietnamPhoneNumber = (phone) => {
+    // Dạng 09, 03, 07, 08, 05 + 8 số phía sau
+    const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+    return regex.test(phone);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -233,6 +240,12 @@ function Carts() {
         quantity: inputQuantities[item.product._id] ?? item.quantity,
         img: item.product.image[0],
       }));
+      let alternateReceiverName
+      let alternateReceiverPhone
+      if(receiverInfo && isValidVietnamPhoneNumber(receiverInfo.phone)) {
+         alternateReceiverPhone = receiverInfo.phone;
+         alternateReceiverName = receiverInfo.name;
+      }
 
       const response = await axios.post(
         "https://dtweb.onrender.com/bill/create",
@@ -245,6 +258,8 @@ function Carts() {
           products,
           PaymentForm: payMent,
           useToken,
+          alternateReceiverName,
+          alternateReceiverPhone
         },
         { withCredentials: true }
       );
@@ -344,11 +359,29 @@ function Carts() {
                   type="text"
                   id="receiverPhone"
                   value={receiverInfo.phone}
-                  onChange={(e) =>
-                    setReceiverInfo({ ...receiverInfo, phone: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const val  = e.target.value;
+                    setReceiverInfo({ ...receiverInfo, phone: val  });
+                    if (isValidVietnamPhoneNumber(val)) {
+                      setReceiverPhoneError("");
+                    } else {
+                      setReceiverPhoneError(
+                        "Số điện thoại không hợp lệ. Vui lòng nhập lại."
+                      );
+                    }
+                  }}
+                  onBlur={() => {
+                    if(receiverInfo.phone && !isValidVietnamPhoneNumber(receiverInfo.phone)) {
+                      setReceiverPhoneError("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
+                    }else {
+                      setReceiverPhoneError("");
+                    }
+                  }}
                   placeholder="Nhập số điện thoại người nhận"
                 />
+                {receiverPhoneError && (
+                  <div style={{ color: "red", fontSize: "13px" }}>{receiverPhoneError}</div>
+                )}
               </div>
             </div>
 
