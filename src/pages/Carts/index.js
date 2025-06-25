@@ -64,8 +64,6 @@ function Carts() {
       console.error("Error fetching user profile:", err);
     }
   };
-  console.log(user);
-
   // Lấy giỏ hàng
   const fetchCart = async () => {
     try {
