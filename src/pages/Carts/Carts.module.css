@@ -14,7 +14,7 @@
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
   margin: 0 auto;
-  min-width: 550px;
+  /* min-width: 550px; */
 }
 .titleCarts {
   border-color: rgb(228 233 242);
@@ -173,12 +173,13 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   margin-right: 20px;
 }
 .content p {
   margin-bottom: 6px;
   font-weight: bold;
+  text-align: center;
 }
 .cong {
   padding: 3px 10px;
@@ -192,6 +193,7 @@
 .content input {
   padding: 2px 0px;
   text-align: center;
+  width: 50px;
 }
 .delete {
   padding: 0.5em;
@@ -402,7 +404,12 @@
     transform: translateX(-50%) translateY(0);
   }
 }
-
+@media (max-width: 993px) {
+  .carts {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 @media (max-width: 770px) {
   .payment {
     height: 175px;
