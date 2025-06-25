@@ -28,6 +28,11 @@ function Carts() {
   const [inputQuantities, setInputQuantities] = useState({});
   const [outOfStockProducts, setOutOfStockProducts] = useState([]); // Thông báo sản phẩm hết hàng
   const [useToken, setUseToken] = useState(false);
+  const [otherReceiver, setOtherReceiver] = useState(false);
+  const [receiverInfo, setReceiverInfo] = useState({
+    name: "",
+    phone: "",
+  });
 
   // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
@@ -309,6 +314,41 @@ function Carts() {
                       : "vui lòng nhập địa chỉ"}
                   </p>
                 </div>
+                <label className={styles.alternateReceiver}>
+                  <input
+                    onChange={(e) => setOtherReceiver(e.target.checked)}
+                    type="checkbox"
+                  />{" "}
+                  gọi người nhận hàng khác (nếu có)
+                </label>
+              </div>
+            </div>
+
+            <div
+              className={styles.receiverInfo}
+              style={{ display: otherReceiver ? "block" : "none" }}
+            >
+              <div className={styles.receiverInput}>
+                <input
+                  type="text"
+                  id="receiverName"
+                  value={receiverInfo.name}
+                  onChange={(e) =>
+                    setReceiverInfo({ ...receiverInfo, name: e.target.value })
+                  }
+                  placeholder="Nhập tên người nhận"
+                />
+              </div>
+              <div className={styles.receiverInput}>
+                <input
+                  type="text"
+                  id="receiverPhone"
+                  value={receiverInfo.phone}
+                  onChange={(e) =>
+                    setReceiverInfo({ ...receiverInfo, phone: e.target.value })
+                  }
+                  placeholder="Nhập số điện thoại người nhận"
+                />
               </div>
             </div>
 
