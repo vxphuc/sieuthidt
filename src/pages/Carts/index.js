@@ -33,6 +33,7 @@ function Carts() {
     name: "",
     phone: "",
   });
+  const [fullName, setFullname] = useState("");
 
   const [receiverPhoneError, setReceiverPhoneError] = useState("");
 
@@ -63,6 +64,7 @@ function Carts() {
       console.error("Error fetching user profile:", err);
     }
   };
+  console.log(user);
 
   // Lấy giỏ hàng
   const fetchCart = async () => {
@@ -240,11 +242,24 @@ function Carts() {
         quantity: inputQuantities[item.product._id] ?? item.quantity,
         img: item.product.image[0],
       }));
-      let alternateReceiverName
-      let alternateReceiverPhone
-      if(receiverInfo && isValidVietnamPhoneNumber(receiverInfo.phone)) {
-         alternateReceiverPhone = receiverInfo.phone;
-         alternateReceiverName = receiverInfo.name;
+      let alternateReceiverName;
+      let alternateReceiverPhone;
+      if (receiverInfo && isValidVietnamPhoneNumber(receiverInfo.phone)) {
+        alternateReceiverPhone = receiverInfo.phone;
+        alternateReceiverName = receiverInfo.name;
+      }
+      if(user.name === "") {
+        if (fullName.trim() === "") {
+          alert("Vui lòng nhập họ và tên.");
+          return;
+        }else {
+          await axios.put(
+            `https://dtweb.onrender.com/sign-in/${user.uid}/fillInInformation`,{
+            name: fullName,
+            },{
+              withCredentials: true,
+            })
+        }
       }
 
       const response = await axios.post(
@@ -259,7 +274,7 @@ function Carts() {
           PaymentForm: payMent,
           useToken,
           alternateReceiverName,
-          alternateReceiverPhone
+          alternateReceiverPhone,
         },
         { withCredentials: true }
       );
@@ -320,7 +335,13 @@ function Carts() {
                     <span ref={changeAddressRef}>Đổi</span>
                   </NavLink>
                   <div className={styles.textBasic}>
-                    <div className={styles.name}>{user.name}</div>
+                    <div className={styles.name}>
+                      {user.name ? (
+                        user.name
+                      ) : (
+                        <input onChange={(e) => setFullname(e.target.value)} placeholder="họ và tên"></input>
+                      )}
+                    </div>
                     <div>{user.phone}</div>
                   </div>
                   <p>
@@ -360,8 +381,8 @@ function Carts() {
                   id="receiverPhone"
                   value={receiverInfo.phone}
                   onChange={(e) => {
-                    const val  = e.target.value;
-                    setReceiverInfo({ ...receiverInfo, phone: val  });
+                    const val = e.target.value;
+                    setReceiverInfo({ ...receiverInfo, phone: val });
                     if (isValidVietnamPhoneNumber(val)) {
                       setReceiverPhoneError("");
                     } else {
@@ -371,16 +392,23 @@ function Carts() {
                     }
                   }}
                   onBlur={() => {
-                    if(receiverInfo.phone && !isValidVietnamPhoneNumber(receiverInfo.phone)) {
-                      setReceiverPhoneError("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
-                    }else {
+                    if (
+                      receiverInfo.phone &&
+                      !isValidVietnamPhoneNumber(receiverInfo.phone)
+                    ) {
+                      setReceiverPhoneError(
+                        "Số điện thoại không hợp lệ. Vui lòng nhập lại."
+                      );
+                    } else {
                       setReceiverPhoneError("");
                     }
                   }}
                   placeholder="Nhập số điện thoại người nhận"
                 />
                 {receiverPhoneError && (
-                  <div style={{ color: "red", fontSize: "13px" }}>{receiverPhoneError}</div>
+                  <div style={{ color: "red", fontSize: "13px" }}>
+                    {receiverPhoneError}
+                  </div>
                 )}
               </div>
             </div>
