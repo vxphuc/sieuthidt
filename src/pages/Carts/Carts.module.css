@@ -14,7 +14,7 @@
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
   margin: 0 auto;
-  /* min-width: 550px; */
+  max-width: 550px;
 }
 .titleCarts {
   border-color: rgb(228 233 242);
@@ -470,4 +470,44 @@ label {
   font-size: 16px;
   font-weight: 500;
   color: #333;
+}
+@media (max-width: 480px) {
+  .listCarts {
+    flex-direction: column; /* dàn xuống thay vì ngang */
+    align-items: flex-start;
+    height: auto;
+    border-bottom: 2px solid;
+    padding-bottom: 15px;
+  }
+  .content {
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid #a4f099;
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+
+  .content p {
+    margin: 0;
+    font-size: 14px;
+    flex: 1;
+  }
+
+  .quantityControl {
+    display: flex;
+    align-items: center;
+  }
+
+  .quantityControl button,
+  .quantityControl input {
+    font-size: 14px;
+  }
+  .productInfo{
+    text-align: center;
+    margin: 0px 10px;
+  }
 }
