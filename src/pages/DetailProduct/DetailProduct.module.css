@@ -127,13 +127,14 @@
 }
 .childrenImg {
   padding: 8px;
-  touch-action: pan-y;
   margin-left: auto;
   margin-right: auto;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  display: block;
+  overflow-x: auto;  /* ✅ Cho phép kéo ngang */
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  gap: 8px;
+  -webkit-overflow-scrolling: touch;
 }
 .swiperWrapper {
   position: relative;
@@ -388,7 +389,7 @@
   }
 
   .swiperWrapper {
-    width: max-content; /* Không giới hạn chiều rộng */
+    width: max-content;
     display: flex;
   }
 

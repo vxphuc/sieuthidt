@@ -28,6 +28,14 @@ function Carts() {
   const [inputQuantities, setInputQuantities] = useState({});
   const [outOfStockProducts, setOutOfStockProducts] = useState([]); // Thông báo sản phẩm hết hàng
   const [useToken, setUseToken] = useState(false);
+  const [otherReceiver, setOtherReceiver] = useState(false);
+  const [receiverInfo, setReceiverInfo] = useState({
+    name: "",
+    phone: "",
+  });
+  const [fullName, setFullname] = useState("");
+
+  const [receiverPhoneError, setReceiverPhoneError] = useState("");
 
   // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
@@ -56,7 +64,6 @@ function Carts() {
       console.error("Error fetching user profile:", err);
     }
   };
-
   // Lấy giỏ hàng
   const fetchCart = async () => {
     try {
@@ -122,6 +129,11 @@ function Carts() {
     setTotal(formatted);
     setTotalOrder(formatted);
   }, [inputQuantities, product]);
+  const isValidVietnamPhoneNumber = (phone) => {
+    // Dạng 09, 03, 07, 08, 05 + 8 số phía sau
+    const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+    return regex.test(phone);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -228,6 +240,25 @@ function Carts() {
         quantity: inputQuantities[item.product._id] ?? item.quantity,
         img: item.product.image[0],
       }));
+      let alternateReceiverName;
+      let alternateReceiverPhone;
+      if (receiverInfo && isValidVietnamPhoneNumber(receiverInfo.phone)) {
+        alternateReceiverPhone = receiverInfo.phone;
+        alternateReceiverName = receiverInfo.name;
+      }
+      if(user.name === "") {
+        if (fullName.trim() === "") {
+          alert("Vui lòng nhập họ và tên.");
+          return;
+        }else {
+          await axios.put(
+            `https://dtweb.onrender.com/sign-in/${user.uid}/fillInInformation`,{
+            name: fullName,
+            },{
+              withCredentials: true,
+            })
+        }
+      }
 
       const response = await axios.post(
         "https://dtweb.onrender.com/bill/create",
@@ -240,6 +271,8 @@ function Carts() {
           products,
           PaymentForm: payMent,
           useToken,
+          alternateReceiverName,
+          alternateReceiverPhone,
         },
         { withCredentials: true }
       );
@@ -300,7 +333,13 @@ function Carts() {
                     <span ref={changeAddressRef}>Đổi</span>
                   </NavLink>
                   <div className={styles.textBasic}>
-                    <div className={styles.name}>{user.name}</div>
+                    <div className={styles.name}>
+                      {user.name ? (
+                        user.name
+                      ) : (
+                        <input className={styles.inputName} onChange={(e) => setFullname(e.target.value)} placeholder="họ và tên"></input>
+                      )}
+                    </div>
                     <div>{user.phone}</div>
                   </div>
                   <p>
@@ -309,6 +348,66 @@ function Carts() {
                       : "vui lòng nhập địa chỉ"}
                   </p>
                 </div>
+                <label className={styles.alternateReceiver}>
+                  <input
+                    onChange={(e) => setOtherReceiver(e.target.checked)}
+                    type="checkbox"
+                  />{" "}
+                  gọi người nhận hàng khác (nếu có)
+                </label>
+              </div>
+            </div>
+
+            <div
+              className={styles.receiverInfo}
+              style={{ display: otherReceiver ? "block" : "none" }}
+            >
+              <div className={styles.receiverInput}>
+                <input
+                  type="text"
+                  id="receiverName"
+                  value={receiverInfo.name}
+                  onChange={(e) =>
+                    setReceiverInfo({ ...receiverInfo, name: e.target.value })
+                  }
+                  placeholder="Nhập tên người nhận"
+                />
+              </div>
+              <div className={styles.receiverInput}>
+                <input
+                  type="text"
+                  id="receiverPhone"
+                  value={receiverInfo.phone}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setReceiverInfo({ ...receiverInfo, phone: val });
+                    if (isValidVietnamPhoneNumber(val)) {
+                      setReceiverPhoneError("");
+                    } else {
+                      setReceiverPhoneError(
+                        "Số điện thoại không hợp lệ. Vui lòng nhập lại."
+                      );
+                    }
+                  }}
+                  onBlur={() => {
+                    if (
+                      receiverInfo.phone &&
+                      !isValidVietnamPhoneNumber(receiverInfo.phone)
+                    ) {
+                      setReceiverPhoneError(
+                        "Số điện thoại không hợp lệ. Vui lòng nhập lại."
+                      );
+                    } else {
+                      setReceiverPhoneError("");
+                    }
+                  }}
+                  placeholder="Nhập số điện thoại người nhận"
+                />
+                {receiverPhoneError && (
+                  <div style={{ color: "red", fontSize: "13px" }}>
+                    {receiverPhoneError}
+                  </div>
+                )}
               </div>
             </div>
 
