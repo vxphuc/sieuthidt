@@ -10,7 +10,6 @@ import CreateTypeProductAdmin from "../pages/Admin/CreateTypeProductAdmin";
 import RecycleBin from "../pages/Admin/RecycleBin";
 import Login from "../pages/Login";
 import CreateBanner from "../pages/Admin/CreateBanner";
-import FillInformation from "../pages/fillInInformation";
 import ShowBanner from "../pages/Admin/ShowBanner";
 import UpdateProduct from "../pages/Admin/UpdateProduct";
 import UpdateTypeProduct from "../pages/Admin/UpdateTypeProduc";
@@ -65,7 +64,6 @@ export const router = [
     layout: InfomationLayout,
   },
   { path: "/gio-hang/cap-nhap-dia-chi", component: Adress, layout: HeaderOnly },
-  { path: "/cap-nhap-thong-tin", component: FillInformation, layout: null },
   { path: "/", component: Home },
   { path: "/gio-hang", component: Carts, layout: HeaderOnly },
   {

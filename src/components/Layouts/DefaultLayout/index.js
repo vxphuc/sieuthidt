@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import TypeProduct from "./TypeProduct";
 import styles from "./DefaultLayout.module.css";
 
+
 function DefaultLayout({ children }) {
   return (
     <div className="">
