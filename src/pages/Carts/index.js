@@ -337,7 +337,7 @@ function Carts() {
                       {user.name ? (
                         user.name
                       ) : (
-                        <input onChange={(e) => setFullname(e.target.value)} placeholder="họ và tên"></input>
+                        <input className={styles.inputName} onChange={(e) => setFullname(e.target.value)} placeholder="họ và tên"></input>
                       )}
                     </div>
                     <div>{user.phone}</div>

@@ -3,6 +3,12 @@
   --bs-gutter-x: 0 !important;
   --bs-gutter-y: 0;
 }
+.inputName{
+    border: 2px solid green;
+    border-radius: 10px;
+    padding: 0px 10px;
+    width: 60%;
+  }
 .bg_black_20 {
   background-color: rgb(233 237 240);
 }
@@ -526,7 +532,7 @@ label {
     font-size: 14px;
     flex: 1;
   }
-
+  
   .quantityControl {
     display: flex;
     align-items: center;
