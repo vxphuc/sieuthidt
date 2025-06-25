@@ -388,7 +388,7 @@
   }
 
   .swiperWrapper {
-    width: max-content; /* Không giới hạn chiều rộng */
+    width: max-content;
     display: flex;
   }
 
