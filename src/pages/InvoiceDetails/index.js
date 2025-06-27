@@ -16,7 +16,6 @@ function InvoiceDetails() {
         withCredentials: true,
       }
     );
-    console.log("Dữ liệu đơn hàng trả về:", res.data);
     setData(res.data);
   };
 
@@ -78,6 +77,7 @@ function InvoiceDetails() {
               <div className={styles.payment}>
                 <h5>Hình thức thanh toán</h5>
                 <p>{data.bill ? data.bill.PaymentForm : "đang tải..."}</p>
+                <p className={(data?.bill?.statusPay === 'chưa thanh toán' ? 'text-danger' : 'text-success-emphasis')}>{data.bill ? data.bill.statusPay : "đang tải..."}</p>
                 {
                   data?.bill?.statusPay === "chưa thanh toán" && data?.bill?.OrderStatus === 'chờ xác nhận' ? (<NavLink to={`/gio-hang/thanh-toan/${params.id}`} className={'btn btn-primary'}>Thanh toán bằng ngân hàng</NavLink>) : "" 
                 }
