@@ -246,7 +246,7 @@ function Carts() {
         alternateReceiverPhone = receiverInfo.phone;
         alternateReceiverName = receiverInfo.name;
       }
-      if(user.name === "") {
+      if(!user.name) {
         if (fullName.trim() === "") {
           alert("Vui lòng nhập họ và tên.");
           return;
