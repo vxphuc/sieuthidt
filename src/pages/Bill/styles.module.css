@@ -70,3 +70,18 @@
     cursor: pointer;
     font-size: 14px;
   }
+  @media (max-width: 476px){
+    .orderInfo{
+      flex-direction: column;
+    }
+    .orderInfo img{
+    width: 60%;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+    place-self: center;
+    }
+    .orderActions{
+      justify-items: stretch;
+    }
+  }
