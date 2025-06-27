@@ -246,7 +246,7 @@ function Carts() {
         alternateReceiverPhone = receiverInfo.phone;
         alternateReceiverName = receiverInfo.name;
       }
-      if(user.name === "") {
+      if(!user.name) {
         if (fullName.trim() === "") {
           alert("Vui lòng nhập họ và tên.");
           return;
@@ -342,10 +342,10 @@ function Carts() {
                     </div>
                     <div>{user.phone}</div>
                   </div>
-                  <p>
+                  <p className={styles.addressOrder}>
                     {address.length > 0
                       ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}`
-                      : "vui lòng nhập địa chỉ"}
+                      : "Thêm địa chỉ nhận hàng"}
                   </p>
                 </div>
                 <label className={styles.alternateReceiver}>
@@ -644,7 +644,6 @@ function Carts() {
                             color: "#48bf40",
                             width: "50%",
                             height: "50%",
-                            marginTop: "22%",
                           }}
                         />
                       </div>
