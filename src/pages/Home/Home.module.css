@@ -64,8 +64,12 @@ body {
   color: white;
   border-radius: 4px;
   text-align: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 26px;
+}
+.newPro{
+  margin-top: 2px;
+  font-size: 0.8em;
 }
 .infoProduct {
   padding: 4px;
