@@ -327,10 +327,10 @@ function Carts() {
 
             <div className={styles.address}>
               <div className={styles.pick_up_store}>
-                <div className={styles.chose_address}>Giao đến</div>
+                <div className={styles.chose_address}>Thông Tin Nhận Hàng</div>
                 <div className={styles.address_user}>
                   <NavLink to="/gio-hang/cap-nhap-dia-chi">
-                    <span ref={changeAddressRef}>Đổi</span>
+                    <span ref={changeAddressRef}>{address.length > 0 ? "Đổi" : "Thêm địa chỉ mới"}</span>
                   </NavLink>
                   <div className={styles.textBasic}>
                     <div className={styles.name}>

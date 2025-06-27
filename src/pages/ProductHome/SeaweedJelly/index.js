@@ -101,7 +101,7 @@ function SeaweedJelly() {
                   <div className={`${style.product_price}`}>
                     {priceDiscount}
                   </div>
-                  {product.discount > 0 ? (
+                  {item.discount > 0 ? (
                     <div>
                       <span className={style.discount}>{price}</span>
                       <span className={style.pricediscount}>

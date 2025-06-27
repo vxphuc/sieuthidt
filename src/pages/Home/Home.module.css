@@ -42,6 +42,9 @@ body {
   display: flex;
 }
 .boxProduct {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
   width: calc(100% / 5);
   padding: 2px;
   position: relative;
@@ -51,7 +54,7 @@ body {
 }
 .imgNewProduct {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 .new {
   position: absolute;
@@ -61,8 +64,12 @@ body {
   color: white;
   border-radius: 4px;
   text-align: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 26px;
+}
+.newPro{
+  margin-top: 2px;
+  font-size: 0.8em;
 }
 .infoProduct {
   padding: 4px;
