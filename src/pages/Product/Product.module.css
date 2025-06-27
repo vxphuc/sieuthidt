@@ -40,10 +40,12 @@
   border-color: rgb(228 233 242);
   border-width: 1px;
   height: 100%;
+  display: flex;
 }
 .pro {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 .imgProduct {
   width: 100%;

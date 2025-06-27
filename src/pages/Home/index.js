@@ -139,7 +139,7 @@ function Home() {
                         alt="product"
                       ></img>
                       <div className={`${styles.new}`}>
-                        <p className={``}>new</p>
+                        <p className={``}>New</p>
                       </div>
                       <div className={`${styles.infoProduct}`}>
                         <h5 ref={nameNewProduct}>
