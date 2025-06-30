@@ -136,22 +136,23 @@ function Product() {
                           : item.name}
                       </h3>
                     </NavLink>
-                    <div className={style.priceProduct}>
-                      {priceDiscount.toLocaleString()} VNĐ
-                    </div>
-                    {item.discount > 0 ? (
-                      <div className={``}>
-                        <span className={style.discount}>
-                          {price.toLocaleString()} vnđ
-                        </span>
-                        <span className={style.pricediscount}>
-                          {" "}
-                          -{item.discount}%
-                        </span>
+                    <div className={style.priceWrapper}>
+                      <div className={style.priceProduct}>
+                        {priceDiscount.toLocaleString()} VNĐ
                       </div>
-                    ) : (
-                      ""
-                    )}
+                      <div className={style.oldPriceWrapper}>
+                        {item.discount > 0 && (
+                          <>
+                            <span className={style.discount}>
+                              {price.toLocaleString()} VNĐ
+                            </span>
+                            <span className={style.pricediscount}>
+                              -{item.discount}%
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
                   <button
                     onClick={() => openPopupBuy(item)}
