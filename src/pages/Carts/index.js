@@ -176,7 +176,9 @@ function Carts() {
         const currentVal = prev[id] || 1;
         const newVal =
           type === "updateincrease"
-            ? currentVal + 1
+            // ? currentVal + 1
+            // : Math.max(1, currentVal - 1);
+            ? Math.min(2, currentVal + 1)
             : Math.max(1, currentVal - 1);
         return {
           ...prev,
@@ -483,7 +485,7 @@ function Carts() {
                     <input
                       type="number"
                       min="1"
-                      max="999"
+                      max="2"
                       value={inputQuantities[item.product._id] ?? item.quantity}
                       onChange={(e) => {
                         let val = e.target.value;
@@ -494,16 +496,32 @@ function Carts() {
                           }));
                           return;
                         }
-                        val = Math.max(1, Math.min(999, parseInt(val)));
+                        val = Math.max(1, Math.min(2, parseInt(val)));
                         setInputQuantities((prev) => ({
                           ...prev,
                           [item.product._id]: val,
                         }));
                       }}
                       onBlur={() => {
+                        // const val = inputQuantities[item.product._id];
+                        // if (val === "" || val == null) return;
+                        // const valNum = Number(val);
+                        // if (valNum !== item.quantity) {
+                        //   handleQuantityInputChange(item.product._id, valNum);
+                        // }
                         const val = inputQuantities[item.product._id];
                         if (val === "" || val == null) return;
                         const valNum = Number(val);
+
+                        // Nếu số lượng vượt quá 2, không cho gọi API
+                        if (valNum > 2) {
+                          setInputQuantities((prev) => ({
+                            ...prev,
+                            [item.product._id]: 2,
+                          }));
+                          return;
+                        }
+
                         if (valNum !== item.quantity) {
                           handleQuantityInputChange(item.product._id, valNum);
                         }

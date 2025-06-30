@@ -204,7 +204,7 @@ function Product() {
               >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
-              <input
+              {/* <input
                 type="number"
                 min="1"
                 value={quantity}
@@ -213,8 +213,22 @@ function Product() {
                   setQuantity(isNaN(value) || value < 1 ? 1 : value);
                 }}
                 className={style.quantityInput}
+              /> */}
+              <input
+                type="number"
+                min="1"
+                max="2"
+                value={quantity}
+                onChange={(e) => {
+                  let value = parseInt(e.target.value);
+                  if (isNaN(value) || value < 1) value = 1;
+                  if (value > 2) value = 2;
+                  setQuantity(value);
+                }}
+                className={style.quantityInput}
               />
-              <button onClick={() => setQuantity((prev) => prev + 1)}>
+              {/* <button onClick={() => setQuantity((prev) => prev + 1)}> */}
+              <button onClick={() => setQuantity((prev) => Math.min(prev + 1, 2))}>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
