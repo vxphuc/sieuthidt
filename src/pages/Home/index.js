@@ -150,18 +150,16 @@ function Home() {
                       </div>
                     </NavLink>
                     <div className={`${styles.content}`}>
-                      <div className={`${styles.price}`}>
-                        <h6>{priceDiscount}</h6>
-                        {
-                          (product.discount > 0) ? (<div>
-                          <span className={styles.discount}>{price}</span>
-                          <span className={styles.pricediscount}>
-                            {" "}
-                            -{product.discount}%
-                          </span>
-                        </div>) : ""
-                        }
-                        
+                      <div className={styles.price}>
+                        <div className={styles.priceMain}>{priceDiscount}</div>
+                        <div className={styles.priceOldWrapper}>
+                          {product.discount > 0 && (
+                            <>
+                              <span className={styles.discount}>{price}</span>
+                              <span className={styles.pricediscount}> -{product.discount}%</span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className={`${styles.btnBuy}`}>

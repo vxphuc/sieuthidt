@@ -1,6 +1,7 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import style from "./Product.module.css"; // chú ý tên biến style
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext  } from "react";
+import { CartContext } from "../../contexts/CartContext";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,16 +26,16 @@ function Product() {
   const [showProduct, setShowProduct] = useState(20);
 
   // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
-  const fetchCartCount = () => {
-    axios
-      .get("https://dtweb.onrender.com/cart/count", { withCredentials: true })
-      .then((res) => {
-        console.log("Số lượng giỏ hàng hiện tại:", res.data.count);
-        // Có thể cập nhật state hoặc context nếu có
-      })
-      .catch((err) => console.error("Lỗi lấy số lượng giỏ hàng:", err));
-  };
-
+  // const fetchCartCount = () => {
+  //   axios
+  //     .get("https://dtweb.onrender.com/cart/count", { withCredentials: true })
+  //     .then((res) => {
+  //       console.log("Số lượng giỏ hàng hiện tại:", res.data.count);
+  //       // Có thể cập nhật state hoặc context nếu có
+  //     })
+  //     .catch((err) => console.error("Lỗi lấy số lượng giỏ hàng:", err));
+  // };
+  const { fetchCartCount } = useContext(CartContext);
   const openPopupBuy = (product) => {
     setPopupProduct(product);
     setQuantity(1);
@@ -136,22 +137,23 @@ function Product() {
                           : item.name}
                       </h3>
                     </NavLink>
+                    <div className={style.priceWrapper}>
                     <div className={style.priceProduct}>
                       {priceDiscount.toLocaleString()} VNĐ
                     </div>
-                    {item.discount > 0 ? (
-                      <div className={``}>
-                        <span className={style.discount}>
-                          {price.toLocaleString()} vnđ
-                        </span>
-                        <span className={style.pricediscount}>
-                          {" "}
-                          -{item.discount}%
-                        </span>
-                      </div>
-                    ) : (
-                      ""
-                    )}
+                    <div className={style.oldPriceWrapper}>
+                      {item.discount > 0 && (
+                        <>
+                          <span className={style.discount}>
+                            {price.toLocaleString()} VNĐ
+                          </span>
+                          <span className={style.pricediscount}>
+                            -{item.discount}%
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
                   </div>
                   <button
                     onClick={() => openPopupBuy(item)}
@@ -216,7 +218,7 @@ function Product() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button className={style.confirmBtn} onClick={confirmAddToCart}>
+            <button type="button" className={style.confirmBtn} onClick={confirmAddToCart}>
               Thêm vào giỏ hàng
             </button>
           </div>

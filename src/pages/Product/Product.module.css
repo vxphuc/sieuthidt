@@ -81,7 +81,7 @@
   padding-bottom: 8px;
   background-color: rgb(240 255 243);
   border: none;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .popupWrapper {
   display: flex;
@@ -265,7 +265,18 @@
   border-radius: 12px;
   border: none;
 }
+.priceWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 30px; /* đảm bảo phần giá cố định chiều cao */
+}
 
+.oldPriceWrapper {
+  display: flex;
+  gap: 6px;
+  min-height: 14px; /* luôn chừa không gian, dù không có giảm */
+  align-items: center;
+}
 @media screen and (max-width: 1200px) {
   .product {
     width: calc(100% / 4);

@@ -217,6 +217,41 @@ body {
     opacity: 0;
   }
 }
+.price {
+  width: 100%;
+  color: rgb(255, 240, 102);
+  display: flex;
+  flex-direction: column;
+  min-height: 40px; /* hoặc cao hơn nếu cần đồng bộ chiều cao */
+}
+
+.priceMain {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.priceOldWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 14px; /* luôn có không gian dù không có giảm giá */
+}
+
+.discount {
+  text-decoration-line: line-through;
+  color: rgb(157 167 188);
+  font-size: 11px;
+}
+
+.pricediscount {
+  color: rgb(255 255 255);
+  font-weight: 700;
+  font-size: 9px;
+  background-color: rgba(255, 1, 1, 0.7);
+  border-radius: 2px;
+  padding: 2px 3px;
+}
+
 @media screen and (max-width: 1200px) {
   .boxProduct {
     width: calc(100% / 4);
