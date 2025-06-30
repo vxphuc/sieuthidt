@@ -53,6 +53,9 @@
   flex-wrap: wrap;
 }
 .product {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: calc(100% / 5);
   box-shadow: 0 0 8px rgba(198, 218, 248, 0.4);
   padding: 2px;
@@ -65,10 +68,15 @@
   width: 100%;
 }
 .product_info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
   padding-bottom: 4px;
   padding-left: 6px;
   padding-right: 6px;
   margin-top: 4px;
+  min-height: 150px;
 }
 .product_name {
   color: rgb(157 167 188);
