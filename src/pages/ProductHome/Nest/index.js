@@ -91,6 +91,7 @@ function Nest() {
                   />
                 </NavLink>
                 <div className={`${style.product_info}`}>
+                  <div>
                   <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
                     <div className={`${style.product_name}`}>
                       {item.name.length > 35
@@ -112,6 +113,7 @@ function Nest() {
                   ) : (
                     ""
                   )}
+                  </div>
                   <button
                     onClick={() => openPopupBuy(item)}
                     className={`${style.buy_button}`}
