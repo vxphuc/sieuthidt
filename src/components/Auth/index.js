@@ -4,17 +4,17 @@ import axios from "axios";
 import style from "./Auth.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 function Auth() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Gọi API để lấy thông tin người dùng
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get("https://dtweb.onrender.com/sign-in/user-profile", {
-          withCredentials: true, // gửi cookie
+          withCredentials: true,
         });
 
         const userData = Array.isArray(response.data)
@@ -34,21 +34,16 @@ function Auth() {
 
   if (loading) return <p>Đang tải...</p>;
 
-  return user ?(
+  const isLoggedIn = !!user;
+
+  return (
     <NavLink
-      to="/thong-tin-khach-hang/hoa-don"
-      className={({ isActive }) => (isActive ? style.active : "")}
-    >
-      {user.phone}
-    </NavLink>
-  ) : (
-    <NavLink
-      to="/dang-nhap"
+      to={isLoggedIn ? "/thong-tin-khach-hang/hoa-don" : "/dang-nhap"}
       className={({ isActive }) => `${style.loginButton} ${isActive ? style.active : ""}`}
     >
       <button className={style.button}>
         <FontAwesomeIcon icon={faUser} className={style.userIcon} />
-        Đăng nhập
+        {isLoggedIn ? user.phone : "Đăng nhập"}
       </button>
     </NavLink>
   );

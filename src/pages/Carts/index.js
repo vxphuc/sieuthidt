@@ -679,7 +679,7 @@ function Carts() {
                   </BackgroundPopup>
                 </div>
                 <button onClick={handlePay} className={styles.btn}>
-                  <span className={styles.orderText}>Đặt hàng:</span>
+                  <span className={styles.orderText}>Đặt hàng: </span>
                   <span className={styles.orderPrice}>{totalOrder}</span>
                 </button>
               </div>

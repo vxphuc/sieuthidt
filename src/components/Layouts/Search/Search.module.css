@@ -1,5 +1,6 @@
 .searchContainer {
-  width: 70%;
+  width: 60%;
+  margin-left: 230px;
   position: relative;
   justify-items: anchor-center;
 }
@@ -32,7 +33,7 @@
 }
 .search input {
   width: 200%;
-  height: 45px;
+  height: 38px;
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #2ecc71;
@@ -114,6 +115,9 @@
   padding-left: 40px; /* đẩy text sang phải để tránh đè icon */
 }
 @media (max-width: 768px) {
+  .searchContainer{
+    margin-left: 0px;
+  }
   .search input{
     width: 100%;
     height: 32px;

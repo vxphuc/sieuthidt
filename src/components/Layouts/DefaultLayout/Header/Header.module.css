@@ -35,6 +35,7 @@ li {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
+  white-space: nowrap;
 }
 nav li a.active {
   color: #ffd700;

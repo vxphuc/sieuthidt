@@ -136,6 +136,6 @@ export const router = [
     layout: AdminLayout,
   },
   { path: "/san-pham/:slug", component: Product },
-  { path: "/:slug/:slug", component: DetailProduct },
+  { path: "/:slug/:slug", component: DetailProduct, layout: HeaderOnly},
    
 ];
