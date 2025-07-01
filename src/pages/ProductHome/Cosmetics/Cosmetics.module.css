@@ -7,7 +7,6 @@
     margin-top: 28px;
     border-top: 1px solid #009245;
     padding-left: 2px;
-    padding-right: 2px;
 }
 .category_label {
     position: absolute;
@@ -46,24 +45,28 @@
   .contentProduct{
     display: flex;
     padding-top: 28px;
-    padding-left: 2px;
-    padding-right: 2px;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-left: 4px;
   }
   .product{
+    margin: 2px;
     display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-    width: calc(100% / 5);
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(97% / 5);
     box-shadow: 0 0 8px rgba(198, 218, 248, .4);
-    padding: 2px;
     background-color: rgb(255 255 255);
     border-color: rgb(228 233 242);
     border-width: 1px;
     height: 100%;
+    border: solid 1px rgb(162, 218, 170);
+    border-radius: 5px;
   }
   .imgproduct{
     width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
   .product_info{
     display: flex;
@@ -71,17 +74,16 @@
   flex-grow: 1;
   justify-content: space-between;
     padding-bottom: 4px;
-    padding-left: 6px;
-    padding-right: 6px;
     margin-top: 4px;
     min-height: 150px;
   }
   .product_name{
-    color: rgb(157 167 188);
+    color: rgb(102 102 102);
     line-height: 18px;
-    font-size: 14px;
+    font-size: 15px;
     height: 35px;
     margin-bottom: 8px;
+    padding: 0px 6px;
   }
   .product_price{
     line-height: 18px;
@@ -89,23 +91,27 @@
     color: rgb(25 32 56);
     font-weight: 700;
     margin-top: .125rem;
+    padding: 0px 6px;
   }
   .buy_button{
     font-size: 16px;
     height: 40px;
-    color: rgb(0 126 66);
+    color: rgb(255, 255, 255);
     text-transform: uppercase;
     padding-top: 8px;
     padding-bottom: 8px;
-    background-color: rgb(240 255 243);
+    background-color: rgb(24, 178, 0);
     width: 100%;
     margin-top: auto;
     border: none;
-    margin-top: 20px;
-    font-weight: 700;
+    margin-top: 10px;
+    font-weight: 400;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   .buy_button:hover{
-    background-color: rgb(228 245 231);
+    background-color: rgb(0 126 66);
+    color: rgb(255, 255, 255);
+    font-weight: 700;
   }
   .viewMore{
     color: rgb(81 87 100);
@@ -209,18 +215,18 @@
 }
   @media screen and (max-width: 1200px) {
     .product {
-      width: calc(100% / 4);
+      width: calc(97% / 4);
     }
   }
   
   @media screen and (max-width: 1000px) {
     .product {
-      width: calc(100% / 3);
+      width: calc(97% / 3);
     }
   }
   
   @media screen and (max-width: 768px) {
     .product {
-      width: calc(100% / 2);
+      width: calc(97% / 2);
     }
   }

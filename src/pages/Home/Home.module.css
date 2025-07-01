@@ -27,7 +27,7 @@ body {
 
 .newProduct {
   margin-top: 14px;
-  background-color: rgb(239 255 242);
+  background-color: rgb(255, 255, 255);
   padding-left: 4px;
   padding-right: 4px;
 }
@@ -37,23 +37,24 @@ body {
 .products {
   padding-bottom: 12px;
   padding-left: 4px;
-  padding-right: 4px;
   flex-wrap: wrap;
   display: flex;
 }
 .boxProduct {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  width: calc(100% / 5);
-  padding: 2px;
-  position: relative;
-  background: #2c8e5f;
-  /* background: linear-gradient(180deg, #8eca51, #2c8e5f 84.5%, #5e9329); */
-  border: solid 1px #fff;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    width: calc(97% / 5);
+    margin: 2px;
+    position: relative;
+    /* background: #2c8e5f; */
+    /* background: linear-gradient(180deg, #8eca51, #2c8e5f 84.5%, #5e9329); */
+    border: solid 1px rgb(162, 218, 170);
+    border-radius: 5px;
 }
 .imgNewProduct {
   width: 100%;
+  border-radius: 5px;
   /* height: 100%; */
 }
 .new {
@@ -77,7 +78,8 @@ body {
 .infoProduct h5 {
   height: 36px;
   font-size: 16px;
-  color: white;
+  color: rgb(102 102 102);
+  padding: 0px 6px;
 }
 .content {
   padding: 4px;
@@ -85,7 +87,7 @@ body {
 
 .price {
   width: 100%;
-  color: rgb(255 240 102);
+  color: rgb(0, 0, 0);
 }
 .price h6 {
   font-size: 15px;
@@ -97,12 +99,17 @@ body {
 .btnBuy button {
   width: 100%;
   height: 36px;
-  color: rgb(0 126 66);
-  background-color: rgb(216 236 212);
+  color: rgb(255, 255, 255);
+  background-color: rgb(24, 178, 0);
   border: none;
-  border-radius: 4px;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 400;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btnBuy button:hover {
+  background-color: rgb(0 126 66);
+    color: rgb(255, 255, 255);
+    font-weight: 700;
 }
 .alertBuy {
   position: fixed;
@@ -219,10 +226,11 @@ body {
 }
 .price {
   width: 100%;
-  color: rgb(255, 240, 102);
+  color: rgb(0, 0, 0);
   display: flex;
   flex-direction: column;
   min-height: 40px; /* hoặc cao hơn nếu cần đồng bộ chiều cao */
+  padding: 0px 6px;
 }
 
 .priceMain {
@@ -254,19 +262,19 @@ body {
 
 @media screen and (max-width: 1200px) {
   .boxProduct {
-    width: calc(100% / 4);
+    width: calc(97% / 4);
   }
 }
 
 @media screen and (max-width: 1000px) {
   .boxProduct {
-    width: calc(100% / 3);
+    width: calc(97% / 3);
   }
 }
 
 @media screen and (max-width: 769px) {
   .boxProduct {
-    width: calc(100% / 2);
+    width: calc(97% / 2);
   }
   .container {
     margin-top: 40px;

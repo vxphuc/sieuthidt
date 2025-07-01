@@ -108,7 +108,7 @@ function Header() {
             <img
               width="70%"
               height="100%"
-              src="https://dtweb.onrender.com/uploads/favicon.png"
+              src="https://dtweb.onrender.com/uploads/logo%20trang.png"
               alt="Logo"
             />
           </NavLink>
@@ -148,13 +148,20 @@ function Header() {
                   {cartCount}
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/"
                   className={({ isActive }) => (isActive ? style.active : "")}
                 >
                   Trang chủ
                 </NavLink>
+              </li> */}
+              <li>
+                <FontAwesomeIcon
+                  icon={faBell}
+                  style={{ color: "#ffffff", cursor: "pointer" , fontSize: "24px"}}
+                  onClick={() => setpopupNotifications((prev) => !prev)}
+                />
               </li>
               <li>
                 <Auth />
@@ -169,13 +176,6 @@ function Header() {
                   </NavLink>
                 </li>
               )}
-              <li>
-                <FontAwesomeIcon
-                  icon={faBell}
-                  style={{ color: "#ffffff" }}
-                  onClick={() => setpopupNotifications((prev) => !prev)}
-                />
-              </li>
             </ul>
           </div>
         </nav>

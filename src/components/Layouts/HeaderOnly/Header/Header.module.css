@@ -10,7 +10,7 @@
 }
 .container {
   width: 100%;
-  background: linear-gradient(to right, #72e9a4, #109d1b);
+  background: linear-gradient(to right, #00572D 0%, #00572D 50%, #9eed45 100%);
   background-blend-mode: overlay;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   position: fixed;
@@ -22,8 +22,8 @@
 }
 ul{
   display: flex;
-  margin-top: 1rem !important;
-
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.6rem !important;
 }
 nav li a {
   color: white;
@@ -32,6 +32,9 @@ nav li a {
 li {
   padding: 12px;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 nav li a.active {
   color: #ffd700;
@@ -110,11 +113,48 @@ a {
   display: flex;
   justify-content: center; /* căn giữa ngang */
   align-items: center;
-
-  top: 20%;
-
-  margin-left: 10px;
+  top: 15%;
+  margin-left: 15px;
 }
+
+.notificationPopup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  background: white;
+  color: black;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  padding: 1rem;
+  font-size: 14px;
+  max-height: 400px; /* Giới hạn chiều cao tối đa */
+  overflow-y: auto;  /* Cho phép cuộn khi nội dung vượt quá */
+}
+
+.notificationPopup h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.notificationList {
+  display: block;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.notificationList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f1f1f1;
+  word-wrap: break-word;
+}
+.cartIcon {
+  font-size: 22px;
+}
+
 @media (max-width: 993px){
   nav a{
     font-size: 13px;
