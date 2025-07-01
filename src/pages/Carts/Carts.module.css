@@ -71,14 +71,14 @@
 }
 .chose_address {
   left: 14px;
-  top: -8px;
-  position: absolute;
-  color: #3c568fb2;
-  font-size: 14px;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  font-weight: 500;
-  background-color: rgb(255 255 255);
+    top: -8px;
+    position: absolute;
+    color: #000000b2;
+    font-size: 14px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    font-weight: 800;
+    background-color: rgb(255 255 255);
 }
 .soluongkho {
   display: block;
@@ -113,7 +113,9 @@
 }
 .address_user span {
   padding: 4px 20px;
-  background-color: rgb(53, 217, 111);
+  background-color: #00572D;
+  color: white;
+  font-weight: 600;
   border-radius: 10px;
   cursor: pointer;
   top: 70px;
@@ -217,9 +219,12 @@
   padding: 0.5em;
   text-align: right;
   margin: 0.5em 0;
+  display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 .delete button {
-  background-color: rgb(97, 114, 88);
+  background-color: #00572D;
   color: white;
   padding: 0.4rem 1rem;
   border: none;
@@ -228,8 +233,8 @@
   align-items: center;
 }
 .delete button:hover {
-  background-color: rgb(17, 196, 13);
-  color: black;
+  background-color: red;
+  color: rgb(255, 255, 255);
   cursor: pointer;
 }
 .payment {
@@ -312,24 +317,33 @@
 }
 .deletebtn {
   position: absolute;
-  top: -23%;
-  left: 145%;
-  width: 23px;
-  height: 23px;
-  font-size: 18px;
-  background-color: red;
-  color: white;
-  border: 1px solid green;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: 620;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  transition: all 0.2s ease;
+    top: -23%;
+    left: 145%;
+    width: 23px;
+    height: 23px;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: red;
+    color: white;
+    border: 1px solid green;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: 670;
+    display: flex;
+    z-index: 2;
+    transition: all 0.2s ease;
+    align-items: center;
+    justify-content: center;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
 .deletebtn:hover {
   background-color: red;
   color: white;

@@ -114,6 +114,11 @@
 .inputWithIcon input {
   padding-left: 40px; /* đẩy text sang phải để tránh đè icon */
 }
+@media (max-width: 993px) {
+  .searchContainer{
+    margin-left: 155px;
+  }
+}
 @media (max-width: 768px) {
   .searchContainer{
     margin-left: 0px;
@@ -124,6 +129,7 @@
   }
   .searchContainer {
     width: 90% !important;
+    justify-items: left;
   }
   .cartInside{
     display: block;

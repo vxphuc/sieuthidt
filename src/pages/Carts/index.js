@@ -360,7 +360,7 @@ function Carts() {
                     onChange={(e) => setOtherReceiver(e.target.checked)}
                     type="checkbox"
                   />{" "}
-                  gọi người nhận hàng khác (nếu có)
+                  Gọi người nhận hàng khác (nếu có)
                 </label>
               </div>
             </div>
@@ -451,7 +451,7 @@ function Carts() {
                     onClick={() => handleDelete(item.product._id)}
                     className={styles.deletebtn}
                   >
-                    x
+                    X
                   </button>
                   <img src={item.product.image[0]} alt="product" />
                   <div className={styles.productInfo}>
@@ -558,9 +558,17 @@ function Carts() {
                     <td className={styles.totalAll}>{total}</td>
                   </tr>
                   <tr>
-                    <td>
-                      <input onClick={handleChecker} type="checkbox" /> sử dụng{" "}
-                      {user.token || 0} điểm
+                    <td style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <input onClick={handleChecker} type="checkbox" />
+                      <img
+                        src="https://img.icons8.com/glyph-neue/64/cheap-2.png"
+                        alt="cheap"
+                        width="18"
+                        height="18"
+                      />
+                      <span>
+                        Sử dụng <strong>{user.token || 0}</strong> điểm
+                      </span>
                     </td>
                   </tr>
                   <tr>

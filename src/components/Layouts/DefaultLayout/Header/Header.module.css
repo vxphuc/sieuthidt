@@ -45,8 +45,9 @@ a {
   color: rgb(24, 68, 21);
 }
 .logo {
-  width: 5%;
-  height: 5%;
+  width: 8%;
+  height: 8%;
+  display: contents;
 }
 .main_menu {
   padding-top: 5px;
@@ -162,7 +163,9 @@ a {
     color: black;
 
   }
+  
 }
+
 @media (max-width: 768px) {
   .nav {
     display: none; /* Ẩn menu điều hướng */
@@ -203,7 +206,7 @@ a {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 4px;
   }
 
   .logo {
@@ -234,4 +237,9 @@ a {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3); /* nền mờ tối */
   z-index: 998; /* dưới menu nhưng trên các phần còn lại */
+}
+@media (max-width: 480px) {
+  .header {
+    padding: 6px;
+  }
 }
