@@ -159,7 +159,7 @@ function Nest() {
               >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
-              <input
+              {/* <input
                 type="number"
                 min="1"
                 value={quantity}
@@ -169,7 +169,21 @@ function Nest() {
                 }}
                 className={style.quantityInput}
               />
-              <button onClick={() => setQuantity((prev) => prev + 1)}>
+              <button onClick={() => setQuantity((prev) => prev + 1)}> */}
+              <input
+                type="number"
+                min="1"
+                max="2"
+                value={quantity}
+                onChange={(e) => {
+                  let val = parseInt(e.target.value);
+                  if (isNaN(val) || val < 1) val = 1;
+                  if (val > 2) val = 2;
+                  setQuantity(val);
+                }}
+                className={style.quantityInput}
+              />
+              <button button onClick={() => setQuantity((prev) => Math.min(prev + 1, 2))}>
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
