@@ -249,7 +249,7 @@ function DetailProduct() {
               Mua
             </button>
           </div>
-          <div>
+          <div className={styles.ListProductSame}>
             <ListProductSame></ListProductSame>
           </div>
         </div>

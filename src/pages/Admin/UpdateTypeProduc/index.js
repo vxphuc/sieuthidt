@@ -56,7 +56,7 @@ function UpdateTypeProduc() {
             className="form-control"
             name="name"
             onChange={handleChane}
-            value={data.name || ""}
+            value={data?.name || ""}
           />
         </div>
 

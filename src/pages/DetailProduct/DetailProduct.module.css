@@ -1,5 +1,7 @@
-.DetailProduct {
-  margin-top: 90px;
+.DetailProduct{
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 80px;
 }
 .titleDetailProduct {
   height: 46px;
@@ -339,9 +341,9 @@
 }
 
 @media (max-width: 992px) {
-  .DetailProduct {
+  /* .DetailProduct {
   margin-top: 25px;
-  }
+  } */
   .DetailProduct .d-flex.mt-2 {
     flex-direction: column !important;
   }
@@ -362,10 +364,10 @@
   height: 340px;
 }
   .span_slide img {
-  width: 110%;
-  height: 100%;
-  margin: 0 -15px;
-  object-fit: contain;
+    height: 110%;
+    margin: 0 -15px;
+    object-fit: contain;
+    width: 110%;
   }
   .span_slide_img img {
   width: 80px;
@@ -375,10 +377,13 @@
   border: 1px #007e42 !important;
   }
   .image {
-  height: 460px;
+  height: 100%;
   }
 }
 @media (max-width: 768px) {
+  /* .DetailProduct {
+  margin-top: 25px;
+  } */
   .childrenImg {
     overflow-x: auto; /* Kéo ngang */
     white-space: nowrap; /* Không xuống dòng */
