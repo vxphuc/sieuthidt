@@ -62,6 +62,8 @@ function Search({ onChange, onCartChange, searchValue }) {
   return (
     <div className={style.searchContainer}>
       <div className={style.search}>
+        <div className={style.inputWithIcon}>
+          <FontAwesomeIcon icon={faSearch} className={style.searchIcon} />
         <input
           onKeyDown={(e) => {
             if (e.key === "Enter" && input.trim()) {
@@ -71,9 +73,9 @@ function Search({ onChange, onCartChange, searchValue }) {
           }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Tìm kiếm..."
+          placeholder="Bạn cần tìm sản phẩm gì?"
         />
-
+        </div>
         {/* Giỏ hàng chèn vào trong ô tìm kiếm */}
         <NavLink to="/gio-hang">
           <div className={style.cartInside}>

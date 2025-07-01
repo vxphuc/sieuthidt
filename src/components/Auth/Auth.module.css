@@ -1,3 +1,28 @@
 a.active{
     color: #ff9900 ;
 }
+.loginButton {
+  text-decoration: none;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #136416;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.userIcon {
+  font-size: 14px;
+}
