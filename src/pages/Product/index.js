@@ -153,6 +153,9 @@ function Product() {
                         </>
                       )}
                     </div>
+                    {/* <div className={style.stockDisplay}>
+                      Tồn kho: {item.quantity}
+                    </div> */}
                   </div>
                   </div>
                   <button

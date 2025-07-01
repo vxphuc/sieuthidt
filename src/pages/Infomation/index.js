@@ -6,7 +6,10 @@ import axios from "axios";
 
 function Infomation() {
   
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    name: "",
+    numberPhone: ""
+  });
   const [address, setAddress] = useState([]);
   const [showForm, setShowForm] = useState(false);
   
@@ -18,47 +21,6 @@ function Infomation() {
   const [wards, setWards] = useState([]);
   const [isDefault, setIsDefault] = useState(false);
   
-  const fetchProvinces = async () => {
-    const res = await axios.get("https://provinces.open-api.vn/api/");
-    setProvinces(res.data);
-  };
-  
-  
-  useEffect(() => {
-    if (editAddress?.provinces?.code) {
-      axios.get(`https://provinces.open-api.vn/api/p/${editAddress.provinces.code}?depth=2`)
-        .then(res => setDistricts(res.data.districts));
-    }
-  }, [editAddress?.provinces]);
-  
-  useEffect(() => {
-    if (editAddress?.districts?.code) {
-      axios.get(`https://provinces.open-api.vn/api/d/${editAddress.districts.code}?depth=2`)
-        .then(res => setWards(res.data.wards));
-    }
-  }, [editAddress?.districts]);
-
-  //Hàm gửi dữ liệu sửa
-  const handleEditAddress = () => {
-    axios.patch(`https://dtweb.onrender.com/address/update/${editAddress._id}`, {
-      IDProvinces: editAddress.provinces.code,
-      nameProvinces: editAddress.provinces.name,
-      IDDistricts: editAddress.districts.code,
-      nameDistricts: editAddress.districts.name,
-      IDWards: editAddress.wards.code,
-      nameWards: editAddress.wards.name,
-      nameRoad: editAddress.nameRoad,
-      
-    }, {
-      withCredentials: true
-    })
-    .then(() => {
-      setShowEditForm(false);
-      axios.get("https://dtweb.onrender.com/address", { withCredentials: true })
-        .then(res => setAddress(res.data));
-    });
-  }
-  //kết thúc
 
   useEffect(() => {
     axios
@@ -93,15 +55,11 @@ function Infomation() {
           .then((res) => setAddress(res.data));
       });
   };
-console.log(data)
   const handleSubmitName = async () =>{
-    const name = document.querySelector('#name').value
-    const numberPhone = document.querySelector('#phone').value
-    const sex = document.querySelector('input[name="gender"]:checked').value;
+    const { name, numberPhone } = data;
     const response = await axios.put(`https://dtweb.onrender.com/sign-in/editProfile`,{
       name,
-      numberPhone,
-      sex
+      numberPhone
     },{
       withCredentials: true
     })
@@ -114,7 +72,7 @@ console.log(data)
       <div className={styles.customer}>
         <h3>Thông tin cá nhân</h3>
         <p>
-          {data.gender} {data.name} - {data.phone}
+           {data.name} - {data.phone}
         </p>
         <button
           type="button"
@@ -128,19 +86,8 @@ console.log(data)
         <div className={styles.updateInfo}>
           <form className={styles.formRow}>
             <div className={styles.formGroup}>
-              <label>
-                <input type="radio" name="gender" value="Anh" defaultChecked />
-                Anh
-              </label>
-              <label>
-                <input type="radio" name="gender" value="Chị" />
-                Chị
-              </label>
-            </div>
-
-            <div className={styles.formGroup}>
               <label htmlFor="name">Họ & Tên:</label>
-              <input type="text" id="name" name="name" defaultValue={data.name || ''}/>
+              <input type="text" id="name" name="name" onChange={(e) => setData({...data, name: e.target.value})} defaultValue={data.name || ''}/>
             </div>
 
             <div className={styles.formGroup}>
@@ -243,7 +190,7 @@ console.log(data)
               />
 
               <div className={styles.popupActions}>
-                <button onClick={() => handleEditAddress()}>Xác nhận</button>
+                <button>Xác nhận</button>
                 <button onClick={() => setShowEditForm(false)}>Đóng</button>
               </div>
             </div>

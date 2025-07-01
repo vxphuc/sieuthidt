@@ -2,7 +2,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import style from "./Auth.module.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 function Auth() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -43,9 +44,12 @@ function Auth() {
   ) : (
     <NavLink
       to="/dang-nhap"
-      className={({ isActive }) => (isActive ? style.active : "")}
+      className={({ isActive }) => `${style.loginButton} ${isActive ? style.active : ""}`}
     >
-      Đăng nhập
+      <button className={style.button}>
+        <FontAwesomeIcon icon={faUser} className={style.userIcon} />
+        Đăng nhập
+      </button>
     </NavLink>
   );
 }

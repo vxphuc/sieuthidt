@@ -10,7 +10,7 @@
 }
 .container {
   width: 100%;
-  background: linear-gradient(to right, #72e9a4, #2c8e5f);
+  background: linear-gradient(to right, #00572D 0%, #00572D 50%, #9eed45 100%);
   background-blend-mode: overlay;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   position: fixed;
@@ -22,8 +22,8 @@
 }
 ul{
   display: flex;
-  margin-top: 1rem !important;
-
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.6rem !important;
 }
 nav li a {
   color: white;
@@ -32,6 +32,9 @@ nav li a {
 li {
   padding: 12px;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 nav li a.active {
   color: #ffd700;
@@ -110,10 +113,8 @@ a {
   display: flex;
   justify-content: center; /* căn giữa ngang */
   align-items: center;
-
-  top: 20%;
-
-  margin-left: 10px;
+  top: 15%;
+  margin-left: 15px;
 }
 
 .notificationPopup {
@@ -149,6 +150,9 @@ a {
   padding: 0.5rem 0;
   border-bottom: 1px solid #f1f1f1;
   word-wrap: break-word;
+}
+.cartIcon {
+  font-size: 22px;
 }
 
 @media (max-width: 993px){

@@ -1,6 +1,7 @@
 .searchContainer {
-  width: 30%;
+  width: 70%;
   position: relative;
+  justify-items: anchor-center;
 }
 .search {
   width: 95%;
@@ -30,10 +31,10 @@
   z-index: 2;
 }
 .search input {
-  width: 100%;
-  height: 32px;
+  width: 200%;
+  height: 45px;
   padding: 12px;
-  border-radius: 25px;
+  border-radius: 10px;
   border: 1px solid #2ecc71;
 }
 
@@ -95,8 +96,28 @@
   left: 88%;
   display: none;
 }
+.inputWithIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  font-size: 24px;
+  color: #888;
+  pointer-events: none;
+}
+
+.inputWithIcon input {
+  padding-left: 40px; /* đẩy text sang phải để tránh đè icon */
+}
 @media (max-width: 768px) {
+  .search input{
+    width: 100%;
+    height: 32px;
+  }
   .searchContainer {
     width: 90% !important;
   }
