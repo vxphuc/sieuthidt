@@ -561,7 +561,7 @@ function Carts() {
                     <td style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <input onClick={handleChecker} type="checkbox" />
                       <img
-                        src="https://img.icons8.com/glyph-neue/64/cheap-2.png"
+                        src="https://dtweb.onrender.com/uploads/coin-dt.svg"
                         alt="cheap"
                         width="18"
                         height="18"
