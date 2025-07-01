@@ -93,7 +93,6 @@ function Infomation() {
           .then((res) => setAddress(res.data));
       });
   };
-console.log(data)
   const handleSubmitName = async () =>{
     const name = document.querySelector('#name').value
     const numberPhone = document.querySelector('#phone').value
@@ -114,7 +113,7 @@ console.log(data)
       <div className={styles.customer}>
         <h3>Thông tin cá nhân</h3>
         <p>
-          {data.gender} {data.name} - {data.phone}
+           {data.name} - {data.phone}
         </p>
         <button
           type="button"
