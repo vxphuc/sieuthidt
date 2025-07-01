@@ -278,6 +278,11 @@ function Carts() {
         },
         { withCredentials: true }
       );
+      if(response.data.errorList){
+        setOutOfStockProducts(response.data.errorList)
+        console.log(outOfStockProducts)
+        return
+      }
 
       // Đặt hàng thành công
       await axios.delete("https://dtweb.onrender.com/cart/deleteCart", {
@@ -417,12 +422,12 @@ function Carts() {
             {outOfStockProducts.length > 0 && (
               <BackgroundPopup>
                 <div className={styles.popUp}>
-                  <h4>Các sản phẩm không đủ tồn kho:</h4>
                   <ul className={styles.soluongkho}>
                     {outOfStockProducts.map((item) => (
                       <li key={item.productID}>
                         <strong>{item.name}</strong>
                         {item.reason && <> – {item.reason}</>}
+                        {item.message}
                         {typeof item.stock !== "undefined" && (
                           <> (Còn lại: {item.stock})</>
                         )}
