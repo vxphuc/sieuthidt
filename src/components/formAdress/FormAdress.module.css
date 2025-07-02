@@ -2,12 +2,12 @@
     width: 100%;
     padding: 16px 25px;
     background-color: rgb(255 255 255);
-    height: 100px;
+    height: auto;
     position: relative;
     margin: 10px auto;
   }
   .info{
-    width: 68%;
+    width: 100%;
     height: 30px;
     float: left;
   }

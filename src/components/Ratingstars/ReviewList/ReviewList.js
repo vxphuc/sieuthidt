@@ -10,6 +10,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 const ReviewList = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const [rc_bhx, setRc_bhx] = useState(false);
+  const [showAll, setShowAll] = useState(false); // thêm trạng thái xem tất cả
 
   const handlebtn = () => {
     setRc_bhx(!rc_bhx);
@@ -26,18 +27,21 @@ const ReviewList = ({ productId }) => {
       });
   }, [productId]);
 
+  // danh sách hiển thị: top 5 hoặc tất cả
+  const displayedReviews = showAll
+    ? [...reviews]
+    : [...reviews].sort((a, b) => b.rate - a.rate).slice(0, 3);
+
   return (
     <div className={`mt-2 bg-white ${styles.ReviewList}`}>
       <div className={`${styles.contentReview}`}>
         <div className={`${styles.boxrate}`}>
           <h2>Đánh giá</h2>
-          {/* tổng đánh giá */}
           <div className={`${styles.boxrate__top}`}></div>
 
-          {/* xem toàn bộ đánh giá của sản phẩm */}
           <div className={`${styles.rt_list}`}>
             <ul className={`${styles.comment_list}`}>
-              {reviews.map((item, index) => (
+              {displayedReviews.map((item, index) => (
                 <li key={index} className={`${styles.r_57511140}`}>
                   <div className={`${styles.cmt_top}`}>
                     <p className={`${styles.cmt_top_name}`}>{item.name}</p>
@@ -68,30 +72,42 @@ const ReviewList = ({ productId }) => {
                       />
                     </div>
                   </div>
-                  <div className={`${styles.cmt_content }`}>
-                    <p className={`${styles.cmt_txt}`}>
-                      {item.comment}
-                    </p>
+                  <div className={`${styles.cmt_content}`}>
+                    <p className={`${styles.cmt_txt}`}>{item.comment}</p>
                   </div>
                 </li>
               ))}
             </ul>
-            <div className={`${styles.box_flex} `}>
+
+            {/* nút xem thêm hoặc ẩn bớt */}
+            {reviews.length > 3 && (
+              <div className={styles.box_flex}>
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className={styles.rc_bhx}
+                >
+                  {showAll ? "Ẩn bớt" : "Xem tất cả đánh giá"}
+                </button>
+              </div>
+            )}
+
+            {/* nút viết đánh giá */}
+            <div className={`${styles.box_flex}`}>
               <div
                 onClick={handlebtn}
                 className={`${styles.rc_bhx} ${rc_bhx ? `d-none` : ``}`}
               >
-                {" "}
                 Viết đánh giá
               </div>
             </div>
           </div>
-          {/* popup phần đánh giá sản phẩm */}
+
+          {/* popup form đánh giá */}
           <div className={`${rc_bhx ? `` : `d-none`}`}>
             <ReviewForm
               onSuccess={() => setRc_bhx(false)}
               productId={productId}
-            ></ReviewForm>
+            />
           </div>
         </div>
       </div>
