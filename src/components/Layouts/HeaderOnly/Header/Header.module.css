@@ -22,18 +22,18 @@
 }
 ul{
   display: flex;
-  margin-top: 0.5rem !important;
-  margin-bottom: 0.6rem !important;
+  margin-top: 0.4rem !important;
+  margin-bottom: 0.5rem !important;
 }
 nav li a {
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 li {
-  padding: 12px;
+  padding: 7px;
   list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
   align-content: center;
   white-space: nowrap;
 }
@@ -45,8 +45,9 @@ a {
   color: rgb(24, 68, 21);
 }
 .logo {
-  width: 5%;
-  height: 5%;
+  width: 8%;
+  height: 8%;
+  display: contents;
 }
 .main_menu {
   padding-top: 5px;
@@ -117,13 +118,22 @@ a {
   top: 15%;
   margin-left: 15px;
 }
-
+.navItemButton{
+  background-color: transparent; /* xóa nền mặc định */
+  border: none;                  /* xóa viền mặc định */
+  cursor: pointer;
+  padding: 8px 10px;             /* đồng bộ spacing */
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .notificationPopup {
   position: absolute;
   top: 70px;
   right: 20px;
   width: 300px;
-  background: white;
   color: black;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -131,6 +141,7 @@ a {
   padding: 1rem;
   font-size: 14px;
   max-height: 400px; /* Giới hạn chiều cao tối đa */
+  background-color: white;
   overflow-y: auto;  /* Cho phép cuộn khi nội dung vượt quá */
 }
 
@@ -155,20 +166,57 @@ a {
 .cartIcon {
   font-size: 22px;
 }
-
+.logoutButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  color: white;
+  font-size: 24px;
+}
+.logoutButton:hover {
+  color: #ff0000;
+}
 @media (max-width: 993px){
   nav a{
     font-size: 13px;
     color: black;
 
   }
+  
 }
+
 @media (max-width: 768px) {
+  .navItemButton {
+  background-color: #66e071;
+  border: none;
+  width: 100%;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: white;
+}
+.logoutButton {
+    background-color: #66e071;
+    border: none;
+    width: 100%;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  li{
+    display: block;
+  }
   .nav {
     display: none; /* Ẩn menu điều hướng */
   }
   .NumberPopUp{
-    display: none;
+    background-color: red !important;
+    top: 4%;
+    left: 45%;
   }
   .menuToggle {
     display: block; /* Chỉ hiện icon trên mobile */
@@ -203,7 +251,7 @@ a {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 4px;
   }
 
   .logo {
@@ -234,4 +282,9 @@ a {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3); /* nền mờ tối */
   z-index: 998; /* dưới menu nhưng trên các phần còn lại */
+}
+@media (max-width: 480px) {
+  .header {
+    padding: 6px;
+  }
 }

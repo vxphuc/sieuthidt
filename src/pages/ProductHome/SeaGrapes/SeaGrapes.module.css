@@ -227,6 +227,7 @@
   
   @media screen and (max-width: 768px) {
     .product {
-      width: calc(97% / 2);
+      width: calc(93% / 2);
+        margin: 4px;
     }
   }

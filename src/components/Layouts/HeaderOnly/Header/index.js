@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import style from "./Header.module.css";
 import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faBars, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faBars, faBell, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../../../contexts/CartContext";
@@ -17,7 +17,17 @@ function Header() {
   const { cartCount } = useContext(CartContext);
   const [notifications, setNotifications] = useState([]);
   const [popupnotifications, setpopupNotifications] = useState(false);
-
+  
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await axios.post("https://dtweb.onrender.com/sign-in/logout", {}, { withCredentials: true });
+      window.location.href = "/"; // chuyển về trang chủ
+      window.location.reload();   // ép reload lại toàn bộ app
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
   // SOCKET: dùng ref để giữ instance duy nhất
   const socketRef = useRef(null);
 
@@ -148,24 +158,21 @@ function Header() {
                   {cartCount}
                 </NavLink>
               </li>
-              {/* <li>
-                <NavLink
-                  to="/"
-                  className={({ isActive }) => (isActive ? style.active : "")}
-                >
-                  Trang chủ
-                </NavLink>
-              </li> */}
               <li>
-                <FontAwesomeIcon
-                  icon={faBell}
-                  style={{ color: "#ffffff", cursor: "pointer" , fontSize: "24px"}}
-                  onClick={() => setpopupNotifications((prev) => !prev)}
-                />
+                <button className={style.navItemButton} onClick={() => setpopupNotifications((prev) => !prev)}>
+                  <FontAwesomeIcon icon={faBell} className={style.cartIcon} />
+                </button>
               </li>
               <li>
                 <Auth />
               </li>
+              {userRole && (
+                <li>
+                  <button className={style.logoutButton} onClick={handleLogout}>
+                    <FontAwesomeIcon icon={faRightFromBracket} className={style.cartIcon} />
+                  </button>
+                </li>
+              )}
               {showAdminLink && (
                 <li>
                   <NavLink
