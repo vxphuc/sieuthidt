@@ -73,7 +73,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
       <div>
         <div className={`${styles.inputrating__group}`}>
           <input
-            placeholder="mời bạn chia sẽ thêm cảm nhận..."
+            placeholder="Mời bạn chia sẻ thêm cảm nhận..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             className="w-full border p-2 mt-2"
@@ -97,7 +97,7 @@ const ReviewForm = ({ productId, onSuccess }) => {
             <input
               value={phone}
               onChange={handlePhone}
-              placeholder="nhập số điện thoại (bắt buộc)"
+              placeholder="Nhập số điện thoại (bắt buộc)"
             ></input>
           </div>
         </div>
