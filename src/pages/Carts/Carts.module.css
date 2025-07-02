@@ -81,19 +81,15 @@
     background-color: rgb(255 255 255);
 }
 .soluongkho {
-  display: block;
-  text-align: justify;
+    display: block;
+    word-break: break-word;
+    white-space: normal;
+    padding-left: 0px;
 }
 .closePopup {
   width: 100%;
-  height: 35px;
-  background: radial-gradient(
-    159.85% 367.97% at 150% 123.85%,
-    #ffe147 0,
-    #65ae17 38.76%,
-    #469c4b 59.65%,
-    #038546 100%
-  );
+  height: 40px;
+  background: #038546;
   color: #fff;
   font-weight: 600;
   position: absolute;
@@ -451,6 +447,47 @@ input[type=number] {
 }
 .tableText{
   font-weight: 500 !important;
+}
+.popUptonkho {
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 20px 80px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 1001;
+}
+.soluongkho li {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+@media (max-width: 480px) {
+  .popUptonkho {
+    width: 95%;
+    padding: 16px 16px 60px;
+  }
+}
+
+.soluongkho {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.soluongkho li {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
 }
 
 @keyframes highlightGlow {

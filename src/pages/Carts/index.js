@@ -421,16 +421,18 @@ function Carts() {
             {/* Hiện thông báo sản phẩm không đủ tồn kho */}
             {outOfStockProducts.length > 0 && (
               <BackgroundPopup>
-                <div className={styles.popUp}>
+                <div className={styles.popUptonkho}>
                   <ul className={styles.soluongkho}>
                     {outOfStockProducts.map((item) => (
-                      <li key={item.productID}>
-                        <strong>{item.name}</strong>
-                        {item.reason && <> – {item.reason}</>}
-                        {item.message}
-                        {typeof item.stock !== "undefined" && (
-                          <> (Còn lại: {item.stock})</>
-                        )}
+                      <li className={styles.endsub} key={item.productID}>
+                        <div><strong>{item.name}</strong></div>
+                        <div>
+                          {item.reason && <>– {item.reason}. </>}
+                          {item.message && <>{item.message} </>}
+                          {typeof item.stock !== "undefined" && (
+                            <> (Còn lại: {item.stock})</>
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>
