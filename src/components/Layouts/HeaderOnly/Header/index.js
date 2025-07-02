@@ -196,7 +196,7 @@ function Header() {
               <ul className={style.notificationList}>
                 {notifications.map((noti, index) => (
                   <NavLink to={`/quan-tri/chi-tiet/${noti.orderId}`} key={index}>
-                    <li>{noti.message}</li>
+                    <li className={style.notificationItem}>{noti.message}</li>
                   </NavLink>
                 ))}
               </ul>
