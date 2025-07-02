@@ -7,6 +7,7 @@ import {
 } from "../../config/firebaseConfig";
 import axios from "axios";
 import styles from "./login.module.css";
+import api from "../../api/axios"; // Import axios instance
 
 function Login() {
   const [phone, setPhone] = useState("");
@@ -87,18 +88,12 @@ function Login() {
       setToken(idToken);
       alert("Xác thực thành công!");
       // Gửi token lên backend
-      const response = await axios.post(
-        "https://dtweb.onrender.com/sign-in",
-        {
-          idToken,
-          numberPhone: phone,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      // Trong component Login
+      const response = await api.post("/sign-in", { idToken });
+      localStorage.setItem("authToken", response.data.token);
+
       console.log("Response từ backend:", response.data);
-      window.location.href = "/";
+      // window.location.href = "/";
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
