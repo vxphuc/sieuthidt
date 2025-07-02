@@ -14,7 +14,7 @@ function ListProductSame() {
 
   return (
     <div className={`${styles.ListProductSames}`}>
-      <div className={`${styles.titleListProductSame}`}>sản phẩm liên quan</div>
+      <div className={`${styles.titleListProductSame}`}>Sản phẩm liên quan</div>
       <div className={`${styles.listProductSame}`}>
         <div className={`${styles.productSame}`}>
           {[...product]

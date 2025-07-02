@@ -554,7 +554,7 @@ function Carts() {
               <table className={styles.table}>
                 <tbody>
                   <tr>
-                    <td>Tổng tiền</td>
+                    <td className={styles.tableText}>Tổng tiền</td>
                     <td className={styles.totalAll}>{total}</td>
                   </tr>
                   <tr>
@@ -572,7 +572,7 @@ function Carts() {
                     </td>
                   </tr>
                   <tr>
-                    <td>Tổng đơn hàng</td>
+                    <td className={styles.tableText}>Tổng đơn hàng</td>
                     <td className={styles.totalAll}>{totalOrder}</td>
                   </tr>
                 </tbody>
@@ -580,7 +580,7 @@ function Carts() {
             </div>
 
             <div className={styles.description}>
-              <p>Nhập mô tả đơn hàng</p>
+              <h5><strong>Nhập mô tả đơn hàng</strong></h5>
               <textarea
                 rows="4"
                 cols="77"

@@ -250,7 +250,7 @@ function Product() {
             className={style.popupFillter}
           >
             <div className={style.titlePopup}>
-              <h3 className="text-center">Bộ lọc nâng cao</h3>
+              <h3 className="text-center">Bộ Lọc Nâng Cao</h3>
               <button onClick={openPopupfilter} className={style.buttonclose}>
                 <FontAwesomeIcon icon={faXmark} />
               </button>
@@ -265,7 +265,7 @@ function Product() {
                     selectedFilter === "highToLow" ? style.activeItem : ""
                   }`}
                 >
-                  giá cao đến thấp
+                  Giá cao đến thấp
                 </div>
                 <div
                   onClick={() => applyFilter("lowToHigh")}
