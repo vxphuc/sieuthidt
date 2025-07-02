@@ -73,18 +73,18 @@ function Search({ onChange, onCartChange, searchValue }) {
           }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Bạn cần tìm sản phẩm gì?"
+          placeholder="Tìm sản phẩm..."
         />
         </div>
         {/* Giỏ hàng chèn vào trong ô tìm kiếm */}
-        {/* <NavLink to="/gio-hang">
+        <NavLink to="/gio-hang">
           <div className={style.cartInside}>
             <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon} />
           </div>
-        </NavLink> */}
+        </NavLink>
       </div>
 
-      {/* <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink> */}
+      <NavLink to={'/gio-hang'} className = {style.NumberPopUp}>{cartCount}</NavLink>
 
 
       {isOpen && suggestions.length > 0 && (

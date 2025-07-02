@@ -11,7 +11,7 @@ function SeaGrapes() {
   const [product, setProduct] = useState([]);
   const { fetchCartCount } = useContext(CartContext);
   const navigate = useNavigate();
-
+  const [isAdding, setIsAdding] = useState(false);
   const [popupProduct, setPopupProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const openPopupBuy = (product) => {
@@ -19,6 +19,8 @@ function SeaGrapes() {
     setQuantity(1); // reset lại số lượng
   };
   const confirmAddToCart = () => {
+    if (isAdding) return; // chặn nhấn liên tục
+    setIsAdding(true);
     axios
       .post(
         "https://dtweb.onrender.com/cart/create",
@@ -34,7 +36,10 @@ function SeaGrapes() {
         fetchCartCount();
         setPopupProduct(null); // đóng popup
       })
-      .catch((error) => navigate("/dang-nhap"));
+      .catch((error) => navigate("/dang-nhap"))
+      .finally(() => {
+      setIsAdding(false); // mở lại nút
+    });
   };
 
   useEffect(() => {
@@ -187,8 +192,8 @@ function SeaGrapes() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button className={style.confirmBtn} onClick={confirmAddToCart}>
-              Thêm vào giỏ hàng
+            <button className={style.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+              {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>
         </BackgroundPopup>

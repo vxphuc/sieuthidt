@@ -18,7 +18,7 @@
 }
 
 .bodyPopup {
-  max-height: calc(-174.5px + 100vh);
+  max-height: calc(100vh - 180px);
   overflow-y: auto;
   margin-top: 10px;
 }
@@ -129,7 +129,7 @@
 
 
 .a{
-  width: 30%;
+  width: 50%;
   margin: 0 auto;
   text-align: center;
   border-radius: 10px;
