@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import styles from "./login.module.css";
 import api from "../../api/axios"; // Import axios instance
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [phone, setPhone] = useState("");
@@ -16,6 +17,7 @@ function Login() {
   const [error, setError] = useState(false);
   const [token, setToken] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+  const navigate = useNavigate();
 
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
@@ -84,16 +86,22 @@ function Login() {
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
-      const idToken = await user.getIdToken(); // Lấy ID Token từ Firebase
+      const idToken = await user.getIdToken();
+
       setToken(idToken);
       alert("Xác thực thành công!");
+
       // Gửi token lên backend
-      // Trong component Login
       const response = await api.post("/sign-in", { idToken });
-      localStorage.setItem("authToken", response.data.token);
+
+      // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
+      localStorage.setItem("authToken", response.data.user.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       console.log("Response từ backend:", response.data);
-      // window.location.href = "/";
+
+      // Chuyển hướng về trang chủ
+      navigate("/");
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
