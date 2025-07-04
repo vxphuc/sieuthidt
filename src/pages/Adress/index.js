@@ -26,6 +26,7 @@ function Adress() {
   //gửi địa chỉ vào shop
   const [selectedAddressId, setSelectedAddressId] = useState(null);
  
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // tỉnh
   useEffect(() => {
@@ -89,6 +90,8 @@ function Adress() {
   // gửi địa chỉ lên server
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     axios.post(
       `https://dtweb.onrender.com/address/create`,
       {
@@ -124,7 +127,8 @@ function Adress() {
       withCredentials: true
     })
     .then(res => setData(res.data))
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => setIsSubmitting(false));
   }, []);
   
 
@@ -251,8 +255,9 @@ function Adress() {
                 <button
                   onClick={handleSubmit}
                   className={`${styles.buttonAdress}`}
+                  disabled={isSubmitting}
                 >
-                  Hoàn tất
+                  {isSubmitting ? "Đang xử lý..." : "Hoàn tất"}
                 </button>
               </div>
             </div>
