@@ -1,13 +1,19 @@
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import style from "./Header.module.css";
 import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faBars, faBell, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faBars,
+  faBell,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../../../contexts/CartContext";
 import { io } from "socket.io-client";
+import api from "../../../../api/axios";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -17,16 +23,11 @@ function Header() {
   const { cartCount } = useContext(CartContext);
   const [notifications, setNotifications] = useState([]);
   const [popupnotifications, setpopupNotifications] = useState(false);
-  
+
   const navigate = useNavigate();
   const handleLogout = async () => {
-    try {
-      await axios.post("https://dtweb.onrender.com/sign-in/logout", {}, { withCredentials: true });
-      window.location.href = "/"; // chuyển về trang chủ
-      window.location.reload();   // ép reload lại toàn bộ app
-    } catch (err) {
-      console.error("Logout failed", err);
-    }
+    localStorage.removeItem("authToken");
+    window.location.reload();
   };
   // SOCKET: dùng ref để giữ instance duy nhất
   const socketRef = useRef(null);
@@ -64,10 +65,9 @@ function Header() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get(
-          "https://dtweb.onrender.com/sign-in/NotificationAdmin",
-          { withCredentials: true }
-        );
+        const res = await api.get("/sign-in/NotificationAdmin", {
+          withCredentials: true,
+        });
         setNotifications(res.data);
       } catch (err) {
         console.error("Không lấy được thông báo:", err);
@@ -93,10 +93,7 @@ function Header() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "https://dtweb.onrender.com/sign-in/user-profile",
-          { withCredentials: true }
-        );
+        const res = await api.get("/sign-in/user-profile");
         setUserRole(res.data.role);
       } catch (err) {
         setUserRole(null);
@@ -159,7 +156,10 @@ function Header() {
                 </NavLink>
               </li>
               <li>
-                <button className={style.navItemButton} onClick={() => setpopupNotifications((prev) => !prev)}>
+                <button
+                  className={style.navItemButton}
+                  onClick={() => setpopupNotifications((prev) => !prev)}
+                >
                   <FontAwesomeIcon icon={faBell} className={style.cartIcon} />
                 </button>
               </li>
@@ -169,7 +169,10 @@ function Header() {
               {userRole && (
                 <li>
                   <button className={style.logoutButton} onClick={handleLogout}>
-                    <FontAwesomeIcon icon={faRightFromBracket} className={style.cartIcon} />
+                    <FontAwesomeIcon
+                      icon={faRightFromBracket}
+                      className={style.cartIcon}
+                    />
                   </button>
                 </li>
               )}
@@ -195,7 +198,10 @@ function Header() {
             ) : (
               <ul className={style.notificationList}>
                 {notifications.map((noti, index) => (
-                  <NavLink to={`/quan-tri/chi-tiet/${noti.orderId}`} key={index}>
+                  <NavLink
+                    to={`/quan-tri/chi-tiet/${noti.orderId}`}
+                    key={index}
+                  >
                     <li className={style.notificationItem}>{noti.message}</li>
                   </NavLink>
                 ))}

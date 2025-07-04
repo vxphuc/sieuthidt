@@ -21,13 +21,8 @@ function Header() {
   
   const navigate = useNavigate();
   const handleLogout = async () => {
-    try {
-      await api.post("/sign-in/logout");
-      window.location.href = "/"; // chuyển về trang chủ
-      window.location.reload();   // ép reload lại toàn bộ app
-    } catch (err) {
-      console.error("Logout failed", err);
-    }
+    localStorage.removeItem('authToken');
+    window.location.reload()
   };
   // SOCKET: dùng ref để giữ instance duy nhất
   const socketRef = useRef(null);
