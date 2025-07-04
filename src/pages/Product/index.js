@@ -46,7 +46,8 @@ function Product() {
   };
 
   const confirmAddToCart = () => {
-
+    if (isAdding) return; // chặn nếu đang gửi
+    setIsAdding(true);
     api.post(
         "/cart/create",
         {
