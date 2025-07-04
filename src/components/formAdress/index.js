@@ -1,13 +1,13 @@
 import styles from "./FormAdress.module.css";
-import axios from "axios";
+import api from "../../api/axios";
 import { useState, useEffect } from "react";
 
 function FormAdress({ className, adress, onSelect }) {
   const [name, setName] = useState([]);
   useEffect(() => {
     const fecthUser = async () => {
-      const res = await axios.get(
-        "https://dtweb.onrender.com/sign-in/user-profile",
+      const res = await api.get(
+        "/sign-in/user-profile",
         {
           withCredentials: true,
         }
@@ -23,7 +23,7 @@ function FormAdress({ className, adress, onSelect }) {
   };
    const handledelete = (e, index) =>{
     e.preventDefault();
-    axios.delete(`https://dtweb.onrender.com/address/delete/${adress[index]._id}/${adress[index].wards._id}/${adress[index].districts._id}/${adress[index].provinces._id}`,{
+    api.delete(`/address/delete/${adress[index]._id}/${adress[index].wards._id}/${adress[index].districts._id}/${adress[index].provinces._id}`,{
       withCredentials: true,
     })
 

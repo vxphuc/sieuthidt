@@ -8,6 +8,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../../../contexts/CartContext";
 import { io } from "socket.io-client";
+import api from "../../../../api/axios"
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -21,7 +22,7 @@ function Header() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await axios.post("https://dtweb.onrender.com/sign-in/logout", {}, { withCredentials: true });
+      await api.post("/sign-in/logout");
       window.location.href = "/"; // chuyển về trang chủ
       window.location.reload();   // ép reload lại toàn bộ app
     } catch (err) {
@@ -64,9 +65,8 @@ function Header() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get(
-          "https://dtweb.onrender.com/sign-in/NotificationAdmin",
-          { withCredentials: true }
+        const res = await api.get(
+          "/sign-in/NotificationAdmin"
         );
         setNotifications(res.data);
       } catch (err) {
@@ -93,9 +93,8 @@ function Header() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "https://dtweb.onrender.com/sign-in/user-profile",
-          { withCredentials: true }
+        const res = await api.get(
+          "/sign-in/user-profile"
         );
         setUserRole(res.data.role);
       } catch (err) {
