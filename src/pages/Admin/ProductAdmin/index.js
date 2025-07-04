@@ -58,6 +58,7 @@ function ProductAdmin() {
             <th scope="col">Loại sản phẩm</th>
             <th scope="col">số lượng sản phẩm</th>
             <th scope="col">Ảnh sản phẩm</th>
+            <th scope="col">Giảm giá</th>
             <th scope="col">tùy chọn</th>
           </tr>
         </thead>
@@ -86,6 +87,9 @@ function ProductAdmin() {
                       className={style.product_image}
                       src={`${product.image[0]}`}
                     ></img>
+                  </td>
+                  <td>
+                    {product.discount}%
                   </td>
                   <td>
                     <NavLink className="btn btn-primary ">
