@@ -17,7 +17,7 @@ function Login() {
   const [error, setError] = useState(false);
   const [token, setToken] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
-
+  const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
 
 
