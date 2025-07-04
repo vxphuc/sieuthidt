@@ -6,6 +6,7 @@ import BackgroundPopup from "../../components/BackgroundPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FormAdress from "../../components/formAdress";
+import api from "../../api/axios";
 
 function Adress() {
   const navigate = useNavigate();
@@ -92,8 +93,8 @@ function Adress() {
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
-    axios.post(
-      `https://dtweb.onrender.com/address/create`,
+    api.post(
+      `/address/create`,
       {
         IDProvinces: selectedProvince.code,
         nameProvinces: selectedProvince.name,
@@ -110,8 +111,8 @@ function Adress() {
     )
     .then(res => {
       setShowPopup(false);
-      axios
-      .get("https://dtweb.onrender.com/address", {
+      api
+      .get("/address", {
         withCredentials: true
       })
       .then((response) => {
@@ -123,7 +124,7 @@ function Adress() {
 
   //khởi tạo address từ đầu
   useEffect(() => {
-    axios.get("https://dtweb.onrender.com/address", {
+    api.get("/address", {
       withCredentials: true
     })
     .then(res => setData(res.data))
@@ -140,7 +141,7 @@ function Adress() {
   };
 
   const handleSelect = () =>{
-    axios.patch(`https://dtweb.onrender.com/cart/updateAddress`, {
+    api.patch(`/cart/updateAddress`, {
       roadID: selectedAddressId
     }, {
       withCredentials: true

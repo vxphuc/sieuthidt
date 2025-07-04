@@ -1,6 +1,6 @@
 import style from "./SeaGrapes.module.css";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import api from "../";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 import BackgroundPopup from "../../../components/BackgroundPopup";
@@ -20,8 +20,7 @@ function SeaGrapes() {
   };
   const confirmAddToCart = () => {
     if (isAdding) return; // chặn nhấn liên tục
-    setIsAdding(true);
-    axios
+    setIsAd"../
       .post(
         "https://dtweb.onrender.com/cart/create",
         {
@@ -42,16 +41,14 @@ function SeaGrapes() {
     });
   };
 
-  useEffect(() => {
-    axios
+  useEff"../
       .get(`https://dtweb.onrender.com/product/ProductsNest/Rong-Nho`)
       .then((response) => {
         setProduct(response.data);
       });
   }, []);
 
-  const handleBuy = (product) => {
-    axios
+  const handleBuy = (pr"../
       .post(
         "https://dtweb.onrender.com/cart/create",
         {

@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api/axios";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
@@ -6,12 +6,11 @@ import { NavLink, useParams } from "react-router-dom";
 function InvoiceDetails() {
   const [data, setData] = useState({});
   let params = useParams();
-  console.log("Params:", data);
 
     // Hàm lấy dữ liệu đơn hàng
   const fetchOrder = async () => {
-    const res = await axios.get(
-      `https://dtweb.onrender.com/bill/${params.id}`,
+    const res = await api.get(
+      `/bill/${params.id}`,
       {
         withCredentials: true,
       }
@@ -25,8 +24,8 @@ function InvoiceDetails() {
 
   const cancelOrder = async () => {
     try {
-      await axios.patch(
-        `https://dtweb.onrender.com/bill/cancel/${params.id}`,
+      await api.patch(
+        `/bill/cancel/${params.id}`,
         {},
         {
           withCredentials: true,

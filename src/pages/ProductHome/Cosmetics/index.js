@@ -1,6 +1,6 @@
 import style from "./Cosmetics.module.css";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import api from "../../../api/axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 import BackgroundPopup from "../../../components/BackgroundPopup";
@@ -21,9 +21,9 @@ function Cosmetics() {
   const confirmAddToCart = () => {
     if (isAdding) return; // chặn nhấn liên tục
     setIsAdding(true);
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -43,17 +43,17 @@ function Cosmetics() {
   };
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/product/ProductsNest/Yen-Sao`)
+    api
+      .get(`/product/ProductsNest/Yen-Sao`)
       .then((response) => {
         setProduct(response.data);
       });
   }, []);
 
   const handleBuy = (product) => {
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: product,
         },

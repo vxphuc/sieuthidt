@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { NavLink } from "react-router-dom";
 
 function Bill() {
@@ -10,7 +10,7 @@ function Bill() {
 
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await axios.get("https://dtweb.onrender.com/bill/user", {
+      const response = await api.get("/bill/user", {
         withCredentials: true,
       });
       setBills(response.data);
