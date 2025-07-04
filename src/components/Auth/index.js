@@ -32,7 +32,7 @@ function Auth() {
     >
       <button className={style.button}>
         <FontAwesomeIcon icon={faUser} className={style.userIcon} />
-        {isLoggedIn ? user.phone : "Đăng nhập"}
+        {isLoggedIn ? user.numberPhone : "Đăng nhập"}
       </button>
     </NavLink>
   );
