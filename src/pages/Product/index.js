@@ -2,7 +2,7 @@ import { NavLink, useParams, useNavigate } from "react-router-dom";
 import style from "./Product.module.css"; // chú ý tên biến style
 import { useState, useEffect, useContext  } from "react";
 import { CartContext } from "../../contexts/CartContext";
-import axios from "axios";
+import api from "../../api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -27,8 +27,8 @@ function Product() {
 
   // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
   // const fetchCartCount = () => {
-  //   axios
-  //     .get("https://dtweb.onrender.com/cart/count", { withCredentials: true })
+  //   api
+  //     .get("/cart/count", { withCredentials: true })
   //     .then((res) => {
   //       console.log("Số lượng giỏ hàng hiện tại:", res.data.count);
   //       // Có thể cập nhật state hoặc context nếu có
@@ -46,11 +46,9 @@ function Product() {
   };
 
   const confirmAddToCart = () => {
-    if (isAdding) return; // chặn nếu đang gửi
-    setIsAdding(true);
-    axios
-      .post(
-        "https://dtweb.onrender.com/cart/create",
+
+    api.post(
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -66,16 +64,16 @@ function Product() {
   };
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${slug}`)
+    api
+      .get(`/typeProduct/detailTypeProduct/${slug}`)
       .then((response) => setTypeProduct(response.data))
       .catch((error) => console.log(error));
   }, [slug]);
 
   useEffect(() => {
-    axios
+    api
       .get(
-        `https://dtweb.onrender.com/product/getProducts/${slug}?filter=${selectedFilter}&num=${showProduct}`
+        `/product/getProducts/${slug}?filter=${selectedFilter}&num=${showProduct}`
       )
       .then((response) => setProduct(response.data))
       .catch((error) => console.log(error));

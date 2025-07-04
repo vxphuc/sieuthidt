@@ -2,7 +2,7 @@ import styles from "./Infomation.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 
 function Infomation() {
   
@@ -23,33 +23,33 @@ function Infomation() {
   
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/sign-in/user-profile`, {
+    api
+      .get(`/sign-in/user-profile`, {
         withCredentials: true,
       })
       .then((res) => setData(res.data));
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/address`, {
+    api
+      .get(`/address`, {
         withCredentials: true,
       })
       .then((res) => setAddress(res.data));
   }, []);
 
   const handleDelete = (id, wards_id, districts_id, provinces_id) => {
-    axios
+    api
       .delete(
-        `https://dtweb.onrender.com/address/delete/${id}/${wards_id}/${districts_id}/${provinces_id}`,
+        `/address/delete/${id}/${wards_id}/${districts_id}/${provinces_id}`,
         {
           withCredentials: true,
         }
       )
       .then((res) => {
         console.log(res.data);
-        axios
-          .get(`https://dtweb.onrender.com/address`, {
+        api
+          .get(`/address`, {
             withCredentials: true,
           })
           .then((res) => setAddress(res.data));
@@ -57,7 +57,7 @@ function Infomation() {
   };
   const handleSubmitName = async () =>{
     const { name, numberPhone } = data;
-    const response = await axios.put(`https://dtweb.onrender.com/sign-in/editProfile`,{
+    const response = await api.put(`/sign-in/editProfile`,{
       name,
       numberPhone
     },{

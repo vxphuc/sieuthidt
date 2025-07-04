@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
+import api from "../../api/axios";
 
 function PayMentBank() {
   const { id } = useParams();
@@ -27,8 +28,8 @@ function PayMentBank() {
 
 useEffect(() => {
   if (!id) return;
-  axios
-    .get(`https://dtweb.onrender.com/bill/${id}`, {
+  api
+    .get(`/bill/${id}`, {
       withCredentials: true,
     })
     .then((res) => {// Thêm dòng này
@@ -44,8 +45,8 @@ useEffect(() => {
 
     const interval = setInterval(async () => {
       try {
-        const res = await axios.post(
-          `https://dtweb.onrender.com/webhook/check`,
+        const res = await api.post(
+          `/webhook/check`,
           {
             id: data._id,
           }
@@ -54,9 +55,9 @@ useEffect(() => {
         if (res.data.code === 200) {
           clearInterval(interval); // ✅ Dừng kiểm tra
           alert("✅ Thanh toán đã được xác nhận!"); // hoặc set trạng thái để hiển thị lên UI
-          await axios
+          await api
             .patch(
-              `https://dtweb.onrender.com/bill/status/${id}`,
+              `/bill/status/${id}`,
               {},
               {
                 withCredentials: true,
