@@ -7,6 +7,8 @@ import {
 } from "../../config/firebaseConfig";
 import axios from "axios";
 import styles from "./login.module.css";
+import api from "../../api/axios"; // Import axios instance
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [phone, setPhone] = useState("");
@@ -15,7 +17,10 @@ function Login() {
   const [error, setError] = useState(false);
   const [token, setToken] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
-  const [isSending, setIsSending] = useState(false);
+
+  const navigate = useNavigate();
+
+
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
@@ -88,22 +93,20 @@ function Login() {
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
-      const idToken = await user.getIdToken(); // Lấy ID Token từ Firebase
+      const idToken = await user.getIdToken();
+
       setToken(idToken);
       alert("Xác thực thành công!");
+
       // Gửi token lên backend
-      const response = await axios.post(
-        "https://dtweb.onrender.com/sign-in",
-        {
-          idToken,
-          numberPhone: phone,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("Response từ backend:", response.data);
-      window.location.href = "/";
+      const response = await api.post("/sign-in", { idToken });
+
+      // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
+      localStorage.setItem("authToken", idToken);
+
+
+      // Chuyển hướng về trang chủ
+      navigate("/");
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");

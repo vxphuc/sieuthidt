@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import axios from "axios";
 import styles from "./Home.module.css";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +15,7 @@ import ProductHome from "../ProductHome";
 import { CartContext } from "../../contexts/CartContext";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { io } from "socket.io-client";
+import api from "../../api/axios";
 
 function Home() {
   const navigate = useNavigate();
@@ -40,12 +40,9 @@ function Home() {
   };
 
   const confirmAddToCart = () => {
-    if (isAdding) return; // chặn nếu đang xử lý
-
-    setIsAdding(true); // khoá nút
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -64,16 +61,16 @@ function Home() {
 
   //new product
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/product/newProduct")
+    api
+      .get("/product/newProduct")
       .then((res) => setNewProduct(res.data))
       .catch((error) => console.log(error));
   }, []);
 
   //banner
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/sign-in/banner")
+    api
+      .get("/sign-in/banner")
       .then((res) => setImg(res.data))
       .catch((error) => console.log(error));
   }, []);
