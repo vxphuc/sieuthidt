@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-
+import api from "../../../api/axios";
 import axios from "axios";
 
 function CreateTypeProductAdmin() {
@@ -19,7 +19,7 @@ function CreateTypeProductAdmin() {
 
     const handleChangeSubmit = (e) => {
       e.preventDefault();
-      axios.post('https://dtweb.onrender.com/typeProduct/create',{
+      api.post('/typeProduct/create',{
         name: formData.name,
         image: formData.image
       },{

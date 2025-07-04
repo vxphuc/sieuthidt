@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-
+import api from "../../../api/axios";
 function Taikhoanquanly() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,8 +10,8 @@ function Taikhoanquanly() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(
-          "https://dtweb.onrender.com/sign-in/user",
+        const response = await api.get(
+          "/sign-in/user",
           {
             withCredentials: true,
           }

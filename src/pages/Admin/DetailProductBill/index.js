@@ -2,7 +2,7 @@ import { NavLink, useParams, useNavigate  } from "react-router-dom";
 import styles from "./styles.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import api from "../../../api/axios";
 
 function DetailProductBill() {
   const { id } = useParams();
@@ -11,8 +11,8 @@ function DetailProductBill() {
 
   useEffect(() => {
     const fetchOrder = async () => {
-      const response = await axios.get(
-        `https://dtweb.onrender.com/bill/${id}`,
+      const response = await api.get(
+        `/bill/${id}`,
         {
           withCredentials: true,
         }

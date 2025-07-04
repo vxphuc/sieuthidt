@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import style from "./UpdateProduct.module.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
+import api from "../../../api/axios";
 function UpdateProduct() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ function UpdateProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `https://dtweb.onrender.com/product/${slug}`
+        const response = await api.get(
+          `/product/${slug}`
         );
         if (!response.data) throw new Error("Không tìm thấy sản phẩm!");
 
@@ -39,8 +39,8 @@ function UpdateProduct() {
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
-        const response = await axios.get(
-          "https://dtweb.onrender.com/typeProduct"
+        const response = await api.get(
+          "/typeProduct"
         );
         if (response.data) setType(response.data.typeProducts);
       } catch (error) {
@@ -83,8 +83,8 @@ function UpdateProduct() {
     }
 
     try {
-      await axios.put(
-        `https://dtweb.onrender.com/product/${data._id}/fixProduct`,
+      await api.put(
+        `/product/${data._id}/fixProduct`,
         formData,
         {
           headers: {

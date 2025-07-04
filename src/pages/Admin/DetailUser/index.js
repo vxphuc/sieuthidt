@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import api from "../../../api/axios";
 const DetailUser = () => {
   const { uid } = useParams();
   const [user, setUser] = useState({});
@@ -10,8 +10,8 @@ const DetailUser = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(
-          `https://dtweb.onrender.com/sign-in/user-profile-admin/${uid}`,
+        const response = await api.get(
+          `/sign-in/user-profile-admin/${uid}`,
           {
             withCredentials: true,
           }
@@ -28,8 +28,8 @@ const DetailUser = () => {
     const fetchUser = async () => {
       console.log("UID truyền lên là:", uid);
       try {
-        const response = await axios.get(
-          `https://dtweb.onrender.com/address/user-address/${uid}`,
+        const response = await api.get(
+          `/address/user-address/${uid}`,
           {
             withCredentials: true,
           }

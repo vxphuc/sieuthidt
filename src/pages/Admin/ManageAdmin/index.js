@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./styles.module.css";
 import ChartColum from "../../../components/ChartColumn";
 import { NavLink } from "react-router-dom";
-
+import api from "../../../api/axios";
 function ManageAdmin() {
   const [totalRevenueYear, setTotalRevenueYear] = useState([]);
   const [Top10Product, setTop10Product] = useState([]);
@@ -15,11 +15,8 @@ function ManageAdmin() {
     // Lấy tổng doanh thu và đơn hàng đã bán được trong năm
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://dtweb.onrender.com/chart/getYearRevenue",
-          {
-            withCredentials: true,
-          }
+        const response = await api.get(
+          "/chart/getYearRevenue"
         );
         setTotalRevenueYear(response.data.data);
       } catch (error) {
@@ -29,11 +26,8 @@ function ManageAdmin() {
     // Lấy 10 sản phẩm bán chạy nhất
     const fetchTop10Product = async () => {
       try {
-        const response = await axios.get(
-          "https://dtweb.onrender.com/chart/getTop10Product",
-          {
-            withCredentials: true,
-          }
+        const response = await api.get(
+          "/chart/getTop10Product"
         );
         setTop10Product(response.data);
       } catch (error) {
@@ -47,11 +41,8 @@ function ManageAdmin() {
   useEffect(() => {
     const fetchRevenueWeek = async () => {
       try {
-        const response = await axios.get(
-          `https://dtweb.onrender.com/chart/getWeekRevenue`,
-          {
-            withCredentials: true,
-          }
+        const response = await api.get(
+          `/chart/getWeekRevenue`
         );
         const transformed = response.data.weeklyRevenue.map((item) => {
           return {
@@ -71,11 +62,8 @@ function ManageAdmin() {
   useEffect(() => {
     const fetchRevenueDay = async () => {
       try {
-        const response = await axios.get(
-          `https://dtweb.onrender.com/chart/getDayRevenue`,
-          {
-            withCredentials: true,
-          }
+        const response = await api.get(
+          `/chart/getDayRevenue`
         );
         const transformed = response.data.dailyRevenue.map((item) => {
           return {

@@ -6,7 +6,7 @@ import style from "./CreateProduct.module.css";
 import { useNavigate } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
+import api from "../../../api/axios";
 function CreateProductForm() {
   const [editorData, setEditorData] = useState("");
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ function CreateProductForm() {
     // Load danh sách các category từ server
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("https://dtweb.onrender.com/typeProduct");
+        const res = await api.get("/typeProduct");
         setCategories(res.data.typeProducts);
       } catch (error) {
         console.error(error);
@@ -72,7 +72,7 @@ function CreateProductForm() {
       }
 
       // gửi yêu cầu tới server
-      await axios.post("https://dtweb.onrender.com/product/create", formData, {
+      await api.post("/product/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

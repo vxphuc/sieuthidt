@@ -2,12 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import style from "./RecycleBin.module.css";
 import { NavLink, useNavigate   } from "react-router-dom";
+import api from "../../../api/axios";
 function RecycleBin() {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/product/Recycle-Bin")
+    api
+      .get("/product/Recycle-Bin")
       .then((response) => {
         setItems(response.data);
       })
@@ -16,8 +17,8 @@ function RecycleBin() {
       });
   }, []);
   const handleRestore = (id) => {
-    axios
-      .patch(`https://dtweb.onrender.com/product/${id}/restore`)
+    api
+      .patch(`/product/${id}/restore`)
       .then(()=>{
         navigate(0)
       })
@@ -26,7 +27,7 @@ function RecycleBin() {
       });
   };
   const handleDelete = (id) => {
-    axios.delete(`https://dtweb.onrender.com/product/${id}/delete`)
+    api.delete(`/product/${id}/delete`)
     .then(() => {
       navigate(0)
     })
