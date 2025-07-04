@@ -26,6 +26,7 @@ function Home() {
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
   const socket = io('https://dtweb.onrender.com');
+  const [isAdding, setIsAdding] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
@@ -52,7 +53,10 @@ function Home() {
         fetchCartCount();
         setPopupProduct(null); // đóng popup
       })
-      .catch((error) => navigate("/dang-nhap"));
+      .catch((error) => navigate("/dang-nhap"))
+      .finally(() => {
+        setIsAdding(false); // mở lại nút
+      });
   };
 
   //new product
@@ -243,8 +247,8 @@ function Home() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button className={styles.confirmBtn} onClick={confirmAddToCart}>
-              Thêm vào giỏ hàng
+            <button className={styles.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+              {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>
         </BackgroundPopup>
