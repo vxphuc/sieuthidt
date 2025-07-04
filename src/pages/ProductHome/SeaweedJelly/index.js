@@ -1,6 +1,6 @@
 import style from "./SeaweedJelly.module.css";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import api from "../../../api/axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 import BackgroundPopup from "../../../components/BackgroundPopup";
@@ -19,9 +19,9 @@ function SeaweedJelly() {
     setQuantity(1); // reset lại số lượng
   };
   const confirmAddToCart = () => {
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -38,17 +38,17 @@ function SeaweedJelly() {
   };
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/product/ProductsNest/Thach-Rong-Nho`)
+    api
+      .get(`/product/ProductsNest/Thach-Rong-Nho`)
       .then((response) => {
         setProduct(response.data);
       });
   }, []);
 
   const handleBuy = (product) => {
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: product,
         },
