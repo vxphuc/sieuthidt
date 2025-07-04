@@ -3,15 +3,15 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import style from "./productAdmin.module.css";
 import Pagination from "../../../components/Pagination";
-
+import api from "../../../api/axios";
 function ProductAdmin() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/product?page=${currentPage}`)
+    api
+      .get(`/product?page=${currentPage}`)
       .then((res) => {
         setProducts(res.data);
         setTotalPages(res.data.totalPages || 1);
@@ -22,8 +22,8 @@ function ProductAdmin() {
   }, [currentPage]);
 
   const handldeleted = (id) => {
-    axios
-      .patch(`https://dtweb.onrender.com/product/${id}/destroy`)
+    api
+      .patch(`/product/${id}/destroy`)
       .then(() => {
         window.location.href = "/quan-tri/san-pham";
       })

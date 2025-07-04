@@ -1,14 +1,15 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../../api/axios";
 function UpdateTypeProduc() {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${id}`)
+    api
+      .get(`/typeProduct/detailTypeProduct/${id}`)
       .then((res) => {
         const result = Array.isArray(res.data) ? res.data[0] : res.data;
         setData(result);
@@ -25,7 +26,7 @@ function UpdateTypeProduc() {
       formData.append("image", data.image);
     }
     try {
-     await axios.put(`https://dtweb.onrender.com/typeProduct/update/${id}`, formData, {
+     await api.put(`/typeProduct/update/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

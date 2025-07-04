@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import style from "./ShowBanner.module.css";
-
+import api from "../../../api/axios";
 function ShowBanner() {
   const [dataBanner, setDataBanner] = useState([]);
 
@@ -17,17 +17,15 @@ function ShowBanner() {
 
   const token = getCookie("authToken");
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/sign-in/banner", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    api
+      .get("/sign-in/banner")
       .then((res) => setDataBanner(res.data));
   }, []);
 
   const handledelete = async (id) => {
   try {
-    await axios.delete(`https://dtweb.onrender.com/sign-in/banner/${id}/delete`);
-    const dt = await axios.get("https://dtweb.onrender.com/sign-in/banner");
+    await api.delete(`/sign-in/banner/${id}/delete`);
+    const dt = await api.get("/sign-in/banner");
     setDataBanner(dt.data);
   } catch (err) {
     console.error("Lỗi khi xóa banner:", err);

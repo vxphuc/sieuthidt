@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import api from "../../../api/axios";
 function Suataikhoannguoidung() {
   const { uid } = useParams();
   const [user, setUser] = useState({
@@ -17,8 +17,8 @@ function Suataikhoannguoidung() {
       try {
         setSuccess(false);
         setError(null);
-        const response = await axios.get(
-          `https://dtweb.onrender.com/sign-in/user-profile-admin/${uid}`,
+        const response = await api.get(
+          `/sign-in/user-profile-admin/${uid}`,
           { withCredentials: true }
         );
         setUser({
@@ -47,8 +47,8 @@ function Suataikhoannguoidung() {
     setSuccess(false);
     setError(null);
     try {
-      const response = await axios.put(
-        `https://dtweb.onrender.com/sign-in/${uid}/editUserByAdmin`,
+      const response = await api.put(
+        `/sign-in/${uid}/editUserByAdmin`,
         user,
         { withCredentials: true }
       );

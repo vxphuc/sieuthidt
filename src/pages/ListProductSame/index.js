@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api/axios";
 import styles from "./ListProductSame.module.css";
 import { useEffect, useState, memo } from "react";
 import { NavLink } from "react-router-dom";
@@ -6,8 +6,8 @@ import { NavLink } from "react-router-dom";
 function ListProductSame() {
   const [product, Setproduct] = useState([]);
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/product/getAllProducts`)
+    api
+      .get(`/product/getAllProducts`)
       .then((res) => Setproduct(res.data));
   }, []);
 

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import ButtonOrderStatus from "../../../components/ButtonorrderStatus";
-
+import api from "../../../api/axios";
 function OrderManagement() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("https://dtweb.onrender.com/bill", {
+        const response = await api.get("/bill", {
           withCredentials: true,
         });
         setOrders(response.data);
@@ -22,8 +22,8 @@ function OrderManagement() {
 
   const handleConfirmOrder = async (orderId) => {
     try {
-      const response = await axios.patch(
-        `https://dtweb.onrender.com/bill/billstatus/${orderId}`,
+      const response = await api.patch(
+        `/bill/billstatus/${orderId}`,
         {
           OrderStatus: "đã xác nhận",
         },
@@ -44,8 +44,8 @@ function OrderManagement() {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      const response = await axios.patch(
-        `https://dtweb.onrender.com/bill/billstatus/${orderId}`,
+      const response = await api.patch(
+        `/bill/billstatus/${orderId}`,
         {
           OrderStatus: "hủy đơn hàng",
         },
@@ -66,8 +66,8 @@ function OrderManagement() {
 
     const handleConversion = async (orderId) => {
     try {
-      const response = await axios.patch(
-        `https://dtweb.onrender.com/bill/billstatus/${orderId}`,
+      const response = await api.patch(
+        `/bill/billstatus/${orderId}`,
         {
           OrderStatus: "đang giao hàng",
         },
@@ -88,8 +88,8 @@ function OrderManagement() {
 
   const handleConversionSuccsess = async (orderId) => {
     try {
-      const response = await axios.patch(
-        `https://dtweb.onrender.com/bill/billstatus/${orderId}`,
+      const response = await api.patch(
+        `/bill/billstatus/${orderId}`,
         {
           OrderStatus: "đã giao hàng",
         },
@@ -110,8 +110,8 @@ function OrderManagement() {
 
   const handleClick = async (selectedStatus) => {
     try {
-      const response = await axios.get(
-        `https://dtweb.onrender.com/bill?status=${selectedStatus}`,
+      const response = await api.get(
+        `/bill?status=${selectedStatus}`,
         { withCredentials: true }
       );
       setOrders(response.data);

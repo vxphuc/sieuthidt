@@ -33,13 +33,16 @@ function Home() {
 
   const [popupProduct, setPopupProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
+  
   const openPopupBuy = (product) => {
     setPopupProduct(product);
     setQuantity(1); // reset về 1
   };
 
   const confirmAddToCart = () => {
+    if (isAdding) return; // chặn nếu đang xử lý
+
+    setIsAdding(true);
     api
       .post(
         "/cart/create",

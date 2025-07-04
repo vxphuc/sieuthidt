@@ -1,13 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import api from "../../../api/axios";
 function RecycleBinTyproduct() {
   const [data, setData] = useState([]);
 
   const fetchData = () => {
-    axios
-      .get("https://dtweb.onrender.com/typeProduct/delete-typeProduct")
+    api
+      .get("/typeProduct/delete-typeProduct")
       .then((res) => setData(res.data))
       .catch((error) => console.log(error));
   };
@@ -17,8 +17,8 @@ function RecycleBinTyproduct() {
   }, []);
 
   const handleRestore = (id) => {
-    axios
-      .patch(`https://dtweb.onrender.com/typeProduct/restore/${id}`)
+    api
+      .patch(`/typeProduct/restore/${id}`)
       .then(() => {
         fetchData();
       })
@@ -26,7 +26,7 @@ function RecycleBinTyproduct() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`https://dtweb.onrender.com/typeProduct/delete/${id}`)
+    api.delete(`/typeProduct/delete/${id}`)
     .then(() => {
       fetchData()
     })

@@ -3,13 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import style from "./TypeProduc.module.css";
-
+import api from "../../../api/axios";
 function TypeProductAdmin() {
   const [data, setData] = useState([]);
   const [countDelete, setCountDelete] = useState(0);
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/typeProduct")
+    api
+      .get("/typeProduct")
       .then((res) => {
         setData(res.data.typeProducts);
         setCountDelete(res.data.count)
@@ -20,7 +20,7 @@ function TypeProductAdmin() {
   }, []);
   
   const handleDelete = async (e) =>{
-       axios.patch(`https://dtweb.onrender.com/typeProduct/delete-sort/${e}`)
+       api.patch(`/typeProduct/delete-sort/${e}`)
         .then((res) => {
           console.log('update successFully', res.data);
           window.location.reload();

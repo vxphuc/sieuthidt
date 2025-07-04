@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Box, Typography } from "@mui/material";
 import axios from "axios";
-
+import api from "../../../api/axios";
 const CreateBanner = () => {
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
@@ -29,7 +29,7 @@ const CreateBanner = () => {
 
     setUploading(true);
     try {
-      const response = await axios.post("https://dtweb.onrender.com/sign-in/upload-banner", formData, {
+      const response = await api.post("/sign-in/upload-banner", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

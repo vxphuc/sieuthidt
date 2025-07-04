@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressBook, faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../../api/axios';
 function Menu() {
 const [token, setToken] = useState([]);
 const navigate = useNavigate();
 
 useEffect(()=>{
   const response = async () => {
-    const response = await axios.get("https://dtweb.onrender.com/sign-in/user-profile", {
+    const response = await api.get("/sign-in/user-profile", {
       withCredentials: true,
     });
     setToken(response.data);
@@ -19,12 +19,8 @@ useEffect(()=>{
 },[])
 
 const logout = () =>{
-  axios.post("https://dtweb.onrender.com/sign-in/logout", {},{
-    withCredentials: true
-  })
-  .then(()=>{
-    navigate('/');
-  })
+  localStorage.removeItem('authToken');
+  navigate('/')
 }
 
   return (

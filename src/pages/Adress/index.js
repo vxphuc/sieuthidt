@@ -6,6 +6,7 @@ import BackgroundPopup from "../../components/BackgroundPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FormAdress from "../../components/formAdress";
+import api from "../../api/axios";
 
 function Adress() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Adress() {
   //gửi địa chỉ vào shop
   const [selectedAddressId, setSelectedAddressId] = useState(null);
  
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // tỉnh
   useEffect(() => {
@@ -89,8 +91,10 @@ function Adress() {
   // gửi địa chỉ lên server
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(
-      `https://dtweb.onrender.com/address/create`,
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    api.post(
+      `/address/create`,
       {
         IDProvinces: selectedProvince.code,
         nameProvinces: selectedProvince.name,
@@ -107,8 +111,8 @@ function Adress() {
     )
     .then(res => {
       setShowPopup(false);
-      axios
-      .get("https://dtweb.onrender.com/address", {
+      api
+      .get("/address", {
         withCredentials: true
       })
       .then((response) => {
@@ -120,11 +124,12 @@ function Adress() {
 
   //khởi tạo address từ đầu
   useEffect(() => {
-    axios.get("https://dtweb.onrender.com/address", {
+    api.get("/address", {
       withCredentials: true
     })
     .then(res => setData(res.data))
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => setIsSubmitting(false));
   }, []);
   
 
@@ -136,7 +141,7 @@ function Adress() {
   };
 
   const handleSelect = () =>{
-    axios.patch(`https://dtweb.onrender.com/cart/updateAddress`, {
+    api.patch(`/cart/updateAddress`, {
       roadID: selectedAddressId
     }, {
       withCredentials: true
@@ -251,8 +256,9 @@ function Adress() {
                 <button
                   onClick={handleSubmit}
                   className={`${styles.buttonAdress}`}
+                  disabled={isSubmitting}
                 >
-                  Hoàn tất
+                  {isSubmitting ? "Đang xử lý..." : "Hoàn tất"}
                 </button>
               </div>
             </div>

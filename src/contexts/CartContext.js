@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import api from "../api/axios";
 
 // Tạo context
 export const CartContext = createContext();
@@ -10,9 +11,7 @@ export const CartProvider = ({ children }) => {
   // Hàm lấy số lượng giỏ hàng từ server
   const fetchCartCount = async () => {
     try {
-      const res = await axios.get("https://dtweb.onrender.com/cart", {
-        withCredentials: true,
-      });
+      const res = await api.get("/cart");
       setCartCount(res.data.itemCount);
     } catch (err) {
       console.error("Lỗi lấy số lượng giỏ hàng:", err);

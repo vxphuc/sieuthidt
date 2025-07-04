@@ -37,6 +37,8 @@ function Carts() {
 
   const [receiverPhoneError, setReceiverPhoneError] = useState("");
 
+  const [isAdding, setIsAdding] = useState(false);
+
   // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
     try {
@@ -208,6 +210,8 @@ function Carts() {
 
   // Đặt hàng và kiểm tra tồn kho từng sản phẩm
   const handlePay = async () => {
+    if (isAdding) return; // chặn nếu đang gửi
+    setIsAdding(true);
     try {
       if (!address || address.length === 0) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
@@ -311,6 +315,7 @@ function Carts() {
       alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
       console.error(err);
     }
+    setIsAdding(false);
   };
 
   if (loading || product.length === 0) return <CartsEmpty />;
@@ -699,8 +704,8 @@ function Carts() {
                     </div>
                   </BackgroundPopup>
                 </div>
-                <button onClick={handlePay} className={styles.btn}>
-                  <span className={styles.orderText}>Đặt hàng: </span>
+                <button onClick={handlePay} className={styles.btn} disabled={isAdding}>
+                  <span className={styles.orderText}>{isAdding ? "đang xử lý đơn: " : "Đặt Hàng: "}</span>
                   <span className={styles.orderPrice}>{totalOrder}</span>
                 </button>
               </div>

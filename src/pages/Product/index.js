@@ -2,7 +2,7 @@ import { NavLink, useParams, useNavigate } from "react-router-dom";
 import style from "./Product.module.css"; // chú ý tên biến style
 import { useState, useEffect, useContext  } from "react";
 import { CartContext } from "../../contexts/CartContext";
-import axios from "axios";
+import api from "../../api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -18,7 +18,7 @@ function Product() {
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [typeProduct, setTypeProduct] = useState([]);
-
+  const [isAdding, setIsAdding] = useState(false);
   const [popupProduct, setPopupProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [filterPopup, setFilterPopup] = useState(false);
@@ -27,8 +27,8 @@ function Product() {
 
   // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
   // const fetchCartCount = () => {
-  //   axios
-  //     .get("https://dtweb.onrender.com/cart/count", { withCredentials: true })
+  //   api
+  //     .get("/cart/count", { withCredentials: true })
   //     .then((res) => {
   //       console.log("Số lượng giỏ hàng hiện tại:", res.data.count);
   //       // Có thể cập nhật state hoặc context nếu có
@@ -46,9 +46,10 @@ function Product() {
   };
 
   const confirmAddToCart = () => {
-    axios
-      .post(
-        "https://dtweb.onrender.com/cart/create",
+    if (isAdding) return; // chặn nếu đang gửi
+    setIsAdding(true);
+    api.post(
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -59,20 +60,21 @@ function Product() {
         fetchCartCount(); // gọi đúng hàm này
         setPopupProduct(null);
       })
-      .catch((error) => navigate("/dang-nhap"));
+      .catch((error) => navigate("/dang-nhap"))
+      .finally(() => setIsAdding(false));
   };
 
   useEffect(() => {
-    axios
-      .get(`https://dtweb.onrender.com/typeProduct/detailTypeProduct/${slug}`)
+    api
+      .get(`/typeProduct/detailTypeProduct/${slug}`)
       .then((response) => setTypeProduct(response.data))
       .catch((error) => console.log(error));
   }, [slug]);
 
   useEffect(() => {
-    axios
+    api
       .get(
-        `https://dtweb.onrender.com/product/getProducts/${slug}?filter=${selectedFilter}&num=${showProduct}`
+        `/product/getProducts/${slug}?filter=${selectedFilter}&num=${showProduct}`
       )
       .then((response) => setProduct(response.data))
       .catch((error) => console.log(error));
@@ -235,8 +237,8 @@ function Product() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button type="button" className={style.confirmBtn} onClick={confirmAddToCart}>
-              Thêm vào giỏ hàng
+            <button type="button" className={style.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+              {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>
         </BackgroundPopup>

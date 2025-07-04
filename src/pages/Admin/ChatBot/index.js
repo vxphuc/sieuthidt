@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import MarkdownRenderer from "../../../components/MarkdownRenderer";
-
+import api from "../../../api/axios";
 function ChatBot() {
   const [messages, setMessages] = useState("");
   const [data, setData] = useState([]);
@@ -18,8 +18,8 @@ function ChatBot() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://dtweb.onrender.com/chatbot/analyzeRevenue",
+      const response = await api.post(
+        "/chatbot/analyzeRevenue",
         {
           content: messages,
         }
