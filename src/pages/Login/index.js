@@ -95,10 +95,8 @@ function Login() {
       const response = await api.post("/sign-in", { idToken });
 
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
-      localStorage.setItem("authToken", response.data.user.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("authToken", idToken);
 
-      console.log("Response từ backend:", response.data);
 
       // Chuyển hướng về trang chủ
       navigate("/");

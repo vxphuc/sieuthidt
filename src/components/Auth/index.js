@@ -1,24 +1,30 @@
-import { NavLink } from "react-router-dom";
+import { data, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import style from "./Auth.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import api from '../../api/axios'
 
 function Auth() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser);
+    const fetchUser = async () => {
+      try {
+        const response = await api.get('/sign-in/user-profile');
+        setUser(response.data)
+      }catch{
+        console.log('error')
+      }
     }
-    setLoading(false);
+    fetchUser()
   }, []);
 
   if (loading) return <p>Đang tải...</p>;
 
   const isLoggedIn = !!user;
+  console.log(user)
 
   return (
     <NavLink
@@ -27,7 +33,7 @@ function Auth() {
     >
       <button className={style.button}>
         <FontAwesomeIcon icon={faUser} className={style.userIcon} />
-        {isLoggedIn ? user.numberPhone : "Đăng nhập"}
+        {isLoggedIn ? user.phone : "Đăng nhập"}
       </button>
     </NavLink>
   );
