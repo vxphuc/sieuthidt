@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
@@ -40,8 +40,8 @@ function Carts() {
   // Xử lý thay đổi số lượng trực tiếp bằng input
   const handleQuantityInputChange = async (id, newQuantity) => {
     try {
-      await axios.patch(
-        `https://dtweb.onrender.com/cart/updateQuantity/${id}`,
+      await api.patch(
+        `/cart/updateQuantity/${id}`,
         { quantity: newQuantity },
         { withCredentials: true }
       );
@@ -55,10 +55,9 @@ function Carts() {
   // Lấy thông tin user
   const fetchUserProfile = async () => {
     try {
-      const res = await axios.get(
-        "https://dtweb.onrender.com/sign-in/user-profile",
-        { withCredentials: true }
-      );
+      const res = await api.get("/sign-in/user-profile", {
+        withCredentials: true,
+      });
       setUser(res.data);
     } catch (err) {
       console.error("Error fetching user profile:", err);
@@ -67,7 +66,7 @@ function Carts() {
   // Lấy giỏ hàng
   const fetchCart = async () => {
     try {
-      const res = await axios.get("https://dtweb.onrender.com/cart", {
+      const res = await api.get("/cart", {
         withCredentials: true,
       });
       const cartItems = res.data;
@@ -99,7 +98,7 @@ function Carts() {
   // Lấy địa chỉ user
   const fetchAddress = async () => {
     try {
-      const res = await axios.get("https://dtweb.onrender.com/cart/getAdd", {
+      const res = await api.get("/cart/getAdd", {
         withCredentials: true,
       });
       setAddress(res.data);
@@ -137,7 +136,7 @@ function Carts() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://dtweb.onrender.com/cart/delete/${id}`, {
+      await api.delete(`/cart/delete/${id}`, {
         withCredentials: true,
       });
       await fetchCart();
@@ -151,10 +150,9 @@ function Carts() {
     try {
       await Promise.all(
         product.carts.map((item) =>
-          axios.delete(
-            `https://dtweb.onrender.com/cart/delete/${item.product._id}`,
-            { withCredentials: true }
-          )
+          api.delete(`/cart/delete/${item.product._id}`, {
+            withCredentials: true,
+          })
         )
       );
       await fetchCart();
@@ -167,18 +165,14 @@ function Carts() {
   // Thay đổi số lượng bằng nút + -
   const handleQuantityChange = async (id, type) => {
     try {
-      await axios.patch(
-        `https://dtweb.onrender.com/cart/${type}/${id}`,
-        {},
-        { withCredentials: true }
-      );
+      await api.patch(`/cart/${type}/${id}`, {}, { withCredentials: true });
       setInputQuantities((prev) => {
         const currentVal = prev[id] || 1;
         const newVal =
           type === "updateincrease"
-            // ? currentVal + 1
-            // : Math.max(1, currentVal - 1);
-            ? Math.min(2, currentVal + 1)
+            ? // ? currentVal + 1
+              // : Math.max(1, currentVal - 1);
+              Math.min(2, currentVal + 1)
             : Math.max(1, currentVal - 1);
         return {
           ...prev,
@@ -248,22 +242,25 @@ function Carts() {
         alternateReceiverPhone = receiverInfo.phone;
         alternateReceiverName = receiverInfo.name;
       }
-      if(!user.name) {
+      if (!user.name) {
         if (fullName.trim() === "") {
           alert("Vui lòng nhập họ và tên.");
           return;
-        }else {
-          await axios.put(
-            `https://dtweb.onrender.com/sign-in/${user.uid}/fillInInformation`,{
-            name: fullName,
-            },{
+        } else {
+          await api.put(
+            `/sign-in/${user.uid}/fillInInformation`,
+            {
+              name: fullName,
+            },
+            {
               withCredentials: true,
-            })
+            }
+          );
         }
       }
 
-      const response = await axios.post(
-        "https://dtweb.onrender.com/bill/create",
+      const response = await api.post(
+        "/bill/create",
         {
           province: address[0].provinces.nameProvinces,
           District: address[0].districts.nameDistricts,
@@ -278,14 +275,14 @@ function Carts() {
         },
         { withCredentials: true }
       );
-      if(response.data.errorList){
-        setOutOfStockProducts(response.data.errorList)
-        console.log(outOfStockProducts)
-        return
+      if (response.data.errorList) {
+        setOutOfStockProducts(response.data.errorList);
+        console.log(outOfStockProducts);
+        return;
       }
 
       // Đặt hàng thành công
-      await axios.delete("https://dtweb.onrender.com/cart/deleteCart", {
+      await api.delete("/cart/deleteCart", {
         withCredentials: true,
       });
       if (payMent === "Thanh toán qua ngân hàng") {
@@ -337,14 +334,18 @@ function Carts() {
                 <div className={styles.chose_address}>Thông Tin Nhận Hàng</div>
                 <div className={styles.address_user}>
                   <NavLink to="/gio-hang/cap-nhap-dia-chi">
-                    <span ref={changeAddressRef}>{address.length > 0 ? "Đổi" : "Thêm địa chỉ mới"}</span>
+                    <span ref={changeAddressRef}>{address.length > 0 ? "Đổi" : "Thêm"}</span>
                   </NavLink>
                   <div className={styles.textBasic}>
                     <div className={styles.name}>
                       {user.name ? (
                         user.name
                       ) : (
-                        <input className={styles.inputName} onChange={(e) => setFullname(e.target.value)} placeholder="họ và tên"></input>
+                        <input
+                          className={styles.inputName}
+                          onChange={(e) => setFullname(e.target.value)}
+                          placeholder="họ và tên"
+                        ></input>
                       )}
                     </div>
                     <div>{user.phone}</div>
@@ -425,7 +426,9 @@ function Carts() {
                   <ul className={styles.soluongkho}>
                     {outOfStockProducts.map((item) => (
                       <li className={styles.endsub} key={item.productID}>
-                        <div><strong>{item.name}</strong></div>
+                        <div>
+                          <strong>{item.name}</strong>
+                        </div>
                         <div>
                           {item.reason && <>– {item.reason}. </>}
                           {item.message && <>{item.message} </>}
@@ -560,7 +563,13 @@ function Carts() {
                     <td className={styles.totalAll}>{total}</td>
                   </tr>
                   <tr>
-                    <td style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <td
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
                       <input onClick={handleChecker} type="checkbox" />
                       <img
                         src="https://dtweb.onrender.com/uploads/coin-dt.svg"
@@ -582,7 +591,9 @@ function Carts() {
             </div>
 
             <div className={styles.description}>
-              <h5><strong>Nhập mô tả đơn hàng</strong></h5>
+              <h5>
+                <strong>Nhập mô tả đơn hàng</strong>
+              </h5>
               <textarea
                 rows="4"
                 cols="77"

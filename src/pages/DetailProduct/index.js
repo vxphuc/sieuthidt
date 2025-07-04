@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useParams, useNavigate, data } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
-import axios from "axios";
+import api from "../../api/axios.js";
 import ListProductSame from "../ListProductSame";
 import ReviewList from "../../components/Ratingstars/ReviewList/ReviewList.js";
 import ReviewForm from "../../components/Ratingstars//ReviewForm/ReviewForm.js";
@@ -35,9 +35,9 @@ function DetailProduct() {
     setQuantity(1); // reset về 1
   };
   const confirmAddToCart = () => {
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -78,7 +78,7 @@ function DetailProduct() {
   };
 
   useEffect(() => {
-    axios.get(`https://dtweb.onrender.com/product/${slug}`).then((response) => {
+    api.get(`/product/${slug}`).then((response) => {
       setProduct(response.data);
     });
   }, [slug]);
@@ -92,9 +92,9 @@ function DetailProduct() {
   };
 
   const handleBuy = (product) => {
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: product,
         },

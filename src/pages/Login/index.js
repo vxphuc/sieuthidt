@@ -17,7 +17,9 @@ function Login() {
   const [error, setError] = useState(false);
   const [token, setToken] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+
   const navigate = useNavigate();
+
 
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
@@ -40,42 +42,47 @@ function Login() {
 
   // Gửi OTP
   const handleSendOtp = async () => {
-    if (!isValidVietnamPhoneNumber(phone)) {
-      setError(true);
-      setPhone("");
-      return;
-    }
+  if (!isValidVietnamPhoneNumber(phone)) {
+    setError(true);
+    setPhone("");
+    return;
+  }
 
-    try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          {
-            size: "invisible",
-            callback: (response) => {
-              console.log("reCAPTCHA solved:", response);
-            },
-          }
-        );
-      }
+  if (isSending) return; // chặn nếu đang gửi
 
-      const formattedPhone = formatPhoneNumber(phone);
-
-      const appVerifier = window.recaptchaVerifier;
-      const confirmation = await signInWithPhoneNumber(
+  setIsSending(true); // khóa nút
+  try {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
         auth,
-        formattedPhone,
-        appVerifier
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("reCAPTCHA solved:", response);
+          },
+        }
       );
-      setConfirmationResult(confirmation);
-      setIsOtpSent(true);
-      alert("OTP đã được gửi!");
-    } catch (error) {
-      console.error("Lỗi gửi OTP:", error);
-      alert("Không thể gửi OTP. Vui lòng thử lại sau.");
     }
-  };
+
+    const formattedPhone = formatPhoneNumber(phone);
+
+    const appVerifier = window.recaptchaVerifier;
+    const confirmation = await signInWithPhoneNumber(
+      auth,
+      formattedPhone,
+      appVerifier
+    );
+    setConfirmationResult(confirmation);
+    setIsOtpSent(true);
+    alert("OTP đã được gửi!");
+  } catch (error) {
+    console.error("Lỗi gửi OTP:", error);
+    alert("Không thể gửi OTP. Vui lòng thử lại sau.");
+  } finally {
+    setIsSending(false); // mở lại nút sau khi xử lý xong
+  }
+};
 
   // Xác thực OTP
   const handleVerifyOtp = async () => {
@@ -159,9 +166,9 @@ function Login() {
                 color="primary"
                 className="mt-3"
                 onClick={handleSendOtp}
-                disabled={phone.length !== 10}
+                disabled={phone.length !== 10 || isSending}
               >
-                Gửi OTP
+                {isSending ? "Đang gửi..." : "Gửi OTP"}
               </Button>
             ) : (
               <Button

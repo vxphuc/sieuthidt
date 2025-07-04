@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import axios from "axios";
 import styles from "./Home.module.css";
 import ScrollToTopButton from "../../components/ScrollToTopButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +15,7 @@ import ProductHome from "../ProductHome";
 import { CartContext } from "../../contexts/CartContext";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { io } from "socket.io-client";
+import api from "../../api/axios";
 
 function Home() {
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ function Home() {
   const [newProduct, setNewProduct] = useState([]);
   const nameNewProduct = useRef(null);
   const socket = io('https://dtweb.onrender.com');
+  const [isAdding, setIsAdding] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
@@ -39,9 +40,9 @@ function Home() {
   };
 
   const confirmAddToCart = () => {
-    axios
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -52,21 +53,24 @@ function Home() {
         fetchCartCount();
         setPopupProduct(null); // đóng popup
       })
-      .catch((error) => navigate("/dang-nhap"));
+      .catch((error) => navigate("/dang-nhap"))
+      .finally(() => {
+        setIsAdding(false); // mở lại nút
+      });
   };
 
   //new product
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/product/newProduct")
+    api
+      .get("/product/newProduct")
       .then((res) => setNewProduct(res.data))
       .catch((error) => console.log(error));
   }, []);
 
   //banner
   useEffect(() => {
-    axios
-      .get("https://dtweb.onrender.com/sign-in/banner")
+    api
+      .get("/sign-in/banner")
       .then((res) => setImg(res.data))
       .catch((error) => console.log(error));
   }, []);
@@ -243,8 +247,8 @@ function Home() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button className={styles.confirmBtn} onClick={confirmAddToCart}>
-              Thêm vào giỏ hàng
+            <button className={styles.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+              {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>
         </BackgroundPopup>

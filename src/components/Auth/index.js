@@ -24,7 +24,6 @@ function Auth() {
   if (loading) return <p>Đang tải...</p>;
 
   const isLoggedIn = !!user;
-  console.log(user)
 
   return (
     <NavLink

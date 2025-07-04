@@ -9,7 +9,7 @@
 }
 .cartInside {
   position: absolute;
-  right: 10%;
+  right: 12%;
   top: 58%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -94,7 +94,7 @@
   justify-content: center; /* căn giữa ngang */
   align-items: center;
   top: 0;
-  left: 88%;
+  left: 85%;
   display: none;
 }
 .inputWithIcon {
