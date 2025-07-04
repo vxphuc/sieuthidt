@@ -18,7 +18,7 @@ function Product() {
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [typeProduct, setTypeProduct] = useState([]);
-
+  const [isAdding, setIsAdding] = useState(false);
   const [popupProduct, setPopupProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [filterPopup, setFilterPopup] = useState(false);
@@ -46,8 +46,9 @@ function Product() {
   };
 
   const confirmAddToCart = () => {
-    api
-      .post(
+    if (isAdding) return; // chặn nếu đang gửi
+    setIsAdding(true);
+    api.post(
         "/cart/create",
         {
           productID: popupProduct._id,
@@ -59,7 +60,8 @@ function Product() {
         fetchCartCount(); // gọi đúng hàm này
         setPopupProduct(null);
       })
-      .catch((error) => navigate("/dang-nhap"));
+      .catch((error) => navigate("/dang-nhap"))
+      .finally(() => setIsAdding(false));
   };
 
   useEffect(() => {
@@ -235,8 +237,8 @@ function Product() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button type="button" className={style.confirmBtn} onClick={confirmAddToCart}>
-              Thêm vào giỏ hàng
+            <button type="button" className={style.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+              {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>
         </BackgroundPopup>

@@ -86,6 +86,7 @@ function Login() {
 
   // Xác thực OTP
   const handleVerifyOtp = async () => {
+    setIsSending(true);
     if (!confirmationResult) {
       alert("Không tìm thấy kết quả xác thực.");
       return;
@@ -110,7 +111,9 @@ function Login() {
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
-    }
+    }finally {
+    setIsSending(false); // mở lại nút sau khi xử lý xong
+  }
   };
 
   return (
@@ -177,9 +180,10 @@ function Login() {
                 color="primary"
                 className="mt-3"
                 onClick={handleVerifyOtp}
-                disabled={otp.length < 4}
+                disabled={otp.length < 4 || isSending}
+                
               >
-                Xác thực OTP
+                {isSending ? "Đợi Xác Thực..." : "Xác Thực OTP"}
               </Button>
             )}
           </form>
