@@ -314,6 +314,10 @@
     #038546 100%
   );
 }
+.highlightInputName {
+  border: 2px solid #1fadeb;
+  box-shadow: 0 0 6px #1fadeb;
+}
 .deletebtn {
   position: absolute;
     top: -23%;

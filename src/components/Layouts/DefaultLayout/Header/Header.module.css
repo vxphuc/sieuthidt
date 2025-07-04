@@ -264,6 +264,7 @@ a {
   .navMobileShown li a{
     padding: 8px 10px;
     background-color: #66e071;
+    text-align: -webkit-center;
   }
   /* .navMobileShown li a:hover{
     background-color: rgb(244, 82, 82);

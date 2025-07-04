@@ -34,7 +34,7 @@ function Carts() {
     phone: "",
   });
   const [fullName, setFullname] = useState("");
-
+  const inputNameRef = useRef(null);
   const [receiverPhoneError, setReceiverPhoneError] = useState("");
 
   const [isAdding, setIsAdding] = useState(false);
@@ -248,6 +248,15 @@ function Carts() {
       if (!user.name) {
         if (fullName.trim() === "") {
           alert("Vui lòng nhập họ và tên.");
+          if (inputNameRef.current) {
+            inputNameRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+            inputNameRef.current.classList.add(styles.highlightInputName);
+            setTimeout(() => {
+              if (inputNameRef.current) {
+                inputNameRef.current.classList.remove(styles.highlightInputName);
+              }
+            }, 3000);
+          }
           setIsAdding(false);
           return;
         } else {
@@ -354,6 +363,7 @@ function Carts() {
                         user.name
                       ) : (
                         <input
+                          ref={inputNameRef}
                           className={styles.inputName}
                           onChange={(e) => setFullname(e.target.value)}
                           placeholder="họ và tên"
