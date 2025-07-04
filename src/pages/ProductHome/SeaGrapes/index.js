@@ -1,6 +1,6 @@
 import style from "./SeaGrapes.module.css";
 import { useEffect, useState, useContext } from "react";
-import api from "../";
+import api from "../../../";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 import BackgroundPopup from "../../../components/BackgroundPopup";
