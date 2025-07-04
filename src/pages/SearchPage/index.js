@@ -1,7 +1,7 @@
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import style from "./SearchPage.module.css";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -34,8 +34,8 @@ function SearchPage() {
 
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(
-          `https://dtweb.onrender.com/product/search?q=${query}`
+        const res = await api.get(
+          `/product/search?q=${query}`
         );
         setProducts(res.data);
       } catch (err) {
@@ -52,9 +52,9 @@ function SearchPage() {
     setQuantity(1);
   };
   const confirmAddToCart = async () => {
-    const res = await axios
+    const res = await api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
