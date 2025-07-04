@@ -104,8 +104,6 @@ function Login() {
 
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
       localStorage.setItem("authToken", idToken);
-
-
       // Chuyển hướng về trang chủ
       navigate("/");
     } catch (error) {
