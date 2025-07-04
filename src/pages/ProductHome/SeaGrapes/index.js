@@ -1,6 +1,6 @@
 import style from "./SeaGrapes.module.css";
 import { useEffect, useState, useContext } from "react";
-import api from "../../../";
+import api from "../../../api/axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 import BackgroundPopup from "../../../components/BackgroundPopup";
@@ -20,9 +20,10 @@ function SeaGrapes() {
   };
   const confirmAddToCart = () => {
     if (isAdding) return; // chặn nhấn liên tục
-    setIsAd"../
+    setIsAdding(true);
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: popupProduct._id,
           quantity: quantity,
@@ -41,16 +42,18 @@ function SeaGrapes() {
     });
   };
 
-  useEff"../
-      .get(`https://dtweb.onrender.com/product/ProductsNest/Rong-Nho`)
+  useEffect(() => {
+    api
+      .get(`/product/ProductsNest/Rong-Nho`)
       .then((response) => {
         setProduct(response.data);
       });
   }, []);
 
-  const handleBuy = (pr"../
+  const handleBuy = (product) => {
+    api
       .post(
-        "https://dtweb.onrender.com/cart/create",
+        "/cart/create",
         {
           productID: product,
         },
