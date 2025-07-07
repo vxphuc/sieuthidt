@@ -158,7 +158,7 @@ function Carts() {
         )
       );
       await fetchCart();
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error deleting all:", err);
     }
