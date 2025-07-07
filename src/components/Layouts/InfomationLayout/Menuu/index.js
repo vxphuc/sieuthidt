@@ -20,7 +20,9 @@ useEffect(()=>{
 
 const logout = () =>{
   localStorage.removeItem('authToken');
-  navigate('/')
+  localStorage.removeItem('user');
+  window.location.reload();
+  window.location.href = '../../../../pages/Home';
 }
 
   return (

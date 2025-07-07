@@ -22,6 +22,7 @@ function Header() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     window.location.reload()
   };
   // SOCKET: dùng ref để giữ instance duy nhất
