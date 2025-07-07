@@ -71,7 +71,7 @@ function ProductAdmin() {
                 typeProduct = product.typeProduct[i].name;
               }
               return (
-                <tr key={index}>
+                <tr key={product._id}>
                   <th scope="row">{index + 1}</th>
                   <td>{product.name}</td>
                   <td>

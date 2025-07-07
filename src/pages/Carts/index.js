@@ -472,7 +472,7 @@ function Carts() {
             )}
 
             {product.carts.map((item, index) => (
-              <div key={item.product._id} className={styles.listCarts}>
+              <div key={index} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button
                     onClick={() => handleDelete(item.product._id)}

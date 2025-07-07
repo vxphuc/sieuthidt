@@ -23,7 +23,7 @@ function ListProductSame() {
               return (
                 <NavLink
                   to={`/${item.typeProduct[0].slug}/${item.slug}`}
-                  key={index}
+                  key={item._id}
                 >
                   <div>
                     <div className={`${styles.product}`}>

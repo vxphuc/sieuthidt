@@ -109,7 +109,7 @@ function Home() {
               {img.map((image, index) => {
                 return (
                   <img
-                    key={index}
+                    key={image._id}
                     src={`https://dtweb.onrender.com/uploads/${image.image}`}
                   ></img>
                 );
@@ -136,7 +136,7 @@ function Home() {
                   currency: "VND",
                 });
                 return (
-                  <div className={`${styles.boxProduct}`} key={index}>
+                  <div className={`${styles.boxProduct}`} key={product._id}>
                     <NavLink
                       to={`/${product.typeProduct[0].slug}/${product.slug}`}
                     >

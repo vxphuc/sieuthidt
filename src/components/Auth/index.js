@@ -1,4 +1,4 @@
-import { data, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import style from "./Auth.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +7,7 @@ import api from '../../api/axios'
 
 function Auth() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {

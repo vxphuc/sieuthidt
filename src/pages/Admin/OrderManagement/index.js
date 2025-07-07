@@ -159,9 +159,9 @@ function OrderManagement() {
           đã giao hàng
         </ButtonOrderStatus>
       </div>
-      <table class="table table-striped table-bordered table-hover table-sm">
+      <table className="table table-striped table-bordered table-hover table-sm">
         <thead>
-          <tr class="table-info">
+          <tr className="table-info">
             <th scope="col">#</th>
             <th scope="col">Mã đơn hàng</th>
             <th scope="col">Tên khách hàng</th>
@@ -186,7 +186,7 @@ function OrderManagement() {
               }
             );
             return (
-              <tr key={index}>
+              <tr key={order._id}>
                 <th scope="row">{index + 1}</th>
                 <td>
                   <NavLink

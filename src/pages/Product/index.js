@@ -105,7 +105,7 @@ function Product() {
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </div>
         {typeProduct.map((item, index) => (
-          <span key={index} className={`d-flex`}>
+          <span key={item._id} className={`d-flex`}>
             {item.name}
           </span>
         ))}

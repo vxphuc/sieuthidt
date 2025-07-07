@@ -88,7 +88,7 @@ function InvoiceDetails() {
             {data.bill && Array.isArray(data.bill.products)
               ? data.bill.products.map((item, index) => {
                   return (
-                    <div key={index} className={styles.infoProduct}>
+                    <div key={item._id} className={styles.infoProduct}>
                       <div className={styles.imgName}>
                         <img src={item.img} alt="anh"></img>
                         <p>{item.name}</p>

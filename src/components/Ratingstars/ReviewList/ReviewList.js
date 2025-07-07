@@ -42,7 +42,7 @@ const ReviewList = ({ productId }) => {
           <div className={`${styles.rt_list}`}>
             <ul className={`${styles.comment_list}`}>
               {displayedReviews.map((item, index) => (
-                <li key={index} className={`${styles.r_57511140}`}>
+                <li key={item._id} className={`${styles.r_57511140}`}>
                   <div className={`${styles.cmt_top}`}>
                     <p className={`${styles.cmt_top_name}`}>{item.name}</p>
                   </div>

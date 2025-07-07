@@ -186,7 +186,7 @@ function CreateProductForm() {
                 <Typography variant="body2">Các file đã chọn:</Typography>
                 <ul>
                   {Array.from(images).map((img, index) => (
-                    <li key={index}>{img.name}</li>
+                    <li key={img._id}>{img.name}</li>
                   ))}
                 </ul>
               </Box>
