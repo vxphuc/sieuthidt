@@ -19,7 +19,7 @@ function App() {
               }
 
               const Page = router.component
-              return <Route path={router.path} key={index} element={<Layout><Page/></Layout>}/>
+              return <Route path={router.path} element={<Layout><Page/></Layout>}/>
             })}
         </Routes>
     </div>

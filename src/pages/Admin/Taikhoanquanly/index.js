@@ -28,7 +28,7 @@ function Taikhoanquanly() {
 
   return (
     <div>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">mã tài khoản</th>
@@ -42,7 +42,7 @@ function Taikhoanquanly() {
         <tbody>
           {users.map((user, index) => {
             return (
-              <tr key={index}>
+              <tr key={user._id}>
                 <th scope="row">{user.uid}</th>
                 <td>{user.name}</td>
                 <td>{user.numberPhone}</td>

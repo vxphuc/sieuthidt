@@ -113,7 +113,7 @@ function Infomation() {
         {/* Danh sách địa chỉ */}
         <div className={styles.addressList}>
           {address.map((item, index) => (
-            <div key={index} className={styles.addressItem}>
+            <div key={item._id} className={styles.addressItem}>
               <div>
                 <strong>
                   {item.nameRoad}, {item.wards.nameWards},{" "}

@@ -201,7 +201,7 @@ function Adress() {
                         <option value="">Chọn tỉnh thành</option>
                         {Province.map((item, index) => {
                           return (
-                            <option key={index} value={item.code}>
+                            <option key={item._id} value={item.code}>
                               {item.name}
                             </option>
                           );
@@ -218,7 +218,7 @@ function Adress() {
                         <option value="">Chọn quận huyện</option>
                         {District.map((item, index) => {
                           return (
-                            <option key={index} value={item.code}>
+                            <option key={item._id} value={item.code}>
                               {item.name}
                             </option>
                           );
@@ -235,7 +235,7 @@ function Adress() {
                         <option value="">Chọn phường xã</option>
                         {Ward.map((item, index) => {
                           return (
-                            <option key={index} value={item.code}>
+                            <option key={item._id} value={item.code}>
                               {item.name}
                             </option>
                           );

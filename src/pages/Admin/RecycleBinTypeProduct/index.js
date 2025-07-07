@@ -38,7 +38,7 @@ function RecycleBinTyproduct() {
       <NavLink to={`/quan-tri/loai-san-pham`} className={`btn btn-success`}>
         Quay lại
       </NavLink>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -52,7 +52,7 @@ function RecycleBinTyproduct() {
           {data.map((item, index) => {
             let date = new Date(item.deleteAt);
             return (
-              <tr key={index}>
+              <tr key={item._id}>
                 <th scope="row">{index + 1}</th>
                 <td>{item.name}</td>
                 <td>

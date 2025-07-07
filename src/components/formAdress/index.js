@@ -35,7 +35,7 @@ function FormAdress({ className, adress, onSelect }) {
         {adress.map((item, index) => {
           return (
             <label  className={`${styles.form__group}`}>
-              <div key={index} >
+              <div key={item._id} >
                 <div className={`${styles.info}`}>
                   <input
                     type="radio"

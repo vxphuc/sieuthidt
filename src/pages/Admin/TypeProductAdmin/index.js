@@ -56,7 +56,7 @@ function TypeProductAdmin() {
         <tbody>
           {data.map((item, index) => {
             return (
-              <tr key={index}>
+              <tr key={item._id}>
                 <th scope="row">{index + 1}</th>
                 <td>{item.name}</td>
                 <td>

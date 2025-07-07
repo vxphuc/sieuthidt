@@ -37,7 +37,7 @@ function ShowBanner() {
       <NavLink className="btn btn-primary" to="/quan-tri/them-moi-banner">
         Thêm mới banner
       </NavLink>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -49,7 +49,7 @@ function ShowBanner() {
         <tbody>
           {dataBanner.map((banner, index) => {
             return (
-              <tr key={index}>
+              <tr key={banner._id}>
                 <th scope="row">{index + 1}</th>
                 <td>
                   <img
