@@ -158,7 +158,7 @@ function Carts() {
         )
       );
       await fetchCart();
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error deleting all:", err);
     }
@@ -472,7 +472,7 @@ function Carts() {
             )}
 
             {product.carts.map((item, index) => (
-              <div key={index} className={styles.listCarts}>
+              <div key={item.product._id} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button
                     onClick={() => handleDelete(item.product._id)}
