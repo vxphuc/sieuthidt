@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import api from "../../api/axios";
+import { faBilibili } from "@fortawesome/free-brands-svg-icons";
 
 function PayMentBank() {
   const { id } = useParams();
@@ -37,7 +38,7 @@ useEffect(() => {
     })
     .catch((err) => console.log(err));
 }, [id]);
-  
+  console.log(bill)
   const qrUrl = `https://img.vietqr.io/image/${bank_id}-${ACCOUNT_NO}-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
 
   useEffect(() => {
@@ -95,7 +96,7 @@ useEffect(() => {
               </p>
             </div>
             <div>
-              <p>Đơn này sẽ được giao cho anh zinh và thanh toán tiền mặt</p>
+              <p>Đơn này sẽ được giao cho {bill?.user?.name} và thanh toán tiền mặt</p>
             </div>
           </button>
         </div>
