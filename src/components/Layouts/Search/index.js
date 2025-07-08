@@ -98,7 +98,7 @@ function Search({ onChange, onCartChange, searchValue }) {
             });
 
             return (
-              <div key={index} className={style.Product}>
+              <div key={item._id} className={style.Product}>
                 <div className={`${style.listProduct}`}>
                   <NavLink
                     className={style.imgProduct}

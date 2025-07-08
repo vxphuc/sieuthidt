@@ -109,7 +109,7 @@ function Home() {
               {img.map((image, index) => {
                 return (
                   <img
-                    key={index}
+                    key={image._id}
                     src={`https://dtweb.onrender.com/uploads/${image.image}`}
                   ></img>
                 );
@@ -136,7 +136,7 @@ function Home() {
                   currency: "VND",
                 });
                 return (
-                  <div className={`${styles.boxProduct}`} key={index}>
+                  <div className={`${styles.boxProduct}`} key={product._id}>
                     <NavLink
                       to={`/${product.typeProduct[0].slug}/${product.slug}`}
                     >
@@ -222,7 +222,7 @@ function Home() {
               >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
-              {/* <input
+              <input
                 type="number"
                 min="1"
                 value={quantity}
@@ -231,8 +231,8 @@ function Home() {
                   setQuantity(isNaN(value) || value < 1 ? 1 : value);
                 }}
                 className={styles.quantityInput}
-              /> */}
-              <input
+              />
+              {/* <input
                 type="number"
                 min="1"
                 max="2"
@@ -244,9 +244,9 @@ function Home() {
                   setQuantity(value);
                 }}
                 className={styles.quantityInput}
-              />
-              {/* <button onClick={() => setQuantity((prev) => prev + 1)}> */}
-              <button onClick={() => setQuantity((prev) => Math.min(prev + 1, 2))}>
+              /> */}
+              <button onClick={() => setQuantity((prev) => prev + 1)}>
+              {/* <button onClick={() => setQuantity((prev) => Math.min(prev + 1, 2))}> */}
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>

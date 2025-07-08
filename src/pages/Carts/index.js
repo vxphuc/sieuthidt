@@ -34,7 +34,7 @@ function Carts() {
     phone: "",
   });
   const [fullName, setFullname] = useState("");
-
+  const inputNameRef = useRef(null);
   const [receiverPhoneError, setReceiverPhoneError] = useState("");
 
   const [isAdding, setIsAdding] = useState(false);
@@ -158,7 +158,7 @@ function Carts() {
         )
       );
       await fetchCart();
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error deleting all:", err);
     }
@@ -172,9 +172,7 @@ function Carts() {
         const currentVal = prev[id] || 1;
         const newVal =
           type === "updateincrease"
-            ? // ? currentVal + 1
-              // : Math.max(1, currentVal - 1);
-              Math.min(2, currentVal + 1)
+            ? currentVal + 1
             : Math.max(1, currentVal - 1);
         return {
           ...prev,
@@ -215,6 +213,7 @@ function Carts() {
     try {
       if (!address || address.length === 0) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
+        setIsAdding(false);
         if (changeAddressRef.current) {
           changeAddressRef.current.scrollIntoView({
             behavior: "smooth",
@@ -249,6 +248,16 @@ function Carts() {
       if (!user.name) {
         if (fullName.trim() === "") {
           alert("Vui lòng nhập họ và tên.");
+          if (inputNameRef.current) {
+            inputNameRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+            inputNameRef.current.classList.add(styles.highlightInputName);
+            setTimeout(() => {
+              if (inputNameRef.current) {
+                inputNameRef.current.classList.remove(styles.highlightInputName);
+              }
+            }, 3000);
+          }
+          setIsAdding(false);
           return;
         } else {
           await api.put(
@@ -258,8 +267,11 @@ function Carts() {
             },
             {
               withCredentials: true,
+              
             }
+            
           );
+          setIsAdding(false);
         }
       }
 
@@ -281,7 +293,8 @@ function Carts() {
       );
       if (response.data.errorList) {
         setOutOfStockProducts(response.data.errorList);
-        console.log(outOfStockProducts);
+        // console.log(outOfStockProducts);
+        setIsAdding(false);
         return;
       }
 
@@ -294,6 +307,7 @@ function Carts() {
           navigate(`/gio-hang/thanh-toan/${response.data._id}`);
         } else {
           alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
+          setIsAdding(false);
         }
       } else {
         setpopupSuccess(true);
@@ -310,7 +324,9 @@ function Carts() {
         Array.isArray(err.response.data?.products)
       ) {
         setOutOfStockProducts(err.response.data.products);
+        setIsAdding(false);
         return;
+        
       }
       alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
       console.error(err);
@@ -347,6 +363,7 @@ function Carts() {
                         user.name
                       ) : (
                         <input
+                          ref={inputNameRef}
                           className={styles.inputName}
                           onChange={(e) => setFullname(e.target.value)}
                           placeholder="họ và tên"
@@ -455,7 +472,7 @@ function Carts() {
             )}
 
             {product.carts.map((item, index) => (
-              <div key={index} className={styles.listCarts}>
+              <div key={item._id} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button
                     onClick={() => handleDelete(item.product._id)}
@@ -500,7 +517,6 @@ function Carts() {
                     <input
                       type="number"
                       min="1"
-                      max="2"
                       value={inputQuantities[item.product._id] ?? item.quantity}
                       onChange={(e) => {
                         let val = e.target.value;
@@ -511,31 +527,31 @@ function Carts() {
                           }));
                           return;
                         }
-                        val = Math.max(1, Math.min(2, parseInt(val)));
+                        val = Math.max(1, parseInt(val));
                         setInputQuantities((prev) => ({
                           ...prev,
                           [item.product._id]: val,
                         }));
                       }}
                       onBlur={() => {
-                        // const val = inputQuantities[item.product._id];
-                        // if (val === "" || val == null) return;
-                        // const valNum = Number(val);
-                        // if (valNum !== item.quantity) {
-                        //   handleQuantityInputChange(item.product._id, valNum);
-                        // }
                         const val = inputQuantities[item.product._id];
                         if (val === "" || val == null) return;
                         const valNum = Number(val);
-
-                        // Nếu số lượng vượt quá 2, không cho gọi API
-                        if (valNum > 2) {
-                          setInputQuantities((prev) => ({
-                            ...prev,
-                            [item.product._id]: 2,
-                          }));
-                          return;
+                        if (valNum !== item.quantity) {
+                          handleQuantityInputChange(item.product._id, valNum);
                         }
+                        // const val = inputQuantities[item.product._id];
+                        // if (val === "" || val == null) return;
+                        // const valNum = Number(val);
+
+                        // // Nếu số lượng vượt quá 2, không cho gọi API
+                        // if (valNum > 99) {
+                        //   setInputQuantities((prev) => ({
+                        //     ...prev,
+                        //     [item.product._id]: 99,
+                        //   }));
+                        //   return;
+                        // }
 
                         if (valNum !== item.quantity) {
                           handleQuantityInputChange(item.product._id, valNum);

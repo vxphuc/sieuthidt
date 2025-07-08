@@ -34,7 +34,7 @@ function Bill() {
               totalPrice
             ).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
             return (
-              <div key={index} className={styles.orderCard}>
+              <div key={bill._id} className={styles.orderCard}>
                 <div className={styles.orderInfo}>
                   <img src={`${bill.products[0].img}`} alt="product" />
                   <div className={styles.orderText}>

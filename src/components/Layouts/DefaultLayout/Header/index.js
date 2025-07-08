@@ -22,6 +22,7 @@ function Header() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     window.location.reload()
   };
   // SOCKET: dùng ref để giữ instance duy nhất
@@ -188,8 +189,8 @@ function Header() {
               <p>Không có thông báo nào.</p>
             ) : (
               <ul className={style.notificationList}>
-                {notifications.map((noti, index) => (
-                  <NavLink to={`/quan-tri/chi-tiet/${noti.orderId}`} key={index}>
+                {notifications.map((noti) => (
+                  <NavLink to={`/quan-tri/chi-tiet/${noti.orderId}`} key={noti._id}>
                     <li className={style.notificationItem}>{noti.message}</li>
                   </NavLink>
                 ))}

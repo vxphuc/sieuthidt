@@ -121,7 +121,7 @@ function DetailProduct() {
         <div className={`${styles.nameProduct} `}>
           {" "}
           {product.map((item, index) => {
-            return <span key={index}>{item.Typeproduct[0].name}</span>;
+            return <span key={item._id}>{item.Typeproduct[0].name}</span>;
           })}
         </div>
       </div>
@@ -159,7 +159,7 @@ function DetailProduct() {
                   {product.map((item) => {
                     return item.image.map((img, index) => {
                       return (
-                        <div className={`${styles.swiper_slide}`} key={index}>
+                        <div className={`${styles.swiper_slide}`} key={img._id}>
                           <div
                             className={`position-relative d-flex justify-content-center align-items-center`}
                           >
@@ -180,7 +180,7 @@ function DetailProduct() {
                       return (
                         <div
                           className={`${styles.swiper_slide_img}`}
-                          key={index}
+                          key={img._id}
                         >
                           <div
                             className={`position-relative d-flex justify-content-center align-items-center`}
@@ -211,7 +211,7 @@ function DetailProduct() {
         <div className={`${styles.divPrice} position-sticky`}>
           {product.map((item, index) => {
             return (
-              <h1 key={index} className={`${styles.TitleNameProduct}`}>
+              <h1 key={item._id} className={`${styles.TitleNameProduct}`}>
                 {item.name}
               </h1>
             );
@@ -219,7 +219,7 @@ function DetailProduct() {
           <div className={`${styles.price} d-flex flex-column`}>
             {product.map((item, index) => {
               return (
-                <div key={index}>
+                <div key={item._id}>
                   <div className={`mb-2 align-items-center`}>
                     <div className={`${styles.textPrice}`}>
                       {Number.parseInt(

@@ -95,7 +95,7 @@ function SearchPage() {
             });
 
             return (
-              <div key={key} className={style.product}>
+              <div key={item._id} className={style.product}>
                 <div className={style.boxProduct}>
                   <div className={style.pro}>
                     <NavLink

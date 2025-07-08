@@ -102,7 +102,7 @@ function ManageAdmin() {
               currency: "VND",
             });
             return (
-              <div key={index}>
+              <div key={item._id}>
                 <div className={styles.card}>
                   <div className={styles.cardHeader}>
                     <p>Tổng doanh số năm {item._id.year}</p>
@@ -120,7 +120,7 @@ function ManageAdmin() {
         >
           {totalRevenueYear.map((item, index) => {
             return (
-              <div key={index}>
+              <div key={item._id}>
                 <div className={styles.card}>
                   <div className={styles.cardHeader}>
                     <p>Tổng doanh số lượng đơn năm {item._id.year}</p>
@@ -154,8 +154,8 @@ function ManageAdmin() {
         <div className="">
           <DashboardSummaryCards>
             <h4>Top 10 sản phẩm bán chạy</h4>
-            <table class="table">
-              <thead class="table-success">
+            <table className="table">
+              <thead className="table-success">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Tên sản phẩm</th>
@@ -173,7 +173,7 @@ function ManageAdmin() {
                     currency: "VND",
                   });
                   return (
-                    <tr key={index}>
+                    <tr key={item._id}>
                       <th scope="row">{index + 1}</th>
                       <td>{item.name}</td>
                       <td>{item.totalQuantity}</td>

@@ -276,7 +276,7 @@ body {
 @media screen and (max-width: 769px) {
   .boxProduct {
     width: calc(93% / 2);
-    margin: 5px;
+    margin: 4px;
   }
   .container {
     margin-top: 40px;

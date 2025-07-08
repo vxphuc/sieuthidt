@@ -66,7 +66,7 @@ const DetailUser = () => {
               <h5>Thông tin địa chỉ</h5>
               <div>
                 {adress.map((address, index) => (
-                  <div className="d-flex p-2" key={index}>
+                  <div className="d-flex p-2" key={address._id}>
                     <p>
                       Địa chỉ: {address?.nameRoad} {address?.wards?.nameWards}{" "}
                       {address?.districts?.nameDistricts}{" "}
