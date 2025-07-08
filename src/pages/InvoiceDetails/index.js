@@ -58,7 +58,7 @@ function InvoiceDetails() {
                       <td>Người nhận: </td>
                       <td>
                         {data.bill
-                          ? `Anh ${data.user.name} - ${data.user.numberPhone}`
+                          ? `${data.user.name} - ${data.user.numberPhone}`
                           : "đang tải..."}
                       </td>
                     </tr>

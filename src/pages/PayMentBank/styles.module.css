@@ -81,8 +81,10 @@
 .detail{
     width: 100%;
     height: auto;
+    display: flex;
     text-align: center;
     margin: 20px 0px;
+    justify-content: center;
 }
 .home{
     background-color: rgb(128, 232, 128);

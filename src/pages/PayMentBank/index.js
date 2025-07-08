@@ -163,7 +163,9 @@ useEffect(() => {
           <NavLink to={"/"} className={`${styles.home}`}>
             Trang chủ
           </NavLink>
-          <button className={`${styles.defaul}`}>Xem đơn hàng</button>
+          <NavLink to={`/thong-tin-khach-hang/hoa-don/${bill.bill?._id}`}>
+            <button className={`${styles.defaul}`}>Xem đơn hàng</button>
+          </NavLink>
         </div>
       </div>
     </div>
