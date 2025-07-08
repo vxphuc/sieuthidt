@@ -35,8 +35,10 @@ function Carts() {
   });
   const [fullName, setFullname] = useState("");
   const inputNameRef = useRef(null);
+  const debounceTimer = useRef(null);
   const [receiverPhoneError, setReceiverPhoneError] = useState("");
-
+  const receiverNameRef = useRef(null);
+  const receiverPhoneRef = useRef(null);
   const [isAdding, setIsAdding] = useState(false);
 
   // Xử lý thay đổi số lượng trực tiếp bằng input
@@ -109,6 +111,49 @@ function Carts() {
     }
   };
 
+  // Tự động blur input khi scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (inputNameRef.current === document.activeElement) {
+        inputNameRef.current.blur(); // tự động blur khi scroll
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, true);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScrollOrTouchOutside = (event) => {
+      if (
+        receiverNameRef.current &&
+        receiverNameRef.current === document.activeElement &&
+        !receiverNameRef.current.contains(event.target)
+      ) {
+        receiverNameRef.current.blur();
+      }
+
+      if (
+        receiverPhoneRef.current &&
+        receiverPhoneRef.current === document.activeElement &&
+        !receiverPhoneRef.current.contains(event.target)
+      ) {
+        receiverPhoneRef.current.blur();
+      }
+    };
+
+    document.addEventListener("scroll", handleScrollOrTouchOutside, true);
+    document.addEventListener("touchstart", handleScrollOrTouchOutside);
+
+    return () => {
+      document.removeEventListener("scroll", handleScrollOrTouchOutside, true);
+      document.removeEventListener("touchstart", handleScrollOrTouchOutside);
+    };
+  }, []);
+
   useEffect(() => {
     fetchUserProfile();
     fetchCart();
@@ -148,21 +193,21 @@ function Carts() {
     }
   };
 
-  const handleDeleteAll = async () => {
-    try {
-      await Promise.all(
-        product.carts.map((item) =>
-          api.delete(`/cart/delete/${item.product._id}`, {
-            withCredentials: true,
-          })
-        )
-      );
-      await fetchCart();
-      // window.location.reload();
-    } catch (err) {
-      console.error("Error deleting all:", err);
-    }
-  };
+  // const handleDeleteAll = async () => {
+  //   try {
+  //     await Promise.all(
+  //       product.carts.map((item) =>
+  //         api.delete(`/cart/delete/${item.product._id}`, {
+  //           withCredentials: true,
+  //         })
+  //       )
+  //     );
+  //     await fetchCart();
+  //     // window.location.reload();
+  //   } catch (err) {
+  //     console.error("Error deleting all:", err);
+  //   }
+  // };
 
   // Thay đổi số lượng bằng nút + -
   const handleQuantityChange = async (id, type) => {
@@ -365,7 +410,30 @@ function Carts() {
                         <input
                           ref={inputNameRef}
                           className={styles.inputName}
-                          onChange={(e) => setFullname(e.target.value)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setFullname(value);
+
+                            if (debounceTimer.current) {
+                              clearTimeout(debounceTimer.current);
+                            }
+                            debounceTimer.current = setTimeout(() => {
+                              if (user?.uid && value.trim() !== "") {
+                                console.log("Đang gọi API cập nhật tên:", value.trim()); // <-- ✅ log tên trước khi gọi API
+
+                                api
+                                  .put(`/sign-in/${user.uid}/fillInInformation`, {
+                                    name: value.trim(),
+                                  }, { withCredentials: true })
+                                  .then(() => {
+                                    console.log("✅ Đã cập nhật tên thành công:", value.trim()); // <-- log khi thành công
+                                  })
+                                  .catch((err) => {
+                                    console.error("❌ Lỗi khi cập nhật tên:", err); // <-- log khi lỗi
+                                  });
+                              }
+                            }, 500);
+                          }}
                           placeholder="họ và tên"
                         ></input>
                       )}
@@ -394,6 +462,7 @@ function Carts() {
             >
               <div className={styles.receiverInput}>
                 <input
+                  ref={receiverNameRef}
                   type="text"
                   id="receiverName"
                   value={receiverInfo.name}
@@ -405,6 +474,7 @@ function Carts() {
               </div>
               <div className={styles.receiverInput}>
                 <input
+                ref={receiverPhoneRef}
                   type="text"
                   id="receiverPhone"
                   value={receiverInfo.phone}
@@ -571,8 +641,11 @@ function Carts() {
               </div>
             ))}
 
-            <div className={styles.delete}>
+            {/* <div className={styles.delete}>
               <button onClick={handleDeleteAll}>Xóa tất cả</button>
+            </div> */}
+            <div className={styles.delete}>
+              <button onClick={() => navigate("/")}>Tiếp tục mua hàng</button>
             </div>
 
             <div className={styles.payment}>

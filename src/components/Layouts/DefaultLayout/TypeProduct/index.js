@@ -101,7 +101,7 @@ function TypeProduct() {
           <span>{element.name}</span>
         </NavLink>
       ))}
-      <img width={'100%'} src="https://dtweb.onrender.com/uploads/z6737717994207_cd9967b6363d3a6cbeaca597a527f652.jpg"></img>
+      <img className={`${styles.imga1}`} width={'100%'} src="https://dtweb.onrender.com/uploads/z6737717994207_cd9967b6363d3a6cbeaca597a527f652.jpg"></img>
     </div>
   </div>
   
