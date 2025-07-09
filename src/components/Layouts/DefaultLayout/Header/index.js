@@ -111,8 +111,8 @@ function Header() {
         <div className={style.logo}>
           <NavLink to="/">
             <img
-              width="50%"
-              height="50%"
+              width="60%"
+              height="60%"
               src="https://dtweb.onrender.com/uploads/logo%20trang.png"
               alt="Logo"
             />
