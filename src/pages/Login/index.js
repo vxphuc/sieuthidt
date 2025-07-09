@@ -106,7 +106,7 @@ function Login() {
       localStorage.setItem("authToken", idToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       // Chuyển hướng về trang chủ
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
