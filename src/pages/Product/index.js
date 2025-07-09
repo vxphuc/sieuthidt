@@ -1,17 +1,14 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
-import style from "./Product.module.css"; // chú ý tên biến style
-import { useState, useEffect, useContext  } from "react";
+import style from "./Product.module.css";
+import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import api from "../../api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronLeft,
-  faPlus,
-  faMinus,
-  faXmark,
-  faFilter,
+  faChevronLeft, faPlus, faMinus, faXmark, faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import BackgroundPopup from "../../components/BackgroundPopup";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function Product() {
   const { slug } = useParams();
@@ -24,6 +21,11 @@ function Product() {
   const [filterPopup, setFilterPopup] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [showProduct, setShowProduct] = useState(20);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+
+  const { fetchCartCount } = useContext(CartContext);
 
   // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
   // const fetchCartCount = () => {
@@ -35,29 +37,24 @@ function Product() {
   //     })
   //     .catch((err) => console.error("Lỗi lấy số lượng giỏ hàng:", err));
   // };
-  const { fetchCartCount } = useContext(CartContext);
+
   const openPopupBuy = (product) => {
     setPopupProduct(product);
     setQuantity(1);
   };
 
-  const openPopupfilter = () => {
-    setFilterPopup(!filterPopup);
-  };
+  const openPopupfilter = () => setFilterPopup(!filterPopup);
 
   const confirmAddToCart = () => {
-    if (isAdding) return; // chặn nếu đang gửi
+    if (isAdding) return;
     setIsAdding(true);
     api.post(
         "/cart/create",
-        {
-          productID: popupProduct._id,
-          quantity: quantity,
-        },
+        { productID: popupProduct._id, quantity: quantity },
         { withCredentials: true }
       )
       .then((res) => {
-        fetchCartCount(); // gọi đúng hàm này
+        fetchCartCount();
         setPopupProduct(null);
       })
       .catch((error) => navigate("/dang-nhap"))
@@ -65,105 +62,97 @@ function Product() {
   };
 
   useEffect(() => {
-    api
-      .get(`/typeProduct/detailTypeProduct/${slug}`)
+    api.get(`/typeProduct/detailTypeProduct/${slug}`)
       .then((response) => setTypeProduct(response.data))
-      .catch((error) => console.log(error));
+      .catch(() => {});
   }, [slug]);
 
   useEffect(() => {
-    api
-      .get(
-        `/product/getProducts/${slug}?filter=${selectedFilter}&num=${showProduct}`
-      )
-      .then((response) => setProduct(response.data))
-      .catch((error) => console.log(error));
+    setLoading(true);
+    setError(null);
+    api.get(
+      `/product/getProducts/${slug}?filter=${selectedFilter}&num=${showProduct}`
+    )
+    .then((response) => {
+      setProduct(response.data);
+      setHasMore(response.data.length === showProduct); // Nếu sp ít hơn num, nghĩa là hết
+    })
+    .catch(() => setError("Không tải được sản phẩm"))
+    .finally(() => setLoading(false));
   }, [slug, selectedFilter, showProduct]);
 
-  const handleGoBack = () => {
-    navigate(-1);
-  };
+  const handleGoBack = () => navigate(-1);
 
   const applyFilter = (filter) => {
     setSelectedFilter(filter);
+    setShowProduct(20); // reset số lượng khi filter
+    setFilterPopup(false); // đóng popup luôn
   };
 
   const submitFormfilter = (e) => {
     e.preventDefault();
-
-    setFilterPopup(!filterPopup);
+    setFilterPopup(false);
   };
 
   const handleShowMore = (e) => {
     setShowProduct((prev) => prev + 10);
     e.preventDefault();
   };
+
   return (
     <div>
-      <div className={`${style.titleTypeProduct}`}>
-        <div onClick={handleGoBack} className={`${style.back}`}>
+      <div className={style.titleTypeProduct}>
+        <div onClick={handleGoBack} className={style.back}>
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </div>
-        {typeProduct.map((item, index) => (
-          <span key={item._id} className={`d-flex`}>
-            {item.name}
-          </span>
+        {typeProduct.map((item) => (
+          <span key={item._id} className="d-flex">{item.name}</span>
         ))}
         <div onClick={openPopupfilter} className={style.filterControl}>
           <FontAwesomeIcon icon={faFilter} size="lg" /> Bộ lọc
         </div>
       </div>
 
-      <div className={`${style.products}`}>
-        {product.map((item, key) => {
-          let priceDiscount = item.priceDiscount.$numberDecimal;
-          priceDiscount = Number.parseInt(priceDiscount);
-          let price = item.price.$numberDecimal;
-          price = Number.parseInt(price);
+      {loading && <div className={style.loading}>Đang tải sản phẩm...</div>}
+      {error && <div className={style.error}>{error}</div>}
+
+      <div className={style.products}>
+        {product.map((item) => {
+          let priceDiscount = Number.parseInt(item.priceDiscount?.$numberDecimal || item.priceDiscount);
+          let price = Number.parseInt(item.price?.$numberDecimal || item.price);
           return (
-            <div key={key} className={`${style.product}`}>
-              <div className={`${style.boxProduct}`}>
-                <div className={`${style.pro}`}>
+            <div key={item._id} className={style.product}>
+              <div className={style.boxProduct}>
+                <div className={style.pro}>
                   <NavLink to={`/${item.typeProduct[0].slug}/${item.slug}`}>
-                    <img
-                      className={`${style.imgProduct}`}
+                    <LazyLoadImage
+                      className={style.imgProduct}
                       src={item.image[0]}
                       alt="product"
+                      effect="blur"
                     />
                   </NavLink>
-                  <div className={`${style.title}`}>
-                    <NavLink to={``}>
+                  <div className={style.title}>
+                    <NavLink to="">
                       <h3 className={style.nameProduct}>
-                        {item.name.length > 30
-                          ? item.name.slice(0, 30) + "..."
-                          : item.name}
+                        {item.name.length > 30 ? item.name.slice(0, 30) + "..." : item.name}
                       </h3>
                     </NavLink>
                     <div className={style.priceWrapper}>
-                    <div className={style.priceProduct}>
-                      {priceDiscount.toLocaleString()} VNĐ
+                      <div className={style.priceProduct}>
+                        {priceDiscount.toLocaleString()} VNĐ
+                      </div>
+                      <div className={style.oldPriceWrapper}>
+                        {item.discount > 0 && (
+                          <>
+                            <span className={style.discount}>{price.toLocaleString()} VNĐ</span>
+                            <span className={style.pricediscount}> -{item.discount}%</span>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <div className={style.oldPriceWrapper}>
-                      {item.discount > 0 && (
-                        <>
-                          <span className={style.discount}>
-                            {price.toLocaleString()} VNĐ
-                          </span>
-                          <span className={style.pricediscount}>
-                            -{item.discount}%
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    {/* <div className={style.stockDisplay}>
-                      Tồn kho: {item.quantity}
-                    </div> */}
                   </div>
-                  </div>
-                  <button
-                    onClick={() => openPopupBuy(item)}
-                    className={`${style.btnBuy}`}
-                  >
+                  <button onClick={() => openPopupBuy(item)} className={style.btnBuy}>
                     Mua ngay
                   </button>
                 </div>
@@ -172,41 +161,33 @@ function Product() {
           );
         })}
       </div>
-      <div className="text-center">
-        <button
-          className={style.showProduct}
-          onClick={(e) => handleShowMore(e)}
-        >
-          Xem Thêm
-        </button>
-      </div>
+
+      {/* Show more khi còn sản phẩm */}
+      {hasMore && !loading && !error && (
+        <div className="text-center">
+          <button className={style.showProduct} onClick={handleShowMore}>
+            Xem Thêm
+          </button>
+        </div>
+      )}
 
       {popupProduct && (
         <BackgroundPopup
           onClick={() => setPopupProduct(null)}
-          className={style.popupWrapper} // Sửa từ styles -> style
+          className={style.popupWrapper}
         >
           <div className={style.popupCard} onClick={(e) => e.stopPropagation()}>
-            <button
-              className={style.popupClose}
-              onClick={() => setPopupProduct(null)}
-            >
+            <button className={style.popupClose} onClick={() => setPopupProduct(null)}>
               <FontAwesomeIcon icon={faXmark} />
             </button>
-            <img src={popupProduct.image[0]} className={style.popupImage} />
+            <LazyLoadImage src={popupProduct.image[0]} className={style.popupImage} />
             <h3>{popupProduct.name}</h3>
             <p className={style.popupPrice}>
-              {Number.parseInt(
-                popupProduct.priceDiscount.$numberDecimal
-              ).toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              })}
+              {Number.parseInt(popupProduct.priceDiscount?.$numberDecimal || popupProduct.priceDiscount)
+                .toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
             </p>
             <div className={style.quantityControl}>
-              <button
-                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
-              >
+              <button onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}>
                 <FontAwesomeIcon icon={faMinus} />
               </button>
               <input
@@ -219,21 +200,7 @@ function Product() {
                 }}
                 className={style.quantityInput}
               />
-              {/* <input
-                type="number"
-                min="1"
-                max="2"
-                value={quantity}
-                onChange={(e) => {
-                  let value = parseInt(e.target.value);
-                  if (isNaN(value) || value < 1) value = 1;
-                  if (value > 2) value = 2;
-                  setQuantity(value);
-                }}
-                className={style.quantityInput}
-              /> */}
               <button onClick={() => setQuantity((prev) => prev + 1)}>
-              {/* <button onClick={() => setQuantity((prev) => Math.min(prev + 1, 2))}> */}
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
@@ -244,53 +211,34 @@ function Product() {
         </BackgroundPopup>
       )}
 
-      {/* bộ lọc sản phẩm */}
+      {/* Bộ lọc sản phẩm */}
       <div className={filterPopup ? "" : style.display_none}>
         <BackgroundPopup onClick={openPopupfilter}>
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={style.popupFillter}
-          >
+          <div onClick={(e) => e.stopPropagation()} className={style.popupFillter}>
             <div className={style.titlePopup}>
               <h3 className="text-center">Bộ Lọc Nâng Cao</h3>
               <button onClick={openPopupfilter} className={style.buttonclose}>
                 <FontAwesomeIcon icon={faXmark} />
               </button>
             </div>
-
             <div className={style.fillter}>
               <div className={style.fillterItem}>
                 <h5>Sắp xếp sản phẩm</h5>
-                <div
-                  onClick={() => applyFilter("highToLow")}
-                  className={`${style.item} ${
-                    selectedFilter === "highToLow" ? style.activeItem : ""
-                  }`}
-                >
+                <div onClick={() => applyFilter("highToLow")}
+                  className={`${style.item} ${selectedFilter === "highToLow" ? style.activeItem : ""}`}>
                   Giá cao đến thấp
                 </div>
-                <div
-                  onClick={() => applyFilter("lowToHigh")}
-                  className={`${style.item} ${
-                    selectedFilter === "lowToHigh" ? style.activeItem : ""
-                  }`}
-                >
+                <div onClick={() => applyFilter("lowToHigh")}
+                  className={`${style.item} ${selectedFilter === "lowToHigh" ? style.activeItem : ""}`}>
                   Giá thấp đến cao
                 </div>
-                <div
-                  onClick={() => applyFilter("biggestDiscount")}
-                  className={`${style.item} ${
-                    selectedFilter === "biggestDiscount" ? style.activeItem : ""
-                  }`}
-                >
+                <div onClick={() => applyFilter("biggestDiscount")}
+                  className={`${style.item} ${selectedFilter === "biggestDiscount" ? style.activeItem : ""}`}>
                   Khuyến mãi cao nhất
                 </div>
               </div>
             </div>
-            <button
-              onClick={(e) => submitFormfilter(e)}
-              className={style.submitfilter}
-            >
+            <button onClick={submitFormfilter} className={style.submitfilter}>
               Áp dụng
             </button>
           </div>
