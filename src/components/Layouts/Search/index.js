@@ -16,7 +16,7 @@ function Search({ onChange, onCartChange, searchValue }) {
   const [isOpen, setIsOpen] = useState(false);
   const popUpRef = useRef(null);
   const {cartCount} = useContext(CartContext); // lấy số lượng sản phẩm trong giỏ hàng từ context
- 
+  
   
 
   useEffect(() => {
@@ -65,6 +65,7 @@ function Search({ onChange, onCartChange, searchValue }) {
         <div className={style.inputWithIcon}>
           <FontAwesomeIcon icon={faSearch} className={style.searchIcon} />
         <input
+          
           onKeyDown={(e) => {
             if (e.key === "Enter" && input.trim()) {
               navigate(`/tim-kiem?q=${encodeURIComponent(input)}`);

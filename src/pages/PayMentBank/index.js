@@ -144,7 +144,7 @@ useEffect(() => {
               </tr>
             </table>
             <p className={`${styles.contact}`}>
-              Cần hỗ trợ vui lòng liên hệ: <a href="#">099 899</a>
+              Cần hỗ trợ vui lòng liên hệ: <a href="#">0977172851</a>
             </p>
           </div>
         </div>

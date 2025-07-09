@@ -60,10 +60,13 @@
     display: none;
   }
   @media (max-width: 769px) {
+    .imga1{
+      display: none;
+    }
     .container {
       width: 100%;
       z-index: 100;
-      top: 62px;
+      top: 52px;
       left: 0;
       right: 0;
       margin-top: 0px;
