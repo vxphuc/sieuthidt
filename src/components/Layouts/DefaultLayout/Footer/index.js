@@ -7,8 +7,8 @@ function Footer() {
           <div className="row">
             <div className="col-6 col-md-3">
               <h5>Tổng đài hỗ trợ</h5>
-              <p><strong>Gọi mua:</strong> <a href="tel:02582226999">0258.222.6999</a></p>
-              <p><strong>Kiếu nại:</strong> <a href="tel:0833831183">0833.831.183</a></p>
+              <p><strong>Gọi mua:</strong> <a href="tel:0847236868.">0847.236.868</a></p>
+              <p><strong>Kiếu nại:</strong> <a href="tel:0847236868.">0847.236.868.</a></p>
             </div>
             <div className="col-6 col-md-3">
               <h5>Về công ty</h5>
