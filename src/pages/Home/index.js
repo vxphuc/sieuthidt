@@ -102,8 +102,6 @@ function Home() {
             <LazyLoadImage
               key={image._id}
               src={`https://dtweb.onrender.com/uploads/${image.image}`}
-              alt="banner"
-              effect="blur"
             />
           ))}
         </div>
