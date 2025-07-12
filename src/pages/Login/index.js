@@ -101,7 +101,6 @@ function Login() {
 
       // Gửi token lên backend
       const response = await api.post("/sign-in", { idToken, numberPhone: phone });
-      console.log(phone)
       // console.log("Đăng nhập thành công:", response.data);
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
       localStorage.setItem("authToken", idToken);
