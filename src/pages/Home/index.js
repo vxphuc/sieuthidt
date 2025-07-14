@@ -9,7 +9,8 @@ import { CartContext } from "../../contexts/CartContext";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { io } from "socket.io-client";
 import api from "../../api/axios";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { getCart, saveCart } from "../../services/cartService";
 
 function Home() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function Home() {
 
   // Kết nối socket một lần duy nhất
   useEffect(() => {
-    socket.current = io('https://dtweb.onrender.com');
+    socket.current = io("https://dtweb.onrender.com");
     return () => {
       if (socket.current) socket.current.disconnect();
     };
@@ -38,16 +39,16 @@ function Home() {
   // Gộp API gọi song song
   useEffect(() => {
     setLoading(true);
-    Promise.all([
-      api.get("/product/newProduct"),
-      api.get("/sign-in/banner")
-    ]).then(([newProductRes, bannerRes]) => {
-      setNewProduct(newProductRes.data);
-      setImg(bannerRes.data);
-    }).catch((error) => {
-      console.error(error);
-      // show error UI nếu muốn
-    }).finally(() => setLoading(false));
+    Promise.all([api.get("/product/newProduct"), api.get("/sign-in/banner")])
+      .then(([newProductRes, bannerRes]) => {
+        setNewProduct(newProductRes.data);
+        setImg(bannerRes.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        // show error UI nếu muốn
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -65,7 +66,9 @@ function Home() {
     intervalRef.current = setInterval(() => {
       if (sliderRef.current) {
         currentIndex.current = (currentIndex.current + 1) % img.length;
-        sliderRef.current.style.transform = `translateX(-${currentIndex.current * 100}%)`;
+        sliderRef.current.style.transform = `translateX(-${
+          currentIndex.current * 100
+        }%)`;
       }
     }, 3000);
   };
@@ -78,17 +81,34 @@ function Home() {
   const confirmAddToCart = () => {
     if (isAdding) return;
     setIsAdding(true);
-    api.post(
-      "/cart/create",
-      { productID: popupProduct._id, quantity: quantity },
-      { withCredentials: true }
-    )
-      .then((res) => {
-        fetchCartCount();
-        setPopupProduct(null);
-      })
-      .catch((error) => navigate("/dang-nhap"))
-      .finally(() => setIsAdding(false));
+    // api.post(
+    //   "/cart/create",
+    //   { productID: popupProduct._id, quantity: quantity },
+    //   { withCredentials: true }
+    // )
+    // .then((res) => {
+    //   fetchCartCount();
+    //   setPopupProduct(null);
+    // })
+    // .catch((error) => navigate("/dang-nhap"))
+    // .finally(() => setIsAdding(false));
+    let cart = getCart();
+    const cart_id = cart.findIndex( item => item.id === popupProduct._id );
+    if (cart_id !== -1) {
+      cart[cart_id].quantity += quantity
+    } else {
+      cart.push({
+        id: popupProduct._id,
+        name: popupProduct.name,
+        image: popupProduct.image[0],
+        price: Number(popupProduct.price.$numberDecimal),
+        quantity: quantity,
+      });
+    }
+    saveCart(cart)
+    fetchCartCount();
+    setPopupProduct(null);
+    setIsAdding(false);
   };
 
   if (loading) return <div>Đang tải...</div>;
@@ -109,21 +129,41 @@ function Home() {
 
       {/* New Product */}
       <div className={styles.newProduct}>
-        <div className={styles.title}><h2>Sản phẩm mới</h2></div>
+        <div className={styles.title}>
+          <h2>Sản phẩm mới</h2>
+        </div>
         <div className={styles.products}>
           {newProduct.map((product) => {
             let price = Number.parseInt(product.price.$numberDecimal);
-            price = price.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-            let priceDiscount = Number.parseInt(product.priceDiscount.$numberDecimal);
-            priceDiscount = priceDiscount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+            price = price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            });
+            let priceDiscount = Number.parseInt(
+              product.priceDiscount.$numberDecimal
+            );
+            priceDiscount = priceDiscount.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            });
             return (
               <div className={styles.boxProduct} key={product._id}>
                 <NavLink to={`/${product.typeProduct[0].slug}/${product.slug}`}>
-                  <img className={styles.imgNewProduct} src={product.image[0]} alt="product" />
-                  <div className={styles.new}><p className={styles.newPro}>New</p></div>
-                  <div className={styles.infoProduct}><h5>
-                    {product.name.length > 18 ? `${product.name.substring(0, 30)}...` : product.name}
-                  </h5></div>
+                  <img
+                    className={styles.imgNewProduct}
+                    src={product.image[0]}
+                    alt="product"
+                  />
+                  <div className={styles.new}>
+                    <p className={styles.newPro}>New</p>
+                  </div>
+                  <div className={styles.infoProduct}>
+                    <h5>
+                      {product.name.length > 18
+                        ? `${product.name.substring(0, 30)}...`
+                        : product.name}
+                    </h5>
+                  </div>
                 </NavLink>
                 <div className={styles.content}>
                   <div className={styles.price}>
@@ -132,14 +172,22 @@ function Home() {
                       {product.discount > 0 && (
                         <>
                           <span className={styles.discount}>{price}</span>
-                          <span className={styles.pricediscount}> -{product.discount}%</span>
+                          <span className={styles.pricediscount}>
+                            {" "}
+                            -{product.discount}%
+                          </span>
                         </>
                       )}
                     </div>
                   </div>
                 </div>
                 <div className={styles.btnBuy}>
-                  <button onClick={() => openPopupBuy(product)} className={styles.btn}>Mua</button>
+                  <button
+                    onClick={() => openPopupBuy(product)}
+                    className={styles.btn}
+                  >
+                    Mua
+                  </button>
                 </div>
               </div>
             );
@@ -147,21 +195,36 @@ function Home() {
         </div>
       </div>
       <ScrollToTopButton />
-      <div className={styles.product}><ProductHome /></div>
+      <div className={styles.product}>
+        <ProductHome />
+      </div>
       {/* Popup */}
       {popupProduct && (
-        <BackgroundPopup onClick={() => setPopupProduct(null)} className={styles.popupWrapper}>
-          <div className={styles.popupCard} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.popupClose} onClick={() => setPopupProduct(null)}>
+        <BackgroundPopup
+          onClick={() => setPopupProduct(null)}
+          className={styles.popupWrapper}
+        >
+          <div
+            className={styles.popupCard}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.popupClose}
+              onClick={() => setPopupProduct(null)}
+            >
               <FontAwesomeIcon icon={faXmark} />
             </button>
             <img src={popupProduct.image[0]} className={styles.popupImage} />
             <h5>{popupProduct.name}</h5>
             <p className={styles.popupPrice}>
-              {Number.parseInt(popupProduct.priceDiscount.$numberDecimal).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+              {Number.parseInt(
+                popupProduct.priceDiscount.$numberDecimal
+              ).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
             </p>
             <div className={styles.quantityControl}>
-              <button onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}>
+              <button
+                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
               <input
@@ -178,7 +241,11 @@ function Home() {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <button className={styles.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+            <button
+              className={styles.confirmBtn}
+              onClick={confirmAddToCart}
+              disabled={isAdding}
+            >
               {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>

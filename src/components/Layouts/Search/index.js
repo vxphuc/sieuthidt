@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
 import {CartContext} from "../../../contexts/CartContext";
+import api from "../../../api/axios";
 
 
 function Search({ onChange, onCartChange, searchValue }) {
@@ -23,8 +24,8 @@ function Search({ onChange, onCartChange, searchValue }) {
     const deylayTimeOut = setTimeout(async () => {
       if (input.trim()) {
         try {
-          const res = await axios.get(
-            `https://dtweb.onrender.com/product/search?q=${encodeURIComponent(
+          const res = await api.get(
+            `/product/search?q=${encodeURIComponent(
               input
             )}`
           );

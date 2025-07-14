@@ -1,23 +1,21 @@
 import styles from "./Carts.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faWallet,
-  faCheck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faWallet, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from "react";
 import api from "../../api/axios";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
+import { getCart, saveCart } from "../../services/cartService";
 
 function Carts() {
   const changeAddressRef = useRef(null);
   const navigate = useNavigate();
-  const [product, setProduct] = useState([]);
+
+  // State giỏ hàng luôn là nguồn dữ liệu duy nhất, luôn lấy từ localStorage
+  const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
   const [user, setUser] = useState({});
   const [totalOrder, setTotalOrder] = useState(0);
   const [address, setAddress] = useState([]);
@@ -25,14 +23,10 @@ function Carts() {
   const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
   const [popupSuccess, setpopupSuccess] = useState(false);
   const { fetchCartCount } = useContext(CartContext);
-  const [inputQuantities, setInputQuantities] = useState({});
-  const [outOfStockProducts, setOutOfStockProducts] = useState([]); // Thông báo sản phẩm hết hàng
+  const [outOfStockProducts, setOutOfStockProducts] = useState([]);
   const [useToken, setUseToken] = useState(false);
   const [otherReceiver, setOtherReceiver] = useState(false);
-  const [receiverInfo, setReceiverInfo] = useState({
-    name: "",
-    phone: "",
-  });
+  const [receiverInfo, setReceiverInfo] = useState({ name: "", phone: "" });
   const [fullName, setFullname] = useState("");
   const inputNameRef = useRef(null);
   const debounceTimer = useRef(null);
@@ -41,220 +35,124 @@ function Carts() {
   const receiverPhoneRef = useRef(null);
   const [isAdding, setIsAdding] = useState(false);
 
-  // Xử lý thay đổi số lượng trực tiếp bằng input
-  const handleQuantityInputChange = async (id, newQuantity) => {
-    try {
-      await api.patch(
-        `/cart/updateQuantity/${id}`,
-        { quantity: newQuantity },
-        { withCredentials: true }
-      );
-      await fetchCart();
-      await fetchCartCount();
-    } catch (err) {
-      console.error("Error updating quantity:", err);
-    }
-  };
-
-  // Lấy thông tin user
+  // Fetch user info
   const fetchUserProfile = async () => {
     try {
-      const res = await api.get("/sign-in/user-profile", {
-        withCredentials: true,
-      });
+      const res = await api.get("/sign-in/user-profile", { withCredentials: true });
       setUser(res.data);
     } catch (err) {
       console.error("Error fetching user profile:", err);
     }
   };
-  // Lấy giỏ hàng
-  const fetchCart = async () => {
-    try {
-      const res = await api.get("/cart", {
-        withCredentials: true,
-      });
-      const cartItems = res.data;
-      setProduct(cartItems);
-      const quantities = {};
-      cartItems.carts.forEach((item) => {
-        quantities[item.product._id] = item.quantity;
-      });
-      setInputQuantities(quantities);
-      const totalPrice = cartItems.carts.reduce(
-        (acc, item) =>
-          acc +
-          parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
-        0
-      );
-      const formatted = totalPrice.toLocaleString("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      });
-      setTotal(formatted);
-      setTotalOrder(formatted);
-    } catch (err) {
-      console.error("Error fetching products:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  // Lấy địa chỉ user
+  // Fetch address info
   const fetchAddress = async () => {
     try {
-      const res = await api.get("/cart/getAdd", {
-        withCredentials: true,
-      });
+      const res = await api.get("/cart/getAdd", { withCredentials: true });
       setAddress(res.data);
     } catch (err) {
       console.error("Error fetching address:", err);
     }
   };
 
-  // Tự động blur input khi scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (inputNameRef.current === document.activeElement) {
-        inputNameRef.current.blur(); // tự động blur khi scroll
-      }
-    };
+  // Fetch cart from localStorage
+  const fetchCart = () => {
+    const cartData = getCart() || [];
+    setCart(cartData);
+    setLoading(false);
+  };
 
-    window.addEventListener("scroll", handleScroll, true);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll, true);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScrollOrTouchOutside = (event) => {
-      if (
-        receiverNameRef.current &&
-        receiverNameRef.current === document.activeElement &&
-        !receiverNameRef.current.contains(event.target)
-      ) {
-        receiverNameRef.current.blur();
-      }
-
-      if (
-        receiverPhoneRef.current &&
-        receiverPhoneRef.current === document.activeElement &&
-        !receiverPhoneRef.current.contains(event.target)
-      ) {
-        receiverPhoneRef.current.blur();
-      }
-    };
-
-    document.addEventListener("scroll", handleScrollOrTouchOutside, true);
-    document.addEventListener("touchstart", handleScrollOrTouchOutside);
-
-    return () => {
-      document.removeEventListener("scroll", handleScrollOrTouchOutside, true);
-      document.removeEventListener("touchstart", handleScrollOrTouchOutside);
-    };
-  }, []);
-
+  // Khi mở trang, fetch user, cart, address
   useEffect(() => {
     fetchUserProfile();
     fetchCart();
     fetchAddress();
   }, []);
 
-  // Tính lại tổng tiền khi số lượng thay đổi
+  // Mỗi lần cart thay đổi thì tính lại tổng tiền
   useEffect(() => {
-    if (!product.carts) return;
     let totalPrice = 0;
-    product.carts.forEach((item) => {
-      const qty = inputQuantities[item.product._id] ?? item.quantity;
-      totalPrice += parseFloat(item.product.priceDiscount.$numberDecimal) * qty;
+    cart.forEach((item) => {
+      totalPrice += parseFloat(item.price) * item.quantity;
     });
-    const formatted = totalPrice.toLocaleString("vi-VN", {
+    setTotalOrder(totalPrice.toLocaleString("vi-VN", {
       style: "currency",
       currency: "VND",
-    });
-    setTotal(formatted);
-    setTotalOrder(formatted);
-  }, [inputQuantities, product]);
+    }));
+  }, [cart]);
+
+  // Tự động blur input khi scroll (UX improvement)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (inputNameRef.current === document.activeElement) {
+        inputNameRef.current.blur();
+      }
+      if (receiverNameRef.current === document.activeElement) {
+        receiverNameRef.current.blur();
+      }
+      if (receiverPhoneRef.current === document.activeElement) {
+        receiverPhoneRef.current.blur();
+      }
+    };
+    window.addEventListener("scroll", handleScroll, true);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, []);
+
+  // Regex kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
-    // Dạng 09, 03, 07, 08, 05 + 8 số phía sau
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
     return regex.test(phone);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(`/cart/delete/${id}`, {
-        withCredentials: true,
-      });
-      await fetchCart();
-      await fetchCartCount();
-    } catch (err) {
-      console.error("Delete failed:", err);
-    }
+  // Xóa sản phẩm khỏi giỏ
+  const handleDelete = (id) => {
+    const newCart = cart.filter(item => item.id !== id);
+    saveCart(newCart);
+    setCart(newCart);
+    fetchCartCount();
   };
 
-  // const handleDeleteAll = async () => {
-  //   try {
-  //     await Promise.all(
-  //       product.carts.map((item) =>
-  //         api.delete(`/cart/delete/${item.product._id}`, {
-  //           withCredentials: true,
-  //         })
-  //       )
-  //     );
-  //     await fetchCart();
-  //     // window.location.reload();
-  //   } catch (err) {
-  //     console.error("Error deleting all:", err);
-  //   }
-  // };
-
-  // Thay đổi số lượng bằng nút + -
-  const handleQuantityChange = async (id, type) => {
-    try {
-      await api.patch(`/cart/${type}/${id}`, {}, { withCredentials: true });
-      setInputQuantities((prev) => {
-        const currentVal = prev[id] || 1;
-        const newVal =
-          type === "updateincrease"
-            ? currentVal + 1
-            : Math.max(1, currentVal - 1);
-        return {
-          ...prev,
-          [id]: newVal,
-        };
-      });
-    } catch (err) {
-      console.error(`Error ${type} quantity:`, err);
+  // Tăng/giảm số lượng sản phẩm
+  const handleQuantityChange = (id, type) => {
+    let updatedCart = [...cart];
+    const idx = updatedCart.findIndex(item => item.id === id);
+    if (idx === -1) return;
+    if (type === "updateincrease") {
+      updatedCart[idx].quantity += 1;
+    } else if (type === "updateDecrease") {
+      updatedCart[idx].quantity = Math.max(1, updatedCart[idx].quantity - 1);
     }
+    saveCart(updatedCart);
+    setCart(updatedCart);
+  };
+
+  // Nhập số lượng bằng input
+  const handleQuantityInputChange = (id, value) => {
+    let num = parseInt(value, 10);
+    if (isNaN(num) || num < 1) num = 1;
+    let updatedCart = [...cart];
+    const idx = updatedCart.findIndex(item => item.id === id);
+    if (idx === -1) return;
+    updatedCart[idx].quantity = num;
+    saveCart(updatedCart);
+    setCart(updatedCart);
   };
 
   // Dùng điểm khi thanh toán
   const handleChecker = (e) => {
     setUseToken(e.target.checked);
-    const totalPrice = product.carts.reduce(
-      (acc, item) =>
-        acc +
-        parseFloat(item.product.priceDiscount.$numberDecimal) * item.quantity,
-      0
-    );
-    const updatedTotal = e.target.checked
-      ? totalPrice - user.token
-      : totalPrice;
-    setTotalOrder(
-      updatedTotal.toLocaleString("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      })
-    );
+    // Không cần update tổng tiền ở đây, chỉ cần truyền useToken vào handlePay, backend tự xử lý
   };
 
   const handlePayment = (e) => setPayMent(e.target.value);
 
-  // Đặt hàng và kiểm tra tồn kho từng sản phẩm
+  // Đặt hàng
   const handlePay = async () => {
-    if (isAdding) return; // chặn nếu đang gửi
+    if (isAdding) return;
     setIsAdding(true);
+
     try {
       if (!address || address.length === 0) {
         alert("Vui lòng nhập địa chỉ giao hàng.");
@@ -267,29 +165,19 @@ function Carts() {
           changeAddressRef.current.classList.add(styles.highlightChangeAddress);
           setTimeout(() => {
             if (changeAddressRef.current) {
-              changeAddressRef.current.classList.remove(
-                styles.highlightChangeAddress
-              );
+              changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
             }
           }, 3000);
         }
         return;
       }
-      // Dùng số lượng nhập tay mới nhất
-      const products = product.carts.map((item) => ({
-        productID: item.product._id,
-        uid: item.userID,
-        name: item.product.name,
-        price: item.product.priceDiscount.$numberDecimal,
-        quantity: inputQuantities[item.product._id] ?? item.quantity,
-        img: item.product.image[0],
-      }));
-      let alternateReceiverName;
-      let alternateReceiverPhone;
-      if (receiverInfo && isValidVietnamPhoneNumber(receiverInfo.phone)) {
-        alternateReceiverPhone = receiverInfo.phone;
+
+      let alternateReceiverName, alternateReceiverPhone;
+      if (otherReceiver && receiverInfo.name && isValidVietnamPhoneNumber(receiverInfo.phone)) {
         alternateReceiverName = receiverInfo.name;
+        alternateReceiverPhone = receiverInfo.phone;
       }
+
       if (!user.name) {
         if (fullName.trim() === "") {
           alert("Vui lòng nhập họ và tên.");
@@ -307,27 +195,33 @@ function Carts() {
         } else {
           await api.put(
             `/sign-in/${user.uid}/fillInInformation`,
-            {
-              name: fullName,
-            },
-            {
-              withCredentials: true,
-              
-            }
-            
+            { name: fullName },
+            { withCredentials: true }
           );
-          setIsAdding(false);
         }
       }
+
+      // Build product data để gửi lên server
+      const products = cart.map((item) => ({
+        productID: item.id,
+        uid: item.userID,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        img: item.image,
+      }));
+
+      // Lấy đúng số tiền chưa giảm trừ điểm, backend tự xử lý logic useToken
+      const totalPriceNum = cart.reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
 
       const response = await api.post(
         "/bill/create",
         {
-          province: address[0].provinces.nameProvinces,
-          District: address[0].districts.nameDistricts,
-          ward: address[0].wards.nameWards,
-          road: address[0].road.nameRoad,
-          Intomoney: totalOrder,
+          province: address[0]?.provinces?.nameProvinces,
+          District: address[0]?.districts?.nameDistricts,
+          ward: address[0]?.wards?.nameWards,
+          road: address[0]?.road?.nameRoad,
+          Intomoney: totalPriceNum, // truyền số (server sẽ convert)
           products,
           PaymentForm: payMent,
           useToken,
@@ -338,15 +232,16 @@ function Carts() {
       );
       if (response.data.errorList) {
         setOutOfStockProducts(response.data.errorList);
-        // console.log(outOfStockProducts);
         setIsAdding(false);
         return;
       }
 
       // Đặt hàng thành công
-      await api.delete("/cart/deleteCart", {
-        withCredentials: true,
-      });
+      await api.delete("/cart/deleteCart", { withCredentials: true });
+      saveCart([]); // clear localStorage
+      setCart([]);
+      fetchCartCount();
+
       if (payMent === "Thanh toán qua ngân hàng") {
         if (response.data && response.data._id) {
           navigate(`/gio-hang/thanh-toan/${response.data._id}`);
@@ -362,7 +257,6 @@ function Carts() {
         }, 2000);
       }
     } catch (err) {
-      // Nếu lỗi tồn kho trả về mảng sản phẩm hết hàng
       if (
         err.response &&
         err.response.status === 400 &&
@@ -371,15 +265,16 @@ function Carts() {
         setOutOfStockProducts(err.response.data.products);
         setIsAdding(false);
         return;
-        
       }
       alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
       console.error(err);
+      setIsAdding(false);
     }
     setIsAdding(false);
   };
 
-  if (loading || product.length === 0) return <CartsEmpty />;
+  // Nếu giỏ hàng trống
+  if (loading || !cart || cart.length === 0) return <CartsEmpty />;
 
   return (
     <div className={`container ${styles.container}`}>
@@ -410,6 +305,7 @@ function Carts() {
                         <input
                           ref={inputNameRef}
                           className={styles.inputName}
+                          value={fullName}
                           onChange={(e) => {
                             const value = e.target.value;
                             setFullname(value);
@@ -419,23 +315,19 @@ function Carts() {
                             }
                             debounceTimer.current = setTimeout(() => {
                               if (user?.uid && value.trim() !== "") {
-                                console.log("Đang gọi API cập nhật tên:", value.trim()); // <-- ✅ log tên trước khi gọi API
-
                                 api
                                   .put(`/sign-in/${user.uid}/fillInInformation`, {
                                     name: value.trim(),
                                   }, { withCredentials: true })
-                                  .then(() => {
-                                    console.log("✅ Đã cập nhật tên thành công:", value.trim()); // <-- log khi thành công
-                                  })
+                                  .then(() => {})
                                   .catch((err) => {
-                                    console.error("❌ Lỗi khi cập nhật tên:", err); // <-- log khi lỗi
+                                    console.error("Lỗi khi cập nhật tên:", err);
                                   });
                               }
                             }, 500);
                           }}
                           placeholder="họ và tên"
-                        ></input>
+                        />
                       )}
                     </div>
                     <div>{user.phone}</div>
@@ -474,7 +366,7 @@ function Carts() {
               </div>
               <div className={styles.receiverInput}>
                 <input
-                ref={receiverPhoneRef}
+                  ref={receiverPhoneRef}
                   type="text"
                   id="receiverPhone"
                   value={receiverInfo.phone}
@@ -541,23 +433,21 @@ function Carts() {
               </BackgroundPopup>
             )}
 
-            {product.carts.map((item, index) => (
-              <div key={item._id} className={styles.listCarts}>
+            {cart.map((item) => (
+              <div key={item.id} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button
-                    onClick={() => handleDelete(item.product._id)}
+                    onClick={() => handleDelete(item.id)}
                     className={styles.deletebtn}
                   >
                     X
                   </button>
-                  <img src={item.product.image[0]} alt="product" />
+                  <img src={item.image} alt="product" />
                   <div className={styles.productInfo}>
-                    <p className={styles.productName}>{item.product.name}</p>
+                    <p className={styles.productName}>{item.name}</p>
                     <p className={styles.productPrice}>
                       Giá tiền:{" "}
-                      {parseFloat(
-                        item.product.priceDiscount.$numberDecimal
-                      ).toLocaleString("vi-VN", {
+                      {parseFloat(item.price).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}
@@ -567,19 +457,14 @@ function Carts() {
                 <div className={styles.content}>
                   <p>
                     Tổng tiền:{" "}
-                    {(
-                      parseFloat(item.product.priceDiscount.$numberDecimal) *
-                      (inputQuantities[item.product._id] ?? item.quantity)
-                    ).toLocaleString("vi-VN", {
+                    {(parseFloat(item.price) * item.quantity).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     })}
                   </p>
                   <div className={styles.quantityControl}>
                     <button
-                      onClick={() =>
-                        handleQuantityChange(item.product._id, "updateDecrease")
-                      }
+                      onClick={() => handleQuantityChange(item.id, "updateDecrease")}
                       className={styles.tru}
                     >
                       -
@@ -587,51 +472,11 @@ function Carts() {
                     <input
                       type="number"
                       min="1"
-                      value={inputQuantities[item.product._id] ?? item.quantity}
-                      onChange={(e) => {
-                        let val = e.target.value;
-                        if (val === "") {
-                          setInputQuantities((prev) => ({
-                            ...prev,
-                            [item.product._id]: val,
-                          }));
-                          return;
-                        }
-                        val = Math.max(1, parseInt(val));
-                        setInputQuantities((prev) => ({
-                          ...prev,
-                          [item.product._id]: val,
-                        }));
-                      }}
-                      onBlur={() => {
-                        const val = inputQuantities[item.product._id];
-                        if (val === "" || val == null) return;
-                        const valNum = Number(val);
-                        if (valNum !== item.quantity) {
-                          handleQuantityInputChange(item.product._id, valNum);
-                        }
-                        // const val = inputQuantities[item.product._id];
-                        // if (val === "" || val == null) return;
-                        // const valNum = Number(val);
-
-                        // // Nếu số lượng vượt quá 2, không cho gọi API
-                        // if (valNum > 99) {
-                        //   setInputQuantities((prev) => ({
-                        //     ...prev,
-                        //     [item.product._id]: 99,
-                        //   }));
-                        //   return;
-                        // }
-
-                        if (valNum !== item.quantity) {
-                          handleQuantityInputChange(item.product._id, valNum);
-                        }
-                      }}
+                      value={item.quantity}
+                      onChange={(e) => handleQuantityInputChange(item.id, e.target.value)}
                     />
                     <button
-                      onClick={() =>
-                        handleQuantityChange(item.product._id, "updateincrease")
-                      }
+                      onClick={() => handleQuantityChange(item.id, "updateincrease")}
                       className={styles.cong}
                     >
                       +
@@ -641,9 +486,6 @@ function Carts() {
               </div>
             ))}
 
-            {/* <div className={styles.delete}>
-              <button onClick={handleDeleteAll}>Xóa tất cả</button>
-            </div> */}
             <div className={styles.delete}>
               <button onClick={() => navigate("/")}>Tiếp tục mua hàng</button>
             </div>
@@ -654,16 +496,10 @@ function Carts() {
                 <tbody>
                   <tr>
                     <td className={styles.tableText}>Tổng tiền</td>
-                    <td className={styles.totalAll}>{total}</td>
+                    <td className={styles.totalAll}>{totalOrder}</td>
                   </tr>
                   <tr>
-                    <td
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                      }}
-                    >
+                    <td style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <input onClick={handleChecker} type="checkbox" />
                       <img
                         src="https://dtweb.onrender.com/uploads/coin-dt.svg"
@@ -744,9 +580,7 @@ function Carts() {
                         </li>
                         <li>
                           <label
-                            onClick={() =>
-                              setPayMent("Thanh toán qua ngân hàng")
-                            }
+                            onClick={() => setPayMent("Thanh toán qua ngân hàng")}
                           >
                             <input
                               type="radio"
