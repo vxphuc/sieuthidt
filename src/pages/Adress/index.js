@@ -5,12 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import FormAdress from "../../components/formAdress";
-import api from "../../api/axios";
+import { saveName, saveAddress } from "../../services/cartService";
 
 function Adress() {
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState(false);
   //tỉnh thành
   const [Province, setProvince] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
@@ -21,13 +19,12 @@ function Adress() {
   const [Ward, setWard] = useState([]);
   const [selectedWard, setSelectedWard] = useState(null);
   //Địa chỉ
-  const [Address, setAddress] = useState('');
-  //truyền địa chỉ xuống form địa chỉ
-  const [data, setData] = useState([]);
-  //gửi địa chỉ vào shop
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
- 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [road, setRoad] = useState("");
+  // thông tin cá nhân và số điện thoại
+  const [dataUser, setData] = useState({
+    name: "",
+    phone: "",
+  });
 
   // tỉnh
   useEffect(() => {
@@ -84,75 +81,24 @@ function Adress() {
     setSelectedWard(ward);
   };
 
-  // lấy địa chỉ
-  const hadleAdress = (e) => {
-    setAddress(e.target.value);
-  };
-  // gửi địa chỉ lên server
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    api.post(
-      `/address/create`,
-      {
-        IDProvinces: selectedProvince.code,
-        nameProvinces: selectedProvince.name,
-        IDDistricts: selectedDistrict.code,
-        nameDistricts: selectedDistrict.name,
-        IDWards: selectedWard.code,
-        nameWards: selectedWard.name,
-        nameRoad: Address,
-        idWards: selectedWard.code,
-      },
-      {
-        withCredentials: true
-      }
-    )
-    .then(res => {
-      setShowPopup(false);
-      api
-      .get("/address", {
-        withCredentials: true
-      })
-      .then((response) => {
-        setData(response.data);
-      });
-    })
-    .catch(err => console.log(err))
+    const address = [{
+      province: selectedProvince.name,
+      district: selectedDistrict.name,
+      ward: selectedWard.name,
+      road: road,
+      name: dataUser.name,
+      phone: dataUser.phone
+    }];
+    const User = [{
+      name: dataUser.name,
+      phone: dataUser.phone
+    }]
+    saveAddress(address)
+    saveName(User)
+    navigate(-1)
   };
-
-  //khởi tạo address từ đầu
-  useEffect(() => {
-    api.get("/address", {
-      withCredentials: true
-    })
-    .then(res => setData(res.data))
-    .catch(err => console.log(err))
-    .finally(() => setIsSubmitting(false));
-  }, []);
-  
-
-  const handleClose = () => {
-    setShowPopup(false);
-  };
-  const handleShow = () => {
-    setShowPopup(true);
-  };
-
-  const handleSelect = () =>{
-    api.patch(`/cart/updateAddress`, {
-      roadID: selectedAddressId
-    }, {
-      withCredentials: true
-    })
-    .then(res => {
-      navigate(-1)
-    })
-  }
-
-
-
   return (
     <div className="container">
       <div className={` container ${styles.container}`}>
@@ -164,107 +110,64 @@ function Adress() {
           </div>
           <span className={`${styles.title__text}`}>Thông tin nhận hàng</span>
         </div>
-        <FormAdress onSelect = {(id) => {setSelectedAddressId(id)}} adress = {data} className={styles.form}></FormAdress>
-        <p onClick={handleShow} className={`${styles.a}`}>
-          + nhập địa chỉ khác
-        </p>
-        {!showPopup && (
-        <div className={`${styles.role}`}>
-          <button onClick={handleSelect}>Xác nhận</button>
+        <div className={styles.relative}>
+          <input
+            className={styles.peer}
+            onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
+            placeholder="Số Điện Thoại...*"
+          ></input>
         </div>
-        )}
-      </div>
-      <div>
-        <BackgroundPopup
-          style={{ display: showPopup ? "" : "none" }}
-          onClick={handleClose}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`${styles.popup}`}
-          >
-            <div className={`${styles.titlePopup} position-relative`}>
-              Thêm địa chỉ nhận hàng
-              <span onClick={handleClose} className={styles.closeIcon}>
-                <FontAwesomeIcon icon={faXmark} />
-              </span>
-            </div>
-            <div className={`${styles.bodyPopup}`}>
-              <div className={`${styles.pdPopup}`}>
-                <div className={`${styles.popupAdress}`}>
-                  <div className={`${styles.distric}`}>
-                    <div className={`${styles.districSelect}`}>
-                      <select
-                        onChange={handleProvinceChange}
-                        className={`${styles.selectDistric}`}
-                      >
-                        <option value="">Chọn tỉnh thành</option>
-                        {Province.map((item, index) => {
-                          return (
-                            <option key={item._id} value={item.code}>
-                              {item.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className={`${styles.distric}`}>
-                    <div className={`${styles.districSelect}`}>
-                      <select
-                        onChange={handleDistrictChange}
-                        className={`${styles.selectDistric}`}
-                      >
-                        <option value="">Chọn quận huyện</option>
-                        {District.map((item, index) => {
-                          return (
-                            <option key={item._id} value={item.code}>
-                              {item.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className={`${styles.wards}`}>
-                    <div className={`${styles.wardsSelect}`}>
-                      <select
-                        onChange={handleWardChange}
-                        className={`${styles.selectWards}`}
-                      >
-                        <option value="">Chọn phường xã</option>
-                        {Ward.map((item, index) => {
-                          return (
-                            <option key={item._id} value={item.code}>
-                              {item.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className={`${styles.stress}`}>
-                    <div className={`position-relative`}>
-                      <input
-                        onChange={hadleAdress}
-                        placeholder="số nhà, tên đường"
-                        className={`${styles.inputStress}`}
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={handleSubmit}
-                  className={`${styles.buttonAdress}`}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Đang xử lý..." : "Hoàn tất"}
-                </button>
-              </div>
-            </div>
+        <div className={styles.relative}>
+          <input
+            className={styles.peer}
+            onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
+            placeholder="Họ Và Tên...*"
+          ></input>
+        </div>
+        <div className="d-flex flex-wrap justify-between">
+          <div className={styles.cbProvince}>
+            <select onChange={handleProvinceChange} className={styles.Province}>
+              <option value="">Chọn Tỉnh/Thành Phố</option>
+              {Province.map((province) => (
+                <option key={province.code} value={province.code}>
+                  {province.name}
+                </option>
+              ))}
+            </select>
           </div>
-        </BackgroundPopup>
+          <div className={styles.cbProvince}>
+            <select onChange={handleDistrictChange} className={styles.Province}>
+              <option value="">Chọn Quận/Huyện</option>
+              {District.map((district) => (
+                <option key={district.code} value={district.code}>
+                  {district.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.relativeward}>
+            <select onChange={handleWardChange} className={styles.Province}>
+              <option value="">Chọn Xã/Phường</option>
+              {Ward.map((ward) => (
+                <option key={ward.code} value={ward.code}>
+                  {ward.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.relativeward}>
+            <input
+              onChange={(e) => setRoad(e.target.value)}
+              className={styles.peer}
+              placeholder="nhập tên đường, số nhà...*"
+            ></input>
+          </div>
+        </div>
+        <div className={`${styles.role}`}>
+          <button onClick={handleSubmit}>Xác nhận</button>
+        </div>
       </div>
+      <div></div>
     </div>
   );
 }

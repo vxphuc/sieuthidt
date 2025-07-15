@@ -1,13 +1,22 @@
 import styles from "./Carts.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faWallet, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faWallet,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from "react";
 import api from "../../api/axios";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
-import { getCart, saveCart } from "../../services/cartService";
+import {
+  getCart,
+  saveCart,
+  getAddress,
+  getName,
+} from "../../services/cartService";
 
 function Carts() {
   const changeAddressRef = useRef(null);
@@ -38,8 +47,7 @@ function Carts() {
   // Fetch user info
   const fetchUserProfile = async () => {
     try {
-      const res = await api.get("/sign-in/user-profile", { withCredentials: true });
-      setUser(res.data);
+      setUser(getName());
     } catch (err) {
       console.error("Error fetching user profile:", err);
     }
@@ -48,8 +56,7 @@ function Carts() {
   // Fetch address info
   const fetchAddress = async () => {
     try {
-      const res = await api.get("/cart/getAdd", { withCredentials: true });
-      setAddress(res.data);
+      setAddress(getAddress());
     } catch (err) {
       console.error("Error fetching address:", err);
     }
@@ -75,10 +82,12 @@ function Carts() {
     cart.forEach((item) => {
       totalPrice += parseFloat(item.price) * item.quantity;
     });
-    setTotalOrder(totalPrice.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }));
+    setTotalOrder(
+      totalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      })
+    );
   }, [cart]);
 
   // Tự động blur input khi scroll (UX improvement)
@@ -108,7 +117,7 @@ function Carts() {
 
   // Xóa sản phẩm khỏi giỏ
   const handleDelete = (id) => {
-    const newCart = cart.filter(item => item.id !== id);
+    const newCart = cart.filter((item) => item.id !== id);
     saveCart(newCart);
     setCart(newCart);
     fetchCartCount();
@@ -117,7 +126,7 @@ function Carts() {
   // Tăng/giảm số lượng sản phẩm
   const handleQuantityChange = (id, type) => {
     let updatedCart = [...cart];
-    const idx = updatedCart.findIndex(item => item.id === id);
+    const idx = updatedCart.findIndex((item) => item.id === id);
     if (idx === -1) return;
     if (type === "updateincrease") {
       updatedCart[idx].quantity += 1;
@@ -133,7 +142,7 @@ function Carts() {
     let num = parseInt(value, 10);
     if (isNaN(num) || num < 1) num = 1;
     let updatedCart = [...cart];
-    const idx = updatedCart.findIndex(item => item.id === id);
+    const idx = updatedCart.findIndex((item) => item.id === id);
     if (idx === -1) return;
     updatedCart[idx].quantity = num;
     saveCart(updatedCart);
@@ -152,110 +161,38 @@ function Carts() {
   const handlePay = async () => {
     if (isAdding) return;
     setIsAdding(true);
-
     try {
-      if (!address || address.length === 0) {
-        alert("Vui lòng nhập địa chỉ giao hàng.");
-        setIsAdding(false);
-        if (changeAddressRef.current) {
-          changeAddressRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-          changeAddressRef.current.classList.add(styles.highlightChangeAddress);
-          setTimeout(() => {
-            if (changeAddressRef.current) {
-              changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
-            }
-          }, 3000);
-        }
-        return;
-      }
-
       let alternateReceiverName, alternateReceiverPhone;
-      if (otherReceiver && receiverInfo.name && isValidVietnamPhoneNumber(receiverInfo.phone)) {
+      if (
+        otherReceiver &&
+        receiverInfo.name &&
+        isValidVietnamPhoneNumber(receiverInfo.phone)
+      ) {
         alternateReceiverName = receiverInfo.name;
         alternateReceiverPhone = receiverInfo.phone;
       }
+      const products = cart.map((item) => {
+        return {
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          productID: item.id,
+          img: item.image,
+        };
+      });
 
-      if (!user.name) {
-        if (fullName.trim() === "") {
-          alert("Vui lòng nhập họ và tên.");
-          if (inputNameRef.current) {
-            inputNameRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-            inputNameRef.current.classList.add(styles.highlightInputName);
-            setTimeout(() => {
-              if (inputNameRef.current) {
-                inputNameRef.current.classList.remove(styles.highlightInputName);
-              }
-            }, 3000);
-          }
-          setIsAdding(false);
-          return;
-        } else {
-          await api.put(
-            `/sign-in/${user.uid}/fillInInformation`,
-            { name: fullName },
-            { withCredentials: true }
-          );
-        }
-      }
-
-      // Build product data để gửi lên server
-      const products = cart.map((item) => ({
-        productID: item.id,
-        uid: item.userID,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        img: item.image,
-      }));
-
-      // Lấy đúng số tiền chưa giảm trừ điểm, backend tự xử lý logic useToken
-      const totalPriceNum = cart.reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
-
-      const response = await api.post(
-        "/bill/create",
-        {
-          province: address[0]?.provinces?.nameProvinces,
-          District: address[0]?.districts?.nameDistricts,
-          ward: address[0]?.wards?.nameWards,
-          road: address[0]?.road?.nameRoad,
-          Intomoney: totalPriceNum, // truyền số (server sẽ convert)
-          products,
-          PaymentForm: payMent,
-          useToken,
-          alternateReceiverName,
-          alternateReceiverPhone,
-        },
-        { withCredentials: true }
-      );
-      if (response.data.errorList) {
-        setOutOfStockProducts(response.data.errorList);
-        setIsAdding(false);
-        return;
-      }
-
-      // Đặt hàng thành công
-      await api.delete("/cart/deleteCart", { withCredentials: true });
-      saveCart([]); // clear localStorage
-      setCart([]);
-      fetchCartCount();
-
-      if (payMent === "Thanh toán qua ngân hàng") {
-        if (response.data && response.data._id) {
-          navigate(`/gio-hang/thanh-toan/${response.data._id}`);
-        } else {
-          alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
-          setIsAdding(false);
-        }
-      } else {
-        setpopupSuccess(true);
-        setTimeout(() => {
-          window.location.reload();
-          navigate("/");
-        }, 2000);
-      }
+      const response = await api.post("/bill/create", {
+        products: products,
+        Intomoney: totalOrder,
+        UserName: user[0].name,
+        PaymentForm: payMent,
+        province: address[0].province,
+        District: address[0].district,
+        ward: address[0].ward,
+        road: address[0].road,
+        alternateReceiverName,
+        alternateReceiverPhone,
+      });
     } catch (err) {
       if (
         err.response &&
@@ -271,6 +208,102 @@ function Carts() {
       setIsAdding(false);
     }
     setIsAdding(false);
+
+    // try {
+    //   if (!address || address.length === 0) {
+    //     alert("Vui lòng nhập địa chỉ giao hàng.");
+    //     setIsAdding(false);
+    //     if (changeAddressRef.current) {
+    //       changeAddressRef.current.scrollIntoView({
+    //         behavior: "smooth",
+    //         block: "center",
+    //       });
+    //       changeAddressRef.current.classList.add(styles.highlightChangeAddress);
+    //       setTimeout(() => {
+    //         if (changeAddressRef.current) {
+    //           changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
+    //         }
+    //       }, 3000);
+    //     }
+    //     return;
+    //   }
+
+    //   let alternateReceiverName, alternateReceiverPhone;
+    //   if (otherReceiver && receiverInfo.name && isValidVietnamPhoneNumber(receiverInfo.phone)) {
+    //     alternateReceiverName = receiverInfo.name;
+    //     alternateReceiverPhone = receiverInfo.phone;
+    //   }
+
+    //   // Build product data để gửi lên server
+    //   const products = cart.map((item) => ({
+    //     productID: item.id,
+    //     uid: item.userID,
+    //     name: item.name,
+    //     price: item.price,
+    //     quantity: item.quantity,
+    //     img: item.image,
+    //   }));
+
+    //   // Lấy đúng số tiền chưa giảm trừ điểm, backend tự xử lý logic useToken
+    //   const totalPriceNum = cart.reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
+
+    //   const response = await api.post(
+    //     "/bill/create",
+    //     {
+    //       province: address[0]?.provinces?.nameProvinces,
+    //       District: address[0]?.districts?.nameDistricts,
+    //       ward: address[0]?.wards?.nameWards,
+    //       road: address[0]?.road?.nameRoad,
+    //       Intomoney: totalPriceNum, // truyền số (server sẽ convert)
+    //       products,
+    //       PaymentForm: payMent,
+    //       useToken,
+    //       alternateReceiverName,
+    //       alternateReceiverPhone,
+    //     },
+    //     { withCredentials: true }
+    //   );
+    //   if (response.data.errorList) {
+    //     setOutOfStockProducts(response.data.errorList);
+    //     setIsAdding(false);
+    //     return;
+    //   }
+
+    //   // Đặt hàng thành công
+    //   await api.delete("/cart/deleteCart", { withCredentials: true });
+    //   saveCart([]); // clear localStorage
+    //   setCart([]);
+    //   fetchCartCount();
+
+    //   if (payMent === "Thanh toán qua ngân hàng") {
+    //     if (response.data && response.data._id) {
+    //       navigate(`/gio-hang/thanh-toan/${response.data._id}`);
+    //     } else {
+    //       alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
+    //       setIsAdding(false);
+    //     }
+    //   } else {
+    //     setpopupSuccess(true);
+    //     setTimeout(() => {
+    //       window.location.reload();
+    //       navigate("/");
+    //     }, 2000);
+    //   }
+    // } catch (err) {
+    //   if (
+    //     err.response &&
+    //     err.response.status === 400 &&
+    //     Array.isArray(err.response.data?.products)
+    //   ) {
+    //     setOutOfStockProducts(err.response.data.products);
+    //     setIsAdding(false);
+    //     return;
+    //   }
+    //   alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
+    //   console.error(err);
+    //   setIsAdding(false);
+    // }
+    // setIsAdding(false);
   };
 
   // Nếu giỏ hàng trống
@@ -295,46 +328,32 @@ function Carts() {
                 <div className={styles.chose_address}>Thông Tin Nhận Hàng</div>
                 <div className={styles.address_user}>
                   <NavLink to="/gio-hang/cap-nhap-dia-chi">
-                    <span ref={changeAddressRef}>{address.length > 0 ? "Đổi" : "Thêm"}</span>
+                    <span ref={changeAddressRef}>
+                      {address.length > 0 ? "Đổi" : "Thêm"}
+                    </span>
                   </NavLink>
                   <div className={styles.textBasic}>
                     <div className={styles.name}>
-                      {user.name ? (
-                        user.name
-                      ) : (
-                        <input
-                          ref={inputNameRef}
-                          className={styles.inputName}
-                          value={fullName}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            setFullname(value);
-
-                            if (debounceTimer.current) {
-                              clearTimeout(debounceTimer.current);
-                            }
-                            debounceTimer.current = setTimeout(() => {
-                              if (user?.uid && value.trim() !== "") {
-                                api
-                                  .put(`/sign-in/${user.uid}/fillInInformation`, {
-                                    name: value.trim(),
-                                  }, { withCredentials: true })
-                                  .then(() => {})
-                                  .catch((err) => {
-                                    console.error("Lỗi khi cập nhật tên:", err);
-                                  });
-                              }
-                            }, 500);
-                          }}
-                          placeholder="họ và tên"
-                        />
-                      )}
+                      {user.length > 0
+                        ? user.map((users, index) => (
+                            <div key={index}>
+                              {users.name}, {users.phone}
+                            </div>
+                          ))
+                        : ""}
                     </div>
                     <div>{user.phone}</div>
                   </div>
                   <p className={styles.addressOrder}>
                     {address.length > 0
-                      ? `${address[0]?.road?.nameRoad}, ${address[0]?.wards?.nameWards}, ${address[0]?.districts?.nameDistricts}, ${address[0]?.provinces?.nameProvinces}`
+                      ? address.map((Addr, index) => {
+                          return (
+                            <div key={index}>
+                              {Addr.province}, {Addr.district}, {Addr.ward},{" "}
+                              {Addr.road}
+                            </div>
+                          );
+                        })
                       : "Thêm địa chỉ nhận hàng"}
                   </p>
                 </div>
@@ -457,14 +476,19 @@ function Carts() {
                 <div className={styles.content}>
                   <p>
                     Tổng tiền:{" "}
-                    {(parseFloat(item.price) * item.quantity).toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                    {(parseFloat(item.price) * item.quantity).toLocaleString(
+                      "vi-VN",
+                      {
+                        style: "currency",
+                        currency: "VND",
+                      }
+                    )}
                   </p>
                   <div className={styles.quantityControl}>
                     <button
-                      onClick={() => handleQuantityChange(item.id, "updateDecrease")}
+                      onClick={() =>
+                        handleQuantityChange(item.id, "updateDecrease")
+                      }
                       className={styles.tru}
                     >
                       -
@@ -473,10 +497,14 @@ function Carts() {
                       type="number"
                       min="1"
                       value={item.quantity}
-                      onChange={(e) => handleQuantityInputChange(item.id, e.target.value)}
+                      onChange={(e) =>
+                        handleQuantityInputChange(item.id, e.target.value)
+                      }
                     />
                     <button
-                      onClick={() => handleQuantityChange(item.id, "updateincrease")}
+                      onClick={() =>
+                        handleQuantityChange(item.id, "updateincrease")
+                      }
                       className={styles.cong}
                     >
                       +
@@ -499,7 +527,13 @@ function Carts() {
                     <td className={styles.totalAll}>{totalOrder}</td>
                   </tr>
                   <tr>
-                    <td style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <td
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
                       <input onClick={handleChecker} type="checkbox" />
                       <img
                         src="https://dtweb.onrender.com/uploads/coin-dt.svg"
@@ -580,7 +614,9 @@ function Carts() {
                         </li>
                         <li>
                           <label
-                            onClick={() => setPayMent("Thanh toán qua ngân hàng")}
+                            onClick={() =>
+                              setPayMent("Thanh toán qua ngân hàng")
+                            }
                           >
                             <input
                               type="radio"
@@ -627,8 +663,14 @@ function Carts() {
                     </div>
                   </BackgroundPopup>
                 </div>
-                <button onClick={handlePay} className={styles.btn} disabled={isAdding}>
-                  <span className={styles.orderText}>{isAdding ? "đang xử lý đơn: " : "Đặt Hàng: "}</span>
+                <button
+                  onClick={handlePay}
+                  className={styles.btn}
+                  disabled={isAdding}
+                >
+                  <span className={styles.orderText}>
+                    {isAdding ? "đang xử lý đơn: " : "Đặt Hàng: "}
+                  </span>
                   <span className={styles.orderPrice}>{totalOrder}</span>
                 </button>
               </div>
