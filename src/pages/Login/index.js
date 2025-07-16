@@ -20,7 +20,6 @@ function Login() {
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
 
-
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
@@ -42,47 +41,47 @@ function Login() {
 
   // Gửi OTP
   const handleSendOtp = async () => {
-  if (!isValidVietnamPhoneNumber(phone)) {
-    setError(true);
-    setPhone("");
-    return;
-  }
-
-  if (isSending) return; // chặn nếu đang gửi
-
-  setIsSending(true); // khóa nút
-  try {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            console.log("reCAPTCHA solved:", response);
-          },
-        }
-      );
+    if (!isValidVietnamPhoneNumber(phone)) {
+      setError(true);
+      setPhone("");
+      return;
     }
 
-    const formattedPhone = formatPhoneNumber(phone);
+    if (isSending) return; // chặn nếu đang gửi
 
-    const appVerifier = window.recaptchaVerifier;
-    const confirmation = await signInWithPhoneNumber(
-      auth,
-      formattedPhone,
-      appVerifier
-    );
-    setConfirmationResult(confirmation);
-    setIsOtpSent(true);
-    alert("OTP đã được gửi!");
-  } catch (error) {
-    console.error("Lỗi gửi OTP:", error);
-    alert("Không thể gửi OTP. Vui lòng thử lại sau.");
-  } finally {
-    setIsSending(false); // mở lại nút sau khi xử lý xong
-  }
-};
+    setIsSending(true); // khóa nút
+    try {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: (response) => {
+              console.log("reCAPTCHA solved:", response);
+            },
+          }
+        );
+      }
+
+      const formattedPhone = formatPhoneNumber(phone);
+
+      const appVerifier = window.recaptchaVerifier;
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        formattedPhone,
+        appVerifier
+      );
+      setConfirmationResult(confirmation);
+      setIsOtpSent(true);
+      alert("OTP đã được gửi!");
+    } catch (error) {
+      console.error("Lỗi gửi OTP:", error);
+      alert("Không thể gửi OTP. Vui lòng thử lại sau.");
+    } finally {
+      setIsSending(false); // mở lại nút sau khi xử lý xong
+    }
+  };
 
   // Xác thực OTP
   const handleVerifyOtp = async () => {
@@ -100,7 +99,10 @@ function Login() {
       alert("Xác thực thành công!");
 
       // Gửi token lên backend
-      const response = await api.post("/sign-in", { idToken, numberPhone: phone });
+      const response = await api.post("/sign-in", {
+        idToken,
+        numberPhone: phone,
+      });
       // console.log("Đăng nhập thành công:", response.data);
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
       localStorage.setItem("authToken", idToken);
@@ -110,18 +112,18 @@ function Login() {
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
-    }finally {
-    setIsSending(false); // mở lại nút sau khi xử lý xong
-  }
+    } finally {
+      setIsSending(false); // mở lại nút sau khi xử lý xong
+    }
   };
 
   return (
     <div className={styles.wrapper}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} className={`${styles.paper}`}>
-          <Typography variant="h5" className="text-center mb-3">
-            Đăng Nhập
-          </Typography>
+          <p  className="text-center mb-3">
+            Để xem "Đơn hàng của bạn" vui lòng nhập Số điện thoại đã đặt hàng
+          </p>
           <form onSubmit={(e) => e.preventDefault()}>
             <TextField
               fullWidth
@@ -180,7 +182,6 @@ function Login() {
                 className="mt-3"
                 onClick={handleVerifyOtp}
                 disabled={otp.length < 4 || isSending}
-                
               >
                 {isSending ? "Đợi Xác Thực..." : "Xác Thực OTP"}
               </Button>

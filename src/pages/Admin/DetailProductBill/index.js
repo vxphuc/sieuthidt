@@ -21,6 +21,7 @@ function DetailProductBill() {
     };
     fetchOrder();
   }, []);
+  console.log(order)
 
   const handleclickreturn = () =>{
     navigate(-1)
@@ -34,7 +35,7 @@ function DetailProductBill() {
         <div className="col-md-5 bg-light-subtle mt-3">
           <h5>Thông tin người nhận</h5>
           <div>
-            <p>Người nhận: {order ? order.user.name : "đang tải..."}</p>
+            <p>Người nhận: {order ? order.bill.UserName : "đang tải..."}</p>
             <p>Số điện thoại: {order? order.user.numberPhone : 'đang tải...'}</p>
             <p>
               Địa chỉ:{" "}
@@ -42,6 +43,8 @@ function DetailProductBill() {
                 ? `${order.bill.road}, ${order.bill.ward}, ${order.bill.District}, ${order.bill.province}`
                 : "đang tải..."}
             </p>
+            <p>Người nhận hộ: {order ? order.bill.alternateReceiverName : "đang tải..."}</p>
+            <p>Số điện thoại người nhận hộ: {order? order.bill.alternateReceiverPhone : 'đang tải...'}</p>
           </div>
         </div>
         <div className="col-md-6 bg-light-subtle mt-3">

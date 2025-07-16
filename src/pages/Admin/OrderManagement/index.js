@@ -196,7 +196,7 @@ function OrderManagement() {
                     {order._id}
                   </NavLink>
                 </td>
-                <td>{order.userInfo.name}</td>
+                <td>{order.UserName}</td>
                 <td>{order.userInfo.numberPhone}</td>
                 <td>{`${order.road}, ${order.ward}, ${order.District}, ${order.province}`}</td>
                 <td>{totalPrice}</td>

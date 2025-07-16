@@ -15,6 +15,7 @@ import ReviewList from "../../components/Ratingstars/ReviewList/ReviewList.js";
 import ReviewForm from "../../components/Ratingstars//ReviewForm/ReviewForm.js";
 import { CartContext } from "../../contexts/CartContext.js";
 import BackgroundPopup from "../../components/BackgroundPopup";
+import { getCart, saveCart } from "../../services/cartService.js";
 
 function DetailProduct() {
   const { slug } = useParams();
@@ -37,21 +38,8 @@ function DetailProduct() {
   const confirmAddToCart = () => {
     if (isAdding) return; // chặn nếu đang gửi
     setIsAdding(true);
-    api
-      .post(
-        "/cart/create",
-        {
-          productID: popupProduct._id,
-          quantity: quantity,
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        fetchCartCount();
-        setPopupProduct(null); // đóng popup
-      })
-      .catch((error) => navigate("/dang-nhap"))
-      .finally(() => setIsAdding(false));
+    
+    setIsAdding(false)
   };
 
   useEffect(() => {
@@ -92,24 +80,6 @@ function DetailProduct() {
 
   const handlechooseImg = (index) => {
     setCurrentImage(index);
-  };
-
-  const handleBuy = (product) => {
-    api
-      .post(
-        "/cart/create",
-        {
-          productID: product,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        fetchCartCount(); // Cập nhật số lượng giỏ hàng sau khi thêm sản phẩm
-      })
-      .catch((error) => navigate("/dang-nhap"));
   };
 
   return (

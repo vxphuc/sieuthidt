@@ -192,6 +192,7 @@ function Carts() {
         road: address[0].road,
         alternateReceiverName,
         alternateReceiverPhone,
+        phoneNumber: user[0].phone,
       });
     } catch (err) {
       if (

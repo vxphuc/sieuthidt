@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { getCart, saveCart } from "../../services/cartService";
 
 function Product() {
   const { slug } = useParams();
@@ -27,17 +28,6 @@ function Product() {
 
   const { fetchCartCount } = useContext(CartContext);
 
-  // ** Thêm hàm fetchCartCount để không bị lỗi 'not defined' **
-  // const fetchCartCount = () => {
-  //   api
-  //     .get("/cart/count", { withCredentials: true })
-  //     .then((res) => {
-  //       console.log("Số lượng giỏ hàng hiện tại:", res.data.count);
-  //       // Có thể cập nhật state hoặc context nếu có
-  //     })
-  //     .catch((err) => console.error("Lỗi lấy số lượng giỏ hàng:", err));
-  // };
-
   const openPopupBuy = (product) => {
     setPopupProduct(product);
     setQuantity(1);
@@ -48,17 +38,22 @@ function Product() {
   const confirmAddToCart = () => {
     if (isAdding) return;
     setIsAdding(true);
-    api.post(
-        "/cart/create",
-        { productID: popupProduct._id, quantity: quantity },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        fetchCartCount();
-        setPopupProduct(null);
+    let cart = getCart();
+    const productInCart = cart.findIndex((item) => item.id === popupProduct._id);
+    if(productInCart !== -1) {
+      cart[productInCart].quantity += quantity;
+    }else{
+      cart.push({
+        id: popupProduct._id,
+        name: popupProduct.name,
+        image: popupProduct.image[0],
+        price: popupProduct.price.$numberDecimal,
+        quantity: quantity,
       })
-      .catch((error) => navigate("/dang-nhap"))
-      .finally(() => setIsAdding(false));
+    }
+    saveCart(cart)
+    setPopupProduct(null)
+    setIsAdding(false)
   };
 
   useEffect(() => {
