@@ -38,8 +38,22 @@ function DetailProduct() {
   const confirmAddToCart = () => {
     if (isAdding) return; // chặn nếu đang gửi
     setIsAdding(true);
-    
-    setIsAdding(false)
+    let cart = getCart();
+    const cart_id = cart.findIndex((item) => item.id === popupProduct._id);
+    if (cart_id !== -1) {
+      cart[cart_id].quantity += quantity;
+    } else {
+      cart.push({
+        id: popupProduct._id,
+        image: popupProduct.image[0],
+        name: popupProduct.name,
+        price: popupProduct.priceDiscount.$numberDecimal,
+        quantity: quantity,
+      });
+    }
+    saveCart(cart)
+    setPopupProduct(null)
+    setIsAdding(false);
   };
 
   useEffect(() => {
@@ -289,7 +303,7 @@ function DetailProduct() {
               >
                 <FontAwesomeIcon icon={faMinus} />
               </button>
-              {/* <input
+              <input
                 type="number"
                 min="1"
                 value={quantity}
@@ -298,8 +312,8 @@ function DetailProduct() {
                   setQuantity(isNaN(value) || value < 1 ? 1 : value);
                 }}
                 className={styles.quantityInput}
-              /> */}
-              <input
+              />
+              {/* <input
                 type="number"
                 min="1"
                 max="2"
@@ -311,13 +325,14 @@ function DetailProduct() {
                   setQuantity(value);
                 }}
                 className={styles.quantityInput}
-              />
-              {/* <button onClick={() => setQuantity((prev) => prev + 1)}> */}
-              <button onClick={() => setQuantity((prev) => Math.min(prev + 1, 2))}>
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
+              /> */}
+              <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
             </div>
-            <button className={styles.confirmBtn} onClick={confirmAddToCart} disabled={isAdding}>
+            <button
+              className={styles.confirmBtn}
+              onClick={confirmAddToCart}
+              disabled={isAdding}
+            >
               {isAdding ? "Đang thêm..." : "Thêm vào giỏ hàng"}
             </button>
           </div>

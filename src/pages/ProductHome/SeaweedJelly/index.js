@@ -6,6 +6,7 @@ import { CartContext } from "../../../contexts/CartContext";
 import BackgroundPopup from "../../../components/BackgroundPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { saveCart, getCart } from "../../../services/cartService";
 
 function SeaweedJelly() {
   const [product, setProduct] = useState([]);
@@ -19,22 +20,24 @@ function SeaweedJelly() {
     setQuantity(1); // reset lại số lượng
   };
   const confirmAddToCart = () => {
-    api
-      .post(
-        "/cart/create",
-        {
-          productID: popupProduct._id,
-          quantity: quantity,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        fetchCartCount();
-        setPopupProduct(null); // đóng popup
-      })
-      .catch((error) => navigate("/dang-nhap"));
+    if (isAdding) return; // chặn nhấn liên tục
+    setIsAdding(true);
+   let cart = getCart();
+       const cart_id = cart.findIndex((item) => item.id === popupProduct._id);
+       if (cart_id !== -1) {
+         cart[cart_id].quantity += quantity;
+       } else {
+         cart.push({
+           id: popupProduct._id,
+           image: popupProduct.image[0],
+           name: popupProduct.name,
+           price: popupProduct.priceDiscount.$numberDecimal,
+           quantity: quantity,
+         });
+       }
+       saveCart(cart)
+       setPopupProduct(null)
+       setIsAdding(false);
   };
 
   useEffect(() => {
@@ -45,23 +48,6 @@ function SeaweedJelly() {
       });
   }, []);
 
-  const handleBuy = (product) => {
-    api
-      .post(
-        "/cart/create",
-        {
-          productID: product,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        fetchCartCount();
-      })
-      .catch((error) => navigate("/dang-nhap"));
-  };
 
   return (
     <div>

@@ -194,6 +194,21 @@ function Carts() {
         alternateReceiverPhone,
         phoneNumber: user[0].phone,
       });
+      console.log(response.data._id);
+      if (payMent === "Thanh toán qua ngân hàng") {
+        if (response.data && response.data._id) {
+          navigate(`/gio-hang/thanh-toan/${response.data._id}`);
+        } else {
+          alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
+          setIsAdding(false);
+        }
+      } else {
+        setpopupSuccess(true);
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000);
+      }
+      localStorage.removeItem("cart");
     } catch (err) {
       if (
         err.response &&

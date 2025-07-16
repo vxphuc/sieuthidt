@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
+import { saveCart, getCart } from "../../services/cartService";
 
 function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -52,23 +53,22 @@ function SearchPage() {
     setQuantity(1);
   };
   const confirmAddToCart = async () => {
-    const res = await api
-      .post(
-        "/cart/create",
-        {
-          productID: popupProduct._id,
-          quantity: quantity,
-        },
-        {
-          withCredentials: true,
+    let cart = getCart();
+        const cart_id = cart.findIndex((item) => item.id === popupProduct._id);
+        if (cart_id !== -1) {
+          cart[cart_id].quantity += quantity;
+        } else {
+          cart.push({
+            id: popupProduct._id,
+            image: popupProduct.image[0],
+            name: popupProduct.name,
+            price: popupProduct.priceDiscount.$numberDecimal,
+            quantity: quantity,
+          });
         }
-      )
-      .then((res) => {
-        fetchCartCount();
-        setPopup(!popup); // đóng popup
-        setQuantity(1);
-      })
-      .catch((error) => navigate("/dang-nhap"));
+        saveCart(cart)
+        setPopupProduct(null)
+        setPopup(false)
   };
 
   return (
