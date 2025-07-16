@@ -11,8 +11,19 @@ export const CartProvider = ({ children }) => {
   // Hàm lấy số lượng giỏ hàng từ server
   const fetchCartCount = async () => {
     try {
-      const res = await api.get("/cart");
-      setCartCount(res.data.itemCount);
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        // Người dùng đã đăng nhập → gọi API
+        const res = await api.get("/cart", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCartCount(res.data.itemCount);
+      } else {
+        // Người dùng chưa đăng nhập → dùng localStorage
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        setCartCount(totalCount);
+      }
     } catch (err) {
       console.error("Lỗi lấy số lượng giỏ hàng:", err);
     }

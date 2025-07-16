@@ -105,7 +105,8 @@ function Home() {
         quantity: quantity,
       });
     }
-    saveCart(cart)
+    saveCart(cart);
+    window.dispatchEvent(new Event("cart-updated"));
     fetchCartCount();
     setPopupProduct(null);
     setIsAdding(false);

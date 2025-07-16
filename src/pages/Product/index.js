@@ -52,6 +52,7 @@ function Product() {
       })
     }
     saveCart(cart)
+    window.dispatchEvent(new Event("cart-updated"));
     setPopupProduct(null)
     setIsAdding(false)
   };

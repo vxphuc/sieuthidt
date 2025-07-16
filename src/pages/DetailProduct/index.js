@@ -51,8 +51,9 @@ function DetailProduct() {
         quantity: quantity,
       });
     }
-    saveCart(cart)
-    setPopupProduct(null)
+    saveCart(cart);
+    window.dispatchEvent(new Event("cart-updated"));
+    setPopupProduct(null);
     setIsAdding(false);
   };
 
