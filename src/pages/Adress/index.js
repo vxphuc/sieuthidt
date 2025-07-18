@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { faChevronLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BackgroundPopup from "../../components/BackgroundPopup";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef  } from "react";
 import axios from "axios";
-import { saveName, saveAddress } from "../../services/cartService";
+import { saveName, saveAddress,getAddress, getName } from "../../services/cartService";
 
 function Adress() {
   const navigate = useNavigate();
@@ -25,7 +25,13 @@ function Adress() {
     name: "",
     phone: "",
   });
-
+  // phần bắt nhập tt
+  const nameRef = useRef(null);
+  const phoneRef = useRef(null);
+  const provinceRef = useRef(null);
+  const districtRef = useRef(null);
+  const wardRef = useRef(null);
+  const roadRef = useRef(null);
   // tỉnh
   useEffect(() => {
     axios
@@ -80,9 +86,98 @@ function Adress() {
     const ward = Ward.find((ward) => ward.code.toString() === selectedCode);
     setSelectedWard(ward);
   };
+  useEffect(() => {
+  const savedAddress = getAddress();
+  const savedUser = getName();
 
+  if (savedAddress && savedAddress.length > 0) {
+    const addr = savedAddress[0];
+    setRoad(addr.road || "");
+
+    // ⚠️ Dùng name để tìm object đầy đủ từ mảng gốc
+    const selectedProvinceObj = Province.find(p => p.name === addr.province);
+    setSelectedProvince(selectedProvinceObj);
+
+    // Cần fetch huyện tương ứng trước rồi mới set huyện
+    if (selectedProvinceObj) {
+      axios(`https://provinces.open-api.vn/api/p/${selectedProvinceObj.code}?depth=2`)
+        .then((res) => {
+          const districts = res.data.districts;
+          setDistrict(districts);
+
+          const selectedDistrictObj = districts.find(d => d.name === addr.district);
+          setSelectedDistrict(selectedDistrictObj);
+
+          // Tiếp tục fetch xã/phường
+          if (selectedDistrictObj) {
+            axios(`https://provinces.open-api.vn/api/d/${selectedDistrictObj.code}?depth=2`)
+              .then((res) => {
+                const wards = res.data.wards;
+                setWard(wards);
+
+                const selectedWardObj = wards.find(w => w.name === addr.ward);
+                setSelectedWard(selectedWardObj);
+              });
+          }
+        });
+    }
+  }
+
+  if (savedUser && savedUser.length > 0) {
+    setData({
+      name: savedUser[0].name || "",
+      phone: savedUser[0].phone || ""
+    });
+  }
+}, [Province]);
   const handleSubmit = (e) => {
     e.preventDefault();
+    // chua nhap du tt
+    const addHighlight = (ref) => {
+    if (ref.current) {
+      ref.current.classList.remove("highlight-missing");
+      setTimeout(() => {
+        ref.current.classList.add("highlight-missing");
+        ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
+    }
+    };
+
+    const showAlert = () => {
+      alert("⚠️ Vui lòng nhập đủ thông tin trước khi xác nhận!");
+    };
+
+    if (!dataUser.name.trim()) {
+      addHighlight(nameRef);
+      showAlert();
+      return;
+    }
+    if (!dataUser.phone.trim()) {
+      addHighlight(phoneRef);
+      showAlert();
+      return;
+    }
+    if (!selectedProvince) {
+      addHighlight(provinceRef);
+      showAlert();
+      return;
+    }
+    if (!selectedDistrict) {
+      addHighlight(districtRef);
+      showAlert();
+      return;
+    }
+    if (!selectedWard) {
+      addHighlight(wardRef);
+      showAlert();
+      return;
+    }
+    if (!road.trim()) {
+      addHighlight(roadRef);
+      showAlert();
+      return;
+    }
+
     const address = [{
       province: selectedProvince.name,
       district: selectedDistrict.name,
@@ -112,21 +207,35 @@ function Adress() {
         </div>
         <div className={styles.relative}>
           <input
+            ref={phoneRef}
             className={styles.peer}
-            onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
+            value={dataUser.phone}
+            onChange={(e) => 
+              {
+              phoneRef.current.classList.remove("highlight-missing");
+              const onlyNums = e.target.value.replace(/\D/g, "");
+              setData((prev) => ({ ...prev, phone: onlyNums }))}}
             placeholder="Số Điện Thoại...*"
           ></input>
         </div>
         <div className={styles.relative}>
           <input
+            ref={nameRef}
+            value={dataUser.name} 
             className={styles.peer}
-            onChange={(e) => setData((prev) => ({ ...prev, name: e.target.value }))}
+            onChange={(e) =>
+              {
+              nameRef.current.classList.remove("highlight-missing");
+              setData((prev) => ({ ...prev, name: e.target.value }))}}
             placeholder="Họ Và Tên...*"
           ></input>
         </div>
         <div className="d-flex flex-wrap justify-between">
           <div className={styles.cbProvince}>
-            <select onChange={handleProvinceChange} className={styles.Province}>
+            <select
+              ref={provinceRef}
+              value={selectedProvince?.code || ""}
+             onChange={handleProvinceChange} className={styles.Province}>
               <option value="">Chọn Tỉnh/Thành Phố</option>
               {Province.map((province) => (
                 <option key={province.code} value={province.code}>
@@ -136,7 +245,10 @@ function Adress() {
             </select>
           </div>
           <div className={styles.cbProvince}>
-            <select onChange={handleDistrictChange} className={styles.Province}>
+            <select
+              ref={districtRef}
+              value={selectedDistrict?.code || ""}
+            onChange={handleDistrictChange} className={styles.Province}>
               <option value="">Chọn Quận/Huyện</option>
               {District.map((district) => (
                 <option key={district.code} value={district.code}>
@@ -146,7 +258,10 @@ function Adress() {
             </select>
           </div>
           <div className={styles.relativeward}>
-            <select onChange={handleWardChange} className={styles.Province}>
+            <select
+              ref={wardRef}
+              value={selectedWard?.code || ""}
+            onChange={handleWardChange} className={styles.Province}>
               <option value="">Chọn Xã/Phường</option>
               {Ward.map((ward) => (
                 <option key={ward.code} value={ward.code}>
@@ -157,7 +272,12 @@ function Adress() {
           </div>
           <div className={styles.relativeward}>
             <input
-              onChange={(e) => setRoad(e.target.value)}
+              ref={roadRef}
+              value={road} 
+              onChange={(e) =>
+                {
+                roadRef.current.classList.remove("highlight-missing");
+                setRoad(e.target.value)}}
               className={styles.peer}
               placeholder="nhập tên đường, số nhà...*"
             ></input>
