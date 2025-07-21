@@ -209,6 +209,7 @@ function Carts() {
         }, 2000);
       }
       localStorage.removeItem("cart");
+      fetchCartCount();
     } catch (err) {
       if (
         err.response &&

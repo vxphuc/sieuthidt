@@ -157,6 +157,12 @@ function Adress() {
       showAlert();
       return;
     }
+    const isValidPhone = /^0[3|5|7|8|9][0-9]{8}$/.test(dataUser.phone);
+    if (!isValidPhone) {
+      addHighlight(phoneRef);
+      alert("⚠️ Số điện thoại không đúng định dạng hợp lệ!");
+      return;
+    }
     if (!selectedProvince) {
       addHighlight(provinceRef);
       showAlert();
