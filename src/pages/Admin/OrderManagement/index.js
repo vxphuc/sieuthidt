@@ -19,6 +19,7 @@ function OrderManagement() {
     };
     fetchOrders();
   }, []);
+  console.log(orders)
 
   const handleConfirmOrder = async (orderId) => {
     try {
