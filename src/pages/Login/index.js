@@ -9,6 +9,7 @@ import axios from "axios";
 import styles from "./login.module.css";
 import api from "../../api/axios"; // Import axios instance
 import { useNavigate } from "react-router-dom";
+import { getName, saveName } from "../../services/cartService";
 
 function Login() {
   const [phone, setPhone] = useState("");
@@ -19,6 +20,7 @@ function Login() {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
+  const name = getName()
 
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
@@ -103,6 +105,9 @@ function Login() {
         idToken,
         numberPhone: phone,
       });
+      name[0].phone = phone
+      saveName(name)
+
       // console.log("Đăng nhập thành công:", response.data);
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
       localStorage.setItem("authToken", idToken);
