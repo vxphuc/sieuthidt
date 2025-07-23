@@ -7,7 +7,7 @@ function Footer() {
           <div className="row">
             <div className="col-6 col-md-3">
               <h5>Tổng đài hỗ trợ</h5>
-              <p><strong>Gọi mua:</strong> <a href="tel:0847236868.">0847.236.868</a></p>
+              <p><strong>Gọi mua:</strong> <a href="tel:0847236868.">0833.416.868</a></p>
               <p><strong>Kiếu nại:</strong> <a href="tel:0847236868.">0847.236.868.</a></p>
             </div>
             <div className="col-6 col-md-3">
@@ -53,7 +53,7 @@ function Footer() {
             <hr />
             <p className="text-center text-muted">
               Theo Nghị quyết 202/2025/QH15 về việc sắp xếp đơn vị hành chính Địa chỉ: KCN Đắc Lộc, Phường bắc Nha Trang, Khánh Hòa
-              Điện thoại: 0258.222.6999 - 0833.831.183. Email: info@dtvietnam.com
+              Điện thoại: 0258.222.6999 - 0833.831.183. Email: du.nguyen@dtvietnam.com
             </p>
           </div>
         </footer>
