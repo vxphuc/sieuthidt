@@ -198,7 +198,7 @@ function OrderManagement() {
                   </NavLink>
                 </td>
                 <td>{order.UserName}</td>
-                <td>{order.userInfo.numberPhone}</td>
+                <td>{order.phoneNumber}</td>
                 <td>{`${order.road}, ${order.ward}, ${order.District}, ${order.province}`}</td>
                 <td>{totalPrice}</td>
                 <td>{order.OrderStatus}</td>

@@ -36,7 +36,7 @@ function DetailProductBill() {
           <h5>Thông tin người nhận</h5>
           <div>
             <p>Người nhận: {order ? order.bill.UserName : "đang tải..."}</p>
-            <p>Số điện thoại: {order? order.user.numberPhone : 'đang tải...'}</p>
+            <p>Số điện thoại: {order? order.bill.phoneNumber : 'đang tải...'}</p>
             <p>
               Địa chỉ:{" "}
               {order
