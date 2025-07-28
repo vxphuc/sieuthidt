@@ -29,7 +29,7 @@ function Taikhoanquanly() {
   return (
     <div>
       <table className="table">
-        <thead>
+        <thead> 
           <tr>
             <th scope="col">mã tài khoản</th>
             <th scope="col">họ và tên</th>
