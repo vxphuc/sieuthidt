@@ -4,14 +4,20 @@ import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { NavLink } from "react-router-dom";
+import {getName} from '../../services/cartService'
 
 function Bill() {
   const [bills, setBills] = useState([]);
 
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await api.get("/bill/user", {
-        withCredentials: true,
+      const numberPhone = getName()
+      const phone = numberPhone[0].phone
+      console.log(phone)
+      const response = await api.get(`/bill/user`,{
+        params:{
+          phone
+        }
       });
       setBills(response.data);
     };

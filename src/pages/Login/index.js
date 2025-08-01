@@ -42,75 +42,76 @@ function Login() {
   };
 
   // Gửi OTP
-  const handleSendOtp = async () => {
-    if (!isValidVietnamPhoneNumber(phone)) {
-      setError(true);
-      setPhone("");
-      return;
-    }
+  // const handleSendOtp = async () => {
+  //   if (!isValidVietnamPhoneNumber(phone)) {
+  //     setError(true);
+  //     setPhone("");
+  //     return;
+  //   }
 
-    if (isSending) return; // chặn nếu đang gửi
+  //   if (isSending) return; // chặn nếu đang gửi
 
-    setIsSending(true); // khóa nút
-    try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          {
-            size: "invisible",
-            callback: (response) => {
-              console.log("reCAPTCHA solved:", response);
-            },
-          }
-        );
-      }
+  //   setIsSending(true); // khóa nút
+  //   try {
+  //     if (!window.recaptchaVerifier) {
+  //       window.recaptchaVerifier = new RecaptchaVerifier(
+  //         auth,
+  //         "recaptcha-container",
+  //         {
+  //           size: "invisible",
+  //           callback: (response) => {
+  //             console.log("reCAPTCHA solved:", response);
+  //           },
+  //         }
+  //       );
+  //     }
 
-      const formattedPhone = formatPhoneNumber(phone);
+  //     const formattedPhone = formatPhoneNumber(phone);
 
-      const appVerifier = window.recaptchaVerifier;
-      const confirmation = await signInWithPhoneNumber(
-        auth,
-        formattedPhone,
-        appVerifier
-      );
-      setConfirmationResult(confirmation);
-      setIsOtpSent(true);
-      alert("OTP đã được gửi!");
-    } catch (error) {
-      console.error("Lỗi gửi OTP:", error);
-      alert("Không thể gửi OTP. Vui lòng thử lại sau.");
-    } finally {
-      setIsSending(false); // mở lại nút sau khi xử lý xong
-    }
-  };
+  //     const appVerifier = window.recaptchaVerifier;
+  //     const confirmation = await signInWithPhoneNumber(
+  //       auth,
+  //       formattedPhone,
+  //       appVerifier
+  //     );
+  //     setConfirmationResult(confirmation);
+  //     setIsOtpSent(true);
+  //     alert("OTP đã được gửi!");
+  //   } catch (error) {
+  //     console.error("Lỗi gửi OTP:", error);
+  //     alert("Không thể gửi OTP. Vui lòng thử lại sau.");
+  //   } finally {
+  //     setIsSending(false); // mở lại nút sau khi xử lý xong
+  //   }
+  // };
 
   // Xác thực OTP
   const handleVerifyOtp = async () => {
     setIsSending(true);
-    if (!confirmationResult) {
-      alert("Không tìm thấy kết quả xác thực.");
-      return;
-    }
+    // if (!confirmationResult) {
+    //   alert("Không tìm thấy kết quả xác thực.");
+    //   return;
+    // }
     try {
-      const result = await confirmationResult.confirm(otp);
-      const user = result.user;
-      const idToken = await user.getIdToken();
+      // const result = await confirmationResult.confirm(otp);
+      // const user = result.user;
+      // const idToken = await user.getIdToken();
 
-      setToken(idToken);
-      alert("Xác thực thành công!");
+      // setToken(idToken);
+      // alert("Xác thực thành công!");
 
       // Gửi token lên backend
       const response = await api.post("/sign-in", {
-        idToken,
+        // idToken,
         numberPhone: phone,
       });
+      console.log(123)
       name[0].phone = phone
       saveName(name)
 
       // console.log("Đăng nhập thành công:", response.data);
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
-      localStorage.setItem("authToken", idToken);
+      // localStorage.setItem("authToken", idToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       // Chuyển hướng về trang chủ
       window.location.href = "/";
@@ -139,11 +140,11 @@ function Login() {
               onChange={inputPhone}
               inputProps={{ maxLength: 10 }}
               autoFocus
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !isOtpSent && phone.length === 10) {
-                  handleSendOtp();
-                }
-              }}
+              // onKeyDown={(e) => {
+              //   if (e.key === "Enter" && !isOtpSent && phone.length === 10) {
+              //     handleSendOtp();
+              //   }
+              // }}
             />
             {error ? (
               <Typography variant="body2" color="error">
@@ -174,10 +175,11 @@ function Login() {
                 variant="contained"
                 color="primary"
                 className="mt-3"
-                onClick={handleSendOtp}
+                // onClick={handleSendOtp}
+                onClick={handleVerifyOtp}
                 disabled={phone.length !== 10 || isSending}
               >
-                {isSending ? "Đang gửi..." : "Gửi OTP"}
+                {isSending ? "Đang gửi..." : "đăng nhập"}
               </Button>
             ) : (
               <Button
