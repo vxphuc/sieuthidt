@@ -4,14 +4,20 @@ import { faAddressBook, faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../../../../api/axios';
+import { getName } from '../../../../services/cartService';
+
 function Menu() {
 const [token, setToken] = useState([]);
 const navigate = useNavigate();
 
 useEffect(()=>{
   const response = async () => {
+    const phone = getName()
+    const numberPhone = phone[0].phone
     const response = await api.get("/sign-in/user-profile", {
-      withCredentials: true,
+      params: {
+        numberPhone
+      }
     });
     setToken(response.data);
   };

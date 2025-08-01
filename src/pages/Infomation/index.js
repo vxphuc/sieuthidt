@@ -22,13 +22,13 @@ function Infomation() {
   const [isDefault, setIsDefault] = useState(false);
   
 
-  useEffect(() => {
-    api
-      .get(`/sign-in/user-profile`, {
-        withCredentials: true,
-      })
-      .then((res) => setData(res.data));
-  }, []);
+  // useEffect(() => {
+  //   api
+  //     .get(`/sign-in/user-profile`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => setData(res.data));
+  // }, []);
 
   useEffect(() => {
     api

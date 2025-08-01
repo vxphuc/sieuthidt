@@ -13,7 +13,6 @@ function Bill() {
     const fetchBills = async () => {
       const numberPhone = getName()
       const phone = numberPhone[0].phone
-      console.log(phone)
       const response = await api.get(`/bill/user`,{
         params:{
           phone
