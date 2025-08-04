@@ -20,7 +20,7 @@ function Login() {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
-  const name = getName()
+  const name = getName();
 
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
@@ -105,9 +105,13 @@ function Login() {
         // idToken,
         numberPhone: phone,
       });
-      console.log(123)
-      name[0].phone = phone
-      saveName(name)
+      if (!name || name.length === 0) {
+        // Nếu chưa có tên, lưu tên mới
+        saveName([{ name: response.data.user.name, phone }]);
+      } else {
+        name[0].phone = phone;
+        saveName(name);
+      }
 
       // console.log("Đăng nhập thành công:", response.data);
       // Lưu dữ liệu người dùng và token vào localStorage theo đúng format backend trả về
@@ -127,7 +131,7 @@ function Login() {
     <div className={styles.wrapper}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} className={`${styles.paper}`}>
-          <p  className="text-center mb-3">
+          <p className="text-center mb-3">
             Để xem "Đơn hàng của bạn" vui lòng nhập Số điện thoại đã đặt hàng
           </p>
           <form onSubmit={(e) => e.preventDefault()}>
