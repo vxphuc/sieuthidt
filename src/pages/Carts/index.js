@@ -43,6 +43,14 @@ function Carts() {
   const receiverNameRef = useRef(null);
   const receiverPhoneRef = useRef(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [errorUserInfo, setErrorUserInfo] = useState(false);
+  const [errorAddress, setErrorAddress] = useState(false);
+  const [errorReceiverName, setErrorReceiverName] = useState(false);
+  const [errorReceiverPhone, setErrorReceiverPhone] = useState(false);
+  const userInfoRef = useRef(null);
+  const addressRef = changeAddressRef; // đã có sẵn ref này rồi anh dùng luôn
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   // Fetch user info
   const fetchUserProfile = async () => {
@@ -161,6 +169,45 @@ function Carts() {
   const handlePay = async () => {
     if (isAdding) return;
     setIsAdding(true);
+    setErrorUserInfo(false);
+    setErrorAddress(false);
+    setErrorReceiverName(false);
+    setErrorReceiverPhone(false);
+
+    // Kiểm tra địa chỉ nhận hàng
+    if (
+      !address ||
+      address.length === 0 ||
+      !address[0]?.province ||
+      !address[0]?.district ||
+      !address[0]?.ward
+    ) {
+      setErrorAddress(true);
+      setAlertMessage("Vui lòng nhập địa chỉ giao hàng.");
+      setShowAlert(true);
+      setIsAdding(false);
+      return;
+    }
+    // Kiểm tra người nhận khác
+    if (otherReceiver) {
+      if (!receiverInfo.name || receiverInfo.name.trim() === "") {
+        alert("Vui lòng nhập đầy đủ thông tin và thử lại!");
+        setErrorReceiverName(true);
+        if (receiverNameRef.current) receiverNameRef.current.focus();
+        setIsAdding(false);
+        return;
+      }
+      if (
+        !receiverInfo.phone ||
+        !isValidVietnamPhoneNumber(receiverInfo.phone)
+      ) {
+        alert("Vui lòng nhập đầy đủ thông tin và thử lại!");
+        setErrorReceiverPhone(true);
+        if (receiverPhoneRef.current) receiverPhoneRef.current.focus();
+        setIsAdding(false);
+        return;
+      }
+    }
     try {
       let alternateReceiverName, alternateReceiverPhone;
       if (
@@ -220,7 +267,7 @@ function Carts() {
         setIsAdding(false);
         return;
       }
-      alert("Vui lòng nhập đầy đủ thông tin và thử lại!");
+      alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
       console.error(err);
       setIsAdding(false);
     }
@@ -345,7 +392,11 @@ function Carts() {
                 <div className={styles.chose_address}>Thông Tin Nhận Hàng</div>
                 <div className={styles.address_user}>
                   <NavLink to="/gio-hang/cap-nhap-dia-chi">
-                    <span ref={changeAddressRef}>
+                    <span
+                      ref={changeAddressRef}
+                      className={`${errorAddress ? styles.highlightChangeAddress : ""}`}
+                      style={{ cursor: "pointer" }}
+                    >
                       {address.length > 0 ? "Đổi" : "Thêm"}
                     </span>
                   </NavLink>
@@ -695,6 +746,31 @@ function Carts() {
           </div>
         </main>
       </div>
+      {showAlert && (
+        <div className={styles.overlay}>
+          <div className={styles.paymentPopup}>
+            <p>{alertMessage}</p>
+            <button
+              className={styles.confirmButton}
+              onClick={() => {
+                setShowAlert(false);
+                // Scroll về nút Thêm
+                if (changeAddressRef.current) {
+                  changeAddressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+                  changeAddressRef.current.classList.add(styles.highlightChangeAddress);
+                  setTimeout(() => {
+                    if (changeAddressRef.current) {
+                      changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
+                    }
+                  }, 3000);
+                }
+              }}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

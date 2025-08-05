@@ -16,11 +16,11 @@
   border-color: rgb(228 233 242);
   border-width: 1px;
   background-color: rgb(242 245 249);
-  width: 50%;
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
+  width: 60%;
+  --bs-gutter-x: 0.5rem;
+  --bs-gutter-y: 1rem;
   margin: 0 auto;
-  max-width: 550px;
+  max-width: 600px;
 }
 .titleCarts {
   border-color: rgb(228 233 242);
@@ -317,6 +317,21 @@
 .highlightInputName {
   border: 2px solid #1fadeb;
   box-shadow: 0 0 6px #1fadeb;
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+.address_user span.highlightInputName:hover {
+  box-shadow: 0 0 12px 3px #1fadeb;
+}
+.address_user span.highlightInputName {
+  border-radius: 10px;
+  border: 2px solid #1fadeb;
+  box-shadow: 0 0 6px #1fadeb;
+  transition: box-shadow 0.3s ease;
+}
+
+.address_user span.highlightInputName:hover {
+  box-shadow: 0 0 12px 4px #1fadeb;
 }
 .deletebtn {
   position: absolute;
