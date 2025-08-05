@@ -220,7 +220,7 @@ function Carts() {
         setIsAdding(false);
         return;
       }
-      alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
+      alert("Vui lòng nhập đầy đủ thông tin và thử lại!");
       console.error(err);
       setIsAdding(false);
     }
