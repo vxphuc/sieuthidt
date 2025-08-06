@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://sieuthidt.io.vn',
+  baseURL: "http://localhost:5000" || 'https://sieuthidt.io.vn',
   timeout: 10000,
 });
 

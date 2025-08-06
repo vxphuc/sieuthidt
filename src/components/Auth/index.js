@@ -10,26 +10,17 @@ function Auth() {
   const [loading] = useState(false);
 
   useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  if (storedUser) {
-    try {
-      setUser(JSON.parse(storedUser));
-    } catch (e) {
-      console.error("Lỗi parse user:", e);
-      localStorage.removeItem("user");
-    }
-  } else {
     // fallback gọi API nếu cần
     const fetchUser = async () => {
       try {
         const response = await api.get('/sign-in/user-profile');
-        setUser(response.data.user); // tùy theo backend
+        console.log(response.data)
+        setUser(response.data); // tùy theo backend
       } catch (error) {
         console.log("Lỗi lấy profile:", error);
       }
     };
     fetchUser();
-  }
 }, []);
 
   if (loading) return <p>Đang tải...</p>;
