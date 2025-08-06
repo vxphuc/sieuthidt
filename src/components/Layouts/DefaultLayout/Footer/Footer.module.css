@@ -29,7 +29,13 @@
   height: auto;
   object-fit: contain;
 }
+.break {
+  display: block;
+}
 @media (max-width: 768px) {
+  .break {
+    display: block;
+  }
     .foot,
     .foot p,
     .foot a,

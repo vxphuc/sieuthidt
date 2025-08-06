@@ -13,7 +13,7 @@ function Footer() {
             <div className="col-6 col-md-3">
               <h5>Về công ty</h5>
               <ul className={styles.list_unstyled}>
-                <li><a href="#">Giới thiệu công ty (DT GROUP)</a></li>
+                <li><a href="#">Giới thiệu công <span className={styles.break}>ty (DT GROUP)</span></a></li>
                 <li><a href="#">Tuyển dụng</a></li>
                 <li><a href="#">Gửi góp ý, khiếu nại</a></li>
               </ul>

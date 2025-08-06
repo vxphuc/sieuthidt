@@ -714,12 +714,14 @@ function Carts() {
                   >
                     <div className={`${styles.popUp}`}>
                       <div className={styles.checkIcon}>
-                        <FontAwesomeIcon
-                          icon={faCheck}
+                        <img
+                          src="https://i.gifer.com/7efs.gif"
+                          alt="Success"
                           style={{
-                            color: "#48bf40",
-                            width: "50%",
-                            height: "50%",
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "100%",
+                            objectFit: "contain",
                           }}
                         />
                       </div>
