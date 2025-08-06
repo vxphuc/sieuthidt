@@ -5,13 +5,16 @@ import { useState, useEffect } from "react";
 import api from "../../api/axios";
 import { useLocation } from "react-router-dom";
 import { getName, getAddress } from "../../services/cartService";
+
 function Infomation() {
   const phone = getName();
   const localAddress = getAddress();
+  // sửa dòng useState ban đầu:
   const [data, setData] = useState({
     name: "",
-    numberPhone: ""
+    numberPhone: "",
   });
+
   const [address, setAddress] = useState(localAddress || []);
   const [showForm, setShowForm] = useState(false);
 
@@ -24,62 +27,37 @@ function Infomation() {
 
   // Lấy thông tin user-profile khi component mount hoặc numberPhoneParam thay đổi
   useEffect(() => {
-  if (!phone || phone.length === 0) return;
-  api
-    .get(`/sign-in/user-profile`, {
-      withCredentials: true,
-      params: { numberPhone: phone[0].phone },
-    })
-    .then((res) => {
-      if (res.data) {
-        setData({
-          name: res.data.name || "",
-          numberPhone: res.data.numberPhone || "",
-        });
-      }
-    })
-    .catch((error) => {
-      console.error("Lỗi khi lấy thông tin user-profile:", error);
-    });
-}, [phone]);
+    if (!phone || phone.length === 0) return;
+    api
+      .get(`/sign-in/user-profile`)
+      .then((res) => {
+        if (res.data && !data.name) {
+          setData({
+            name: res.data.name || "",
+            numberPhone: res.data.numberPhone || "",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin user-profile:", error);
+      });
+  }, [phone]);
 
   // Lấy danh sách địa chỉ nhận hàng (giữ nguyên)
   useEffect(() => {
-    api
-      .get(`/address`, {
-        withCredentials: true,
-      })
-      .then((res) => setAddress(res.data))
-      .catch((error) => console.error("Lỗi lấy địa chỉ:", error));
+    const address = getAddress()
+    console.log(address)
+    setAddress(address)
   }, []);
 
-  // Xóa địa chỉ
-  const handleDelete = (id, wards_id, districts_id, provinces_id) => {
-    api
-      .delete(
-        `/address/delete/${id}/${wards_id}/${districts_id}/${provinces_id}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        api
-          .get(`/address`, {
-            withCredentials: true,
-          })
-          .then((res) => setAddress(res.data));
-      })
-      .catch((error) => console.error("Lỗi xóa địa chỉ:", error));
-  };
 
-  // Cập nhật tên và số điện thoại
+  // Cập nhật tên
   const handleSubmitName = async () => {
     try {
       const response = await api.put(
         `/sign-in/editProfile`,
         {
           name: data.name,
-          numberPhone: data.numberPhone,
         },
         {
           withCredentials: true,
@@ -100,7 +78,7 @@ function Infomation() {
         <p>
           {data.name} - {data.numberPhone}
         </p>
-        {/* <button
+        <button
           type="button"
           className={styles.fix}
           onClick={() => setShowForm(true)}
@@ -110,7 +88,10 @@ function Infomation() {
         </button>
         {showForm && (
           <div className={styles.updateInfo}>
-            <form className={styles.formRow} onSubmit={(e) => e.preventDefault()}>
+            <form
+              className={styles.formRow}
+              onSubmit={(e) => e.preventDefault()}
+            >
               <div className={styles.formGroup}>
                 <label htmlFor="name">Họ & Tên:</label>
                 <input
@@ -120,19 +101,6 @@ function Infomation() {
                   value={data.name}
                   onChange={(e) =>
                     setData((prev) => ({ ...prev, name: e.target.value }))
-                  }
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="phone">Số điện thoại:</label>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  value={data.numberPhone}
-                  onChange={(e) =>
-                    setData((prev) => ({ ...prev, numberPhone: e.target.value }))
                   }
                 />
               </div>
@@ -155,7 +123,7 @@ function Infomation() {
               </button>
             </div>
           </div>
-        )} */}
+        )}
       </div>
 
       {/* Địa chỉ nhận hàng */}
@@ -170,7 +138,10 @@ function Infomation() {
             <div key={item._id} className={styles.addressItem}>
               <div>
                 <strong>
-                  {item.road || ""}, {item.ward || "Chưa có phường"}, {item.district || "Chưa có quận"}, {item.province || "Chưa có tỉnh"}, {item.road || "Chưa có đường"}
+                  {item.road || ""}, {item.ward || "Chưa có phường"},{" "}
+                  {item.district || "Chưa có quận"},{" "}
+                  {item.province || "Chưa có tỉnh"},{" "}
+                  {item.road || "Chưa có đường"}
                 </strong>
                 <br />
                 {data.numberPhone}
