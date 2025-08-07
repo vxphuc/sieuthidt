@@ -6,16 +6,6 @@ import api from "../../../api/axios";
 function ShowBanner() {
   const [dataBanner, setDataBanner] = useState([]);
 
-  const getCookie = (name) => {
-    const cookies = document.cookie.split(";");
-    for (let cookie of cookies) {
-      const [key, value] = cookie.trim().split("=");
-      if (key === name) return value;
-    }
-    return null;
-  };
-
-  const token = getCookie("authToken");
   useEffect(() => {
     api
       .get("/sign-in/banner")
@@ -55,7 +45,7 @@ function ShowBanner() {
                   <img
                     width="300px"
                     height="200px"
-                    src={`https://dtweb.onrender.com/uploads/${banner.image}`}
+                    src={`https://sieuthidt.io.vn/uploads/${banner.image}`}
                   ></img>
                 </td>
                 <td>{banner.dateCreate}</td>
