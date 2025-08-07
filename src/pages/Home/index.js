@@ -122,7 +122,7 @@ function Home() {
           {img.map((image) => (
             <LazyLoadImage
               key={image._id}
-              src={`https://dtweb.onrender.com/uploads/${image.image}`}
+              src={`https://sieuthidt.io.vn/uploads/${image.image}`}
             />
           ))}
         </div>
