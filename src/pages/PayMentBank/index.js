@@ -96,7 +96,7 @@ useEffect(() => {
               </p>
             </div>
             <div>
-              <p>Đơn này sẽ được giao cho {bill?.user?.name} và thanh toán tiền mặt</p>
+              <p>Đơn này sẽ được giao cho {bill?.user?.name} và thanh toán bằng chuyển khoản</p>
             </div>
           </button>
         </div>
