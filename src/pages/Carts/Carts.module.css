@@ -392,11 +392,12 @@ input[type=number] {
 .popUp {
   position: fixed;
   background-color: #eaeaea;
-  width: 38%;
-  height: 50%;
+  width: 30%;
+  height: 40%;
   text-align: center;
   border-radius: 12px;
   z-index: 1000;
+  padding: 30px;
 }
 .checkIcon {
   position: absolute;
@@ -552,7 +553,7 @@ input[type=number] {
     padding: 1.1rem;
   }
   .popUp{
-    width: 70%;
+    width: 60%;
   }
   .checkIcon {
     width: 150px;
