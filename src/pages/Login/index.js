@@ -47,7 +47,7 @@ function Login() {
       });
       if (!name || name.length === 0) {
         // Nếu chưa có tên, lưu tên mới
-        saveName([{ name: response.data.user.name, phone }]);
+        saveName([{ name: "", phone }]);
       } else {
         name[0].phone = phone;
         saveName(name);
@@ -95,7 +95,7 @@ function Login() {
             {isOtpSent && (
               <TextField
                 fullWidth
-                label="Mã OTP"
+                label="Mã OTP Zalo"
                 variant="outlined"
                 margin="normal"
                 value={otp}
