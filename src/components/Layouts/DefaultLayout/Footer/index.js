@@ -5,32 +5,21 @@ function Footer() {
         <footer className={`bg-light py-4 mt-5 ${styles.foot}`}>
           <div className={`container ${styles.container} `}>
           <div className="row">
-            <div className="col-6 col-md-3">
+            <div className="col-6 col-md-4">
               <h5>Tổng đài hỗ trợ</h5>
               <p><strong>Gọi mua:</strong> <a href="tel:0847236868.">0833.416.868</a></p>
-              <p><strong>Kiếu nại:</strong> <a href="tel:0847236868.">0847.236.868.</a></p>
+              <p><strong>Kiếu nại:</strong> <a href="tel:0847236868.">0847.236.868</a></p>
             </div>
-            <div className="col-6 col-md-3">
-              <h5>Về công ty</h5>
-              <ul className={styles.list_unstyled}>
-                <li><a href="#">Giới thiệu công <span className={styles.break}>ty (DT GROUP)</span></a></li>
-                <li><a href="#">Tuyển dụng</a></li>
-                <li><a href="#">Gửi góp ý</a></li>
-                <li><a href="#">khiếu nại</a></li>
-              </ul>
-            </div>
-            <div className="col-6 col-md-3">
+            <div className="col-6 col-md-4">
               <h5>Sản phẩm</h5>
               <ul className={styles.list_unstyled}>
                 <li><a href="#">Nước yến sào</a></li>
                 <li><a href="#">Yến sào tươi</a></li>
                 <li><a href="#">Yến sào tinh chế</a></li>
                 <li><a href="#">Yến sào chưng sẵn</a></li>
-                <li><a href="#">Rong nho muối</a></li>
-                <li><a href="#">Rong nho tươi</a></li>
               </ul>
             </div>
-            <div className="col-6 col-md-3">
+            <div className="col-6 col-md-4">
               <h5>Thông tin đối tác</h5>
               <div className={`d-flex ${styles.partnerList}`}>
               <a href='https://shopee.vn/dtvietnam2023?categoryId=100629&entryPoint=ShopByPDP&itemId=27913405107' target="_blank" rel="noopener noreferrer">
