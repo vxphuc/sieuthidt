@@ -47,7 +47,7 @@ function Product() {
         id: popupProduct._id,
         name: popupProduct.name,
         image: popupProduct.image[0],
-        price: popupProduct.price.$numberDecimal,
+        price: popupProduct.priceDiscount.$numberDecimal,
         quantity: quantity,
       })
     }

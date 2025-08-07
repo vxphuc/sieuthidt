@@ -51,6 +51,7 @@ function Carts() {
   const addressRef = changeAddressRef; // đã có sẵn ref này rồi anh dùng luôn
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  console.log(cart)
 
   // Fetch user info
   const fetchUserProfile = async () => {

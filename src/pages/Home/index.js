@@ -101,7 +101,7 @@ function Home() {
         id: popupProduct._id,
         name: popupProduct.name,
         image: popupProduct.image[0],
-        price: Number(popupProduct.price.$numberDecimal),
+        price: Number(popupProduct.priceDiscount.$numberDecimal),
         quantity: quantity,
       });
     }
