@@ -118,7 +118,6 @@ function Header() {
             />
           </NavLink>
         </div>
-
         {/* Thanh tìm kiếm */}
         <Search
           onChange={handleSearch}
