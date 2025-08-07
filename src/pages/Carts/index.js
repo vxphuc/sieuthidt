@@ -725,11 +725,7 @@ function Carts() {
                           }}
                         />
                       </div>
-                      <h3 className="text-success">Thành công</h3>
-                      <p>
-                        chúng tôi đã nhận được đơn đặt hàng của bạn, bạn sẽ trở
-                        về trang chủ sau 2 giây
-                      </p>
+                      <h3 className="text-success">Đặt Hàng Thành Công!</h3>
                     </div>
                   </BackgroundPopup>
                 </div>
