@@ -66,7 +66,7 @@ function InvoiceDetails() {
                       <td>Địa chỉ: </td>
                       <td>
                         {data.bill
-                          ? `${data.bill.road} - ${data.bill.ward} - ${data.bill.District} - ${data.bill.province}`
+                          ? `${data.bill.road} - ${data.bill.ward} - ${data.bill.province}`
                           : "đang tải..."}
                       </td>
                     </tr>
