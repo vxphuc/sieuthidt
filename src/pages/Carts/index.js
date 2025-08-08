@@ -180,7 +180,6 @@ function Carts() {
       !address ||
       address.length === 0 ||
       !address[0]?.province ||
-      !address[0]?.district ||
       !address[0]?.ward
     ) {
       setErrorAddress(true);
@@ -235,7 +234,6 @@ function Carts() {
         UserName: user[0].name,
         PaymentForm: payMent,
         province: address[0].province,
-        District: address[0].district,
         ward: address[0].ward,
         road: address[0].road,
         alternateReceiverName,
@@ -418,7 +416,7 @@ function Carts() {
                       ? address.map((Addr, index) => {
                           return (
                             <div key={index}>
-                              {Addr.province}, {Addr.district}, {Addr.ward},{" "}
+                              {Addr.province}, {Addr.ward},{" "}
                               {Addr.road}
                             </div>
                           );

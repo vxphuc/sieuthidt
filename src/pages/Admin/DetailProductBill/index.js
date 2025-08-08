@@ -40,7 +40,7 @@ function DetailProductBill() {
             <p>
               Địa chỉ:{" "}
               {order
-                ? `${order.bill.road}, ${order.bill.ward}, ${order.bill.District}, ${order.bill.province}`
+                ? `${order.bill.road}, ${order.bill.ward}, ${order.bill.province}`
                 : "đang tải..."}
             </p>
             <p>Người nhận hộ: {order ? order.bill.alternateReceiverName : "đang tải..."}</p>

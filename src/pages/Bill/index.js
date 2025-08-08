@@ -40,7 +40,7 @@ function Bill() {
                   <img src={`${bill.products[0].img}`} alt="product" />
                   <div className={styles.orderText}>
                     {`
-                      ${bill.road} - ${bill.ward} - ${bill.District} - ${bill.province}`}
+                      ${bill.road} - ${bill.ward} - ${bill.province}`}
                   </div>
                 </div>
 

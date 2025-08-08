@@ -1,299 +1,187 @@
 import styles from "./Adress.module.css";
 import { useNavigate } from "react-router-dom";
-import { faChevronLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BackgroundPopup from "../../components/BackgroundPopup";
-import { useEffect, useState, useRef  } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { saveName, saveAddress,getAddress, getName } from "../../services/cartService";
+import { saveName, saveAddress, getAddress, getName } from "../../services/cartService";
 
 function Adress() {
   const navigate = useNavigate();
-  //tỉnh thành
-  const [Province, setProvince] = useState([]);
+  const [provinces, setProvinces] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
-  // Huyện
-  const [District, setDistrict] = useState([]);
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
-  // Xã, Phường
-  const [Ward, setWard] = useState([]);
-  const [selectedWard, setSelectedWard] = useState(null);
-  //Địa chỉ
+  const [communes, setCommunes] = useState([]);
+  const [selectedCommune, setSelectedCommune] = useState(null);
   const [road, setRoad] = useState("");
-  // thông tin cá nhân và số điện thoại
-  const [dataUser, setData] = useState({
-    name: "",
-    phone: "",
-  });
-  // phần bắt nhập tt
+  const [dataUser, setData] = useState({ name: "", phone: "" });
+
   const nameRef = useRef(null);
   const phoneRef = useRef(null);
   const provinceRef = useRef(null);
-  const districtRef = useRef(null);
-  const wardRef = useRef(null);
+  const communeRef = useRef(null);
   const roadRef = useRef(null);
-  // tỉnh
+
+  // ✅ Fetch tỉnh
   useEffect(() => {
-    axios
-      .get(`https://provinces.open-api.vn/api/`)
-      .then((res) => setProvince(res.data))
-      .catch((err) => console.error("Lỗi khi fetch tỉnh/thành:", err));
+    axios.get("https://production.cas.so/address-kit/2025-07-01/provinces")
+      .then((res) => setProvinces(res.data.provinces || []))
+      .catch((err) => console.error("❌ Lỗi fetch tỉnh/thành:", err));
   }, []);
 
-  // huyện
+  // ✅ Fetch xã/phường
   useEffect(() => {
-    if (selectedProvince && selectedProvince.code) {
-      axios(
-        `https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`
-      )
-        .then((res) => setDistrict(res.data.districts))
-        .catch((err) => console.error("Lỗi khi fetch huyện:", err));
-    }
-  }, [selectedProvince]);
+  axios.get("https://production.cas.so/address-kit/2025-07-01/communes")
+    .then((res) => {
+      if (Array.isArray(res.data.communes)) {
+        setCommunes(res.data.communes);
+      } else {
+        console.error("❌ Không có danh sách communes trong response");
+      }
+    })
+    .catch((err) => console.error("❌ Lỗi fetch xã/phường:", err));
+}, []);
 
-  // xã phường
+  // ✅ Chỉ lọc xã thuộc tỉnh đã chọn
+  const filteredCommunes = selectedProvince
+    ? communes.filter((c) => c.provinceCode?.toString() === selectedProvince.code?.toString())
+    : [];
+
+  // ✅ Chờ provinces và communes load xong mới xử lý dữ liệu cũ từ localStorage
   useEffect(() => {
-    if (selectedDistrict && selectedDistrict.code) {
-      axios(
-        `https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`
-      )
-        .then((res) => setWard(res.data.wards))
-        .catch((err) => console.error("Lỗi khi fetch huyện:", err));
-    }
-  }, [selectedDistrict]);
+    if (provinces.length === 0 || communes.length === 0) return;
 
-  //lấy tỉnh thành
+    const savedAddress = getAddress();
+    const savedUser = getName();
+
+    if (savedUser?.length) {
+      setData({ name: savedUser[0].name || "", phone: savedUser[0].phone || "" });
+    }
+
+    if (savedAddress?.length) {
+      const addr = savedAddress[0];
+      setRoad(addr.road || "");
+
+      const provinceObj = provinces.find(p => p.name === addr.province);
+      if (provinceObj) {
+        setSelectedProvince(provinceObj);
+        const wardObj = communes.find(w =>
+          w.name === addr.ward &&
+          w.provinceCode?.toString() === provinceObj.code?.toString()
+        );
+        if (wardObj) setSelectedCommune(wardObj);
+      }
+    }
+  }, [provinces, communes]);
+
+  // ✅ Xử lý khi chọn tỉnh
   const handleProvinceChange = (e) => {
     const selectedCode = e.target.value;
-    const province = Province.find(
-      (province) => province.code.toString() === selectedCode
-    );
-    setSelectedProvince(province);
+    const found = provinces.find((p) => p.code.toString() === selectedCode);
+    setSelectedProvince(found || null);
+    setSelectedCommune(null);
   };
 
-  //lấy huyện
-  const handleDistrictChange = (e) => {
+  // ✅ Xử lý khi chọn xã
+  const handleCommuneChange = (e) => {
     const selectedCode = e.target.value;
-    const district = District.find(
-      (district) => district.code.toString() === selectedCode
-    );
-    setSelectedDistrict(district);
+    const found = filteredCommunes.find((c) => c.code.toString() === selectedCode);
+    setSelectedCommune(found || null);
   };
 
-  // lấy xã phường
-  const handleWardChange = (e) => {
-    const selectedCode = e.target.value;
-    const ward = Ward.find((ward) => ward.code.toString() === selectedCode);
-    setSelectedWard(ward);
-  };
-  useEffect(() => {
-  const savedAddress = getAddress();
-  const savedUser = getName();
-
-  if (savedAddress && savedAddress.length > 0) {
-    const addr = savedAddress[0];
-    setRoad(addr.road || "");
-
-    // ⚠️ Dùng name để tìm object đầy đủ từ mảng gốc
-    const selectedProvinceObj = Province.find(p => p.name === addr.province);
-    setSelectedProvince(selectedProvinceObj);
-
-    // Cần fetch huyện tương ứng trước rồi mới set huyện
-    if (selectedProvinceObj) {
-      axios(`https://provinces.open-api.vn/api/p/${selectedProvinceObj.code}?depth=2`)
-        .then((res) => {
-          const districts = res.data.districts;
-          setDistrict(districts);
-
-          const selectedDistrictObj = districts.find(d => d.name === addr.district);
-          setSelectedDistrict(selectedDistrictObj);
-
-          // Tiếp tục fetch xã/phường
-          if (selectedDistrictObj) {
-            axios(`https://provinces.open-api.vn/api/d/${selectedDistrictObj.code}?depth=2`)
-              .then((res) => {
-                const wards = res.data.wards;
-                setWard(wards);
-
-                const selectedWardObj = wards.find(w => w.name === addr.ward);
-                setSelectedWard(selectedWardObj);
-              });
-          }
-        });
-    }
-  }
-
-  if (savedUser && savedUser.length > 0) {
-    setData({
-      name: savedUser[0].name || "",
-      phone: savedUser[0].phone || ""
-    });
-  }
-}, [Province]);
+  // ✅ Kiểm tra trước khi submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    // chua nhap du tt
+
     const addHighlight = (ref) => {
-    if (ref.current) {
-      ref.current.classList.remove("highlight-missing");
-      setTimeout(() => {
-        ref.current.classList.add("highlight-missing");
-        ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 50);
-    }
+      if (ref.current) {
+        ref.current.classList.remove("highlight-missing");
+        setTimeout(() => {
+          ref.current.classList.add("highlight-missing");
+          ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 50);
+      }
     };
 
-    const showAlert = () => {
-      alert("⚠️ Vui lòng nhập đủ thông tin trước khi xác nhận!");
-    };
+    const showAlert = (msg = "⚠️ Vui lòng nhập đủ thông tin!") => alert(msg);
 
-    if (!dataUser.name.trim()) {
-      addHighlight(nameRef);
-      showAlert();
-      return;
-    }
-    if (!dataUser.phone.trim()) {
-      addHighlight(phoneRef);
-      showAlert();
-      return;
-    }
-    const isValidPhone = /^0[3|5|7|8|9][0-9]{8}$/.test(dataUser.phone);
-    if (!isValidPhone) {
-      addHighlight(phoneRef);
-      alert("⚠️ Số điện thoại không đúng định dạng hợp lệ!");
-      return;
-    }
-    if (!selectedProvince) {
-      addHighlight(provinceRef);
-      showAlert();
-      return;
-    }
-    if (!selectedDistrict) {
-      addHighlight(districtRef);
-      showAlert();
-      return;
-    }
-    if (!selectedWard) {
-      addHighlight(wardRef);
-      showAlert();
-      return;
-    }
-    if (!road.trim()) {
-      addHighlight(roadRef);
-      showAlert();
-      return;
-    }
+    if (!dataUser.name.trim()) return addHighlight(nameRef), showAlert();
+    if (!dataUser.phone.trim()) return addHighlight(phoneRef), showAlert();
+    if (!/^0[3|5|7|8|9][0-9]{8}$/.test(dataUser.phone)) return addHighlight(phoneRef), showAlert("⚠️ Số điện thoại không hợp lệ!");
+    if (!selectedProvince) return addHighlight(provinceRef), showAlert();
+    if (!selectedCommune) return addHighlight(communeRef), showAlert();
+    if (!road.trim()) return addHighlight(roadRef), showAlert();
 
     const address = [{
       province: selectedProvince.name,
-      district: selectedDistrict.name,
-      ward: selectedWard.name,
-      road: road,
+      ward: selectedCommune.name,
+      road,
       name: dataUser.name,
       phone: dataUser.phone
     }];
-    const User = [{
-      name: dataUser.name,
-      phone: dataUser.phone
-    }]
-    saveAddress(address)
-    saveName(User)
-    navigate(-1)
+
+    saveAddress(address);
+    saveName([{ name: dataUser.name, phone: dataUser.phone }]);
+    navigate(-1);
   };
+
   return (
     <div className="container">
-      <div className={` container ${styles.container}`}>
-        <div className={`${styles.title}`}>
-          <div className={`${styles.items__center}`}>
+      <div className={`container ${styles.container}`}>
+        <div className={styles.title}>
+          <div className={styles.items__center}>
             <span onClick={() => navigate(-1)}>
               <FontAwesomeIcon icon={faChevronLeft} size="lg" />
             </span>
           </div>
-          <span className={`${styles.title__text}`}>Thông tin nhận hàng</span>
+          <span className={styles.title__text}>Thông tin nhận hàng</span>
         </div>
+
         <div className={styles.relative}>
-          <input
-            ref={phoneRef}
-            className={styles.peer}
-            value={dataUser.phone}
-            onChange={(e) => 
-              {
-              phoneRef.current.classList.remove("highlight-missing");
-              const onlyNums = e.target.value.replace(/\D/g, "");
-              setData((prev) => ({ ...prev, phone: onlyNums }))}}
-            placeholder="Số Điện Thoại...*"
-          ></input>
+          <input ref={phoneRef} value={dataUser.phone} onChange={(e) => {
+            phoneRef.current.classList.remove("highlight-missing");
+            const onlyNums = e.target.value.replace(/\D/g, "");
+            setData((prev) => ({ ...prev, phone: onlyNums }));
+          }} placeholder="Số Điện Thoại...*" className={styles.peer} />
         </div>
+
         <div className={styles.relative}>
-          <input
-            ref={nameRef}
-            value={dataUser.name} 
-            className={styles.peer}
-            onChange={(e) =>
-              {
-              nameRef.current.classList.remove("highlight-missing");
-              setData((prev) => ({ ...prev, name: e.target.value }))}}
-            placeholder="Họ Và Tên...*"
-          ></input>
+          <input ref={nameRef} value={dataUser.name} onChange={(e) => {
+            nameRef.current.classList.remove("highlight-missing");
+            setData((prev) => ({ ...prev, name: e.target.value }));
+          }} placeholder="Họ Và Tên...*" className={styles.peer} />
         </div>
+
         <div className="d-flex flex-wrap justify-between">
           <div className={styles.cbProvince}>
-            <select
-              ref={provinceRef}
-              value={selectedProvince?.code || ""}
-             onChange={handleProvinceChange} className={styles.Province}>
+            <select ref={provinceRef} value={selectedProvince?.code || ""} onChange={handleProvinceChange} className={styles.Province}>
               <option value="">Chọn Tỉnh/Thành Phố</option>
-              {Province.map((province) => (
-                <option key={province.code} value={province.code}>
-                  {province.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className={styles.cbProvince}>
-            <select
-              ref={districtRef}
-              value={selectedDistrict?.code || ""}
-            onChange={handleDistrictChange} className={styles.Province}>
-              <option value="">Chọn Quận/Huyện</option>
-              {District.map((district) => (
-                <option key={district.code} value={district.code}>
-                  {district.name}
-                </option>
+              {provinces.map((p) => (
+                <option key={p.code} value={p.code}>{p.name}</option>
               ))}
             </select>
           </div>
           <div className={styles.relativeward}>
-            <select
-              ref={wardRef}
-              value={selectedWard?.code || ""}
-            onChange={handleWardChange} className={styles.Province}>
+            <select ref={communeRef} value={selectedCommune?.code || ""} onChange={handleCommuneChange} className={styles.Province}>
               <option value="">Chọn Xã/Phường</option>
-              {Ward.map((ward) => (
-                <option key={ward.code} value={ward.code}>
-                  {ward.name}
+              {filteredCommunes.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.name}{c.district_name ? ` (${c.district_name})` : ""}
                 </option>
               ))}
             </select>
           </div>
           <div className={styles.relativeward}>
-            <input
-              ref={roadRef}
-              value={road} 
-              onChange={(e) =>
-                {
-                roadRef.current.classList.remove("highlight-missing");
-                setRoad(e.target.value)}}
-              className={styles.peer}
-              placeholder="nhập tên đường, số nhà...*"
-            ></input>
+            <input ref={roadRef} value={road} onChange={(e) => {
+              roadRef.current.classList.remove("highlight-missing");
+              setRoad(e.target.value);
+            }} placeholder="Tên đường, số nhà..." className={styles.peer} />
           </div>
         </div>
-        <div className={`${styles.role}`}>
+
+        <div className={styles.role}>
           <button onClick={handleSubmit}>Xác nhận</button>
         </div>
       </div>
-      <div></div>
     </div>
   );
 }

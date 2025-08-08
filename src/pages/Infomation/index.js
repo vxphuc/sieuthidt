@@ -139,9 +139,7 @@ function Infomation() {
               <div>
                 <strong>
                   {item.road || ""}, {item.ward || "Chưa có phường"},{" "}
-                  {item.district || "Chưa có quận"},{" "}
-                  {item.province || "Chưa có tỉnh"},{" "}
-                  {item.road || "Chưa có đường"}
+                  {item.province || "Chưa có tỉnh"}{" "}
                 </strong>
                 <br />
                 {data.numberPhone}

@@ -199,7 +199,7 @@ function OrderManagement() {
                 </td>
                 <td>{order.UserName}</td>
                 <td>{order.phoneNumber}</td>
-                <td>{`${order.road}, ${order.ward}, ${order.District}, ${order.province}`}</td>
+                <td>{`${order.road}, ${order.ward}, ${order.province}`}</td>
                 <td>{totalPrice}</td>
                 <td>{order.OrderStatus}</td>
                 <td>{new Date(order.createDate).toLocaleDateString()}</td>
