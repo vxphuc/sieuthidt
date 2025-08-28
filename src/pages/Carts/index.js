@@ -271,101 +271,6 @@ function Carts() {
     }
     setIsAdding(false);
 
-    // try {
-    //   if (!address || address.length === 0) {
-    //     alert("Vui lòng nhập địa chỉ giao hàng.");
-    //     setIsAdding(false);
-    //     if (changeAddressRef.current) {
-    //       changeAddressRef.current.scrollIntoView({
-    //         behavior: "smooth",
-    //         block: "center",
-    //       });
-    //       changeAddressRef.current.classList.add(styles.highlightChangeAddress);
-    //       setTimeout(() => {
-    //         if (changeAddressRef.current) {
-    //           changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
-    //         }
-    //       }, 3000);
-    //     }
-    //     return;
-    //   }
-
-    //   let alternateReceiverName, alternateReceiverPhone;
-    //   if (otherReceiver && receiverInfo.name && isValidVietnamPhoneNumber(receiverInfo.phone)) {
-    //     alternateReceiverName = receiverInfo.name;
-    //     alternateReceiverPhone = receiverInfo.phone;
-    //   }
-
-    //   // Build product data để gửi lên server
-    //   const products = cart.map((item) => ({
-    //     productID: item.id,
-    //     uid: item.userID,
-    //     name: item.name,
-    //     price: item.price,
-    //     quantity: item.quantity,
-    //     img: item.image,
-    //   }));
-
-    //   // Lấy đúng số tiền chưa giảm trừ điểm, backend tự xử lý logic useToken
-    //   const totalPriceNum = cart.reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
-
-    //   const response = await api.post(
-    //     "/bill/create",
-    //     {
-    //       province: address[0]?.provinces?.nameProvinces,
-    //       District: address[0]?.districts?.nameDistricts,
-    //       ward: address[0]?.wards?.nameWards,
-    //       road: address[0]?.road?.nameRoad,
-    //       Intomoney: totalPriceNum, // truyền số (server sẽ convert)
-    //       products,
-    //       PaymentForm: payMent,
-    //       useToken,
-    //       alternateReceiverName,
-    //       alternateReceiverPhone,
-    //     },
-    //     { withCredentials: true }
-    //   );
-    //   if (response.data.errorList) {
-    //     setOutOfStockProducts(response.data.errorList);
-    //     setIsAdding(false);
-    //     return;
-    //   }
-
-    //   // Đặt hàng thành công
-    //   await api.delete("/cart/deleteCart", { withCredentials: true });
-    //   saveCart([]); // clear localStorage
-    //   setCart([]);
-    //   fetchCartCount();
-
-    //   if (payMent === "Thanh toán qua ngân hàng") {
-    //     if (response.data && response.data._id) {
-    //       navigate(`/gio-hang/thanh-toan/${response.data._id}`);
-    //     } else {
-    //       alert("Đặt hàng thành công nhưng chưa lấy được mã đơn hàng.");
-    //       setIsAdding(false);
-    //     }
-    //   } else {
-    //     setpopupSuccess(true);
-    //     setTimeout(() => {
-    //       window.location.reload();
-    //       navigate("/");
-    //     }, 2000);
-    //   }
-    // } catch (err) {
-    //   if (
-    //     err.response &&
-    //     err.response.status === 400 &&
-    //     Array.isArray(err.response.data?.products)
-    //   ) {
-    //     setOutOfStockProducts(err.response.data.products);
-    //     setIsAdding(false);
-    //     return;
-    //   }
-    //   alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
-    //   console.error(err);
-    //   setIsAdding(false);
-    // }
-    // setIsAdding(false);
   };
 
   // Nếu giỏ hàng trống
@@ -602,7 +507,7 @@ function Carts() {
                     >
                       <input onClick={handleChecker} type="checkbox" />
                       <img
-                        src="https://dtweb.onrender.com/uploads/coin-dt.svg"
+                        src="https://sieuthidt.io.vn/uploads/coin-dt.svg"
                         alt="cheap"
                         width="18"
                         height="18"

@@ -52,7 +52,7 @@ function TypeProduct() {
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
-        const response = await axios.get("https://dtweb.onrender.com/typeProduct");
+        const response = await axios.get("https://sieuthidt.io.vn/typeProduct");
         setData(response.data.typeProducts);
       } catch (error) {
         console.error("Lỗi kết nối server:", error);
@@ -101,7 +101,7 @@ function TypeProduct() {
           <span>{element.name}</span>
         </NavLink>
       ))}
-      <img className={`${styles.imga1}`} width={'100%'} src="https://dtweb.onrender.com/uploads/web 1-01.png"></img>
+      <img className={`${styles.imga1}`} width={'100%'} src="https://sieuthidt.io.vn/uploads/web 1-01.png"></img>
     </div>
   </div>
   

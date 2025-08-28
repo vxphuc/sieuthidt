@@ -114,7 +114,7 @@ function Header() {
             <img
               width="50%"
               height="50%"
-              src="https://dtweb.onrender.com/uploads/logo%20trang.png"
+              src="https://sieuthidt.io.vn/uploads/logo%20trang.png"
               alt="Logo"
             />
           </NavLink>

@@ -39,7 +39,7 @@ useEffect(() => {
     .catch((err) => console.log(err));
 }, [id]);
   console.log(bill)
-  const qrUrl = `https://img.vietqr.io/image/${bank_id}-${ACCOUNT_NO}-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
+  const qrUrl = `https://img.vietqr.io/image/970422-0001856423848-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
 
   useEffect(() => {
     if (!data._id || !data.Intomoney) return;
@@ -111,8 +111,8 @@ useEffect(() => {
               <tr>
                 <td>Số tài khoản:</td>
                 <td className={`${styles.tdin}`}>
-                  {ACCOUNT_NO}
-                  <button type="button" onClick={() => handleCopy(ACCOUNT_NO)}>
+                  0001856423848
+                  <button type="button" onClick={() => handleCopy('0001856423848')}>
                     sao chép
                   </button>
                 </td>
