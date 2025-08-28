@@ -137,7 +137,7 @@ function CreateProductForm() {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="% giảm giá nếu có"
+              label="% giảm giá nếu có(nếu không có để 0)"
               variant="outlined"
               name="discount"
               type="number"
