@@ -36,9 +36,8 @@ function Carts() {
   const [useToken, setUseToken] = useState(false);
   const [otherReceiver, setOtherReceiver] = useState(false);
   const [receiverInfo, setReceiverInfo] = useState({ name: "", phone: "" });
-  const [fullName, setFullname] = useState("");
+  const [dataProduct, setDataProduct] = useState([]);
   const inputNameRef = useRef(null);
-  const debounceTimer = useRef(null);
   const [receiverPhoneError, setReceiverPhoneError] = useState("");
   const receiverNameRef = useRef(null);
   const receiverPhoneRef = useRef(null);
