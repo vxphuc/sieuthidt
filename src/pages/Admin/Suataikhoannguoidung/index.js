@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import api from "../../../api/axios";
 function Suataikhoannguoidung() {
-  const { uid } = useParams();
+  const { id } = useParams();
   const [user, setUser] = useState({
     name: "",
     role: "",
@@ -18,7 +18,7 @@ function Suataikhoannguoidung() {
         setSuccess(false);
         setError(null);
         const response = await api.get(
-          `/sign-in/user-profile-admin/${uid}`,
+          `/sign-in/user-profile-admin/${id}`,
           { withCredentials: true }
         );
         setUser({
@@ -29,8 +29,9 @@ function Suataikhoannguoidung() {
         setError("Không tìm thấy user!");
       }
     };
-    if (uid) fetchUser();
-  }, [uid]);
+    if(id) fetchUser()
+  }, [id]);
+console.log(user)
 
   // Handle form input change
   const handleChange = (e) => {
@@ -48,7 +49,7 @@ function Suataikhoannguoidung() {
     setError(null);
     try {
       const response = await api.put(
-        `/sign-in/${uid}/editUserByAdmin`,
+        `/sign-in/${id}/editUserByAdmin`,
         user,
         { withCredentials: true }
       );
@@ -69,7 +70,7 @@ function Suataikhoannguoidung() {
         <input
           type="text"
           className="form-control"
-          value={uid || ""}
+          value={id || ""}
           readOnly
         />
       </div>

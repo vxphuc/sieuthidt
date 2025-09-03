@@ -67,7 +67,7 @@ export const router = [
   { path: "/", component: Home },
   { path: "/gio-hang", component: Carts, layout: HeaderOnly },
   {
-    path: "/quan-tri/sua-tai-khoan-nguoi-dung/:uid",
+    path: "/quan-tri/sua-tai-khoan-nguoi-dung/:id",
     component: Suataikhoannguoidung,
     layout: AdminLayout,
   },

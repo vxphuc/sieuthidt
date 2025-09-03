@@ -43,13 +43,13 @@ function Taikhoanquanly() {
           {users.map((user, index) => {
             return (
               <tr key={user._id}>
-                <th scope="row">{user.uid}</th>
+                <th scope="row">{user._id}</th>
                 <td>{user.name}</td>
                 <td>{user.numberPhone}</td>
                 <td>{user.token}</td>
                 <td>{user.role}</td>
                 <td>
-                  <NavLink to={`/quan-tri/sua-tai-khoan-nguoi-dung/${user.uid}`} className="btn btn-primary">Sửa</NavLink>
+                  <NavLink to={`/quan-tri/sua-tai-khoan-nguoi-dung/${user._id}`} className="btn btn-primary">Sửa</NavLink>
                   <NavLink to={`/quan-tri/chi-tiet-tai-khoan/${user.uid}`} className="btn btn-success ms-2">xem chi tiết</NavLink>
                 </td>
               </tr>
