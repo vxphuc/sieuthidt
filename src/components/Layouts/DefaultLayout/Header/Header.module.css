@@ -182,6 +182,16 @@ a {
 /* .logoutButton:hover {
   color: #ff0000;
 } */
+
+.FacebookMessenger {
+  position: fixed;    /* cố định theo màn hình */
+  bottom: 100px;
+  font-size: 3em;       /* cách đáy 20px */
+  right: 20px;        /* cách phải 20px */
+  cursor: pointer;    /* trỏ chuột thành bàn tay */
+  z-index: 9999;      /* nổi lên trên cùng */
+}
+
 @media (max-width: 993px){
   nav a{
     font-size: 13px;

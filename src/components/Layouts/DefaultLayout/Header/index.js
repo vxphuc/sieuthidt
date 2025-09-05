@@ -1,14 +1,21 @@
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import style from "./Header.module.css";
 import Auth from "../../../Auth";
 import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faBars, faBell, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faBars,
+  faBell,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
+
 import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../../../contexts/CartContext";
 import { io } from "socket.io-client";
-import api from "../../../../api/axios"
+import api from "../../../../api/axios";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,12 +25,12 @@ function Header() {
   const { cartCount } = useContext(CartContext);
   const [notifications, setNotifications] = useState([]);
   const [popupnotifications, setpopupNotifications] = useState(false);
-  
+
   const navigate = useNavigate();
   const handleLogout = async () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-    window.location.reload()
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    window.location.reload();
   };
   // SOCKET: dùng ref để giữ instance duy nhất
   const socketRef = useRef(null);
@@ -61,9 +68,7 @@ function Header() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await api.get(
-          "/sign-in/NotificationAdmin"
-        );
+        const res = await api.get("/sign-in/NotificationAdmin");
         setNotifications(res.data);
       } catch (err) {
         console.error("Không lấy được thông báo:", err);
@@ -89,9 +94,7 @@ function Header() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get(
-          "/sign-in/user-profile"
-        );
+        const res = await api.get("/sign-in/user-profile");
         setUserRole(res.data.role);
       } catch (err) {
         setUserRole(null);
@@ -153,7 +156,10 @@ function Header() {
                 </NavLink>
               </li>
               <li>
-                <button className={style.navItemButton} onClick={() => setpopupNotifications((prev) => !prev)}>
+                <button
+                  className={style.navItemButton}
+                  onClick={() => setpopupNotifications((prev) => !prev)}
+                >
                   <FontAwesomeIcon icon={faBell} className={style.cartIcon} />
                 </button>
               </li>
@@ -163,7 +169,10 @@ function Header() {
               {userRole && (
                 <li>
                   <button className={style.logoutButton} onClick={handleLogout}>
-                    <FontAwesomeIcon icon={faRightFromBracket} className={style.cartIcon} />
+                    <FontAwesomeIcon
+                      icon={faRightFromBracket}
+                      className={style.cartIcon}
+                    />
                   </button>
                 </li>
               )}
@@ -181,6 +190,13 @@ function Header() {
           </div>
         </nav>
 
+        <a href="https://m.me/675268599012098"><FontAwesomeIcon
+        className={style.FacebookMessenger}
+          icon={faFacebookMessenger}
+          size="2xl"
+          style={{ color: "#74C0FC" }}
+        /></a>
+
         {popupnotifications && (
           <div className={style.notificationPopup}>
             <h4>Thông báo</h4>
@@ -189,7 +205,10 @@ function Header() {
             ) : (
               <ul className={style.notificationList}>
                 {notifications.map((noti) => (
-                  <NavLink to={`/quan-tri/chi-tiet/${noti.orderId}`} key={noti._id}>
+                  <NavLink
+                    to={`/quan-tri/chi-tiet/${noti.orderId}`}
+                    key={noti._id}
+                  >
                     <li className={style.notificationItem}>{noti.message}</li>
                   </NavLink>
                 ))}
