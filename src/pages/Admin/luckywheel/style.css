@@ -1,0 +1,21 @@
+.containerwheel{
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+
+}
+.control{
+  width: 35%;
+  height: 100%;
+  background-color: #f3f4f6;
+  overflow: auto;
+  float: left;
+}
+.wheel{
+  width: 65%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+}

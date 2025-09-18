@@ -30,7 +30,7 @@ import DetailProductBill from "../pages/Admin/DetailProductBill";
 import Taikhoanquanly from "../pages/Admin/Taikhoanquanly";
 import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
 import DetailUsers from "../pages/Admin/DetailUser";
-
+import LuckyWheel from "../pages/Admin/luckywheel/index";
 export const router = [
   {
     path: "/tim-kiem",
@@ -39,6 +39,11 @@ export const router = [
   {
     path: "/quan-tri/chat-bot",
     component: ChatBot,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/LuckyWheel",
+    component: LuckyWheel,
     layout: AdminLayout,
   },
   {

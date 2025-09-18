@@ -59,6 +59,16 @@ function Sitebar() {
           Banner
         </NavLink>
       </div>
+      <div>
+        <h3>LuckyWheel</h3>
+        <NavLink
+          to="/quan-tri/LuckyWheel"
+          className={({ isActive }) => (isActive ? Style.active : "")}
+        >
+          {" "}
+          Vòng quay may mắn
+        </NavLink>
+      </div>
     </div>
   );
 }
