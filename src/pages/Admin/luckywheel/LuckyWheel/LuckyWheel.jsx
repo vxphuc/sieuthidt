@@ -21,17 +21,20 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
   const [winner, setWinner] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const size = 520;                  // Kích thước canvas
+  const size = window.innerWidth < 768 ? 350 : 520;// Kích thước canvas
   const center = size / 2;           // Tâm canvas (giữa)
   const radius = center - 35;        // Bán kính (chừa khoảng viền)
-  const API_BASE = "http://localhost:5000";
+  const API_BASE =
+  (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_BASE) ||
+  (typeof process !== "undefined" && process.env && process.env.REACT_APP_API_BASE) ||
+  "https://luckywheel-backend-acgn.onrender.com";
   
   // Nếu chọn màu random thì tạo màu theo số lượng prizes
   const colors = settings.randomColors
     ? prizes.map(
         () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`
       )
-    : ["#FF0000", "#ffffffff"];
+    : ["#078832ff", "#ffffffff"];
 
   // Vẽ vòng quay
   useEffect(() => {
@@ -41,6 +44,23 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
     ctx.clearRect(0, 0, size, size);
 
     const sliceAngle = (2 * Math.PI) / prizes.length;
+    function getImageSize(size) {
+      let scale, imgW, imgH;
+
+      if (window.innerWidth < 768) {
+        // 📱 Mobile
+        scale = size / 555;
+        imgW = 145 * scale;
+        imgH = 55 * scale;
+      } else {
+        // 💻 Desktop
+        scale = size / 520;
+        imgW = 120 * scale;
+        imgH = 60 * scale;
+      }
+
+      return { imgW, imgH };
+    }
     for (let i = 0; i < prizes.length; i++) {
       ctx.beginPath();
       ctx.moveTo(center, center);
@@ -53,6 +73,33 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
       );
       ctx.fillStyle = colors[i % colors.length];
       ctx.fill();
+      ctx.strokeStyle = "#FFD700";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      
+      if (prizes[i].image) {
+        const img = new Image();
+        img.src = prizes[i].image.startsWith("http")
+          ? prizes[i].image
+          : `${API_BASE}${prizes[i].image}`;
+        img.onload = () => {
+          const { imgW, imgH } = getImageSize(size);
+
+          ctx.save();
+          ctx.translate(center, center);
+          // Xoay tới lát cắt
+          ctx.rotate(i * sliceAngle + sliceAngle / 2 + angle);
+          // Đẩy ra ngoài rìa lát
+          ctx.translate(radius - imgW + 60, 0);
+          // Xoay ngang lại hình ảnh 90 độ
+          ctx.rotate(Math.PI / 2);
+
+          // Vẽ ảnh, gốc là giữa chiều cao
+          ctx.drawImage(img, -imgW / 2, -imgH / 2, imgW, imgH);
+
+          ctx.restore();
+        };
+      }
 
       const aa = ctx.createRadialGradient(center, center, radius, center, center, radius - 30);
       aa.addColorStop(0, "#FFF8DC");   // highlight sáng
@@ -65,16 +112,16 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
       ctx.stroke();
 
       // Vẽ chữ
-      ctx.save();
-      ctx.translate(center, center);
-      ctx.rotate(i * sliceAngle + sliceAngle / 2 + angle);
-      ctx.textAlign = "right";
-      ctx.fillStyle = i % 2 === 0 ? "#ffffffff" : "#FF0000";
-      ctx.font = "bold 24px Serif";
-      const maxTextWidth = 100; // 🔹 Giới hạn chiều rộng hiển thị
-      const text = truncateText(ctx, prizes[i].label, maxTextWidth);
-      ctx.fillText(text, radius - 10, 10);
-      ctx.restore();
+      // ctx.save();
+      // ctx.translate(center, center);
+      // ctx.rotate(i * sliceAngle + sliceAngle / 2 + angle);
+      // ctx.textAlign = "right";
+      // ctx.fillStyle = i % 2 === 0 ? "#ffffffff" : "#FF0000";
+      // ctx.font = "bold 24px Serif";
+      // const maxTextWidth = 100; // 🔹 Giới hạn chiều rộng hiển thị
+      // const text = truncateText(ctx, prizes[i].label, maxTextWidth);
+      // ctx.fillText(text, radius - 10, 10);
+      // ctx.restore();
     }
     const redGradient = ctx.createRadialGradient(center, center, radius - 30, center, center, radius + 20);
     redGradient.addColorStop(0, "#FF4D4D");  // đỏ sáng (gần highlight)
@@ -152,7 +199,7 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
     
     // 🔹 Vẽ vòng tròn nền ở giữa
     ctx.beginPath();
-    ctx.arc(center, center, 30, 0, 2 * Math.PI); // bán kính = 40px
+    ctx.arc(center, center, 35, 0, 2 * Math.PI); // bán kính = 40px
     ctx.fillStyle = "#fff"; // nền trắng
     ctx.fill();
     ctx.lineWidth = 3;
@@ -163,17 +210,18 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
     const img = new Image();
     img.src = logo;
     img.onload = () => {
-      const imgSize = 36; // nhỏ hơn 40 để lộ viền ngoài
+      const imgSize = 50; // nhỏ hơn 40 để lộ viền ngoài
       ctx.save();
       ctx.beginPath();
-      ctx.arc(center, center, imgSize / 2, 0, 2 * Math.PI);
+      ctx.arc(center, center, imgSize / 1, 0, 2 * Math.PI);
       ctx.clip();
-      ctx.drawImage(img, center - imgSize / 2, center - imgSize / 2, imgSize, imgSize);
+      ctx.drawImage(img, center - imgSize / 2.4, center - imgSize / 2, imgSize, imgSize);
       ctx.restore();
     };
+    
 
   }, [prizes, angle, settings]);
-
+  
   // Chọn ngẫu nhiên phần thưởng
   const pickPrize = () => {
     const available = prizes.filter(p => p.quantity > 0);
@@ -232,21 +280,34 @@ function LuckyWheel({ prizes, settings, setPrizes }) {
 
     requestAnimationFrame(animate);
   };
+  useEffect(() => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
+  const handleClick = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Tính khoảng cách từ điểm click tới tâm
+    const dx = x - center;
+    const dy = y - center;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Logo nằm trong vòng tròn bán kính ~30px (giống lúc vẽ logo)
+    if (distance <= 30) {
+      spin(); // gọi hàm quay
+    }
+  };
+
+  canvas.addEventListener("click", handleClick);
+  return () => canvas.removeEventListener("click", handleClick);
+}, [center, spin]);
   return (
-  <div className="main container">
-    <h2 className="text-xl font-bold mb-2">🎡 Vòng quay may mắn</h2>
+  <div className="main containera">
+    {/* <h2 className="text-xl font-bold mb-2">🎡 Vòng quay may mắn</h2> */}
     <div className="wheel-border">
       <canvas ref={canvasRef} width={size} height={size} className="mx-auto" />
-    </div>
-    <div className="mt-4">
-      <button
-        onClick={spin}
-        disabled={spinning}
-        className="start px-4 py-2 bg-red-500 text-white rounded-lg"
-      >
-        {spinning ? "Đang quay..." : "Quay ngay!"}
-      </button>
     </div>
     {/* Popup */}
       {showPopup && (

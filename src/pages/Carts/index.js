@@ -21,7 +21,8 @@ import {
 function Carts() {
   const changeAddressRef = useRef(null);
   const navigate = useNavigate();
-
+  
+  const [discountCode, setDiscountCode] = useState("");
   // State giỏ hàng luôn là nguồn dữ liệu duy nhất, luôn lấy từ localStorage
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +52,14 @@ function Carts() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   console.log(cart)
+
+  const handleApplyDiscount = () => {
+    if (!discountCode.trim()) {
+      alert("Vui lòng nhập mã giảm giá!");
+      return;
+    }
+    console.log("Mã giảm giá:", discountCode);
+  };
 
   // Fetch user info
   const fetchUserProfile = async () => {
@@ -515,6 +524,47 @@ function Carts() {
                       <span>
                         Sử dụng <strong>{user.token || 0}</strong> điểm
                       </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/929/929430.png"
+                        alt="discount"
+                        width="18"
+                        height="18"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Nhập mã giảm giá"
+                        style={{
+                          flex: 1,
+                          padding: "6px 8px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        value={discountCode}
+                        onChange={(e) => setDiscountCode(e.target.value)}
+                      />
+                      <button
+                        onClick={handleApplyDiscount}
+                        style={{
+                          padding: "6px 12px",
+                          backgroundColor: "#00703a",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Áp dụng
+                      </button>
                     </td>
                   </tr>
                   <tr>

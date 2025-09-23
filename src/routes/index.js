@@ -31,6 +31,7 @@ import Taikhoanquanly from "../pages/Admin/Taikhoanquanly";
 import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
 import DetailUsers from "../pages/Admin/DetailUser";
 import LuckyWheel from "../pages/Admin/luckywheel/index";
+import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
 export const router = [
   {
     path: "/tim-kiem",
@@ -44,7 +45,7 @@ export const router = [
   {
     path: "/quan-tri/LuckyWheel",
     component: LuckyWheel,
-    layout: AdminLayout,
+    layout: HeaderOnly,
   },
   {
     path: "/quan-tri/quan-ly-tai-khoan",
@@ -139,6 +140,11 @@ export const router = [
     path: "/quan-tri/san-pham/:slug/cap-nhap-san-pham",
     component: UpdateProduct,
     layout: AdminLayout,
+  },
+  {
+    path: "/vongquaymayman",
+    component: LuckyWheelPage,
+    layout: HeaderOnly,  // hoặc HeaderOnly nếu muốn hiển thị ngoài Admin
   },
   { path: "/san-pham/:slug", component: Product },
   { path: "/:slug/:slug", component: DetailProduct, layout: HeaderOnly},

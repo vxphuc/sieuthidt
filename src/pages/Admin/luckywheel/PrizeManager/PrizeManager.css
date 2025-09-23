@@ -1,0 +1,8 @@
+.menuwheel{
+    flex-direction: column;
+    padding-left: 0px !important;
+}
+.menuwheel1{
+    display: flex;
+    flex-direction: column;
+}
