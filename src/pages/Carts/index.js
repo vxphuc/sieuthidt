@@ -53,6 +53,7 @@ function Carts() {
   const [alertMessage, setAlertMessage] = useState("");
   console.log(cart)
 
+  // Áp dụng mã giảm giá
   const handleApplyDiscount = () => {
     if (!discountCode.trim()) {
       alert("Vui lòng nhập mã giảm giá!");
@@ -60,6 +61,8 @@ function Carts() {
     }
     console.log("Mã giảm giá:", discountCode);
   };
+  //hết
+
 
   // Fetch user info
   const fetchUserProfile = async () => {
@@ -526,6 +529,8 @@ function Carts() {
                       </span>
                     </td>
                   </tr>
+
+                  {/* Áp dụng mã giảm giá */}
                   <tr>
                     <td
                       style={{
@@ -567,6 +572,7 @@ function Carts() {
                       </button>
                     </td>
                   </tr>
+                  {/* hết */}
                   <tr>
                     <td className={styles.tableText}>Tổng đơn hàng</td>
                     <td className={styles.totalAll}>{totalOrder}</td>
