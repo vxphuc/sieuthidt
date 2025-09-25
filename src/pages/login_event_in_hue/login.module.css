@@ -5,6 +5,8 @@
   min-height: 100vh; /* chiếm toàn màn hình */
   position: relative;
   padding-top: 50px;
+  /* width: 80%;
+  margin: 0 auto; */
 }
 
 /* Popup form */
@@ -19,4 +21,10 @@
 }
 .title {
   font-weight: bold;
+}
+@media (max-width: 600px) {
+  .wrapper{
+    width: 100%;
+    margin: 0 auto;
+  }
 }
