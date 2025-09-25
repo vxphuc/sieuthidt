@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Typography } from "@mui/material";
 
 function Event() {
   const [showVideo, setShowVideo] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     // Hiển thị video sau 500ms để bắt đầu hiệu ứng
@@ -23,13 +24,19 @@ function Event() {
       clearTimeout(titleTimer);
     };
   }, []);
+  useEffect(() => {
+    if (showVideo && videoRef.current) {
+      videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [showVideo]);
 
   return (
     <div
+      className="event-hue"
       style={{
         position: "relative",
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        height: "300vh",
         backgroundImage: `url('./z7048994480000_2cfd25a42a5aa1e302820296860219a7.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -50,7 +57,9 @@ function Event() {
             opacity: 0;
             transform: translateY(20px);
           }
-          
+          .event-content-mobile{
+            top: 0% !important;
+          }
           .element-visible {
             opacity: 1;
             transform: translateY(0);
@@ -67,6 +76,7 @@ function Event() {
           }
 
           @media screen and (max-width: 768px) {
+
             .event-content-mobile {
               width: 90% !important;
               top: -20% !important;
@@ -74,6 +84,10 @@ function Event() {
             .logo-link-mobile {
               padding-top: 0px;
               margin-top: 55px;
+            }
+            .event-hue {
+              width: 100vw !important;
+              height: 100vh !important;
             }
           }
         `}
@@ -99,6 +113,7 @@ function Event() {
         </div>
 
         <div
+          ref={videoRef}
           // Sử dụng cả lớp hidden và visible để tạo hiệu ứng chuyển động
           className={`element-hidden ${showVideo ? "element-visible" : ""}`}
           style={{
@@ -108,8 +123,8 @@ function Event() {
             overflow: "hidden",
             borderRadius: "8px",
             width: "100%",
-            maxWidth: "640px",
-            margin: "0 auto",
+            // maxWidth: "640px",
+            // margin: "0 auto",
           }}
         >
           <iframe
