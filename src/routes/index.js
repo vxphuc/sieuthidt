@@ -41,6 +41,7 @@ import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
 import DetailUsers from "../pages/Admin/DetailUser";
 import LuckyWheel from "../pages/Admin/luckywheel/index";
 import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
+
 export const router = [
   {
     path: "/tim-kiem",
@@ -113,8 +114,8 @@ export const router = [
   },
   { path: "/dang-nhap", component: Login, layout: HeaderLayout },
   // login event in hue
-  { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: Header },
-  {path:"/event-hue", component: event, layout: Header},
+  { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: null },
+  {path:"/event-hue", component: event, layout: null},
   {
     path: "/quan-tri/loai-san-pham/thung-rac",
     component: RecycleBinTyproduct,

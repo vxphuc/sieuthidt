@@ -58,7 +58,7 @@ function Login() {
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} className={`${styles.paper}`}>
           <p className="text-center mb-3">
-            Hãy nhập số điện thoại để xem thêm thông tin của "DT GROUP" và nhận quà bạn nhé!
+            Chào Mừng Quý Khách Đến Tham Quan DT Group. Nhập Số Điện thoại tiếp tục xem Video về chúng tôi
           </p>
           <form onSubmit={(e) => e.preventDefault()}>
             <TextField
