@@ -1,0 +1,67 @@
+.event-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* toàn màn hình */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ảnh nền */
+.event-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ảnh nền phủ đầy */
+  z-index: -1; /* để nằm dưới */
+  filter: brightness(0.7); /* làm tối nhẹ để chữ nổi bật */
+}
+
+/* hiệu ứng fade-in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* khung chứa nội dung ở giữa */
+.event-content {
+  text-align: center;
+  color: white;
+  z-index: 1;
+  max-width: 100%;
+}
+.aaa{
+    width: 40px;
+    margin-bottom: 22px;
+}
+.cc{
+    padding-top: 20%;
+
+}
+.chophuc{
+    font-family: sans-serif !important;
+    background-color: white;
+    color: green;
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
+
+
+@media screen and (max-width: 768px) {
+  .bbbbb{
+    width: 90% !important;
+  }
+  .cc{
+    padding-top: 0px;
+    margin-top: -20px;
+  }
+}
