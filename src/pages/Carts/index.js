@@ -21,7 +21,7 @@ import {
 function Carts() {
   const changeAddressRef = useRef(null);
   const navigate = useNavigate();
-  
+
   const [discountCode, setDiscountCode] = useState("");
   // State giỏ hàng luôn là nguồn dữ liệu duy nhất, luôn lấy từ localStorage
   const [cart, setCart] = useState([]);
@@ -48,10 +48,10 @@ function Carts() {
   const [errorReceiverName, setErrorReceiverName] = useState(false);
   const [errorReceiverPhone, setErrorReceiverPhone] = useState(false);
   const userInfoRef = useRef(null);
-  const addressRef = changeAddressRef; // đã có sẵn ref này rồi anh dùng luôn
+  const addressRef = changeAddressRef;
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  console.log(cart)
+  const [product, setProduct] = useState([]);
 
   // Áp dụng mã giảm giá
   const handleApplyDiscount = () => {
@@ -62,7 +62,6 @@ function Carts() {
     console.log("Mã giảm giá:", discountCode);
   };
   //hết
-
 
   // Fetch user info
   const fetchUserProfile = async () => {
@@ -89,26 +88,36 @@ function Carts() {
     setLoading(false);
   };
 
+  const setproduct = () => {
+    const idx = getCart().map((index) => index.id);
+    const quantityproduct = getCart().map((index) => index.quantity);
+    api
+      .post("/product/seeding-product", {
+        id: idx,
+        quantity: quantityproduct,
+      })
+      .then((res) => {
+        setProduct(res.data);
+      });
+  };
+
   // Khi mở trang, fetch user, cart, address
   useEffect(() => {
     fetchUserProfile();
     fetchCart();
     fetchAddress();
+    setproduct();
   }, []);
 
   // Mỗi lần cart thay đổi thì tính lại tổng tiền
   useEffect(() => {
     let totalPrice = 0;
-    cart.forEach((item) => {
-      totalPrice += parseFloat(item.price) * item.quantity;
+    product.forEach((item) => {
+      totalPrice +=
+        parseFloat(item.priceDiscount.$numberDecimal) * item.quantity;
     });
-    setTotalOrder(
-      totalPrice.toLocaleString("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      })
-    );
-  }, [cart]);
+    setTotalOrder(totalPrice);
+  }, [product]);
 
   // Tự động blur input khi scroll (UX improvement)
   useEffect(() => {
@@ -147,14 +156,17 @@ function Carts() {
   const handleQuantityChange = (id, type) => {
     let updatedCart = [...cart];
     const idx = updatedCart.findIndex((item) => item.id === id);
+    console.log(idx);
     if (idx === -1) return;
     if (type === "updateincrease") {
       updatedCart[idx].quantity += 1;
     } else if (type === "updateDecrease") {
       updatedCart[idx].quantity = Math.max(1, updatedCart[idx].quantity - 1);
     }
+
     saveCart(updatedCart);
     setCart(updatedCart);
+    setproduct();
   };
 
   // Nhập số lượng bằng input
@@ -167,6 +179,7 @@ function Carts() {
     updatedCart[idx].quantity = num;
     saveCart(updatedCart);
     setCart(updatedCart);
+    setproduct();
   };
 
   // Dùng điểm khi thanh toán
@@ -229,13 +242,14 @@ function Carts() {
         alternateReceiverName = receiverInfo.name;
         alternateReceiverPhone = receiverInfo.phone;
       }
-      const products = cart.map((item) => {
+      const products = product.map((item) => {
+        console.log(product);
         return {
           name: item.name,
           price: item.price,
           quantity: item.quantity,
-          productID: item.id,
-          img: item.image,
+          productID: item._id,
+          img: item.image[0],
         };
       });
 
@@ -282,7 +296,6 @@ function Carts() {
       setIsAdding(false);
     }
     setIsAdding(false);
-
   };
 
   // Nếu giỏ hàng trống
@@ -309,7 +322,9 @@ function Carts() {
                   <NavLink to="/gio-hang/cap-nhap-dia-chi">
                     <span
                       ref={changeAddressRef}
-                      className={`${errorAddress ? styles.highlightChangeAddress : ""}`}
+                      className={`${
+                        errorAddress ? styles.highlightChangeAddress : ""
+                      }`}
                       style={{ cursor: "pointer" }}
                     >
                       {address.length > 0 ? "Đổi" : "Thêm"}
@@ -332,8 +347,7 @@ function Carts() {
                       ? address.map((Addr, index) => {
                           return (
                             <div key={index}>
-                              {Addr.province}, {Addr.ward},{" "}
-                              {Addr.road}
+                              {Addr.province}, {Addr.ward}, {Addr.road}
                             </div>
                           );
                         })
@@ -435,7 +449,7 @@ function Carts() {
               </BackgroundPopup>
             )}
 
-            {cart.map((item) => (
+            {product.map((item) => (
               <div key={item.id} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button
@@ -444,12 +458,14 @@ function Carts() {
                   >
                     X
                   </button>
-                  <img src={item.image} alt="product" />
+                  <img src={item.image[0]} alt="product" />
                   <div className={styles.productInfo}>
                     <p className={styles.productName}>{item.name}</p>
                     <p className={styles.productPrice}>
                       Giá tiền:{" "}
-                      {parseFloat(item.price).toLocaleString("vi-VN", {
+                      {parseFloat(
+                        item.priceDiscount.$numberDecimal
+                      ).toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}
@@ -459,18 +475,18 @@ function Carts() {
                 <div className={styles.content}>
                   <p>
                     Tổng tiền:{" "}
-                    {(parseFloat(item.price) * item.quantity).toLocaleString(
-                      "vi-VN",
-                      {
-                        style: "currency",
-                        currency: "VND",
-                      }
-                    )}
+                    {(
+                      parseFloat(item.priceDiscount.$numberDecimal) *
+                      item.quantity
+                    ).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </p>
                   <div className={styles.quantityControl}>
                     <button
                       onClick={() =>
-                        handleQuantityChange(item.id, "updateDecrease")
+                        handleQuantityChange(item._id, "updateDecrease")
                       }
                       className={styles.tru}
                     >
@@ -486,7 +502,7 @@ function Carts() {
                     />
                     <button
                       onClick={() =>
-                        handleQuantityChange(item.id, "updateincrease")
+                        handleQuantityChange(item._id, "updateincrease")
                       }
                       className={styles.cong}
                     >
@@ -507,7 +523,12 @@ function Carts() {
                 <tbody>
                   <tr>
                     <td className={styles.tableText}>Tổng tiền</td>
-                    <td className={styles.totalAll}>{totalOrder}</td>
+                    <td className={styles.totalAll}>
+                      {totalOrder.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
                   </tr>
                   <tr>
                     <td
@@ -575,7 +596,12 @@ function Carts() {
                   {/* hết */}
                   <tr>
                     <td className={styles.tableText}>Tổng đơn hàng</td>
-                    <td className={styles.totalAll}>{totalOrder}</td>
+                    <td className={styles.totalAll}>
+                      {totalOrder.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -696,7 +722,12 @@ function Carts() {
                   <span className={styles.orderText}>
                     {isAdding ? "đang xử lý đơn: " : "Đặt Hàng: "}
                   </span>
-                  <span className={styles.orderPrice}>{totalOrder}</span>
+                  <span className={styles.orderPrice}>
+                    {totalOrder.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </span>
                 </button>
               </div>
             </div>
@@ -713,11 +744,18 @@ function Carts() {
                 setShowAlert(false);
                 // Scroll về nút Thêm
                 if (changeAddressRef.current) {
-                  changeAddressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-                  changeAddressRef.current.classList.add(styles.highlightChangeAddress);
+                  changeAddressRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                  changeAddressRef.current.classList.add(
+                    styles.highlightChangeAddress
+                  );
                   setTimeout(() => {
                     if (changeAddressRef.current) {
-                      changeAddressRef.current.classList.remove(styles.highlightChangeAddress);
+                      changeAddressRef.current.classList.remove(
+                        styles.highlightChangeAddress
+                      );
                     }
                   }, 3000);
                 }
