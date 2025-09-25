@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
-
 function Event() {
   const navigate = useNavigate();
 
@@ -15,8 +14,19 @@ function Event() {
         Giới thiệu về "DT GROUP"
       </Typography>
 
-      {/* Video responsive */}
-      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: "8px" }}>
+      {/* Video responsive với maxWidth 90% trên desktop */}
+      <div
+        style={{
+          position: "relative",
+          paddingBottom: "56.25%", // giữ tỉ lệ 16:9
+          height: "auto",
+          overflow: "hidden",
+          borderRadius: "8px",
+          width: "100%",
+          maxWidth: "90%", // desktop tối đa 90%
+          margin: "0 auto" // căn giữa
+        }}
+      >
         <iframe
           src="https://www.youtube.com/embed/lB-gCcpSzt0?si=IZhVR8ypbj8aTqwf"
           title="YouTube video player"
@@ -33,6 +43,16 @@ function Event() {
           }}
         ></iframe>
       </div>
+      <img
+        src="/z7048707123874_020c0bed38fd5e4c8486f5f6322b448a.jpg"
+        alt="Giới thiệu DT Group"
+        style={{
+          marginTop: "20px",
+          width: "100%",
+          maxWidth: "90%",
+          borderRadius: "8px"
+        }}
+      />
     </div>
   );
 }

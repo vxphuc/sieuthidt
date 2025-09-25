@@ -92,7 +92,17 @@ function Login() {
               {isSending ? "Đang xử lý..." : "Đăng nhập"}
             </Button>
           </form>
+          
         </Paper>
+        <img
+        src="/z7048707123874_020c0bed38fd5e4c8486f5f6322b448a.jpg"
+        alt="Giới thiệu DT Group"
+        style={{
+          marginTop: "10px",
+          width: "100%",
+          borderRadius: "8px"
+        }}
+      />
       </Container>
     </div>
   );
