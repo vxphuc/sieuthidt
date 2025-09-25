@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TextField, Button, Container, Paper, Typography } from "@mui/material";
 import styles from "./login.module.css";
-import api from "../../api/axios"; 
+import api from "../../api/axios";
 import { getName, saveName } from "../../services/cartService";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,6 @@ function Login() {
   const name = getName();
   const navigate = useNavigate();
 
-  // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
     return regex.test(phone);
@@ -24,7 +23,6 @@ function Login() {
     if (error) setError(false);
   };
 
-  // Đăng nhập bằng số điện thoại (API mới)
   const handleLogin = async () => {
     if (!isValidVietnamPhoneNumber(phone)) {
       setError(true);
@@ -54,12 +52,24 @@ function Login() {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={{
+      backgroundImage: "url('/aaa.jpg')",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+    }}>
       <Container component="main" maxWidth="xs">
-        <Paper elevation={3} className={`${styles.paper}`}>
-          <p className="text-center mb-3">
-            Chào Mừng Quý Khách Đến Tham Quan DT Group. Nhập Số Điện thoại tiếp tục xem Video về chúng tôi
-          </p>
+        <Paper elevation={6} className={styles.paper}>
+          <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold" }}>
+            Chào mừng Quý Khách
+            <p>
+              Đến tham quan DT Group
+            </p>
+            
+          </Typography>
+          {/* <Typography variant="body2" gutterBottom align="center">
+            Vui lòng nhập số điện thoại
+          </Typography> */}
           <form onSubmit={(e) => e.preventDefault()}>
             <TextField
               fullWidth
@@ -88,21 +98,12 @@ function Login() {
               className="mt-3"
               onClick={handleLogin}
               disabled={phone.length !== 10 || isSending}
+              style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
             >
-              {isSending ? "Đang xử lý..." : "Đăng nhập"}
+              {isSending ? "Đang xử lý..." : "Tham quan"}
             </Button>
           </form>
-          
         </Paper>
-        <img
-        src="/z7048707123874_020c0bed38fd5e4c8486f5f6322b448a.jpg"
-        alt="Giới thiệu DT Group"
-        style={{
-          marginTop: "10px",
-          width: "100%",
-          borderRadius: "8px"
-        }}
-      />
       </Container>
     </div>
   );
