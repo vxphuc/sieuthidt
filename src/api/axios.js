@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://localhost:5000" || 'https://sieuthidt.io.vn',
+  baseURL: "https://sieuthidt.io.vn" || 'https://sieuthidt.io.vn',
   timeout: 10000,
 });
 
