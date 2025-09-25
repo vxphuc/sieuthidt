@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 110px;
+  }
+  
+  .paper {
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+  }
+  
