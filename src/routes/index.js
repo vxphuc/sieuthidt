@@ -4,11 +4,20 @@ import ProductAdmin from "../pages/Admin/ProductAdmin";
 import CreateProduct from "../pages/Admin/CreateProduct";
 import AdminLayout from "../components/Layouts/AdminLayout";
 import HeaderLayout from "../components/Layouts/HeaderLayout";
+
+// import HeaderLayout from "../components/Layouts/HeaderEvent";
+import Header from "../components/Layouts/HeaderEvent";
+import event from "../pages/Event_Hue";
+
 import TypeProductAdmin from "../pages/Admin/TypeProductAdmin";
 import ManageAdmin from "../pages/Admin/ManageAdmin";
 import CreateTypeProductAdmin from "../pages/Admin/CreateTypeProductAdmin";
 import RecycleBin from "../pages/Admin/RecycleBin";
 import Login from "../pages/Login";
+
+// login event in hue
+import LoginEventInHue from "../pages/login_event_in_hue";
+
 import CreateBanner from "../pages/Admin/CreateBanner";
 import ShowBanner from "../pages/Admin/ShowBanner";
 import UpdateProduct from "../pages/Admin/UpdateProduct";
@@ -103,6 +112,9 @@ export const router = [
     layout: AdminLayout,
   },
   { path: "/dang-nhap", component: Login, layout: HeaderLayout },
+  // login event in hue
+  { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: Header },
+  {path:"/event-hue", component: event, layout: Header},
   {
     path: "/quan-tri/loai-san-pham/thung-rac",
     component: RecycleBinTyproduct,

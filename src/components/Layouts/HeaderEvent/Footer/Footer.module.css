@@ -1,0 +1,62 @@
+.foot{
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+.container{
+    padding: 10px;
+}
+.list_unstyled{
+    padding: 0;
+    display: block ;
+}
+.list_unstyled li{
+    padding: 5px 0px;
+}
+.list_unstyled li a{
+    color: black;
+}
+.partnerList{
+    display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: start;
+  margin-top: 10px;
+}
+.partnerItem{
+    width: 40px;
+  height: auto;
+  object-fit: contain;
+}
+.break {
+    display: block;
+  }
+@media (max-width: 768px) {
+  .break {
+    display: block;
+  }
+    .foot,
+    .foot p,
+    .foot a,
+    .foot li,
+    .foot h5 {
+      font-size: 13px;
+      word-break: break-word;
+        white-space: normal; 
+    }
+    .foot{
+        height: 90vh;
+    }
+    .foot .container {
+    overflow-x: hidden;        /* ✅ Ngăn tràn ngang toàn khối */
+  }
+  .foot ul,
+  .foot li {
+    padding-right: 10px;       /* ✅ Có khoảng cách để tránh dính chữ */
+  }
+    .partnerList img {
+      width: 40px;
+      height: auto;
+    }
+  }
+  
