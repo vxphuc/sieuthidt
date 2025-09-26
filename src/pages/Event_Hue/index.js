@@ -16,7 +16,7 @@ function Event() {
     // Hiển thị tiêu đề sau 2.5 giây (500ms ban đầu + 2s bạn yêu cầu)
     const titleTimer = setTimeout(() => {
       setShowTitle(true);
-    }, 2500);
+    }, 500);
 
     // Dọn dẹp timer khi component unmount để tránh rò rỉ bộ nhớ
     return () => {
@@ -64,6 +64,7 @@ function Event() {
             opacity: 1;
             transform: translateY(0);
             transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            border-radius: 12px;
           }
 
           @keyframes bounce {
@@ -79,7 +80,7 @@ function Event() {
 
             .event-content-mobile {
               width: 90% !important;
-              top: -20% !important;
+              top: -18% !important;
             }
             .logo-link-mobile {
               padding-top: 0px;
@@ -112,6 +113,23 @@ function Event() {
           </NavLink>
         </div>
 
+        <div style={{background: "green", borderRadius: "12px"}}>
+          <h6
+          // Sử dụng cả lớp hidden và visible cho tiêu đề
+          className={`element-hidden ${showTitle ? "element-visible" : ""}`}
+          style={{
+            fontFamily: "sans-serif !important",
+            backgroundColor: "green",
+            color: "white",
+            fontSize: "18px !important",
+            fontWeight: "bold !important",
+          }}
+          variant="h6"
+          gutterBottom
+        >
+          <p style={{fontSize: "18px", marginBottom: "-6px", padding: "5px"}}>Giới thiệu về "DT GROUP"</p>
+        </h6>
+
         <div
           ref={videoRef}
           // Sử dụng cả lớp hidden và visible để tạo hiệu ứng chuyển động
@@ -121,7 +139,7 @@ function Event() {
             paddingBottom: "56.25%",
             height: "0",
             overflow: "hidden",
-            borderRadius: "8px",
+            borderRadius: "0px",
             width: "100%",
             // maxWidth: "640px",
             // margin: "0 auto",
@@ -143,21 +161,29 @@ function Event() {
             }}
           ></iframe>
         </div>
-        <Typography
+        <h6
           // Sử dụng cả lớp hidden và visible cho tiêu đề
           className={`element-hidden ${showTitle ? "element-visible" : ""}`}
           style={{
             fontFamily: "sans-serif !important",
-            backgroundColor: "white",
-            color: "green",
-            fontSize: "16px !important",
+            backgroundColor: "green",
+            color: "white",
+            fontSize: "10px !important",
             fontWeight: "bold !important",
+            height: "50px",
+            marginBottom: "-6px", padding: "5px"
           }}
           variant="h6"
           gutterBottom
         >
-          Giới thiệu về "DT GROUP"
-        </Typography>
+          <p style={{fontSize: "12px", marginBottom: "0", fontWeight: "bold"}}>Kết Nối Thương Mại</p>
+          {/* Sửa đổi ở đây */}
+          <a href="tel:0848726666" style={{textDecoration: "none", color: "white"}}>
+             <p style={{marginTop: "6px"}}>0848.726.666 - Mr. Du</p>
+          </a>
+        </h6>
+        </div>
+
       </div>
       <NavLink
         to="/"
@@ -173,7 +199,7 @@ function Event() {
           borderRadius: "8px",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           transition: "all 0.3s ease",
-          marginTop: "90px",
+          marginTop: "63px",
           // Thêm animation nảy
           animation: showTitle ? "bounce 2s infinite" : "none",
         }}

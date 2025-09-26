@@ -552,7 +552,7 @@ function Carts() {
                   </tr>
 
                   {/* Áp dụng mã giảm giá */}
-                  <tr>
+                  {/* <tr>
                     <td
                       style={{
                         display: "flex",
@@ -592,7 +592,7 @@ function Carts() {
                         Áp dụng
                       </button>
                     </td>
-                  </tr>
+                  </tr> */}
                   {/* hết */}
                   <tr>
                     <td className={styles.tableText}>Tổng đơn hàng</td>

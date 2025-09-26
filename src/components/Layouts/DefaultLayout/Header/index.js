@@ -190,12 +190,7 @@ function Header() {
           </div>
         </nav>
 
-        <a href="https://m.me/675268599012098"><FontAwesomeIcon
-        className={style.FacebookMessenger}
-          icon={faFacebookMessenger}
-          size="2xl"
-          style={{ color: "#0d6cfbff" }}
-        /></a>
+        
 
         {popupnotifications && (
           <div className={style.notificationPopup}>
