@@ -1,5 +1,4 @@
 import styles from './Footer.module.css'
-
 function Footer() {
     return (
         <footer className={`bg-light py-4 mt-5 ${styles.foot}`}>
@@ -23,7 +22,7 @@ function Footer() {
               <h5>Thông tin đối tác</h5>
               <div className={`d-flex ${styles.partnerList}`}>
               <a href='https://shopee.vn/dtvietnam2023?categoryId=100629&entryPoint=ShopByPDP&itemId=27913405107' target="_blank" rel="noopener noreferrer">
-                  <img src="https://vectordohoa.com/wp-content/uploads/2023/10/logo-shopee-vectordohoa.com-3-01.jpg" alt="Shopee" className={`me-2 ${styles.partnerItem}`} />
+                  <img src="/download.png" alt="Shopee" className={`me-2 ${styles.partnerItem}`} />
                   </a>
                   <a href='https://www.lazada.vn/catalog/?q=y%E1%BA%BFn%20dt' target="_blank" rel="noopener noreferrer">
                   <img src="https://classic.vn/wp-content/uploads/2022/04/logo-lazada.png" alt="lazada" className={`me-2 ${styles.partnerItem}`} />

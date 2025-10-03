@@ -43,12 +43,11 @@ function SeaGrapes() {
 
   useEffect(() => {
     api
-      .get(`/product/ProductsNest/Rong-Nho`)
+      .get(`/product/ProductsNest/Rong-nho`)
       .then((response) => {
         setProduct(response.data);
       });
   }, []);
-
 
   return (
     <div>
