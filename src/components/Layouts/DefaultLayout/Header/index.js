@@ -26,6 +26,18 @@ function Header() {
   const [notifications, setNotifications] = useState([]);
   const [popupnotifications, setpopupNotifications] = useState(false);
 
+   useEffect(() => {
+    const existingScript = document.querySelector(
+      'script[src="https://chat-plugin.pancake.vn/main/auto?page_id=web_DTGROUP"]'
+    );
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "https://chat-plugin.pancake.vn/main/auto?page_id=web_DTGROUP";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const navigate = useNavigate();
   const handleLogout = async () => {
     localStorage.removeItem("authToken");
