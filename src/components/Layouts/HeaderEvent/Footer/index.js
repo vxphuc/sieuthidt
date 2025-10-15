@@ -52,7 +52,7 @@ function Footer() {
           </div>
             <hr />
             <p className="text-center text-muted">
-              Theo Nghị quyết 202/2025/QH15 về việc sắp xếp đơn vị hành chính Địa chỉ: KCN Đắc Lộc, Phường bắc Nha Trang, Khánh Hòa
+              Theo Nghị quyết 202/2025/QH15 về việc sắp xếp đơn vị hành chính Địa chỉ: Thôn Đắc Lộc, Phường Bắc Nha Trang, Tỉnh Khánh Hòa, Việt Nam
               Điện thoại: 0258.222.6999 - 0833.831.183. Email: info@dtvietnam.com
             </p>
           </div>
