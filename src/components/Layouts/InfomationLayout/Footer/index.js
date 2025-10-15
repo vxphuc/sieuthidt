@@ -52,7 +52,7 @@ function Footer() {
           </div>
             <hr />
             <p className="text-center text-muted">
-              GPKD Số 4201794039 do Sở KH và ĐT TP Nha Trang cấp ngày 23/05/2018 Địa chỉ: Thôn Lương Hòa, X. Vĩnh Lương, Tp. Nha Trang, Khánh Hòa.
+              GPKD Số 4201794039 do Sở KH và ĐT TP Nha Trang cấp ngày 23/05/2018 Địa chỉ: Thôn Đắc Lộc, Phường Bắc Nha Trang, Tỉnh Khánh Hòa, Việt Nam
               Điện thoại: 0258.222.6999 - 0833.831.183. Email: info@dtvietnam.com
             </p>
           </div>
