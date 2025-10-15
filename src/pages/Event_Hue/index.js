@@ -80,7 +80,7 @@ function Event() {
 
             .event-content-mobile {
               width: 90% !important;
-              top: -18% !important;
+              top: -22% !important;
             }
             .logo-link-mobile {
               padding-top: 0px;
@@ -187,14 +187,14 @@ function Event() {
                 fontWeight: "bold",
               }}
             >
-              Kết Nối Thương Mại
+              Kết Nối Thương Mại (zalo, viber, whatsapp) 
             </p>
             {/* Sửa đổi ở đây */}
             <a
               href="https://zalo.me/0848726666"
               style={{ textDecoration: "none", color: "white" }}
             >
-              <p style={{ marginTop: "6px" }}>0848.726.666 - Mr. Du</p>
+              <p style={{ marginTop: "6px" }}>0848.72.6666 - Mr. Du</p>
             </a>
           </h6>
         </div>
