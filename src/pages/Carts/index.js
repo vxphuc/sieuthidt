@@ -117,7 +117,7 @@ function Carts() {
         parseFloat(item.priceDiscount.$numberDecimal) * item.quantity;
     });
     setTotalOrder(totalPrice);
-  }, [product]);
+  }, [product, cart]);
 
   // Tự động blur input khi scroll (UX improvement)
   useEffect(() => {
@@ -150,6 +150,7 @@ function Carts() {
     saveCart(newCart);
     setCart(newCart);
     fetchCartCount();
+    setproduct()
   };
 
   // Tăng/giảm số lượng sản phẩm
@@ -453,12 +454,13 @@ function Carts() {
               <div key={item.id} className={styles.listCarts}>
                 <div className={styles.nameproduct}>
                   <button
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item._id)}
                     className={styles.deletebtn}
                   >
                     X
                   </button>
                   <img src={item.image[0]} alt="product" />
+                  
                   <div className={styles.productInfo}>
                     <p className={styles.productName}>{item.name}</p>
                     <p className={styles.productPrice}>

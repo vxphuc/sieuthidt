@@ -115,7 +115,7 @@ export const router = [
   { path: "/dang-nhap", component: Login, layout: HeaderLayout },
   // login event in hue
   { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: null },
-  {path:"/event-hue", component: event, layout: null},
+  {path:"/event", component: event, layout: null},
   {
     path: "/quan-tri/loai-san-pham/thung-rac",
     component: RecycleBinTyproduct,

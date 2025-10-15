@@ -37,7 +37,7 @@ function Event() {
         position: "relative",
         width: "100%",
         height: "300vh",
-        backgroundImage: `url('./z7048994480000_2cfd25a42a5aa1e302820296860219a7.jpg')`,
+        backgroundImage: `url('./z7097736629101_5651aa0ad003a96b2eb3564d621f4378.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -84,7 +84,7 @@ function Event() {
             }
             .logo-link-mobile {
               padding-top: 0px;
-              margin-top: 55px;
+              margin-top: 88px;
             }
             .event-hue {
               width: 100vw !important;
@@ -105,85 +105,99 @@ function Event() {
       >
         <div>
           <NavLink to="/" className="logo-link-mobile">
-            <img
-              style={{ width: "40px", marginBottom: "22px" }}
-              src="./favicon.png"
-              alt="Logo"
-            />
+            <video width={"213"} height={"90"} autoPlay muted>
+              <source src="./7097482658362.mp4"></source>
+            </video>
           </NavLink>
         </div>
+        
 
-        <div style={{background: "green", borderRadius: "12px"}}>
+        <div style={{ background: "green", borderRadius: "12px" }}>
           <h6
-          // Sử dụng cả lớp hidden và visible cho tiêu đề
-          className={`element-hidden ${showTitle ? "element-visible" : ""}`}
-          style={{
-            fontFamily: "sans-serif !important",
-            backgroundColor: "green",
-            color: "white",
-            fontSize: "18px !important",
-            fontWeight: "bold !important",
-          }}
-          variant="h6"
-          gutterBottom
-        >
-          <p style={{fontSize: "18px", marginBottom: "-6px", padding: "5px"}}>Giới thiệu về "DT GROUP"</p>
-        </h6>
-
-        <div
-          ref={videoRef}
-          // Sử dụng cả lớp hidden và visible để tạo hiệu ứng chuyển động
-          className={`element-hidden ${showVideo ? "element-visible" : ""}`}
-          style={{
-            position: "relative",
-            paddingBottom: "56.25%",
-            height: "0",
-            overflow: "hidden",
-            borderRadius: "0px",
-            width: "100%",
-            // maxWidth: "640px",
-            // margin: "0 auto",
-          }}
-        >
-          <iframe
-            src="https://www.youtube.com/embed/lB-gCcpSzt0?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
+            // Sử dụng cả lớp hidden và visible cho tiêu đề
+            className={`element-hidden ${showTitle ? "element-visible" : ""}`}
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              fontFamily: "sans-serif !important",
+              backgroundColor: "green",
+              color: "white",
+              fontSize: "18px !important",
+              fontWeight: "bold !important",
             }}
-          ></iframe>
-        </div>
-        <h6
-          // Sử dụng cả lớp hidden và visible cho tiêu đề
-          className={`element-hidden ${showTitle ? "element-visible" : ""}`}
-          style={{
-            fontFamily: "sans-serif !important",
-            backgroundColor: "green",
-            color: "white",
-            fontSize: "10px !important",
-            fontWeight: "bold !important",
-            height: "50px",
-            marginBottom: "-6px", padding: "5px"
-          }}
-          variant="h6"
-          gutterBottom
-        >
-          <p style={{fontSize: "12px", marginBottom: "0", fontWeight: "bold"}}>Kết Nối Thương Mại</p>
-          {/* Sửa đổi ở đây */}
-          <a href="tel:0848726666" style={{textDecoration: "none", color: "white"}}>
-             <p style={{marginTop: "6px"}}>0848.726.666 - Mr. Du</p>
-          </a>
-        </h6>
-        </div>
+            variant="h6"
+            gutterBottom
+          >
+            <p
+              style={{ fontSize: "18px", marginBottom: "-6px", padding: "5px" }}
+            >
+              Giới thiệu về "DT GROUP"
+            </p>
+          </h6>
 
+          <div
+            ref={videoRef}
+            // Sử dụng cả lớp hidden và visible để tạo hiệu ứng chuyển động
+            className={`element-hidden ${showVideo ? "element-visible" : ""}`}
+            style={{
+              position: "relative",
+              paddingBottom: "56.25%",
+              height: "0",
+              overflow: "hidden",
+              borderRadius: "0px",
+              width: "100%",
+              // maxWidth: "640px",
+              // margin: "0 auto",
+            }}
+          >
+            <iframe
+              src="https://www.youtube.com/embed/lB-gCcpSzt0?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            ></iframe>
+          </div>
+          <h6
+            // Sử dụng cả lớp hidden và visible cho tiêu đề
+            className={`element-hidden ${showTitle ? "element-visible" : ""}`}
+            style={{
+              fontFamily: "sans-serif !important",
+              backgroundColor: "green",
+              color: "white",
+              fontSize: "10px !important",
+              fontWeight: "bold !important",
+              height: "50px",
+              marginBottom: "-6px",
+              padding: "5px",
+            }}
+            variant="h6"
+            gutterBottom
+          >
+            <p
+              style={{
+                fontSize: "12px",
+                marginBottom: "0",
+                fontWeight: "bold",
+              }}
+            >
+              Kết Nối Thương Mại
+            </p>
+            {/* Sửa đổi ở đây */}
+            <a
+              href="https://zalo.me/0848726666"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <p style={{ marginTop: "6px" }}>0848.726.666 - Mr. Du</p>
+            </a>
+          </h6>
+        </div>
       </div>
       <NavLink
         to="/"
