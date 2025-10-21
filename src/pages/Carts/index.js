@@ -23,6 +23,9 @@ function Carts() {
   const navigate = useNavigate();
 
   const [discountCode, setDiscountCode] = useState("");
+  const [discountMessage, setDiscountMessage] = useState({ text: "", type: "" });
+  const [discountInfo, setDiscountInfo] = useState(null);
+  const [appliedDiscountCode, setAppliedDiscountCode] = useState("");
   // State giỏ hàng luôn là nguồn dữ liệu duy nhất, luôn lấy từ localStorage
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,12 +57,49 @@ function Carts() {
   const [product, setProduct] = useState([]);
 
   // Áp dụng mã giảm giá
-  const handleApplyDiscount = () => {
+  const handleApplyDiscount = async () => {
     if (!discountCode.trim()) {
-      alert("Vui lòng nhập mã giảm giá!");
+      setDiscountMessage({ text: "Vui lòng nhập mã giảm giá!", type: "error" });
       return;
     }
-    console.log("Mã giảm giá:", discountCode);
+    if (discountCode.trim() === appliedDiscountCode) {
+      setDiscountMessage({ text: "Mã này đã được áp dụng.", type: "error" });
+      return;
+    }
+
+    // Reset thông báo trước khi gọi API
+    setDiscountMessage({ text: "", type: "" });
+
+    try {
+      const response = await api.post("/discount-code/gia-tri-cua-ma", {
+        code: discountCode,
+      });
+      if (response.data && response.data.value && Array.isArray(response.data.value) && response.data.value.length > 0) {
+        const discountData = response.data.value[0];
+        setDiscountInfo(discountData);
+        setAppliedDiscountCode(discountCode);
+        setDiscountMessage({ text: "Áp dụng mã giảm giá thành công!", type: "success" });
+        
+        // dùng để thêm giảm giá vào tổng đơn hàng
+      } 
+      else if (response.data && typeof response.data.value === 'string') {
+        setDiscountInfo(null);
+        setAppliedDiscountCode(""); // Reset mã nếu không hợp lệ
+        setDiscountMessage({ text: response.data.value, type: "error" }); // Hiển thị "mã giảm giá không hợp lệ"
+      } 
+      // Các trường hợp 200 OK khác không mong muốn
+      else {
+        setDiscountInfo(null);
+        setAppliedDiscountCode("");
+        setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc đã hết hạn.", type: "error" });
+      }
+    } catch (error) {
+      // Xử lý lỗi mạng hoặc lỗi server (4xx, 5xx)
+      setDiscountInfo(null);
+      setAppliedDiscountCode("");
+      setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc đã hết hạn.", type: "error" });
+      console.error("Error applying discount code:", error);
+    }
   };
   //hết
 
@@ -554,7 +594,7 @@ function Carts() {
                   </tr>
 
                   {/* Áp dụng mã giảm giá */}
-                  {/* <tr>
+                  <tr>
                     <td
                       style={{
                         display: "flex",
@@ -580,10 +620,12 @@ function Carts() {
                         value={discountCode}
                         onChange={(e) => setDiscountCode(e.target.value)}
                       />
-                      <button
+                    </td>
+                    <td>
+                        <button
                         onClick={handleApplyDiscount}
                         style={{
-                          padding: "6px 12px",
+                          padding: "5px 10px",
                           backgroundColor: "#00703a",
                           color: "#fff",
                           border: "none",
@@ -594,7 +636,24 @@ function Carts() {
                         Áp dụng
                       </button>
                     </td>
-                  </tr> */}
+                    
+                  </tr>
+                  {/* Hiển thị thông báo giảm giá */}
+                  {discountMessage.text && (
+                    <tr>
+                      <td
+                        colSpan="2"
+                        style={{
+                          color: discountMessage.type === "error" ? "red" : "green",
+                          fontSize: "13px",
+                          textAlign: "left",
+                          paddingTop: "5px"
+                        }}
+                      >
+                        {discountMessage.text}
+                      </td>
+                    </tr>
+                  )}
                   {/* hết */}
                   <tr>
                     <td className={styles.tableText}>Tổng đơn hàng</td>

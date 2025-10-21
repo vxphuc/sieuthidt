@@ -535,11 +535,7 @@ input[type=number] {
     margin: 0 auto;
   }
 }
-@media (max-width: 770px) {
-  .payment {
-    height: 175px;
-  }
-}
+
 @media (max-width: 768px) {
   .address_user span{
     font-size: 0.8rem;
