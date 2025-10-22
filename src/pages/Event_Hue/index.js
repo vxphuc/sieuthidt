@@ -36,12 +36,13 @@ function Event() {
       style={{
         position: "relative",
         width: "100%",
+        height: "300vh",
         backgroundImage: `url('./z7097736629101_5651aa0ad003a96b2eb3564d621f4378.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         flexDirection: "column",
         textAlign: "center",
@@ -88,6 +89,7 @@ function Event() {
             .event-hue {
               width: 100vw !important;
               height: 100vh !important;
+              justify-content: center !important;
             }
           }
         `}
@@ -138,7 +140,7 @@ function Event() {
             className={`element-hidden ${showVideo ? "element-visible" : ""}`}
             style={{
               position: "relative",
-              paddingBottom: "56.25%",
+              paddingBottom: "50.25%",
               height: "0",
               overflow: "hidden",
               borderRadius: "0px",
@@ -212,7 +214,7 @@ function Event() {
           borderRadius: "8px",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           transition: "all 0.3s ease",
-          marginTop: "63px",
+          marginTop: "23px",
           // Thêm animation nảy
           animation: showTitle ? "bounce 2s infinite" : "none",
         }}
