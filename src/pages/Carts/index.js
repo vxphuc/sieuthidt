@@ -31,6 +31,7 @@ function Carts() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [totalOrder, setTotalOrder] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
   const [address, setAddress] = useState([]);
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
   const [payMent, setPayMent] = useState("Tiền mặt khi nhận hàng");
@@ -81,6 +82,7 @@ function Carts() {
         setDiscountMessage({ text: "Áp dụng mã giảm giá thành công!", type: "success" });
         
         // dùng để thêm giảm giá vào tổng đơn hàng
+
       } 
       else if (response.data && typeof response.data.value === 'string') {
         setDiscountInfo(null);
@@ -150,14 +152,53 @@ function Carts() {
   }, []);
 
   // Mỗi lần cart thay đổi thì tính lại tổng tiền
+  // useEffect(() => {
+  //   let totalPrice = 0;
+  //   product.forEach((item) => {
+  //     totalPrice +=
+  //       parseFloat(item.priceDiscount.$numberDecimal) * item.quantity;
+  //   });
+  //   setTotalOrder(totalPrice);
+  // }, [product, cart]);
   useEffect(() => {
-    let totalPrice = 0;
+    let newSubtotal = 0;
     product.forEach((item) => {
-      totalPrice +=
-        parseFloat(item.priceDiscount.$numberDecimal) * item.quantity;
+      // 1. Chuyển đổi giá và số lượng một cách an toàn
+      const price = parseFloat(item.priceDiscount?.$numberDecimal);
+      const quantity = parseInt(item.quantity, 10);
+
+      // 2. Chỉ cộng vào tổng nếu CẢ HAI đều là số hợp lệ (không phải NaN)
+      if (!isNaN(price) && !isNaN(quantity)) {
+        newSubtotal += price * quantity;
+      }
+      // Nếu không, bỏ qua (không cộng gì cả), newSubtotal vẫn giữ nguyên
     });
-    setTotalOrder(totalPrice);
+    setSubtotal(newSubtotal);
   }, [product, cart]);
+  useEffect(() => {
+    // Nếu không có thông tin giảm giá (chưa áp dụng hoặc áp dụng lỗi)
+    if (!discountInfo) {
+      setTotalOrder(subtotal); // Tổng đơn hàng = Tạm tính
+      return;
+    }
+
+    // Nếu có thông tin giảm giá, bắt đầu tính toán
+    const { discount_type, discount_value } = discountInfo;
+    let discountAmount = 0;
+
+    // Dựa trên loại giảm giá (từ ảnh bạn gửi là "percentage")
+    if (discount_type === "percentage") {
+      discountAmount = (subtotal * parseFloat(discount_value)) / 100;
+    } 
+    // else if (discount_type === "fixed_amount") { // Bạn có thể thêm logic cho giảm giá tiền cố định
+    //   discountAmount = parseFloat(discount_value);
+    // }
+    
+    // Đảm bảo tổng tiền không bao giờ bị âm
+    const finalTotal = Math.max(0, subtotal - discountAmount);
+    setTotalOrder(finalTotal);
+
+  }, [subtotal, discountInfo]);
 
   // Tự động blur input khi scroll (UX improvement)
   useEffect(() => {
@@ -293,10 +334,9 @@ function Carts() {
           img: item.image[0],
         };
       });
-
-      const response = await api.post("/bill/create", {
+      const payload = {
         products: products,
-        Intomoney: totalOrder,
+        Intomoney: subtotal, // Tổng tiền
         UserName: user[0].name,
         PaymentForm: payMent,
         province: address[0].province,
@@ -305,7 +345,14 @@ function Carts() {
         alternateReceiverName,
         alternateReceiverPhone,
         phoneNumber: user[0].phone,
-      });
+      };
+
+      // 2. Chỉ thêm thông tin giảm giá nếu có
+      if (discountInfo && appliedDiscountCode) {
+        payload.code = appliedDiscountCode; // Thêm mã code
+        payload.discount_value = discountInfo.discount_value; // Thêm giá trị giảm
+      }
+      const response = await api.post("/bill/create", payload);
       console.log(response.data._id);
       if (payMent === "Thanh toán qua ngân hàng") {
         if (response.data && response.data._id) {
@@ -341,7 +388,7 @@ function Carts() {
 
   // Nếu giỏ hàng trống
   if (loading || !cart || cart.length === 0) return <CartsEmpty />;
-
+  console.log("product", subtotal);
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.bg_black_20}>
@@ -566,7 +613,7 @@ function Carts() {
                   <tr>
                     <td className={styles.tableText}>Tổng tiền</td>
                     <td className={styles.totalAll}>
-                      {totalOrder.toLocaleString("vi-VN", {
+                      {subtotal.toLocaleString("vi-VN", {
                         style: "currency",
                         currency: "VND",
                       })}
