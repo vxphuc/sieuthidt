@@ -36,7 +36,6 @@ function Event() {
       style={{
         position: "relative",
         width: "100%",
-        height: "300vh",
         backgroundImage: `url('./z7097736629101_5651aa0ad003a96b2eb3564d621f4378.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
