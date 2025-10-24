@@ -68,19 +68,29 @@ function Carts() {
       return;
     }
 
+    if (!user || user.length === 0 || !user[0].phone) {
+      setDiscountMessage({ text: "Lỗi: Không tìm thấy số điện thoại người dùng.", type: "error" });
+      console.error("User phone number not found. User state:", user);
+      return;
+    }
+    
+    // Lấy SĐT từ state
+    const userPhone = user[0].phone;
     // Reset thông báo trước khi gọi API
     setDiscountMessage({ text: "", type: "" });
 
     try {
       const response = await api.post("/discount-code/gia-tri-cua-ma", {
         code: discountCode,
+        phone: userPhone
       });
       if (response.data && response.data.value && Array.isArray(response.data.value) && response.data.value.length > 0) {
         const discountData = response.data.value[0];
         setDiscountInfo(discountData);
         setAppliedDiscountCode(discountCode);
         setDiscountMessage({ text: "Áp dụng mã giảm giá thành công!", type: "success" });
-        
+        console.log("Discount Data:", discountData);
+        console.log("số điện thoai người dùng:", userPhone);
         // dùng để thêm giảm giá vào tổng đơn hàng
 
       } 
@@ -97,10 +107,18 @@ function Carts() {
       }
     } catch (error) {
       // Xử lý lỗi mạng hoặc lỗi server (4xx, 5xx)
-      setDiscountInfo(null);
-      setAppliedDiscountCode("");
-      setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc đã hết hạn.", type: "error" });
-      console.error("Error applying discount code:", error);
+      if (error.response && error.response.status === 422 && error.response.data.err) {
+          setDiscountInfo(null);
+          setAppliedDiscountCode("");
+          // Hiển thị lỗi cụ thể, ví dụ: "mã giảm giá đã được sử dụng"
+          setDiscountMessage({ text: error.response.data.err, type: "error" });
+      } else {
+          // Xử lý lỗi mạng hoặc lỗi server (4xx, 5xx)
+          setDiscountInfo(null);
+          setAppliedDiscountCode("");
+          setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc có lỗi xảy ra.", type: "error" });
+          console.error("Error applying discount code:", error);
+      }
     }
   };
   //hết
@@ -351,6 +369,10 @@ function Carts() {
       if (discountInfo && appliedDiscountCode) {
         payload.code = appliedDiscountCode; // Thêm mã code
         payload.discount_value = discountInfo.discount_value; // Thêm giá trị giảm
+      }
+      else {
+        payload.code = ""; // Gửi mã rỗng
+        payload.discount_value = 0; // Gửi giá trị giảm là 0
       }
       const response = await api.post("/bill/create", payload);
       console.log(response.data._id);
