@@ -8,10 +8,13 @@ function ProductAdmin() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
+    const query = searchTerm ? `&search=${searchTerm}` : "";
     api
-      .get(`/product?page=${currentPage}`)
+      .get(`/product?page=${currentPage}${query}`)
       .then((res) => {
         setProducts(res.data);
         setTotalPages(res.data.totalPages || 1);
@@ -19,7 +22,7 @@ function ProductAdmin() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu:", error);
       });
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
   const handldeleted = (id) => {
     api
@@ -32,22 +35,42 @@ function ProductAdmin() {
       });
   };
 
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
   return (
     <div className="container">
-      <div className="mb-2">
-        <NavLink
-          to="/quan-tri/san-pham/them-moi-san-pham"
-          className="btn btn-primary "
-        >
-          {" "}
-          Thêm mới sản phẩm
-        </NavLink>
-        <NavLink
-          to="/quan-tri/san-pham/thung-rac"
-          className="btn btn-danger ms-2"
-        >
-          {` Thùng rác (${products.count ? products.count : "0"}) `}
-        </NavLink>
+      <div className="mb-3">
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Tìm kiếm sản phẩm..."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+        </div>
+        <div className="mb-2">
+          <NavLink
+            to="/quan-tri/san-pham/them-moi-san-pham"
+            className="btn btn-primary "
+          >
+            {" "}
+            Thêm mới sản phẩm
+          </NavLink>
+          <NavLink
+            to="/quan-tri/san-pham/thung-rac"
+            className="btn btn-danger ms-2"
+          >
+            {` Thùng rác (${products.count ? products.count : "0"}) `}
+          </NavLink>
+        </div>
+        
       </div>
       <table className="table table-hover">
         <thead>
