@@ -8,7 +8,7 @@ import HeaderLayout from "../components/Layouts/HeaderLayout";
 // import HeaderLayout from "../components/Layouts/HeaderEvent";
 import Header from "../components/Layouts/HeaderEvent";
 import event from "../pages/Event_Hue";
-import eventAnhNhat from "../pages/Event_Hue";
+import eventAnhNhat from "../pages/Event";
 import TypeProductAdmin from "../pages/Admin/TypeProductAdmin";
 import ManageAdmin from "../pages/Admin/ManageAdmin";
 import CreateTypeProductAdmin from "../pages/Admin/CreateTypeProductAdmin";
@@ -17,7 +17,7 @@ import Login from "../pages/Login";
 
 // login event in hue
 import LoginEventInHue from "../pages/login_event_in_hue";
-import LoginEventAnhNhat from "../pages/login_event_in_hue";
+import LoginEventAnhNhat from "../pages/Login_Event";
 import CreateBanner from "../pages/Admin/CreateBanner";
 import ShowBanner from "../pages/Admin/ShowBanner";
 import UpdateProduct from "../pages/Admin/UpdateProduct";
@@ -115,10 +115,10 @@ export const router = [
   { path: "/dang-nhap", component: Login, layout: HeaderLayout },
   // login event in hue
   { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: null },
-  { path: "/dang-nhap-event-hoi-cho-mua-thu", component: LoginEventAnhNhat, layout: null },
+  { path: "/dang-nhap-event", component: LoginEventAnhNhat, layout: null },
 
   {path:"/ket-noi-thuong-mai", component: event, layout: null},
-  {path:"/hoi-cho-mua-thu", component: eventAnhNhat, layout: null},
+  {path:"/event-mua-dong", component: eventAnhNhat, layout: null},
   {
     path: "/quan-tri/loai-san-pham/thung-rac",
     component: RecycleBinTyproduct,
