@@ -105,7 +105,7 @@ function Login() {
       }
 
       localStorage.setItem("authToken", response.data.token);
-      navigate("/dang-ki-tu-van");
+      navigate("/gioi-thieu-cong-ty");
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       alert("Đăng nhập thất bại. Vui lòng thử lại.");
@@ -116,7 +116,7 @@ function Login() {
 
   return (
     <div className={styles.wrapper} style={{
-      backgroundImage: "url('/aaa.jpg')",
+      backgroundImage: "url('/bgin.png')",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       backgroundSize: "cover",
