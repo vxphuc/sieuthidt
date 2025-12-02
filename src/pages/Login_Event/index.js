@@ -125,7 +125,7 @@ function Login() {
         <Paper elevation={6} className={styles.paper}>
           <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold" }}>
             <p>ĐĂNG KÝ TƯ VẤN</p>
-            <p>Liên Hệ Hợp Tác</p>
+            <p className={styles.aa}>liên hệ hợp tác</p>
           </Typography>
           {/* <Typography variant="body2" gutterBottom align="center">
             Vui lòng nhập số điện thoại
@@ -213,7 +213,7 @@ function Login() {
               disabled={isSending}
               style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
             >
-              {isSending ? "Đang xử lý..." : "Liên Hệ"}
+              {isSending ? "Đang xử lý..." : "Đăng Ký"}
             </Button>
             <Snackbar
               open={snackbarOpen}

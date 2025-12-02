@@ -30,7 +30,9 @@ p {
   position: relative !important;
   overflow: hidden !important;
 }
-
+.aa{
+  font-weight: 500;
+}
 /* Tạo luồng sáng quét qua */
 .sparkleBtn::after {
   content: "";

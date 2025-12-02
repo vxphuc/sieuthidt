@@ -42,7 +42,7 @@ function Login() {
       }
 
       localStorage.setItem("authToken", response.data.token);
-      navigate("/event-hue");
+      navigate("/ket-noi-thuong-mai");
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       alert("Đăng nhập thất bại. Vui lòng thử lại.");
