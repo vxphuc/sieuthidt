@@ -114,17 +114,13 @@ function Login() {
   };
 
   return (
-    <div className={styles.wrapper} style={{
-      backgroundImage: "url('/bgin2.jpg')",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-    }}>
+    <div className={styles.root}>
+      <div className={styles.bg} />
+      <div className={styles.wrapper}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} className={styles.paper}>
           <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold", lineHeight: 1.1 }}>
             <p>ĐĂNG KÝ TƯ VẤN</p>
-            <p className={styles.aa}>Liên hệ hợp tác</p>
           </Typography>
           {/* <Typography variant="body2" gutterBottom align="center">
             Vui lòng nhập số điện thoại
@@ -245,6 +241,7 @@ function Login() {
           </form>
         </Paper>
       </Container>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,33 @@
+.root {
+  position: relative;
+  min-height: 100%;
+}
+
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  /* Use the initial viewport height to keep the image locked even when keyboard opens */
+  height: calc(var(--vh-initial, 1vh) * 100);
+  width: 500%;
+  background-image: url('/public/bgin2.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none; /* keep background non-interactive */
+  /* compensate visual-viewport offset so bg doesn't appear to move when keyboard opens */
+  transform: translateY(calc(var(--vv-offset, 0px) * -1));
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
-  align-items: stretch;
-  min-height: 100vh; /* chiếm toàn màn hình */
+  align-items: center;
+  /* keep content above the background (z-index higher) */
+  z-index: 1;
+  /* Use dynamic --vh to avoid viewport unit jump issues on mobile keyboards */
+  min-height: calc(var(--vh, 1vh) * 100);
   position: relative;
   padding-top: 15px;
   /* width: 80%;
@@ -86,6 +111,23 @@ p {
   .wrapper{
     width: 100%;
     margin: 0 auto;
-    background-image: url('/public/bgin.png') !important;
+    align-items: stretch;
+    /* mobile-specific background still handled by fixed .bg; avoid using vh-based background here */
   }
+  .bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  /* Use the initial viewport height to keep the image locked even when keyboard opens */
+  height: calc(var(--vh-initial, 1vh) * 100);
+  width: 100%;
+  background-image: url('/public/bgin2.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none; /* keep background non-interactive */
+  /* compensate visual-viewport offset so bg doesn't appear to move when keyboard opens */
+  transform: translateY(calc(var(--vv-offset, 0px) * -1));
+}
 }
