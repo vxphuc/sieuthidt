@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button, Container, Paper, Typography } from "@mui/material";
+import { TextField, Button, Container, Paper, Typography, Snackbar, Alert } from "@mui/material";
 import styles from "./login.module.css";
 import api from "../../api/axios";
 import { getName, saveName } from "../../services/cartService";
@@ -14,6 +14,13 @@ function Login() {
   });
   const [error, setError] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({
+    name: "",
+    phone: "",
+    company: "",
+  });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const name = getName();
   const navigate = useNavigate();
 
@@ -35,14 +42,42 @@ function Login() {
     }
 
     setFormData((prev) => ({ ...prev, [field]: value }));
+    // clear inline field error for this field
+    setFieldErrors((prev) => ({ ...prev, [field]: "" }));
+    // if a snackbar message is visible, hide it when the user starts typing
+    if (snackbarOpen) setSnackbarOpen(false);
     if (error && field === "phone") setError(false);
   };
 
   const handleLogin = async () => {
     const { phone, name: fullName, company, email } = formData;
 
-    if (!isValidVietnamPhoneNumber(phone)) {
+    // Validate required fields
+    const errors = {};
+    if (!fullName || fullName.trim() === "") {
+      errors.name = "Họ & Tên là bắt buộc";
+    }
+    if (!company || company.trim() === "") {
+      errors.company = "Tên doanh nghiệp / tổ chức là bắt buộc";
+    }
+    if (!phone || phone.length !== 10) {
+      errors.phone = "Số điện thoại phải gồm 10 chữ số";
+    } else if (!isValidVietnamPhoneNumber(phone)) {
+      errors.phone = "Số điện thoại không hợp lệ";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors((prev) => ({ ...prev, ...errors }));
       setError(true);
+
+      // Show a concise snackbar message combining missing-field messages
+      const messages = [];
+      if (errors.name) messages.push(errors.name);
+      if (errors.company) messages.push(errors.company);
+      if (errors.phone) messages.push(errors.phone);
+      setSnackbarMessage(messages.join(" — "));
+      setSnackbarOpen(true);
+
       return;
     }
     setIsSending(true);
@@ -89,7 +124,8 @@ function Login() {
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} className={styles.paper}>
           <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold" }}>
-            Liên Hệ Hợp Tác
+            <p>ĐĂNG KÝ TƯ VẤN</p>
+            <p>Liên Hệ Hợp Tác</p>
           </Typography>
           {/* <Typography variant="body2" gutterBottom align="center">
             Vui lòng nhập số điện thoại
@@ -97,12 +133,15 @@ function Login() {
           <form onSubmit={(e) => e.preventDefault()}>
             <TextField
               fullWidth
-              label="Họ Tên"
+              label="Họ & Tên"
               variant="outlined"
               margin="normal"
               value={formData.name}
               onChange={handleChange("name")}
               inputProps={{ maxLength: 60 }}
+              required
+              error={Boolean(fieldErrors.name)}
+              helperText={fieldErrors.name || ""}
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === "Enter" && formData.phone.length === 10) {
@@ -110,49 +149,43 @@ function Login() {
                 }
               }}
             />
-            {error && (
-              <Typography variant="body2" color="error">
-                * Vui lòng nhập số điện thoại hợp lệ
-              </Typography>
-            )}
+            {/* name errors shown inline via TextField helperText */}
             <TextField
               fullWidth
-              label="Số điện thoại"
+              label="Số Điện Thoại"
               variant="outlined"
               margin="normal"
               value={formData.phone}
               onChange={handleChange("phone")}
               inputProps={{ maxLength: 10 }}
+              required
+              error={Boolean(fieldErrors.phone)}
+              helperText={fieldErrors.phone || ""}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && formData.phone.length === 10) {
                   handleLogin();
                 }
               }}
             />
-            {error && (
-              <Typography variant="body2" color="error">
-                * Vui lòng nhập số điện thoại hợp lệ
-              </Typography>
-            )}
+            {/* phone errors shown inline via TextField helperText */}
             <TextField
               fullWidth
-              label="Doanh nghiệp / Tổ chức"
+              label="Tên Doanh nghiệp / Tổ chức"
               variant="outlined"
               margin="normal"
               value={formData.company}
               onChange={handleChange("company")}
               inputProps={{ maxLength: 60 }}
+              required
+              error={Boolean(fieldErrors.company)}
+              helperText={fieldErrors.company || ""}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && formData.phone.length === 10) {
                   handleLogin();
                 }
               }}
             />
-            {error && (
-              <Typography variant="body2" color="error">
-                * Vui lòng nhập số điện thoại hợp lệ
-              </Typography>
-            )}
+            {/* company errors shown inline via TextField helperText */}
             <TextField
               fullWidth
               label="Email"
@@ -167,22 +200,28 @@ function Login() {
                 }
               }}
             />
-            {error && (
-              <Typography variant="body2" color="error">
-                * Vui lòng nhập số điện thoại hợp lệ
-              </Typography>
-            )}
+            {/* general error message removed — field errors are shown inline */}
             <Button
               fullWidth
               variant="contained"
               color="primary"
-              className="mt-3"
+              className={`mt-3 ${styles.sparkleBtn}`}
               onClick={handleLogin}
-              disabled={formData.phone.length !== 10 || isSending}
+              disabled={isSending}
               style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
             >
               {isSending ? "Đang xử lý..." : "Liên Hệ"}
             </Button>
+            <Snackbar
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={() => setSnackbarOpen(false)}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <Alert onClose={() => setSnackbarOpen(false)} severity="error" sx={{ width: "100%" }}>
+                {snackbarMessage}
+              </Alert>
+            </Snackbar>
           </form>
         </Paper>
       </Container>
