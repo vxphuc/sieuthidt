@@ -136,6 +136,7 @@ function Login() {
               label="Họ & Tên"
               variant="outlined"
               margin="normal"
+              InputLabelProps={{ sx: { '& .MuiInputLabel-asterisk': { color: 'red' } } }}
               value={formData.name}
               onChange={handleChange("name")}
               inputProps={{ maxLength: 60 }}
@@ -155,6 +156,7 @@ function Login() {
               label="Số Điện Thoại"
               variant="outlined"
               margin="normal"
+              InputLabelProps={{ sx: { '& .MuiInputLabel-asterisk': { color: 'red' } } }}
               value={formData.phone}
               onChange={handleChange("phone")}
               inputProps={{ maxLength: 10 }}
@@ -173,6 +175,7 @@ function Login() {
               label="Tên Doanh nghiệp / Tổ chức"
               variant="outlined"
               margin="normal"
+              InputLabelProps={{ sx: { '& .MuiInputLabel-asterisk': { color: 'red' } } }}
               value={formData.company}
               onChange={handleChange("company")}
               inputProps={{ maxLength: 60 }}
