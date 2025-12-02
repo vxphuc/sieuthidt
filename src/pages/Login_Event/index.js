@@ -116,7 +116,7 @@ function Login() {
 
   return (
     <div className={styles.wrapper} style={{
-      backgroundImage: "url('/bgin.png')",
+      backgroundImage: "url('/bgin2.jpg')",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
       backgroundSize: "cover",
