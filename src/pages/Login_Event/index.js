@@ -11,7 +11,7 @@ function Login() {
     phone: "",
     company: "",
     email: "",
-    product: "",
+    listProduct: "",
   });
   const [error, setError] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -51,7 +51,7 @@ function Login() {
   };
 
   const handleLogin = async () => {
-    const { phone, name: fullName, company, email, product } = formData;
+    const { phone, name: fullName, company, email, listProduct } = formData;
 
     // Validate required fields
     const errors = {};
@@ -85,7 +85,7 @@ function Login() {
         name: fullName,
         company,
         email,
-        product,
+        listProduct,
       });
 
       // update stored name/phone locally (cartService manages persistence)
@@ -206,8 +206,8 @@ function Login() {
               label="sản phẩm quan tâm"
               variant="outlined"
               margin="normal"
-              value={formData.product}
-              onChange={handleChange("product")}
+              value={formData.listProduct}
+              onChange={handleChange("listProduct")}
               inputProps={{ maxLength: 100 }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && formData.phone.length === 10) {
