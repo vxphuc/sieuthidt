@@ -105,7 +105,7 @@ function Login() {
       }
 
       localStorage.setItem("authToken", response.data.token);
-      navigate("/event-mua-dong");
+      navigate("/dang-ki-tu-van");
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       alert("Đăng nhập thất bại. Vui lòng thử lại.");

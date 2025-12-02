@@ -117,8 +117,8 @@ export const router = [
   { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: null },
   { path: "/dang-nhap-event", component: LoginEventAnhNhat, layout: null },
 
-  {path:"/ket-noi-thuong-mai", component: event, layout: null},
-  {path:"/event-mua-dong", component: eventAnhNhat, layout: null},
+  {path:"/hoi-cho-mua-thu", component: event, layout: null},
+  {path:"/dang-ki-tu-van", component: eventAnhNhat, layout: null},
   {
     path: "/quan-tri/loai-san-pham/thung-rac",
     component: RecycleBinTyproduct,
