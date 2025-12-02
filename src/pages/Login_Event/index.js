@@ -122,7 +122,7 @@ function Login() {
     }}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} className={styles.paper}>
-          <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold" }}>
+          <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold", lineHeight: 1.1 }}>
             <p>ĐĂNG KÝ TƯ VẤN</p>
             <p className={styles.aa}>Liên hệ hợp tác</p>
           </Typography>
@@ -135,6 +135,7 @@ function Login() {
               label="Họ & Tên"
               variant="outlined"
               margin="normal"
+              sx={{ mt: { xs: 0.5, sm: 1 }, mb: { xs: 0.5, sm: 1 } }}
               InputLabelProps={{ sx: { '& .MuiInputLabel-asterisk': { color: 'red' } } }}
               value={formData.name}
               onChange={handleChange("name")}
@@ -155,6 +156,7 @@ function Login() {
               label="Số Điện Thoại"
               variant="outlined"
               margin="normal"
+              sx={{ mt: { xs: 0.5, sm: 1 }, mb: { xs: 0.5, sm: 1 } }}
               InputLabelProps={{ sx: { '& .MuiInputLabel-asterisk': { color: 'red' } } }}
               value={formData.phone}
               onChange={handleChange("phone")}
@@ -174,6 +176,7 @@ function Login() {
               label="Tên Doanh nghiệp / Tổ chức"
               variant="outlined"
               margin="normal"
+              sx={{ mt: { xs: 0.5, sm: 1 }, mb: { xs: 0.5, sm: 1 } }}
               value={formData.company}
               onChange={handleChange("company")}
               inputProps={{ maxLength: 60 }}
@@ -191,6 +194,7 @@ function Login() {
               label="Email"
               variant="outlined"
               margin="normal"
+              sx={{ mt: { xs: 0.5, sm: 1 }, mb: { xs: 0.5, sm: 1 } }}
               value={formData.email}
               onChange={handleChange("email")}
               inputProps={{ maxLength: 100 }}
@@ -203,9 +207,10 @@ function Login() {
 
             <TextField
               fullWidth
-              label="sản phẩm quan tâm"
+              label="Sản phẩm quan tâm"
               variant="outlined"
               margin="normal"
+              sx={{ mt: { xs: 0.5, sm: 1 }, mb: { xs: 0.5, sm: 1 } }}
               value={formData.listProduct}
               onChange={handleChange("listProduct")}
               inputProps={{ maxLength: 100 }}
