@@ -42,8 +42,7 @@
   /* 1. ĐỘ TRONG SUỐT: 
      Chỉnh số 0.15 (từ 0 đến 1). 
      Số càng nhỏ càng trong suốt. 0.15 là mức vừa đẹp để thấy rõ ảnh sau. */
-  background-color: rgba(255, 255, 255, 0.12) !important; 
-
+  background-color: rgba(255, 255, 255, 0.80) !important; 
   /* 2. HIỆU ỨNG MỜ KÍNH (Quan trọng): 
      Giúp làm nhòe nhẹ ảnh nền ngay dưới form để chữ Đen dễ đọc hơn.
      Nếu muốn trong vắt 100% như không có kính, hãy xóa dòng này đi. */
@@ -129,5 +128,8 @@ p {
   pointer-events: none; /* keep background non-interactive */
   /* compensate visual-viewport offset so bg doesn't appear to move when keyboard opens */
   transform: translateY(calc(var(--vv-offset, 0px) * -1));
+}
+.paper {
+  background-color: rgba(255, 255, 255, 0.12) !important;
 }
 }
