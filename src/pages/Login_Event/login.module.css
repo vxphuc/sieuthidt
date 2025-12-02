@@ -2,21 +2,36 @@
   display: flex;
   justify-content: center;
   align-items: stretch;
-  min-height: 90vh; /* chiếm toàn màn hình */
+  min-height: 100vh; /* chiếm toàn màn hình */
   position: relative;
-  padding-top: 20px;
+  padding-top: 15px;
   /* width: 80%;
   margin: 0 auto; */
 }
 
-/* Popup form */
 .paper {
   width: 100%;
   max-width: 400px;
-  padding: 24px;
-  background-color: rgba(255, 255, 255, 0.95); /* nền trắng mờ */
+  padding: 18px;
+
+  /* 1. ĐỘ TRONG SUỐT: 
+     Chỉnh số 0.15 (từ 0 đến 1). 
+     Số càng nhỏ càng trong suốt. 0.15 là mức vừa đẹp để thấy rõ ảnh sau. */
+  background-color: rgba(255, 255, 255, 0.12) !important; 
+
+  /* 2. HIỆU ỨNG MỜ KÍNH (Quan trọng): 
+     Giúp làm nhòe nhẹ ảnh nền ngay dưới form để chữ Đen dễ đọc hơn.
+     Nếu muốn trong vắt 100% như không có kính, hãy xóa dòng này đi. */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* 3. VIỀN MỎNG: 
+     Thêm viền trắng mờ để định hình khung form khi nền quá trong suốt */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  /* Bóng đổ nhẹ để tách biệt form khỏi nền */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   z-index: 10;
 }
 .title {
@@ -31,7 +46,8 @@ p {
   overflow: hidden !important;
 }
 .aa{
-  font-weight: 500;
+  font-weight: 100 !important;
+  color: #474747;
 }
 /* Tạo luồng sáng quét qua */
 .sparkleBtn::after {

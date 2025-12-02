@@ -125,7 +125,7 @@ function Login() {
         <Paper elevation={6} className={styles.paper}>
           <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold" }}>
             <p>ĐĂNG KÝ TƯ VẤN</p>
-            <p className={styles.aa}>liên hệ hợp tác</p>
+            <p className={styles.aa}>Liên hệ hợp tác</p>
           </Typography>
           {/* <Typography variant="body2" gutterBottom align="center">
             Vui lòng nhập số điện thoại
