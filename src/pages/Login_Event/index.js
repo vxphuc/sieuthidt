@@ -11,6 +11,7 @@ function Login() {
     phone: "",
     company: "",
     email: "",
+    product: "",
   });
   const [error, setError] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -50,16 +51,14 @@ function Login() {
   };
 
   const handleLogin = async () => {
-    const { phone, name: fullName, company, email } = formData;
+    const { phone, name: fullName, company, email, product } = formData;
 
     // Validate required fields
     const errors = {};
     if (!fullName || fullName.trim() === "") {
       errors.name = "Họ & Tên là bắt buộc";
     }
-    if (!company || company.trim() === "") {
-      errors.company = "Tên doanh nghiệp / tổ chức là bắt buộc";
-    }
+    // company is optional now; do not mark as required
     if (!phone || phone.length !== 10) {
       errors.phone = "Số điện thoại phải gồm 10 chữ số";
     } else if (!isValidVietnamPhoneNumber(phone)) {
@@ -73,7 +72,6 @@ function Login() {
       // Show a concise snackbar message combining missing-field messages
       const messages = [];
       if (errors.name) messages.push(errors.name);
-      if (errors.company) messages.push(errors.company);
       if (errors.phone) messages.push(errors.phone);
       setSnackbarMessage(messages.join(" — "));
       setSnackbarOpen(true);
@@ -87,6 +85,7 @@ function Login() {
         name: fullName,
         company,
         email,
+        product,
       });
 
       // update stored name/phone locally (cartService manages persistence)
@@ -175,11 +174,9 @@ function Login() {
               label="Tên Doanh nghiệp / Tổ chức"
               variant="outlined"
               margin="normal"
-              InputLabelProps={{ sx: { '& .MuiInputLabel-asterisk': { color: 'red' } } }}
               value={formData.company}
               onChange={handleChange("company")}
               inputProps={{ maxLength: 60 }}
-              required
               error={Boolean(fieldErrors.company)}
               helperText={fieldErrors.company || ""}
               onKeyDown={(e) => {
@@ -196,6 +193,21 @@ function Login() {
               margin="normal"
               value={formData.email}
               onChange={handleChange("email")}
+              inputProps={{ maxLength: 100 }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && formData.phone.length === 10) {
+                  handleLogin();
+                }
+              }}
+            />
+
+            <TextField
+              fullWidth
+              label="sản phẩm quan tâm"
+              variant="outlined"
+              margin="normal"
+              value={formData.product}
+              onChange={handleChange("product")}
               inputProps={{ maxLength: 100 }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && formData.phone.length === 10) {
