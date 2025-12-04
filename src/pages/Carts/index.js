@@ -758,14 +758,14 @@ function Carts() {
                     />
                     {payMent || "Thanh toán bằng tiền mặt"}
                   </div>
-                  {/* <button
+                  <button
                     onClick={() => setShowPaymentMethod(!showPaymentMethod)}
                     className={styles.paybtn}
                   >
                     Đổi hình thức thanh toán
-                  </button> */}
+                  </button>
                 </div>
-                {/* {showPaymentMethod && (
+                {showPaymentMethod && (
                   <div
                     className={styles.overlay}
                     onClick={() => setShowPaymentMethod(false)}
@@ -820,7 +820,7 @@ function Carts() {
                       </button>
                     </div>
                   </div>
-                )} */}
+                )}
                 <div>
                   <BackgroundPopup
                     className={`${
