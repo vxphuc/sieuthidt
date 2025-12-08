@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import api from "../../api/axios";
 import { faBilibili } from "@fortawesome/free-brands-svg-icons";
+import { io } from "socket.io-client";
 
 function PayMentBank() {
   const { id } = useParams();
@@ -14,7 +15,8 @@ function PayMentBank() {
   const ACCOUNT_NO = process.env.REACT_APP_ACCOUNT_NO;
   const [bill, setBill] = useState({});
   const navigate = useNavigate();
-  let data = bill.bill ? bill.bill : bill; 
+  let data = bill.bill ? bill.bill : bill;
+  const [socketInstance, setSocketInstance] = useState(null);
 
   const handleCopy = (text) => {
     if (!navigator.clipboard) {
@@ -27,54 +29,53 @@ function PayMentBank() {
       .catch((err) => alert("Sao chép thất bại!"));
   };
 
-useEffect(() => {
-  if (!id) return;
-  api
-    .get(`/bill/${id}`, {
+  useEffect(() => {
+    // Tạo socket khi component mount
+    const socket = io("https://sieuthidt.io.vn", {
+      transports: ["websocket", "polling"],
       withCredentials: true,
-    })
-    .then((res) => {// Thêm dòng này
-      setBill(res.data)
-    })
-    .catch((err) => console.log(err));
-}, [id]);
-  console.log(bill)
-  const qrUrl = `https://img.vietqr.io/image/970422-0001856423848-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
+    });
+
+    setSocketInstance(socket);
+
+    return () => socket.disconnect(); // cleanup
+  }, []);
 
   useEffect(() => {
-    if (!data._id || !data.Intomoney) return;
+    if (!socketInstance) return; // <--- CHẶN LỖI
+    if (!id) return;
 
-    const interval = setInterval(async () => {
-      try {
-        const res = await api.post(
-          `/webhook/check`,
-          {
-            id: data._id,
-          }
-        );
-        console.log(res.data);
-        if (res.data.code === 200) {
-          clearInterval(interval); // ✅ Dừng kiểm tra
-          alert("✅ Thanh toán đã được xác nhận!"); // hoặc set trạng thái để hiển thị lên UI
-          await api
-            .patch(
-              `/bill/status/${id}`,
-              {},
-              {
-                withCredentials: true,
-              }
-            )
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err));
-          navigate("/");
-        }
-      } catch (err) {
-        console.error("Lỗi kiểm tra thanh toán:", err.message);
+    // Tham gia room orderId để nhận realtime
+    socketInstance.emit("join-order", id);
+
+    // Lắng nghe khi BE xác nhận thanh toán
+    socketInstance.on("payment-status", (data) => {
+      console.log("Realtime:", data);
+
+      if (data.status === "PAID") {
+        alert("Thanh toán thành công!");
+        navigate("/");
       }
-    }, 5000); // mỗi 15 giây kiểm tra 1 lần
+    });
 
-    return () => clearInterval(interval); // cleanup khi component bị unmount
-  }, [bill]);
+    return () => {
+      socketInstance.off("payment-status");
+    };
+  }, [socketInstance, id]);
+
+  useEffect(() => {
+    if (!id) return;
+    api
+      .get(`/bill/${id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        // Thêm dòng này
+        setBill(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
+  const qrUrl = `https://img.vietqr.io/image/970422-0001856423848-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
 
   return (
     <div className={`${styles.PayMentBank}`}>
@@ -96,7 +97,10 @@ useEffect(() => {
               </p>
             </div>
             <div>
-              <p>Đơn này sẽ được giao cho {bill?.user?.name} và thanh toán bằng chuyển khoản</p>
+              <p>
+                Đơn này sẽ được giao cho {bill?.user?.name} và thanh toán bằng
+                chuyển khoản
+              </p>
             </div>
           </button>
         </div>
@@ -112,7 +116,10 @@ useEffect(() => {
                 <td>Số tài khoản:</td>
                 <td className={`${styles.tdin}`}>
                   0001856423848
-                  <button type="button" onClick={() => handleCopy('0001856423848')}>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy("0001856423848")}
+                  >
                     sao chép
                   </button>
                 </td>
