@@ -18,7 +18,7 @@ export const saveName = (name) =>{
 
 export const getAddress = () =>{
     const address = localStorage.getItem('address')
-    return address ? JSON.parse(address) : ''
+    return address ? JSON.parse(address) : []
 }
 
 export const saveAddress = (address) =>{

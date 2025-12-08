@@ -45,9 +45,11 @@ function Infomation() {
 
   // Lấy danh sách địa chỉ nhận hàng (giữ nguyên)
   useEffect(() => {
-    const address = getAddress()
-    console.log(address)
-    setAddress(address)
+    const stored = getAddress();
+    // ensure we always set an array to avoid .map errors
+    const safe = Array.isArray(stored) ? stored : [];
+    console.log('loaded address', safe);
+    setAddress(safe);
   }, []);
 
 
