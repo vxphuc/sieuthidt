@@ -8,6 +8,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import api from "../../api/axios";
 import { faBilibili } from "@fortawesome/free-brands-svg-icons";
 import { io } from "socket.io-client";
+import BackgroundPopup from "../../components/BackgroundPopup";
 
 function PayMentBank() {
   const { id } = useParams();
@@ -17,6 +18,7 @@ function PayMentBank() {
   const navigate = useNavigate();
   let data = bill.bill ? bill.bill : bill;
   const [socketInstance, setSocketInstance] = useState(null);
+  const [popupSuccess, setPopupSuccess] = useState(false);
 
   const handleCopy = (text) => {
     if (!navigator.clipboard) {
@@ -48,8 +50,10 @@ useEffect(() => {
   const handler = (data) => {
     console.log("Realtime:", data);
     if (data.status === "PAID") {
-      alert("Thanh toán thành công!");
-      navigate("/");
+      setPopupSuccess(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
   };
 
@@ -173,6 +177,27 @@ useEffect(() => {
             <button className={`${styles.defaul}`}>Xem đơn hàng</button>
           </NavLink>
         </div>
+        {popupSuccess && (
+          <div>
+            <BackgroundPopup className={`${styles.popupSuccess || ""}`}>
+              <div className={`${styles.popUp}`}>
+                <div className={styles.checkIcon}>
+                  <img
+                    src="https://i.gifer.com/7efs.gif"
+                    alt="Success"
+                    style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "100%",
+                            objectFit: "contain",
+                          }}
+                  />
+                </div>
+                <h3 className="text-success">Đặt Hàng Thành Công!</h3>
+              </div>
+            </BackgroundPopup>
+          </div>
+        )}
       </div>
     </div>
   );

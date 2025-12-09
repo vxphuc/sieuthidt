@@ -528,8 +528,6 @@ function Carts() {
                 )}
               </div>
             </div>
-
-            {/* Hiện thông báo sản phẩm không đủ tồn kho */}
             {outOfStockProducts.length > 0 && (
               <BackgroundPopup>
                 <div className={styles.popUptonkho}>
