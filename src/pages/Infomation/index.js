@@ -7,9 +7,7 @@ import { useLocation } from "react-router-dom";
 import { getName, getAddress } from "../../services/cartService";
 
 function Infomation() {
-  const phone = getName();
   const localAddress = getAddress();
-  // sửa dòng useState ban đầu:
   const [data, setData] = useState({
     name: "",
     numberPhone: "",
@@ -18,20 +16,14 @@ function Infomation() {
   const [address, setAddress] = useState(localAddress || []);
   const [showForm, setShowForm] = useState(false);
 
-  // Địa chỉ cập nhật, popup sửa địa chỉ giữ nguyên
-  const [editAddress, setEditAddress] = useState(null);
-  const [showEditForm, setShowEditForm] = useState(false);
-  const [provinces, setProvinces] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [wards, setWards] = useState([]);
-
-  // Lấy thông tin user-profile khi component mount hoặc numberPhoneParam thay đổi
   useEffect(() => {
-    if (!phone || phone.length === 0) return;
+    const stored = getName();
+    if (!stored || (Array.isArray(stored) && stored.length === 0)) return;
+
     api
       .get(`/sign-in/user-profile`)
       .then((res) => {
-        if (res.data && !data.name) {
+        if (res.data) {
           setData({
             name: res.data.name || "",
             numberPhone: res.data.numberPhone || "",
@@ -41,17 +33,14 @@ function Infomation() {
       .catch((error) => {
         console.error("Lỗi khi lấy thông tin user-profile:", error);
       });
-  }, [phone]);
+  }, []);
 
-  // Lấy danh sách địa chỉ nhận hàng (giữ nguyên)
   useEffect(() => {
     const stored = getAddress();
-    // ensure we always set an array to avoid .map errors
     const safe = Array.isArray(stored) ? stored : [];
     console.log('loaded address', safe);
     setAddress(safe);
   }, []);
-
 
   // Cập nhật tên
   const handleSubmitName = async () => {
@@ -71,7 +60,6 @@ function Infomation() {
       console.error("Lỗi cập nhật thông tin:", error);
     }
   };
-
   return (
     <div className={styles.wrapper}>
       {/* Thông tin cá nhân */}
@@ -150,85 +138,6 @@ function Infomation() {
           ))}
         </div>
       </div>
-
-      {/* Popup sửa địa chỉ (giữ nguyên code nếu cần) */}
-      {/* {showEditForm && editAddress && (
-        <>
-          <div
-            className={styles.overlay}
-            onClick={() => setShowEditForm(false)}
-          ></div>
-          <div className={styles.popup}>
-            <div className={styles.popupContent}>
-              <h3>Sửa địa chỉ nhận hàng</h3>
-              <button
-                className={styles.closeIcon}
-                onClick={() => setShowEditForm(false)}
-              >
-                X
-              </button>
-
-              <select
-                value={editAddress.provinces?.code}
-                onChange={(e) => {
-                  const p = provinces.find((p) => p.code === +e.target.value);
-                  setEditAddress((prev) => ({ ...prev, provinces: p }));
-                }}
-              >
-                <option value="">Chọn tỉnh</option>
-                {provinces.map((p) => (
-                  <option key={p.code} value={p.code}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={editAddress.districts?.code}
-                onChange={(e) => {
-                  const d = districts.find((d) => d.code === +e.target.value);
-                  setEditAddress((prev) => ({ ...prev, districts: d }));
-                }}
-              >
-                <option value="">Chọn quận</option>
-                {districts.map((d) => (
-                  <option key={d.code} value={d.code}>
-                    {d.name}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={editAddress.wards?.code}
-                onChange={(e) => {
-                  const w = wards.find((w) => w.code === +e.target.value);
-                  setEditAddress((prev) => ({ ...prev, wards: w }));
-                }}
-              >
-                <option value="">Chọn phường</option>
-                {wards.map((w) => (
-                  <option key={w.code} value={w.code}>
-                    {w.name}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="text"
-                value={editAddress.nameRoad}
-                onChange={(e) =>
-                  setEditAddress((prev) => ({ ...prev, nameRoad: e.target.value }))
-                }
-              />
-
-              <div className={styles.popupActions}>
-                <button>Xác nhận</button>
-                <button onClick={() => setShowEditForm(false)}>Đóng</button>
-              </div>
-            </div>
-          </div>
-        </>
-      )} */}
     </div>
   );
 }
