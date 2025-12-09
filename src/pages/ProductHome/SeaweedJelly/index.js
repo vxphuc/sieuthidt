@@ -42,7 +42,7 @@ function SeaweedJelly() {
 
   useEffect(() => {
     api
-      .get(`/product/ProductsNest/Thach-Rong-Nho`)
+      .get(`/product/ProductsNest/Thach-Rong-nho`)
       .then((response) => {
         setProduct(response.data);
       });
@@ -110,7 +110,7 @@ function SeaweedJelly() {
           })}
           <div className={`${style.viewMore} text-center`}>
             <NavLink
-              to={"/san-pham/Thach-Rong-Nho"}
+              to={"/san-pham/Thach-Rong-nho"}
               className={`${style.seeMore}`}
             >
               Xem thêm
