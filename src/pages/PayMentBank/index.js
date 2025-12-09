@@ -29,39 +29,37 @@ function PayMentBank() {
       .catch((err) => alert("Sao chép thất bại!"));
   };
 
-  useEffect(() => {
-    // Tạo socket khi component mount
-    const socket = io("https://sieuthidt.io.vn", {
-      transports: ["websocket", "polling"],
-      withCredentials: true,
-    });
+ useEffect(() => {
+  const socket = io("https://sieuthidt.io.vn", {
+    transports: ["websocket", "polling"],
+    withCredentials: true,
+  });
 
-    setSocketInstance(socket);
+  setSocketInstance(socket);
 
-    return () => socket.disconnect(); // cleanup
-  }, []);
+  return () => socket.disconnect();
+}, []);
 
-  useEffect(() => {
-    if (!socketInstance) return; // <--- CHẶN LỖI
-    if (!id) return;
+useEffect(() => {
+  if (!socketInstance || !id) return;
 
-    // Tham gia room orderId để nhận realtime
-    socketInstance.emit("join-order", id);
+  socketInstance.emit("join-order", id);
 
-    // Lắng nghe khi BE xác nhận thanh toán
-    socketInstance.on("payment-status", (data) => {
-      console.log("Realtime:", data);
+  const handler = (data) => {
+    console.log("Realtime:", data);
+    if (data.status === "PAID") {
+      alert("Thanh toán thành công!");
+      navigate("/");
+    }
+  };
 
-      if (data.status === "PAID") {
-        alert("Thanh toán thành công!");
-        navigate("/");
-      }
-    });
+  socketInstance.on("payment-status", handler);
 
-    return () => {
-      socketInstance.off("payment-status");
-    };
-  }, [socketInstance, id]);
+  return () => {
+    socketInstance.off("payment-status", handler);
+  };
+}, [socketInstance, id]);
+
 
   useEffect(() => {
     if (!id) return;
