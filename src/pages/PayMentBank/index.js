@@ -15,6 +15,8 @@ function PayMentBank() {
   const bank_id = process.env.REACT_APP_BANK_ID;
   const ACCOUNT_NO = process.env.REACT_APP_ACCOUNT_NO;
   const [bill, setBill] = useState({});
+  const [billError, setBillError] = useState(false);
+  const [billLoading, setBillLoading] = useState(true);
   const navigate = useNavigate();
   let data = bill.bill ? bill.bill : bill;
   const [socketInstance, setSocketInstance] = useState(null);
@@ -66,18 +68,61 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setBillError(true);
+      setBillLoading(false);
+      return;
+    }
+    setBillLoading(true);
+    setBillError(false);
     api
       .get(`/bill/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
-        // Thêm dòng này
-        setBill(res.data);
+        if (res.data && (res.data._id || res.data.bill?._id)) {
+          setBill(res.data);
+        } else {
+          setBillError(true);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("Lỗi lấy hóa đơn:", err);
+        setBillError(true);
+      })
+      .finally(() => {
+        setBillLoading(false);
+      });
   }, [id]);
   const qrUrl = `https://img.vietqr.io/image/970422-0001856423848-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
+
+  if (billLoading) {
+    return (
+      <div className={`${styles.PayMentBank}`}>
+        <div className={`${styles.payMenMetho}`}>
+          <p>Đang tải thông tin hóa đơn...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (billError || !data._id) {
+    return (
+      <div className={`${styles.PayMentBank}`}>
+        <div className={`${styles.payMenMetho}`}>
+          <div className={`${styles.header}`}>
+            <h2 style={{ color: "red" }}>Lỗi: Hóa đơn không tồn tại</h2>
+            <p>ID hóa đơn: <strong>{id}</strong> không hợp lệ hoặc đã bị xóa.</p>
+          </div>
+          <div className={`${styles.detail}`}>
+            <NavLink to={"/"} className={`${styles.home}`}>
+              Quay lại Trang chủ
+            </NavLink>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles.PayMentBank}`}>
