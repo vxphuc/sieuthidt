@@ -10,6 +10,7 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
+import ChatWidget from "../../../ChatWidget";
 
 import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
@@ -26,18 +27,18 @@ function Header() {
   const [notifications, setNotifications] = useState([]);
   const [popupnotifications, setpopupNotifications] = useState(false);
 
-   useEffect(() => {
-    const existingScript = document.querySelector(
-      'script[src="https://chat-plugin.pancake.vn/main/auto?page_id=web_DTGROUP"]'
-    );
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "https://chat-plugin.pancake.vn/main/auto?page_id=web_DTGROUP";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
-
+  //  useEffect(() => {
+  //   const existingScript = document.querySelector(
+  //     'script[src="https://chat-plugin.pancake.vn/main/auto?page_id=web_DTGROUP"]'
+  //   );
+  //   if (!existingScript) {
+  //     const script = document.createElement("script");
+  //     script.src = "https://chat-plugin.pancake.vn/main/auto?page_id=web_DTGROUP";
+  //     script.async = true;
+  //     document.body.appendChild(script);
+  //   }
+  // }, []);
+  
   const navigate = useNavigate();
   const handleLogout = async () => {
     localStorage.removeItem("authToken");
@@ -231,6 +232,7 @@ function Header() {
           ></div>
         )}
       </div>
+      <ChatWidget />
     </div>
   );
 }
