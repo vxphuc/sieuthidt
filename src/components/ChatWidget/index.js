@@ -23,7 +23,7 @@ function ChatWidget() {
     setMessages((prev) => [...prev, { from: "user", text }]);
     setInput("");
 
-    // Mô phỏng trả lời bot (thay bằng API thật nếu cần)
+    // thay câu trả lời của chat bằng API thật
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
