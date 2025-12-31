@@ -36,7 +36,7 @@
   display: flex;
 }
 .product {
-  width: 65%;
+  width: 55%;
   background-color: rgb(255 255 255);
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
@@ -178,7 +178,7 @@
   border-width: 2px;
   border-radius: 0.5rem;
   flex: 1 1 0%;
-  margin-left: 10px;
+  margin-left: 25px;
   z-index: 10;
   top: 100px;
 }
