@@ -253,7 +253,7 @@
   border-collapse: collapse;
 }
 .table td {
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 0.5rem;
   font-size: 16px;
   color: #333;
   vertical-align: middle;
