@@ -58,7 +58,8 @@ function ChatWidget() {
       <button
         className={styles.fabchat}
         aria-label="Mở chat"
-        onClick={() => setOpen((v) => !v)}
+        // onClick={() => setOpen((v) => !v)}
+        onClick={() => window.open("https://www.facebook.com/messages/t/675268599012098", "_blank")}
       >
         <img src="/Artboard%209.png" alt="chat" className={styles.iconchat} />
       </button>
