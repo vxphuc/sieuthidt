@@ -1,19 +1,27 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Style from "./Sitebar.module.css";
 
 function Sitebar() {
+  const [showStats, setShowStats] = useState(false);
   return (
     <div className="container color-red">
       <div>
-        <h3>Dashboard</h3>
-        <NavLink
-          to="/quan-tri/tong-quan"
-          className={({ isActive }) => (isActive ? Style.active : "")}
+        <h3
+          onClick={() => setShowStats((s) => !s)}
+          style={{ cursor: "pointer", userSelect: "none" }}
         >
-          {" "}
-          Tổng quan
-        </NavLink>
+          Thống kê {showStats ? "▾" : "▸"}
+        </h3>
+        {showStats && (
+          <NavLink
+            to="/quan-tri/tong-quan"
+            className={({ isActive }) => (isActive ? Style.active : "")}
+          >
+            Tổng quan
+          </NavLink>
+        )}
       </div>
       <div>
         <h3>Sản phẩm</h3>

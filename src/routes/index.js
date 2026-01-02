@@ -30,6 +30,7 @@ import Adress from "../pages/Adress";
 import Infomation from "../pages/Infomation";
 import InfomationLayout from "../components/Layouts/InfomationLayout";
 import Bill from "../pages/Bill";
+import RegisterCTV from "../pages/RegisterCTV";
 import PayMentBank from "../pages/PayMentBank";
 import InvoiceDetails from "../pages/InvoiceDetails";
 import SearchPage from "../pages/SearchPage";
@@ -72,6 +73,11 @@ export const router = [
   {
     path: "/thong-tin-khach-hang/hoa-don",
     component: Bill,
+    layout: InfomationLayout,
+  },
+  {
+    path: "/thong-tin-khach-hang/dang-ky-ctv",
+    component: RegisterCTV,
     layout: InfomationLayout,
   },
   {

@@ -37,6 +37,7 @@ const logout = () =>{
       <div className={`${styles.infomation}`}>
         <NavLink to='/thong-tin-khach-hang/hoa-don' className={`${styles.order}`}><FontAwesomeIcon icon={faReceipt} /> Đơn hàng đã mua</NavLink>
         <NavLink to='/thong-tin-khach-hang' className={`${styles.ifm}`}><FontAwesomeIcon icon={faAddressBook} /> Thông tin và địa chỉ</NavLink>
+        <NavLink to='/thong-tin-khach-hang/dang-ky-ctv' className={`${styles.ifm}`}><FontAwesomeIcon icon={faAddressBook} /> Đăng ký CTV</NavLink>
         <button onClick={logout} className={`${styles.logout}`}>Đăng xuất</button>
         <button className={`${styles.point}`}>
           Tổng điểm tích lũy: {token.token}
