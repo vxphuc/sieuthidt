@@ -6,6 +6,33 @@
 a{
     display: block;
 }
+.Thunerdashboard{
+    color: #206a37;
+}
+.TitleDashboard{
+    color: #206a37;
+    font-weight: bold;
+}
+.TitleDashboard:active{
+    color: #ffffff;
+}
 .active{
-    color: #ff9900;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.activeBlock{
+    background-color: #206a37;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+/* make group headers and links white when the block is active */
+.activeBlock .TitleDashboard,
+.activeBlock h3 {
+    color: #ffffff;
+}
+.activeBlock a {
+    color: #ffffff;
 }

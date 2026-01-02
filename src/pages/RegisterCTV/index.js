@@ -1,22 +1,34 @@
 import React, { useState } from "react";
+import "./RegisterCTV.module.css";
+import koc from "../../api/koc";
+
 
 export default function RegisterCTV() {
-	const [form, setForm] = useState({ name: "", email: "", phone: "" });
+	const [form, setForm] = useState({ hoten: "", email: "", diachi: "" });
+
 	const handleChange = e => {
 		const { name, value } = e.target;
 		setForm(prev => ({ ...prev, [name]: value }));
 	};
-	const handleSubmit = e => {
+
+	const handleSubmit = async e => {
 		e.preventDefault();
-		// simple validation
-		if (!form.name || !form.email || !form.phone) {
-			alert("Vui lòng nhập đầy đủ tên, email và số điện thoại.");
+		if (!form.hoten || !form.email || !form.diachi) {
+			alert("Vui lòng nhập đầy đủ tên, gmail và địa chỉ.");
 			return;
 		}
-		console.log("Submitted:", form);
-		alert("Đã gửi dữ liệu! Kiểm tra console.");
-		setForm({ name: "", email: "", phone: "" });
+		try {
+			const payload = { hoten: form.hoten, email: form.email, diachi: form.diachi };
+			const res = await koc.post('/dang-ky-koc', payload);
+			alert('Đã gửi đăng ký. Vui lòng đợi admin duyệt.');
+			setForm({ hoten: "", email: "", diachi: "" });
+		} catch (err) {
+			console.error('Submit failed', err);
+			const message = err?.response?.data || err.message || 'Không thể gửi yêu cầu. Kiểm tra kết nối.';
+			alert(message);
+		}
 	};
+
 	return (
 		<div style={{ maxWidth: 480, margin: "24px auto", padding: 16 }}>
 			<h2>Đăng ký CTV</h2>
@@ -24,8 +36,8 @@ export default function RegisterCTV() {
 				<div style={{ marginBottom: 12 }}>
 					<label>Họ và tên</label>
 					<input
-						name="name"
-						value={form.name}
+						name="hoten"
+						value={form.hoten}
 						onChange={handleChange}
 						placeholder="Nhập tên"
 						style={{ width: "100%", padding: 8, boxSizing: "border-box" }}
@@ -43,12 +55,12 @@ export default function RegisterCTV() {
 					/>
 				</div>
 				<div style={{ marginBottom: 12 }}>
-					<label>Số điện thoại</label>
+					<label>Địa chỉ</label>
 					<input
-						name="phone"
-						value={form.phone}
+						name="diachi"
+						value={form.diachi}
 						onChange={handleChange}
-						placeholder="0xxxxxxxxx"
+						placeholder="Nhập địa chỉ"
 						style={{ width: "100%", padding: 8, boxSizing: "border-box" }}
 					/>
 				</div>
