@@ -27,8 +27,6 @@ a{
     padding: 8px 12px;
     border-radius: 4px;
 }
-
-/* make group headers and links white when the block is active */
 .activeBlock .TitleDashboard,
 .activeBlock h3 {
     color: #ffffff;
