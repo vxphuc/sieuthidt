@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 
 function HeaderLayout({ children }) {
   return (
-    <div>
+    <div className={styles.ContainerMenu}>
       <Header />
       <div className={styles.container}>
         {/* Sidebar 30% */}

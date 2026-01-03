@@ -64,15 +64,15 @@ function Login() {
 
   return (
     <div className={styles.wrapper}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <Paper elevation={3} className={`${styles.paper}`}>
-          <p className="text-center mb-3">
-            Để xem "Đơn hàng của bạn" vui lòng nhập Số điện thoại đã đặt hàng
+          <p className={styles.titleLogin}>
+            Để xem <b>"Đơn hàng của bạn"</b> vui lòng nhập Số điện thoại đã đặt hàng
           </p>
           <form onSubmit={(e) => e.preventDefault()}>
             <TextField
               fullWidth
-              label="Số điện thoại"
+              label="Số điện thoại*"
               variant="outlined"
               margin="normal"
               value={phone}
@@ -83,6 +83,17 @@ function Login() {
                 if (e.key === "Enter" && !isOtpSent && phone.length === 10) {
                   handleSendOtp();
                 }
+              }}
+              sx={{
+                '& .MuiInputLabel-root': { color: '#206a37' },
+                '& .MuiInputLabel-root.Mui-focused': { color: '#206a37' },
+                '& .MuiOutlinedInput-root': {
+                  color: '#206a37',
+                  '& fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                  '&:hover fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                  '&.Mui-focused fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                },
+                '& .MuiOutlinedInput-input': { color: '#206a37' }
               }}
             />
             {error ? (
@@ -106,14 +117,25 @@ function Login() {
                     handleVerifyOtp();
                   }
                 }}
+                sx={{
+                '& .MuiInputLabel-root': { color: '#206a37' },
+                '& .MuiInputLabel-root.Mui-focused': { color: '#206a37' },
+                '& .MuiOutlinedInput-root': {
+                  color: '#206a37',
+                  '& fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                  '&:hover fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                  '&.Mui-focused fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                },
+                '& .MuiOutlinedInput-input': { color: '#206a37' }
+              }}
               />
             )}
             {!isOtpSent ? (
               <Button
                 fullWidth
                 variant="contained"
-                color="primary"
-                className="mt-3"
+                className={styles.btnBackLogin}
+                sx={{ backgroundColor: '#206a37', color: '#ffffff', borderRadius: '15px', mt: 1 }}
                 onClick={handleSendOtp}
                 // onClick={handleVerifyOtp}
                 disabled={phone.length !== 10 || isSending}
@@ -122,10 +144,10 @@ function Login() {
               </Button>
             ) : (
               <Button
+                className={styles.btnBackLogin}
                 fullWidth
                 variant="contained"
-                color="primary"
-                className="mt-3"
+                sx={{ backgroundColor: '#206a37', color: '#ffffff', borderRadius: '15px', mt: 1 }}
                 onClick={handleVerifyOtp}
                 disabled={otp.length < 4 || isSending}
               >
