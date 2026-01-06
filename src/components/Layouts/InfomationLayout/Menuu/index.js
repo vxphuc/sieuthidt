@@ -1,6 +1,6 @@
 import styles from './Menuu.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressBook, faReceipt } from "@fortawesome/free-solid-svg-icons";
+import { faAddressBook, faReceipt, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../../../../api/axios';
@@ -35,9 +35,9 @@ const logout = () =>{
     <div>
       {" "}
       <div className={`${styles.infomation}`}>
-        <NavLink to='/thong-tin-khach-hang/hoa-don' className={`${styles.order}`}><FontAwesomeIcon icon={faReceipt} /> Đơn hàng đã mua</NavLink>
-        <NavLink to='/thong-tin-khach-hang' className={`${styles.ifm}`}><FontAwesomeIcon icon={faAddressBook} /> Thông tin và địa chỉ</NavLink>
-        <NavLink to='/thong-tin-khach-hang/dang-ky-ctv' className={`${styles.ifm}`}><FontAwesomeIcon icon={faAddressBook} /> Đăng ký CTV</NavLink>
+        <NavLink to='/thong-tin-khach-hang/hoa-don' className={({isActive}) => isActive ? `${styles.order} ${styles.active}` : styles.order }><FontAwesomeIcon icon={faReceipt} /> Đơn hàng đã mua</NavLink>
+        <NavLink end to='/thong-tin-khach-hang' className={({isActive}) => isActive ? `${styles.ifm} ${styles.active}` : styles.ifm }><FontAwesomeIcon icon={faAddressBook} /> Thông tin và địa chỉ</NavLink>
+        <NavLink to='/thong-tin-khach-hang/dang-ky-ctv' className={({isActive}) => isActive ? `${styles.ifm} ${styles.active}` : styles.ifm }><FontAwesomeIcon icon={faFileAlt} /> Đăng ký CTV</NavLink>
         <button onClick={logout} className={`${styles.logout}`}>Đăng xuất</button>
         <button className={`${styles.point}`}>
           Tổng điểm tích lũy: {token.token}

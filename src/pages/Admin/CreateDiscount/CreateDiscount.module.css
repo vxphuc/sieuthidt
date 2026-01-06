@@ -1,0 +1,141 @@
+
+.containerDiscount {
+    
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.cardDiscount {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+.titleDiscount {
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #333333;
+    font-weight: 700;
+    color: #206a37;
+}
+
+.formGroupDiscount {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.dateRow {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa 2 ô ngày */
+    margin-bottom: 20px;
+}
+
+.dateCol {
+    flex: 1; /* Mỗi cột chiếm 50% */
+    display: flex;
+    flex-direction: column;
+}
+
+.labelDiscount {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #206a37;
+    font-size: 18px;
+}
+
+.inputDiscount {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #206a37;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-sizing: border-box;
+}
+.inputDiscount:focus {
+    border-color: #206a37;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(14, 128, 29, 0.25);
+}
+
+.formMainDiscount{
+    border: solid 1px #206a37;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.checkboxGroupDiscount {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-left: 5px;
+}
+
+.checkboxGroupDiscount input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.labelCheckboxDiscount {
+    cursor: pointer;
+    font-weight: 500;
+    color: #495057;
+    user-select: none;
+}
+
+/* Nút Submit */
+.buttonDiscount {
+    width: 100%;
+    padding: 11px;
+    background-color: #206a37;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.buttonDiscount:hover:not(:disabled) {
+    background-color: #174d28;
+}
+
+.buttonDiscount:active {
+    transform: scale(0.98);
+}
+
+.buttonDiscount:disabled {
+    background-color: #9cc2a7;
+    cursor: not-allowed;
+}
+/* Thông báo lỗi */
+.errorMsg {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Thông báo thành công */
+.successMsg {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+}

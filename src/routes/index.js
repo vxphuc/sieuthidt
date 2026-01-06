@@ -43,6 +43,11 @@ import DetailUsers from "../pages/Admin/DetailUser";
 import LuckyWheel from "../pages/Admin/luckywheel/index";
 import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
 
+//ctv import
+import ManageCTV from "../pages/Admin/ManageCTV";
+import CreateDiscount from "../pages/Admin/CreateDiscount";
+import ListDiscount from "../pages/Admin/ListDiscount";
+
 export const router = [
   {
     path: "/tim-kiem",
@@ -63,7 +68,22 @@ export const router = [
     component: Taikhoanquanly,
     layout: AdminLayout,
   },
-  
+  //ctv route
+  {
+    path: "/quan-tri/quan-ly-ctv",
+    component: ManageCTV,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/tao-giam-gia",
+    component: CreateDiscount,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/quan-ly-giam-gia",
+    component: ListDiscount,
+    layout: AdminLayout,
+  },
   {
     path: "/quan-tri/hoa-don",
     component: OrderManagement,

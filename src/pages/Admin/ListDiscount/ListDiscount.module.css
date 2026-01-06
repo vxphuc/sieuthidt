@@ -1,0 +1,171 @@
+/* ListDiscount.module.css */
+
+.container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #206a37; /* Màu xanh chủ đạo */
+    margin: 0;
+}
+
+/* Thanh tìm kiếm */
+.searchBox {
+    display: flex;
+    gap: 10px;
+}
+
+.searchInput {
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    outline: none;
+    min-width: 250px;
+    transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+    border-color: #206a37;
+    box-shadow: 0 0 0 3px rgba(32, 106, 55, 0.1);
+}
+
+.btnSearch {
+    background-color: #206a37;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btnSearch:hover {
+    background-color: #174d28;
+}
+
+/* Bảng dữ liệu */
+.tableContainer {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table th {
+    background-color: #206a37;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 2px solid #dee2e6;
+    border: solid 1px #ffffff;
+}
+
+.table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    color: #333;
+    vertical-align: middle;
+    border: solid 1px #206a37;
+}
+
+.table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Trạng thái (Badges) */
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.active {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.inactive {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.kocBadge {
+    background-color: #cff4fc;
+    color: #055160;
+    margin-left: 5px;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #dee2e6;
+}
+.pageBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 16px;
+    border: 1px solid #206a37;
+    background-color: #ffffff;
+    color: #206a37;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.pageBtn:hover:not(:disabled) {
+    background-color: #206a37;
+    color: #ffffff;
+}
+
+.pageBtn:disabled {
+    border-color: #ced4da;
+    color: #adb5bd;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+}
+
+.pageInfo {
+    font-weight: 600;
+    color: #495057;
+}

@@ -10,7 +10,10 @@
   
   /* Sidebar bên trái - 30% */
   .sidebar {
+    background-color: white;
     flex: 0 0 30%;
+    box-shadow: black 6px 0px 15px 0px;
+    padding: 10px;
   }
   
   /* Nội dung chính - 70% */
