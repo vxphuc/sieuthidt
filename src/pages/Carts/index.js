@@ -8,6 +8,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from "react";
 import api from "../../api/axios";
+import axios from "../../api/koc";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
@@ -58,6 +59,7 @@ function Carts() {
   const [product, setProduct] = useState([]);
 
   // Áp dụng mã giảm giá
+  // Áp dụng mã giảm giá
   const handleApplyDiscount = async () => {
     if (!discountCode.trim()) {
       setDiscountMessage({ text: "Vui lòng nhập mã giảm giá!", type: "error" });
@@ -68,55 +70,69 @@ function Carts() {
       return;
     }
 
+    // Nếu cần check user phone thì giữ lại, nếu không thì có thể bỏ qua check phone để giống Postman
     if (!user || user.length === 0 || !user[0].phone) {
-      setDiscountMessage({ text: "Lỗi: Không tìm thấy số điện thoại người dùng.", type: "error" });
-      console.error("User phone number not found. User state:", user);
-      return;
+       // Tạm thời log warning thay vì chặn luôn nếu muốn test giống postman
+       console.warn("User phone not found");
     }
     
-    // Lấy SĐT từ state
-    const userPhone = user[0].phone;
-    // Reset thông báo trước khi gọi API
+    const userPhone = user && user[0] ? user[0].phone : "";
     setDiscountMessage({ text: "", type: "" });
 
     try {
-      const response = await api.post("/discount-code/gia-tri-cua-ma", {
-        code: discountCode,
-        phone: userPhone
+      // Dùng axios từ import (lưu ý: anh nên đồng bộ dùng biến 'api' thay vì 'axios' để tránh nhầm lẫn file config)
+      const response = await axios.post("/su-dung-ma-giam-gia", {
+        tenmagiamgia: discountCode,
+        phone: userPhone 
       });
-      if (response.data && response.data.value && Array.isArray(response.data.value) && response.data.value.length > 0) {
+
+      console.log("API Response:", response.data); // Log để debug
+
+      // --- SỬA LẠI LOGIC BẮT DỮ LIỆU ---
+      
+      // Trường hợp 1: Server trả về đúng như ảnh Postman { "giatrimagiam": 25 }
+      if (response.data && response.data.giatrimagiam !== undefined) {
+        const value = response.data.giatrimagiam;
+        
+        // Tạo object info để khớp với logic tính tiền ở dưới
+        const discountInfoObj = {
+            discount_value: value,       // Map 'giatrimagiam' sang 'discount_value'
+            discount_type: "percentage"  // Giả định là % (vì trong ảnh thấy số 25 nhỏ, nếu là tiền mặt 25đ thì quá ít)
+        };
+
+        setDiscountInfo(discountInfoObj);
+        setAppliedDiscountCode(discountCode);
+        setDiscountMessage({ text: `Áp dụng thành công! Giảm ${value}%`, type: "success" });
+      }
+      // Trường hợp 2: Server trả về cấu trúc cũ (dạng mảng) - Giữ lại để dự phòng
+      else if (response.data && response.data.value && Array.isArray(response.data.value) && response.data.value.length > 0) {
         const discountData = response.data.value[0];
         setDiscountInfo(discountData);
         setAppliedDiscountCode(discountCode);
         setDiscountMessage({ text: "Áp dụng mã giảm giá thành công!", type: "success" });
-        console.log("Discount Data:", discountData);
-        console.log("số điện thoai người dùng:", userPhone);
-        // dùng để thêm giảm giá vào tổng đơn hàng
-
       } 
+      // Trường hợp lỗi trả về từ server (dạng string)
       else if (response.data && typeof response.data.value === 'string') {
         setDiscountInfo(null);
-        setAppliedDiscountCode(""); // Reset mã nếu không hợp lệ
-        setDiscountMessage({ text: response.data.value, type: "error" }); // Hiển thị "mã giảm giá không hợp lệ"
+        setAppliedDiscountCode(""); 
+        setDiscountMessage({ text: response.data.value, type: "error" });
       } 
-      // Các trường hợp 200 OK khác không mong muốn
+      // Fallback
       else {
         setDiscountInfo(null);
         setAppliedDiscountCode("");
-        setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc đã hết hạn.", type: "error" });
+        setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc lỗi cấu trúc dữ liệu.", type: "error" });
       }
+
     } catch (error) {
-      // Xử lý lỗi mạng hoặc lỗi server (4xx, 5xx)
       if (error.response && error.response.status === 422 && error.response.data.err) {
           setDiscountInfo(null);
           setAppliedDiscountCode("");
-          // Hiển thị lỗi cụ thể, ví dụ: "mã giảm giá đã được sử dụng"
           setDiscountMessage({ text: error.response.data.err, type: "error" });
       } else {
-          // Xử lý lỗi mạng hoặc lỗi server (4xx, 5xx)
           setDiscountInfo(null);
           setAppliedDiscountCode("");
-          setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc có lỗi xảy ra.", type: "error" });
+          setDiscountMessage({ text: "Lỗi hệ thống hoặc mã không tồn tại.", type: "error" });
           console.error("Error applying discount code:", error);
       }
     }

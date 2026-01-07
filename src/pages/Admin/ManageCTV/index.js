@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../api/koc';
 import styles from './manageCTV.module.css';
+import { FaCheckCircle, FaUserCheck } from "react-icons/fa";
 function ManageCTV() {
     const [listCTV, setListCTV] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -49,64 +50,71 @@ function ManageCTV() {
     };
 
     return (
-        <div className="container-fluid mt-4">
-            <h2 className="mb-4 text-success fw-bold">Quản lý CTV chờ duyệt</h2>
+        <div className={styles.container}>
+            <h2 className={styles.title}>
+                <FaUserCheck style={{marginRight: '10px'}}/> 
+                Quản lý CTV Chờ Duyệt
+            </h2>
             
-            <div className="card shadow-sm">
-                <div className="card-body p-0">
-                    <div className="table-responsive">
-                        <table className="table table-hover table-striped mb-0">
-                            <thead className="bg-success text-white">
+            <div className={styles.card}>
+                <div className={styles.tableWrapper}>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th className={styles.textCenter}>ID</th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                                <th className={styles.textCenter}>Trạng thái</th>
+                                <th className={styles.textCenter}>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Họ tên</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Địa chỉ</th>
-                                    <th scope="col" className="text-center">Trạng thái</th>
-                                    <th scope="col" className="text-center">Hành động</th>
+                                    <td colSpan="7" className={styles.loadingText}>Đang tải dữ liệu...</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? (
-                                    <tr>
-                                        <td colSpan="7" className="text-center py-4">Đang tải dữ liệu...</td>
-                                    </tr>
-                                ) : listCTV.length > 0 ? (
-                                    listCTV.map((item) => (
-                                        <tr key={item.id} className="align-middle">
-                                            <td>{item.id}</td>
-                                            <td className="fw-bold">{item.hoten}</td>
-                                            <td>{item.email}</td>
-                                            <td>{item.sodienthoai}</td>
-                                            <td>{item.diachi}</td>
-                                            <td className="text-center">
-                                                {!item.is_active ? (
-                                                    <span className="badge bg-warning text-dark">Chờ duyệt</span>
-                                                ) : (
-                                                    <span className="badge bg-success">Đã duyệt</span>
-                                                )}
-                                            </td>
-                                            <td className="text-center">
-                                                <button 
-                                                    className="btn btn-primary btn-sm"
-                                                    onClick={() => handleApprove(item.id, item.hoten)}
-                                                >
-                                                    <i className="bi bi-check-circle me-1"></i> Duyệt
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="7" className="text-center py-4 text-muted">
-                                            Không có CTV nào đang chờ duyệt.
+                            ) : listCTV.length > 0 ? (
+                                listCTV.map((item) => (
+                                    <tr key={item.id}>
+                                        <td className={styles.textCenter}>#{item.id}</td>
+                                        <td className={styles.nameCol}>{item.hoten}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.sodienthoai}</td>
+                                        <td>{item.diachi || '---'}</td>
+                                        
+                                        <td className={styles.textCenter}>
+                                            {!item.is_active ? (
+                                                <span className={`${styles.badge} ${styles.badgeWaiting}`}>
+                                                    Chờ duyệt
+                                                </span>
+                                            ) : (
+                                                <span className={`${styles.badge} ${styles.badgeApproved}`}>
+                                                    Đã duyệt
+                                                </span>
+                                            )}
+                                        </td>
+                                        
+                                        <td className={styles.textCenter}>
+                                            <button 
+                                                className={styles.btnApprove}
+                                                onClick={() => handleApprove(item.id, item.hoten)}
+                                            >
+                                                <FaCheckCircle className={styles.icon} /> Duyệt
+                                            </button>
                                         </td>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className={styles.emptyText}>
+                                        Không có CTV nào đang chờ duyệt.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

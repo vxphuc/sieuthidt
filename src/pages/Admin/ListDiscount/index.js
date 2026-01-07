@@ -7,6 +7,7 @@ function ListDiscount() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [submittedSearch, setSubmittedSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const LIMIT = 10;
     // Hàm gọi API lấy danh sách
@@ -35,14 +36,14 @@ function ListDiscount() {
         }
     };
     useEffect(() => {
-        fetchEvents(currentPage, searchTerm);
-    }, [currentPage]);
+        fetchEvents(currentPage, submittedSearch);
+    }, [currentPage, submittedSearch]);
+
     const handleSearch = (e) => {
         e.preventDefault();
+        setSubmittedSearch(searchTerm);
         setCurrentPage(1);
-        fetchEvents(1, searchTerm);
     };
-
     const handlePrevPage = () => {
         if (currentPage > 1) {
             setCurrentPage(prev => prev - 1);
@@ -77,6 +78,7 @@ function ListDiscount() {
                             placeholder="Tìm tên sự kiện..." 
                             className={styles.searchInput}
                             value={searchTerm}
+                            // Chỉ cập nhật searchTerm khi gõ, chưa gọi API
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <button type="submit" className={styles.btnSearch}>
@@ -111,7 +113,7 @@ function ListDiscount() {
                                                     <strong>{item.tensukien}</strong>
                                                     {item.is_koc && <span className={styles.kocBadge}>KOC</span>}
                                                 </td>
-                                                <td style={{ color: '#d63384', fontWeight: 'bold' }}>
+                                                <td style={{ color: '#206a37', fontWeight: 'bold' }}>
                                                     {item.giatrigiamgia}%
                                                 </td>
                                                 <td>{formatDate(item.thoigianbatdau)}</td>
@@ -152,7 +154,6 @@ function ListDiscount() {
                                 <button 
                                     className={styles.pageBtn} 
                                     onClick={handleNextPage} 
-                                    // Disable nếu số lượng bản ghi tải về < 10 (nghĩa là trang cuối)
                                     disabled={events.length < LIMIT || loading}
                                 >
                                     Sau <FaChevronRight />

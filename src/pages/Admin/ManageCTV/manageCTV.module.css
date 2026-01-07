@@ -1,0 +1,132 @@
+/* manageCTV.module.css */
+
+.container {
+    padding: 30px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.title {
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #206a37; /* Màu xanh chủ đạo */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden; /* Bo tròn góc cho cả bảng bên trong */
+    border: none;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+/* Header của bảng */
+.table thead th {
+    background-color: #206a37;
+    color: #ffffff;
+    padding: 15px;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: none;
+    border: solid 1px #ffffff;
+    text-align: center;
+}
+
+.table tbody td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+    color: #495057;
+    font-size: 15px;
+    border: solid 1px #206a37;
+}
+
+/* Hiệu ứng hover dòng */
+.table tbody tr:hover {
+    background-color: #f1f8f3; /* Màu xanh rất nhạt khi hover */
+}
+
+/* Cột ID và Hành động căn giữa */
+.textCenter {
+    text-align: center !important;
+}
+
+.nameCol {
+    font-weight: 600;
+    color: #206a37;
+}
+
+/* Badge trạng thái */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badgeWaiting {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.badgeApproved {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+/* Nút Duyệt */
+.btnApprove {
+    background-color: #206a37;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btnApprove:hover {
+    background-color: #174d28;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btnApprove:active {
+    transform: translateY(0);
+}
+
+/* Icon trong nút */
+.icon {
+    font-size: 16px;
+}
+
+/* Loading và Empty state */
+.loadingText, .emptyText {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-style: italic;
+}
