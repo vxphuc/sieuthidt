@@ -1,0 +1,111 @@
+.container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
+
+/* Header */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  color: #206a37;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Filter Button */
+.filterSection {
+  margin-bottom: 20px;
+}
+
+.filterBtn {
+  background-color: #206a37;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Charts Section */
+.chartGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Chia đôi màn hình */
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chartCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.chartTitle {
+  text-align: center;
+  color: #206a37;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+/* Table Section */
+.tableCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.thead {
+  background-color: #206a37;
+  color: #fff;
+}
+
+.th {
+  padding: 14px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid #1a562d;
+}
+
+.tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tr:hover {
+  background-color: #f8f9fa;
+}
+
+.td {
+  padding: 14px;
+  color: #333;
+  vertical-align: middle;
+}
+
+/* Utility */
+.textCenter { text-align: center; }
+.textEnd { text-align: right; }
+.bold { font-weight: bold; }
+.primaryColor { color: #206a37; font-weight: 500; }

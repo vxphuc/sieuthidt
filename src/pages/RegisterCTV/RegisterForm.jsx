@@ -1,28 +1,37 @@
 import React, { useState } from "react";
 import styles from "./RegisterCTV.module.css";
-import koc from "../../api/koc";
+import koc from "../../api/koc"; // Đường dẫn tới file cấu hình axios của anh
 
 export default function RegisterForm({ onSuccess }) {
     const [form, setForm] = useState({ hoten: "", email: "", diachi: "" });
     const [loading, setLoading] = useState(false);
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!form.hoten || !form.email || !form.diachi) {
+            alert("Vui lòng điền đầy đủ thông tin");
+            return;
+        }
+
         setLoading(true);
         try {
-            const payload = { hoten: form.hoten, email: form.email, diachi: form.diachi };
-            await koc.post('/dang-ky-koc', payload);
+            // Gọi API đăng ký
+            await koc.post('/dang-ky-koc', { 
+                hoten: form.hoten, 
+                email: form.email, 
+                diachi: form.diachi 
+            });
             
-            // Gọi callback để báo cho file cha biết là xong rồi
+            // Nếu thành công, báo cho file cha biết
             onSuccess(); 
         } catch (err) {
             console.error(err);
-            const message = err?.response?.data?.detail || "Lỗi đăng ký.";
+            const message = err?.response?.data?.detail || "Lỗi đăng ký. Vui lòng thử lại.";
             alert(message);
         } finally {
             setLoading(false);
@@ -37,15 +46,15 @@ export default function RegisterForm({ onSuccess }) {
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formRow}>
                         <label className={styles.label}>Họ và tên</label>
-                        <input className={styles.input} name="hoten" value={form.hoten} onChange={handleChange} required />
+                        <input className={styles.input} name="hoten" value={form.hoten} onChange={handleChange} placeholder="Nhập họ tên" required />
                     </div>
                     <div className={styles.formRow}>
                         <label className={styles.label}>Email</label>
-                        <input className={styles.input} name="email" type="email" value={form.email} onChange={handleChange} required />
+                        <input className={styles.input} name="email" type="email" value={form.email} onChange={handleChange} placeholder="example@gmail.com" required />
                     </div>
                     <div className={styles.formRow}>
                         <label className={styles.label}>Địa chỉ</label>
-                        <input className={styles.input} name="diachi" value={form.diachi} onChange={handleChange} required />
+                        <input className={styles.input} name="diachi" value={form.diachi} onChange={handleChange} placeholder="Nhập địa chỉ" required />
                     </div>
                     <div className={styles.actions}>
                         <button type="submit" className={styles.submitBtn} disabled={loading}>

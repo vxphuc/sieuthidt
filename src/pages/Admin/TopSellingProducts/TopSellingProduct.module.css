@@ -1,0 +1,120 @@
+.container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
+
+/* Header Section */
+.header {
+  margin-bottom: 16px;
+}
+
+.title {
+  color: #206a37;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Filter Button */
+.filterSection {
+  margin-bottom: 10px;
+}
+
+.filterBtn {
+  background-color: #206a37;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.filterBtn:hover {
+  opacity: 0.9;
+}
+
+/* Table Section */
+.tableCard {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Đổ bóng nhẹ thay cho shadow-sm */
+  overflow: hidden; /* Bo tròn góc bảng */
+  border: 1px solid #e0e0e0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+/* Table Header */
+.thead {
+  background-color: #206a37;
+  color: #fff;
+}
+
+.th {
+  padding: 16px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid #1a562d;
+  border: solid 1px white;
+}
+.td{
+    border: solid 1px #206a37;
+}
+/* Table Body */
+.tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+.tr:hover {
+  background-color: #f8f9fa; /* Hiệu ứng hover thay cho table-hover */
+}
+
+.td {
+  padding: 16px;
+  vertical-align: middle;
+  color: #333;
+}
+
+/* Utility classes cho căn chỉnh cột */
+.textCenter {
+  text-align: center;
+}
+
+.textEnd {
+  text-align: right;
+}
+
+.productName {
+  font-weight: 500;
+  color: #206a37;
+}
+
+.stt {
+  font-weight: bold;
+}
+
+.revenue {
+  font-weight: bold;
+  color: #333;
+}

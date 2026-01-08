@@ -150,3 +150,66 @@
     font-weight: 600;
     margin-top: 10px;
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.pageBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    border: 1px solid #206a37;
+    color: #206a37;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    min-width: 100px;
+}
+
+.pageBtn:hover:not(:disabled) {
+    background-color: #206a37;
+    color: #ffffff;
+}
+
+.pageBtn:disabled {
+    border-color: #ced4da;
+    color: #adb5bd;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+}
+
+.pageInfo {
+    font-weight: 600;
+    color: #495057;
+    font-size: 15px;
+}
+.createCodeBtn {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #206a37;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.createCodeBtn:hover {
+    background-color: #209e48;
+}
+
+.createCodeBtn:active {
+    transform: scale(0.98);
+}

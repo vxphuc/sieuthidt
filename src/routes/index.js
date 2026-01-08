@@ -47,6 +47,9 @@ import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
 import ManageCTV from "../pages/Admin/ManageCTV";
 import CreateDiscount from "../pages/Admin/CreateDiscount";
 import ListDiscount from "../pages/Admin/ListDiscount";
+import MyDiscountList from "../pages/MyDiscountList";
+import TopSellingProducts from "../pages/Admin/TopSellingProducts";
+import UserStatistics from "../pages/Admin/UserStatistics";
 
 export const router = [
   {
@@ -68,6 +71,7 @@ export const router = [
     component: Taikhoanquanly,
     layout: AdminLayout,
   },
+
   //ctv route
   {
     path: "/quan-tri/quan-ly-ctv",
@@ -85,11 +89,26 @@ export const router = [
     layout: AdminLayout,
   },
   {
+    path: "/thong-tin-khach-hang/kho-ma-giam-gia",
+    component: MyDiscountList,
+    layout: InfomationLayout,
+  },
+  {
+    path: "/quan-tri/top-san-pham-ban-chay",
+    component: TopSellingProducts,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/thong-ke-nguoi-dung",
+    component: UserStatistics,
+    layout: AdminLayout,
+  },
+  // end ctv route
+  {
     path: "/quan-tri/hoa-don",
     component: OrderManagement,
     layout: AdminLayout,
-  }
-  ,
+  },
   {
     path: "/thong-tin-khach-hang/hoa-don",
     component: Bill,

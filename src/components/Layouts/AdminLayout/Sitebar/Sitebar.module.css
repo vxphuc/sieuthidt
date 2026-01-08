@@ -12,6 +12,7 @@ a{
 .TitleDashboard{
     color: #206a37;
     font-weight: bold;
+    padding-left: 5px;
 }
 .TitleDashboard:active{
     color: #ffffff;
@@ -33,4 +34,7 @@ a{
 }
 .activeBlock a {
     color: #ffffff;
+}
+.ContentDashboard{
+    padding-left: 5px;
 }
