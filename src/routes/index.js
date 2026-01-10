@@ -42,6 +42,7 @@ import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
 import DetailUsers from "../pages/Admin/DetailUser";
 import LuckyWheel from "../pages/Admin/luckywheel/index";
 import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
+import ExchangeGifts from "../pages/ExchangeGifts";
 
 //ctv import
 import ManageCTV from "../pages/Admin/ManageCTV";
@@ -50,7 +51,9 @@ import ListDiscount from "../pages/Admin/ListDiscount";
 import MyDiscountList from "../pages/MyDiscountList";
 import TopSellingProducts from "../pages/Admin/TopSellingProducts";
 import UserStatistics from "../pages/Admin/UserStatistics";
-
+import RevenueStatistics from "../pages/Admin/RevenueStatistics";
+import UsingDiscountCode from "../pages/UsingDiscountCode";
+import ActiveKOCList from "../pages/Admin/ActiveKOCList";
 export const router = [
   {
     path: "/tim-kiem",
@@ -101,6 +104,21 @@ export const router = [
   {
     path: "/quan-tri/thong-ke-nguoi-dung",
     component: UserStatistics,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/thong-ke-doanh-thu",
+    component: RevenueStatistics,
+    layout: AdminLayout,
+  },
+  {
+    path: "/thong-tin-khach-hang/su-dung-ma-giam-gia",
+    component: UsingDiscountCode,
+    layout: InfomationLayout,
+  },
+  {
+    path: "/quan-tri/danh-sach-koc-hoat-dong",
+    component: ActiveKOCList,
     layout: AdminLayout,
   },
   // end ctv route
@@ -205,9 +223,13 @@ export const router = [
   {
     path: "/vongquaymayman",
     component: LuckyWheelPage,
-    layout: HeaderOnly,  // hoặc HeaderOnly nếu muốn hiển thị ngoài Admin
+    layout: HeaderOnly,
   },
   { path: "/san-pham/:slug", component: Product },
   { path: "/:slug/:slug", component: DetailProduct, layout: HeaderOnly},
-   
+  {
+    path: "/doi-qua",
+    component: ExchangeGifts,
+    layout: HeaderOnly,
+  }
 ];

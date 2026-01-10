@@ -1,0 +1,103 @@
+.container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7f9; /* Màu nền nhẹ cho toàn trang */
+  min-height: 100vh;
+}
+
+/* Card chứa nội dung */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  overflow: hidden; /* Đảm bảo bo góc */
+}
+
+/* Phần Header tiêu đề */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.title {
+  color: #206a37; /* Màu xanh thương hiệu */
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Badge hiển thị tổng số đơn */
+.countBadge {
+  background-color: #e8f5e9; /* Nền xanh nhạt */
+  color: #206a37;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 1px solid #206a37;
+}
+
+/* Bảng dữ liệu */
+.tableResponsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+/* Header của bảng */
+.table thead tr th {
+  background-color: #206a37;
+  color: #ffffff;
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid #144423;
+}
+
+/* Các dòng dữ liệu */
+.table tbody tr td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #ececec;
+  color: #333;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+/* Hiệu ứng hover dòng */
+.table tbody tr:hover {
+  background-color: #f9fffb; /* Màu nền xanh rất nhạt khi di chuột vào */
+}
+
+/* Cột ID */
+.table tbody tr td:first-child {
+  font-weight: bold;
+  color: #666;
+  width: 80px;
+}
+
+/* Trạng thái Loading và Empty */
+.loading,
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #777;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.loading {
+  color: #206a37;
+}

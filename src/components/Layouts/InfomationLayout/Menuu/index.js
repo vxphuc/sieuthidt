@@ -12,7 +12,9 @@ const navigate = useNavigate();
 
 const location = useLocation();
 
-const isCTVPage = location.pathname.includes('/thong-tin-khach-hang/dang-ky-ctv') || location.pathname.includes('/thong-tin-khach-hang/kho-ma-giam-gia');
+const isCTVPage = location.pathname.includes('/thong-tin-khach-hang/dang-ky-ctv') 
+                  || location.pathname.includes('/thong-tin-khach-hang/kho-ma-giam-gia')
+                  || location.pathname.includes('/thong-tin-khach-hang/su-dung-ma-giam-gia');
 
 useEffect(()=>{
   const response = async () => {
@@ -60,6 +62,7 @@ const logout = () =>{
             <FontAwesomeIcon icon={faFileAlt} /> Đăng ký CTV
         </NavLink>
         {isCTVPage && (
+          <>
             <NavLink 
                 to='/thong-tin-khach-hang/kho-ma-giam-gia' 
                 className={({ isActive }) => isActive ? `${styles.ifm} ${styles.active}` : styles.ifm}
@@ -67,6 +70,14 @@ const logout = () =>{
             >
                 <BiSolidDiscount style={{ marginRight: '5px' }} /> Kho mã giảm giá
             </NavLink>
+            <NavLink 
+                to='/thong-tin-khach-hang/su-dung-ma-giam-gia' 
+                className={({ isActive }) => isActive ? `${styles.ifm} ${styles.active}` : styles.ifm}
+                style={{ marginLeft: '20px', width: 'calc(100% - 20px)', fontSize: '0.95em', borderLeft: '3px solid #ccc' }}
+            >
+                <BiSolidDiscount style={{ marginRight: '5px' }} /> Mã giảm giá đã sử dụng
+            </NavLink>
+          </>
         )}
         
         <button onClick={logout} className={`${styles.logout}`}>Đăng xuất</button>

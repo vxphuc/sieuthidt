@@ -1,8 +1,7 @@
-// src/api/axios.js
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://localhost:5000" || 'https://sieuthidt.io.vn',
+  baseURL: process.env.REACT_APP_SIEU_THI_API,
   timeout: 10000,
 });
 

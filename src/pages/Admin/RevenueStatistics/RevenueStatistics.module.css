@@ -1,0 +1,167 @@
+.container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
+
+/* Header */
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #206a37;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Toolbar (Filters + Chart Toggle) */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filterGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.btnPrimary {
+  background-color: #206a37;
+  color: #fff;
+}
+
+.btnOutline {
+  background-color: #fff;
+  border: 1px solid #206a37;
+  color: #206a37;
+}
+
+.btnOutline:hover {
+  background-color: #f0fff4;
+}
+
+.btnActive {
+  background-color: #144423; /* Màu đậm hơn khi active */
+  color: #fff;
+}
+
+/* Chart Section */
+.chartContainer {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.chartControls {
+  display: flex;
+  background: #f1f3f5;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.controlBtn {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.controlBtnActive {
+  background: #fff;
+  color: #206a37;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Table Section */
+.tableCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.thead {
+  background-color: #206a37;
+  color: #fff;
+}
+
+.th {
+  padding: 14px;
+  font-weight: 600;
+  text-align: left;
+  border: 1px solid #ffffff;
+  font-size: 0.9rem;
+}
+
+.tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tr:hover {
+  background-color: #f8f9fa;
+}
+
+.td {
+  padding: 14px;
+  color: #333;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  border: solid 1px #206a37;
+}
+
+/* Utilities */
+.textCenter { text-align: center; }
+.textEnd { text-align: right; }
+.bold { font-weight: bold; }
+.money { color: #d32f2f; font-weight: bold; } /* Màu đỏ cho tiền */

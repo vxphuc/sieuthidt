@@ -10,7 +10,8 @@ import { MdDiscount } from "react-icons/md";
 function Sitebar() {
   const location = useLocation();
   const statsActive = location.pathname.startsWith('/quan-tri/tong-quan') || location.pathname.startsWith('/quan-tri/quan-ly-giam-gia')
-                       || location.pathname.startsWith('/quan-tri/top-san-pham-ban-chay') || location.pathname.startsWith('/quan-tri/thong-ke-nguoi-dung');
+                       || location.pathname.startsWith('/quan-tri/top-san-pham-ban-chay') || location.pathname.startsWith('/quan-tri/thong-ke-nguoi-dung')
+                       || location.pathname.startsWith('/quan-tri/thong-ke-doanh-thu') || location.pathname.startsWith('/quan-tri/danh-sach-koc-hoat-dong');
   const productsActive = location.pathname.startsWith('/quan-tri/san-pham') || location.pathname.startsWith('/quan-tri/loai-san-pham');
   const ordersActive = location.pathname.startsWith('/quan-tri/hoa-don');
   const functionsActive = location.pathname.startsWith('/quan-tri/quan-ly-tai-khoan') || location.pathname.startsWith('/quan-tri/banner') || location.pathname.startsWith('/quan-tri/quan-ly-ctv');
@@ -68,8 +69,12 @@ function Sitebar() {
                 >
                   <div className={Style.ContentDashboard} style={{ paddingLeft: "15px" }}>• Tổng quan</div>
                 </NavLink>
-
-                {/* THÊM MỚI: Link Top Bán Chạy */}
+                <NavLink
+                  to="/quan-tri/thong-ke-doanh-thu"
+                  className={({ isActive }) => (isActive ? Style.active : "")}
+                >
+                  <div className={Style.ContentDashboard} style={{ paddingLeft: "15px" }}>• Doanh thu</div>
+                </NavLink>
                 <NavLink
                   to="/quan-tri/top-san-pham-ban-chay"
                   className={({ isActive }) => (isActive ? Style.active : "")}
@@ -92,12 +97,20 @@ function Sitebar() {
               CTV {showStatsCTV}
             </div>
             {showStatsCTV && (
+              <>
               <NavLink
                 to="/quan-tri/quan-ly-giam-gia"
                 className={({ isActive }) => (isActive ? Style.active : "")}
               >
                 <div className={Style.ContentDashboard} style={{ paddingLeft: "15px" }}>• Quản lý giảm giá</div>
               </NavLink>
+              <NavLink
+                to="/quan-tri/danh-sach-koc-hoat-dong"
+                className={({ isActive }) => (isActive ? Style.active : "")}
+              >
+                <div className={Style.ContentDashboard} style={{ paddingLeft: "15px" }}>• Danh sách CTV</div>
+              </NavLink>
+              </>
             )}
 
           </div>
