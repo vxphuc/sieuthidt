@@ -1,0 +1,219 @@
+/* ExchangeGifts.css */
+.containerGift{
+    padding-top: 100px;
+}
+.MainGift {
+    max-width: 500px;
+    margin: 0px auto;
+    padding: 35px;
+    border: 1px solid #206a37;
+    border-radius: 6px;
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.titleGift {
+    text-align: center;
+    color: #206a37;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+/* Style chung cho Label */
+.labelGift {
+    display: block;
+    font-weight: 700;
+    color: #206a37;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+/* Style chung cho Input */
+.inputGift {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #206a37;
+    border-radius: 4px;
+    box-sizing: border-box; /* Giúp padding không làm vỡ khung */
+    font-size: 18px;
+    outline: none;
+    color: #206a37;
+}
+
+.inputGift:focus {
+    border-color: #206a37;
+}
+
+/* Nhóm form đơn lẻ (Số điện thoại) */
+.formGroupGift {
+    margin-bottom: 15px;
+}
+
+/* Lưới 2 cột cho Mã vỏ */
+.gridRowGift {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa 2 cột */
+    margin-bottom: 15px;
+}
+
+.gridColGift {
+    flex: 1; /* Chia đều không gian */
+}
+
+/* Phần upload ảnh */
+.uploadSectionGift {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.uploadBtnLabelGift {
+    display: inline-block;
+    padding: 8px 40px;
+    background-color: #fff;
+    border: 1px solid #206a37;
+    border-radius: 4px;
+    color: #206a37;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.uploadBtnLabelGift:hover {
+    background-color: #f9f9f9;
+}
+
+/* Nút Xác nhận */
+.submitBtnGift {
+    width: 100%;
+    padding: 12px;
+    background-color: #206a37; /* Màu xanh chủ đạo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase; /* Chữ in hoa */
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submitBtnGift:hover {
+    background-color: #144623;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+.modalContent {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.successTitle {
+    color: #206a37;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 15px 0 10px 0;
+}
+.successDesc {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+.statusIcon {
+    width: 75px;
+    height: auto;
+    margin-top: -80px;
+    margin-bottom: 10px;
+    display: inline-block;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    border-radius: 50%;
+}
+.modalBtnGroup {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+.btnOption {
+    flex: 1;
+    padding: 15px 10px;
+    background-color: #206a37;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btnOption:hover {
+    background-color: #144623;
+}
+
+.btnTitle {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.btnSub {
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* --- Style cho trạng thái THẤT BẠI --- */
+.failTitle {
+    color: #d32f2f; /* Màu đỏ */
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 15px 0 10px 0;
+}
+
+.failDesc {
+    color: #d32f2f;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+
+.closeBtn {
+    background-color: #999;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.closeBtn:hover {
+    background-color: #777;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}

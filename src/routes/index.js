@@ -54,6 +54,8 @@ import UserStatistics from "../pages/Admin/UserStatistics";
 import RevenueStatistics from "../pages/Admin/RevenueStatistics";
 import UsingDiscountCode from "../pages/UsingDiscountCode";
 import ActiveKOCList from "../pages/Admin/ActiveKOCList";
+import TopProductsKOC from "../pages/Admin/TopProductsKOC";
+
 export const router = [
   {
     path: "/tim-kiem",
@@ -121,6 +123,12 @@ export const router = [
     component: ActiveKOCList,
     layout: AdminLayout,
   },
+  {
+    path: "/quan-tri/san-pham-mua-nhieu-koc",
+    component: TopProductsKOC,
+    layout: AdminLayout,
+  },
+
   // end ctv route
   {
     path: "/quan-tri/hoa-don",

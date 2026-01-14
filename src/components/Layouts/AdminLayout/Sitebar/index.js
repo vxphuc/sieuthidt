@@ -11,8 +11,9 @@ function Sitebar() {
   const location = useLocation();
   const statsActive = location.pathname.startsWith('/quan-tri/tong-quan') || location.pathname.startsWith('/quan-tri/quan-ly-giam-gia')
                        || location.pathname.startsWith('/quan-tri/top-san-pham-ban-chay') || location.pathname.startsWith('/quan-tri/thong-ke-nguoi-dung')
-                       || location.pathname.startsWith('/quan-tri/thong-ke-doanh-thu') || location.pathname.startsWith('/quan-tri/danh-sach-koc-hoat-dong');
-  const productsActive = location.pathname.startsWith('/quan-tri/san-pham') || location.pathname.startsWith('/quan-tri/loai-san-pham');
+                       || location.pathname.startsWith('/quan-tri/thong-ke-doanh-thu') || location.pathname.startsWith('/quan-tri/danh-sach-koc-hoat-dong')
+                       || location.pathname.startsWith('/quan-tri/san-pham-mua-nhieu-koc');
+  const productsActive = location.pathname.startsWith('/quan-tri/san-pham') && !location.pathname.startsWith('/quan-tri/san-pham-mua-nhieu-koc') || location.pathname.startsWith('/quan-tri/loai-san-pham');
   const ordersActive = location.pathname.startsWith('/quan-tri/hoa-don');
   const functionsActive = location.pathname.startsWith('/quan-tri/quan-ly-tai-khoan') || location.pathname.startsWith('/quan-tri/banner') || location.pathname.startsWith('/quan-tri/quan-ly-ctv');
   const luckyActive = location.pathname.startsWith('/quan-tri/LuckyWheel');
@@ -103,6 +104,12 @@ function Sitebar() {
                 className={({ isActive }) => (isActive ? Style.active : "")}
               >
                 <div className={Style.ContentDashboard} style={{ paddingLeft: "15px" }}>• Quản lý giảm giá</div>
+              </NavLink>
+              <NavLink
+                to="/quan-tri/san-pham-mua-nhieu-koc"
+                className={({ isActive }) => (isActive ? Style.active : "")}
+              >
+                <div className={Style.ContentDashboard} style={{ paddingLeft: "15px" }}>• Sản phẩm mua nhiều</div>
               </NavLink>
               <NavLink
                 to="/quan-tri/danh-sach-koc-hoat-dong"
