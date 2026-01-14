@@ -359,7 +359,6 @@ function Carts() {
         alternateReceiverPhone = receiverInfo.phone;
       }
       const products = product.map((item) => {
-        console.log(product);
         return {
           name: item.name,
           price: item.price,
