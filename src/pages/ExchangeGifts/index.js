@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./ExchangeGifts.module.css";
 import api from "../../api/Code"; 
 import axios from "../../api/axios";
@@ -12,7 +12,28 @@ function ExchangeGifts() {
         code4: "",
         image: null
     });
-    
+    const [showScrollBtn, setShowScrollBtn] = useState(false);
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 300) {
+                setShowScrollBtn(true);
+            } else {
+                setShowScrollBtn(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" // Hiệu ứng lướt mượt mà
+        });
+    };
+
     const [status, setStatus] = useState(""); 
     const [giftCode, setGiftCode] = useState(""); 
     const [successStep, setSuccessStep] = useState("options");
@@ -239,6 +260,15 @@ function ExchangeGifts() {
                 <p>- Mọi thắc mắc về chương trình, quý khách vui lòng liên hệ:</p>
                 <p>- Hotline: 0847216868</p>
             </div>
+            {showScrollBtn && (
+                <button 
+                    onClick={scrollToTop} 
+                    className={styles.scrollTopBtn}
+                    title="Lên đầu trang"
+                >
+                    ▲
+                </button>
+            )}
             {status && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
