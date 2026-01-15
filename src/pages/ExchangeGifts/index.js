@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./ExchangeGifts.module.css";
+
 function ExchangeGifts() {
     // State lưu dữ liệu form
     const [formData, setFormData] = useState({
@@ -26,9 +27,39 @@ function ExchangeGifts() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Dữ liệu gửi đi:", formData);
-        if (formData.phoneNumber.trim() !== "") {
-            setStatus("success");
-        } else {
+        if (!formData.phoneNumber.trim()) {
+            alert("Vui lòng nhập số điện thoại!");
+            return;
+        }
+        const listCodes = [];
+        if (formData.code1.trim()) listCodes.push({ tenmagiamgia: formData.code1.trim() });
+        if (formData.code2.trim()) listCodes.push({ tenmagiamgia: formData.code2.trim() });
+        if (formData.code3.trim()) listCodes.push({ tenmagiamgia: formData.code3.trim() });
+        if (formData.code4.trim()) listCodes.push({ tenmagiamgia: formData.code4.trim() });
+        if (listCodes.length === 0) {
+            alert("Vui lòng nhập ít nhất 1 mã vỏ hộp!");
+            return;
+        }
+        try{
+            const payload = {
+                magiamgia: listCodes,
+                sdt: formData.phoneNumber.trim()
+            };
+            const response = fetch('https://chatapi.io.vn/tra-ve-ma-nhan-thuong',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            if (response.ok) {
+                setStatus("success");
+            } else {
+                setStatus("fail");
+                console.error("Lỗi server:", response.status);
+            }
+        }catch (error) {
+            console.error("Lỗi đổi thưởng:", error);
             setStatus("fail");
         }
     };
@@ -60,9 +91,10 @@ function ExchangeGifts() {
                             name="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
+                            placeholder="Nhập SĐT của bạn"
                         />
                     </div>
-
+                    
                     <div className={styles.gridRowGift}>
                         <div className={styles.gridColGift}>
                             <label className={styles.labelGift}>Mã vỏ 1</label>
@@ -86,7 +118,6 @@ function ExchangeGifts() {
                         </div>
                     </div>
 
-                    {/* Hàng 2: Mã vỏ 3 & 4 */}
                     <div className={styles.gridRowGift}>
                         <div className={styles.gridColGift}>
                             <label className={styles.labelGift}>Mã vỏ 3</label>
@@ -110,9 +141,8 @@ function ExchangeGifts() {
                         </div>
                     </div>
 
-                    {/* Chọn ảnh */}
                     <div className={styles.uploadSectionGift}>
-                        <label className={styles.labelGift}>Chọn ảnh</label>
+                        <label className={styles.labelGift}>Chọn ảnh (Không bắt buộc)</label>
                         <input 
                             type="file" 
                             id="fileUpload" 
@@ -129,6 +159,8 @@ function ExchangeGifts() {
                     </button>
                 </form>
             </div>
+            
+            {/* Modal Thông Báo */}
             {status && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -155,8 +187,7 @@ function ExchangeGifts() {
                                 </div>
                             </>
                         )}
-
-                        {/* TRƯỜNG HỢP THẤT BẠI */}
+                        
                         {status === 'fail' && (
                             <>
                                 <img
@@ -166,15 +197,14 @@ function ExchangeGifts() {
                                 />
                                 <h3 className={styles.failTitle}>KHÔNG THÀNH CÔNG!</h3>
                                 <p className={styles.failDesc}>
-                                    Mã không hợp lệ hoặc đã được sử dụng.<br/>
-                                    Vui lòng nhập lại mã khác!
+                                    Mã không hợp lệ hoặc lỗi hệ thống.<br/>
+                                    Vui lòng kiểm tra lại thông tin!
                                 </p>
                                 <button className={styles.closeBtn} onClick={closeModal}>
                                     Đóng
                                 </button>
                             </>
                         )}
-
                     </div>
                 </div>
             )}

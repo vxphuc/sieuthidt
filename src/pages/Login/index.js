@@ -53,7 +53,7 @@ function Login() {
         saveName(name);
       }
       localStorage.setItem("authToken", response.data.token);
-      window.location.href = "/";
+      window.history.back();
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");

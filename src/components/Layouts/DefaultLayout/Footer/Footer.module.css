@@ -1,63 +1,227 @@
-.foot{
+/* --- Cấu trúc chính --- */
+.footer {
     position: relative;
     width: 100%;
-    height: 58vh;
+    height: 61vh;
+    margin: 0px auto;
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.containerfooter {
+    width: 100%;
+    max-width: 1200px;   /* Giới hạn chiều rộng giống container */
     margin: 0 auto;
+    padding: 0 15px;
+    height: 100%;
+    box-sizing: border-box;
 }
-.container{
-    padding: 10px;
-}
-.list_unstyled{
-    padding: 0;
-    display: block ;
-}
-.list_unstyled li{
-    padding: 5px 0px;
-}
-.list_unstyled li a{
-    color: black;
-}
-.partnerList{
+
+/* --- Hệ thống lưới (Grid System thay thế Row/Col) --- */
+.rowfooter {
     display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: start;
-  margin-top: 10px;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    border-bottom: solid 1px #2a7a30;
 }
-.partnerItem{
-    width: 40px;
-  height: auto;
-  object-fit: contain;
+
+.colfooter {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    /* Mặc định mobile: col-6 (50%) như cũ */
+    flex: 0 0 50%;
+    max-width: 50%;
 }
-.break {
-  display: block;
+
+/* --- Typography & Elements --- */
+.headingfooter {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
 }
-@media (max-width: 768px) {
-  .break {
+
+.textfooter {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.linkfooter {
+    color: #212529;
+    text-decoration: none;
+    transition: color 0.2s;
     display: block;
-  }
-    .foot,
-    .foot p,
-    .foot a,
-    .foot li,
-    .foot h5 {
-      font-size: 13px;
-      word-break: break-word;
-        white-space: normal; 
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.linkfooter:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Danh sách link sản phẩm */
+.listUnstyledfooter {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    margin-top: 0;
+    flex-direction: column;
+}
+
+.listUnstyledfooter li {
+    padding: 0;
+}
+
+/* --- Đối tác --- */
+.partnerListfooter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.partnerItemfooter {
+    width: 40px;
+    height: auto;
+    object-fit: contain;
+    margin-right: 0.5rem; /* Thay cho me-2 */
+    display: block;
+}
+
+.bottomWrapperfooter {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.dividerfooter {
+    border-top: 1px solid #2a7a30;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.bottomTextfooter {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.5;
+}
+.row2footer{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    max-height: 350px;
+}
+.col2footer{
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+.col2footer ul{
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    margin-top: 0;
+    flex-direction: column;
+}
+.col2footer ul li{
+    padding:0;
+}
+@media (min-width: 768px) {
+    .colfooter {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
     }
-    .foot{
-        height: 90vh;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        /* QUAN TRỌNG: Để auto để footer tự dài ra khi nội dung xếp chồng */
+        height: auto; 
+        min-height: 90vh;
+        width: 100%;
+        /* Tăng padding đáy để chừa chỗ cho phần địa chỉ/nghị quyết không bị che */
+        padding-bottom: 180px; 
+        overflow-x: hidden;
     }
-    .foot .container {
-    overflow-x: hidden;        /* ✅ Ngăn tràn ngang toàn khối */
-  }
-  .foot ul,
-  .foot li {
-    padding-right: 10px;       /* ✅ Có khoảng cách để tránh dính chữ */
-  }
-    .partnerList img {
-      width: 40px;
-      height: auto;
+    
+    .footer, 
+    .textfooter, 
+    .linkfooter, 
+    .listUnstyledfooter li, 
+    .headingfooter {
+        font-size: 13px;
+        word-break: break-word; /* Chống tràn chữ */
     }
-  }
+
+    .bottomWrapperfooter {
+        padding: 0 10px;
+        /* Đảm bảo phần này nằm dưới cùng */
+        margin-top: 20px; 
+    }
+    .row2footer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: 1px solid #eee; 
+    border-bottom: 1px solid #eee;
+    }
+
+    .col2footer {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 10px; 
+        padding: 0 15px;
   
+        border-bottom: 1px dashed #e0e0e0;
+        padding-bottom: 15px;
+    }
+    
+    .col2footer:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .col2footer h5 {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #2a7a30; /* Tô màu tiêu đề cho nổi bật */
+    }
+
+    .col2footer ul {
+        margin-bottom: 0;
+    }
+    
+    /* Tăng khoảng cách dòng cho các link dễ bấm hơn trên điện thoại */
+    .linkfooter {
+        padding: 5px 0;
+        display: block;
+    }
+}

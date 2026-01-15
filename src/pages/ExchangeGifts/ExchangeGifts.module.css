@@ -1,6 +1,7 @@
 /* ExchangeGifts.css */
 .containerGift{
     padding-top: 100px;
+    padding-bottom: 20px;
 }
 .MainGift {
     max-width: 500px;
@@ -36,7 +37,7 @@
     padding: 8px 10px;
     border: 1px solid #206a37;
     border-radius: 4px;
-    box-sizing: border-box; /* Giúp padding không làm vỡ khung */
+    box-sizing: border-box;
     font-size: 18px;
     outline: none;
     color: #206a37;
@@ -46,23 +47,20 @@
     border-color: #206a37;
 }
 
-/* Nhóm form đơn lẻ (Số điện thoại) */
 .formGroupGift {
     margin-bottom: 15px;
 }
 
-/* Lưới 2 cột cho Mã vỏ */
 .gridRowGift {
     display: flex;
-    gap: 20px; /* Khoảng cách giữa 2 cột */
+    gap: 20px;
     margin-bottom: 15px;
 }
 
 .gridColGift {
-    flex: 1; /* Chia đều không gian */
+    flex: 1;
 }
 
-/* Phần upload ảnh */
 .uploadSectionGift {
     text-align: center;
     margin: 20px 0;

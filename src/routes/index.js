@@ -56,6 +56,17 @@ import UsingDiscountCode from "../pages/UsingDiscountCode";
 import ActiveKOCList from "../pages/Admin/ActiveKOCList";
 import TopProductsKOC from "../pages/Admin/TopProductsKOC";
 
+//chinh sach
+import PaymentPolice from "../pages/NotePage/PaymentPolice";
+import ComplaintsPolice from "../pages/NotePage/ComplaintsPolice";
+import TransportPolice from "../pages/NotePage/TransportPolice";
+import RefurnPolice from "../pages/NotePage/RefurnPolice";
+import CollectionInfo from "../pages/NotePage/CollectionInfo";
+import ScopeOfUse from "../pages/NotePage/ScopeOfUse";
+import RealTimeUse from "../pages/NotePage/RealTimeUse";
+import UserUseInfo from "../pages/NotePage/UserUseInfo";
+import UpdateData from "../pages/NotePage/UpdateData";
+
 export const router = [
   {
     path: "/tim-kiem",
@@ -239,5 +250,51 @@ export const router = [
     path: "/doi-qua",
     component: ExchangeGifts,
     layout: HeaderOnly,
-  }
+  },
+  
+//chinh sach
+  {
+    path: "/chinh-sach-thanh-toan",
+    component: PaymentPolice,
+    layout: HeaderOnly
+  },
+  {
+    path: "/chinh-sach-khieu-nai",
+    component: ComplaintsPolice,
+    layout: HeaderOnly
+  },
+  {path: "/chinh-sach-van-chuyen-giao-nhan",
+    component: TransportPolice,
+    layout: HeaderOnly
+  },
+  {
+    path: "/chinh-sach-doi-tra",
+    component: RefurnPolice,
+    layout: HeaderOnly
+  },
+  {
+    path: "/chinh-sach-muc-dich-pham-vi-thu-thap-thong-tin",
+    component: CollectionInfo,
+    layout: HeaderOnly
+  },
+  {
+    path: "/chinh-sach-pham-vi-su-dung",
+    component: ScopeOfUse,
+    layout: HeaderOnly
+  },
+  {
+    path: "/chinh-sach-thoi-gian-luu-tru",
+    component: RealTimeUse,
+    layout: HeaderOnly
+  },
+  {
+    path: "/don-vi-tiep-can-thong-tin",
+    component: UserUseInfo,
+    layout: HeaderOnly
+  },
+  {
+    path: "/cach-nguoi-dung-chinh-sua-yeu-cau-xoa-du-lieu",
+    component: UpdateData,
+    layout: HeaderOnly
+  },
 ];
