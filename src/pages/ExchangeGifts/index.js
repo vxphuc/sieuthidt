@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./ExchangeGifts.module.css";
-import api from "../../api/Code"; // Import API instance (Axios)
+import api from "../../api/Code";
+import axios from "../../api/axios";
 
 function ExchangeGifts() {
     // State form đổi quà chính
@@ -124,7 +125,7 @@ function ExchangeGifts() {
         };
 
         try {
-            const res = await api.post('/mua-yen-sua', payload);
+            const res = await axios.post('/bill/mua-yen-sua', payload);
 
             if (res.status === 200 || res.status === 201) {
                 alert("Đăng ký nhận quà tại nhà thành công!");
@@ -194,6 +195,19 @@ function ExchangeGifts() {
                             <>
                                 <img src="/thanh cong icon.png" alt="Thành công" className={styles.statusIcon} />
                                 <h3 className={styles.successTitle}>ĐỔI MÃ THÀNH CÔNG!</h3>
+                                <div style={{margin: '5px 0 20px 0'}}>
+                                    <p style={{fontSize: '18px', color: '#333', marginBottom: '5px'}}>
+                                        Quà tặng: <strong style={{color: '#206a37'}}>Yến Sữa</strong>
+                                    </p>
+                                    <img
+                                        src="/yensua.png"
+                                        alt="Yến Sữa"
+                                        style={{width: '60px', height: '60px', objectFit: 'contain', marginBottom: '5px'}}
+                                    />
+                                    <p style={{fontSize: '16px', color: '#666', margin: 0}}>
+                                        Giá trị: <strong style={{color: '#d32f2f'}}>60.000đ</strong>
+                                    </p>
+                                </div>
 
                                 {/* BƯỚC 1: LỰA CHỌN */}
                                 {successStep === 'options' && (
@@ -235,7 +249,16 @@ function ExchangeGifts() {
                                                 {giftCode || "..."}
                                             </p>
                                         </div>
-                                        <button className={styles.closeBtn} onClick={closeModal}>Hoàn tất</button>
+                                        <div style={{display: 'flex', gap: 10}}>
+                                                <button type="button" 
+                                                    className={styles.closeBtn} 
+                                                    onClick={() => setSuccessStep('options')}
+                                                    style={{background: '#999', flex: 1}}
+                                                >
+                                                    Quay lại
+                                                </button>
+                                            <button className={styles.closeBtn} onClick={closeModal}>Hoàn tất</button>
+                                        </div>
                                     </div>
                                 )}
 
