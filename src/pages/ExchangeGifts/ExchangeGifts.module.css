@@ -85,10 +85,11 @@
 .submitBtnGift {
     width: 100%;
     padding: 12px;
-    background-color: #206a37; /* Màu xanh chủ đạo */
+    background-color: #206a37;
     color: white;
     border: none;
     border-radius: 5px;
+    margin-top: 10px;
     font-weight: 700;
     font-size: 20px;
     text-transform: uppercase; /* Chữ in hoa */

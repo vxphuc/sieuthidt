@@ -43,6 +43,7 @@ import DetailUsers from "../pages/Admin/DetailUser";
 import LuckyWheel from "../pages/Admin/luckywheel/index";
 import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
 import ExchangeGifts from "../pages/ExchangeGifts";
+import CheckCodeAdmin from "../pages/CheckCode";
 
 //ctv import
 import ManageCTV from "../pages/Admin/ManageCTV";
@@ -251,7 +252,11 @@ export const router = [
     component: ExchangeGifts,
     layout: HeaderOnly,
   },
-  
+  {
+    path: "/kiem-tra-ma-qua",
+    component: CheckCodeAdmin,
+    layout: HeaderOnly,
+  },
 //chinh sach
   {
     path: "/chinh-sach-thanh-toan",
