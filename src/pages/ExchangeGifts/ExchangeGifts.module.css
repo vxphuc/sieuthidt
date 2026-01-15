@@ -226,6 +226,7 @@
 .RulesGifts{
     width: 60%;
     margin: 20px auto;
+    padding: 20px;
     color: white;
 }
 .RulesGifts p{
@@ -254,5 +255,14 @@
     }
     .titleGift{
         font-size: 17px;
+        margin-bottom: 10px;
+    }
+    .MainGift{
+        margin: 0 25px;
+        padding: 20px;
+    }
+    .contentlink{
+        display: flex;
+        flex-direction: column;
     }
 }
