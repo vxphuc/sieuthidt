@@ -13,13 +13,12 @@ function ExchangeGifts() {
         code4: "",
         image: null
     });
-    
-    // State quản lý trạng thái
     const [status, setStatus] = useState(""); 
-    const [giftCode, setGiftCode] = useState(""); // Lưu mã giảm giá nhận được
-    const [successStep, setSuccessStep] = useState("options"); 
+    const [giftCode, setGiftCode] = useState("");
+    const [successStep, setSuccessStep] = useState("options");
 
-    // State form nhận tại nhà
+    const [errorDetail, setErrorDetail] = useState("");
+
     const [deliveryForm, setDeliveryForm] = useState({
         name: "",
         phone: "",
@@ -29,10 +28,18 @@ function ExchangeGifts() {
     });
     
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    // --- CÁC HÀM XỬ LÝ FORM CHÍNH ---
+    const validatePhoneNumber = (phone) => {
+        const regex = /^(03|05|07|08|09)+([0-9]{8})$/;
+        return regex.test(phone);
+    };
     const handleChange = (e) => {
         const { name, value } = e.target;
+        
+        if (name === "phoneNumber") {
+            const re = /^[0-9\b]+$/;
+            if (value !== '' && !re.test(value)) return;
+        }
+
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -44,9 +51,15 @@ function ExchangeGifts() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!formData.phoneNumber.trim()) {
+        const phone = formData.phoneNumber.trim();
+        if (!phone) {
             alert("Vui lòng nhập số điện thoại!");
+            return;
+        }
+
+        // [CẬP NHẬT] Kiểm tra định dạng số điện thoại
+        if (!validatePhoneNumber(phone)) {
+            alert("Số điện thoại không hợp lệ!");
             return;
         }
 
@@ -60,11 +73,12 @@ function ExchangeGifts() {
             alert("Vui lòng nhập ít nhất 1 mã vỏ hộp!");
             return;
         }
+        setErrorDetail("");
 
         try {
             const payload = {
                 magiamgia: listCodes,
-                sdt: formData.phoneNumber.trim()
+                sdt: phone
             };
             const res = await api.post('/tra-ve-ma-nhan-thuong', payload);
 
@@ -72,8 +86,7 @@ function ExchangeGifts() {
                 setGiftCode(res.data);
                 setStatus("success");
                 setSuccessStep("options");
-                // Tự động điền SĐT vào form nhận hàng
-                setDeliveryForm(prev => ({...prev, phone: formData.phoneNumber}));
+                setDeliveryForm(prev => ({...prev, phone: phone}));
             }
         } catch (error) {
             console.error("Lỗi đổi thưởng:", error);
@@ -141,6 +154,7 @@ function ExchangeGifts() {
 
     return (
         <div className={styles.containerGift}>
+            <img src="/headline.png" alt="Background" className={styles.backgroundImage} />
             <div className={styles.MainGift}>
                 <h2 className={styles.titleGift}>CHƯƠNG TRÌNH ĐỔI MÃ NHẬN QUÀ</h2>
                 
