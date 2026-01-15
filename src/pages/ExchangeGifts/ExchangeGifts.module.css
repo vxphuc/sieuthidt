@@ -265,4 +265,8 @@
         display: flex;
         flex-direction: column;
     }
+    .RulesGifts{
+        width: 70%;
+        padding: 0;
+    }
 }
