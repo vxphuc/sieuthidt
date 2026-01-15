@@ -6,10 +6,8 @@
     background-position: center 50px;
     background-attachment: fixed;
     width: 100%;
-    height: 100vh;
     padding-top: 100px;
     padding-bottom: 20px;
-    font-family: none;
 }
 .backgroundImage{
     width: 420px;
@@ -136,12 +134,11 @@
     text-align: center;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    font-family: Arial, Helvetica, sans-serif;
 }
 .successTitle {
     color: #206a37;
     font-size: 26px;
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
     margin: 15px 0 10px 0;
 }
@@ -198,7 +195,7 @@
 .failTitle {
     color: #d32f2f; /* Màu đỏ */
     font-size: 26px;
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
     margin: 15px 0 10px 0;
 }
@@ -226,7 +223,20 @@
 .closeBtn:hover {
     background-color: #777;
 }
-
+.RulesGifts{
+    width: 60%;
+    margin: 20px auto;
+    color: white;
+}
+.RulesGifts p{
+    margin-left: 10px;
+}
+.contentlink{
+    display: flex;
+}
+.contentlink a{
+    color: blue;
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
