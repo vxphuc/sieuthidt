@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./ExchangeGifts.module.css";
 import api from "../../api/Code"; 
 import axios from "../../api/axios";
-
+import imageCompression from 'browser-image-compression';
 function ExchangeGifts() {
     const [formData, setFormData] = useState({
         phoneNumber: "",
@@ -66,14 +66,49 @@ function ExchangeGifts() {
         }
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-    const handleFileChange = (e) => {
-            if (e.target.files && e.target.files[0]) {
+    const handleFileChange = async (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const originalFile = e.target.files[0];
+
+            // Kiểm tra nếu không phải ảnh thì thôi
+            if (!originalFile.type.startsWith("image/")) {
+                alert("Vui lòng chọn file ảnh!");
+                return;
+            }
+
+            try {
+                // Cấu hình nén
+                const options = {
+                    maxSizeMB: 0.9,          // Mục tiêu: nén xuống dưới 0.9MB (để chắc chắn < 1MB)
+                    maxWidthOrHeight: 1920,  // Resize ảnh về tối đa 1920px (Full HD) để giảm nhẹ thêm
+                    useWebWorker: true,      // Dùng luồng phụ để web không bị đơ khi đang nén
+                    initialQuality: 0.7      // Chất lượng ảnh khoảng 70% (vẫn nét nhưng nhẹ)
+                };
+
+                // Bắt đầu nén (hàm này trả về Promise)
+                // Bạn có thể thêm loading indicator ở đây nếu muốn
+                const compressedFile = await imageCompression(originalFile, options);
+
+                // Cập nhật State với file ĐÃ NÉN
                 setFormData(prev => ({
                     ...prev,
-                    image: e.target.files[0]
+                    image: compressedFile
+                }));
+                
+                // (Tùy chọn) Log thử ra console để xem giảm được bao nhiêu
+                console.log(`Ảnh gốc: ${originalFile.size / 1024 / 1024} MB`);
+                console.log(`Ảnh nén: ${compressedFile.size / 1024 / 1024} MB`);
+
+            } catch (error) {
+                console.error("Lỗi khi nén ảnh:", error);
+                // Nếu nén lỗi thì dùng tạm file gốc
+                setFormData(prev => ({
+                    ...prev,
+                    image: originalFile
                 }));
             }
-        };
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         
