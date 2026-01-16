@@ -5,11 +5,12 @@ import styles from "./styles.module.css";
 import ChartColum from "../../../components/ChartColumn";
 import { NavLink } from "react-router-dom";
 import api from "../../../api/axios";
+import code from "../../../api/Code";
 function ManageAdmin() {
   const [totalRevenueYear, setTotalRevenueYear] = useState([]);
   const [Top10Product, setTop10Product] = useState([]);
   const [revenueWeek, setRevenueWeek] = useState([]);
-  const [revenueDay, setRevenueDay] = useState([]);
+  const [revenueDay, setRevenueDay] = useState([]);  
 
   useEffect(() => {
     // Lấy tổng doanh thu và đơn hàng đã bán được trong năm
@@ -37,6 +38,7 @@ function ManageAdmin() {
     fetchData();
     fetchTop10Product();
   }, []);
+  
   //lấy ra và so sánh doanh thu trong tuần
   useEffect(() => {
     const fetchRevenueWeek = async () => {

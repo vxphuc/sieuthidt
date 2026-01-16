@@ -10,7 +10,38 @@ function CreateDiscount() {
         thoigianbatdau: '',
         thoigianketthuc: ''
     });
-
+    const taianh = async () =>{
+        try{
+            const res = await api.get('/tai-toan-bo-anh-trong-upload', {
+                responseType: 'blob'
+            });
+        if(res.status === 200){
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+                
+                // Tạo thẻ <a> ảo
+                const link = document.createElement('a');
+                link.href = url;
+                
+                // Đặt tên file khi tải về (bạn có thể đổi tên tùy ý, ví dụ: 'images.zip')
+                link.setAttribute('download', 'danh-sach-anh.zip'); 
+                
+                // Thêm thẻ <a> vào body (cần thiết cho Firefox)
+                document.body.appendChild(link);
+                
+                // Tự động click vào thẻ <a> để bắt đầu tải
+                link.click();
+                
+                // Dọn dẹp: xóa thẻ <a> và đường dẫn ảo sau khi tải xong
+                link.parentNode.removeChild(link);
+                window.URL.revokeObjectURL(url);
+                
+                alert("Đã bắt đầu tải xuống!");
+        }
+        }catch(error){
+            console.error("Lỗi tải ảnh:", error);
+            alert("Có lỗi xảy ra khi tải ảnh.");
+        }
+    }
     const [status, setStatus] = useState({ loading: false, message: '', error: false });
 
     const handleChange = (e) => {
@@ -61,8 +92,16 @@ function CreateDiscount() {
     };
     return (
         <div className={styles.containerDiscount}>
+            
             <div className={styles.cardDiscount}>
-                <h2 className={styles.titleDiscount}>Tạo Sự Kiện Giảm Giá Mới</h2>
+                <h2 className={styles.titleDiscount}>Tạo Sự Kiện Giảm Giá Mới
+                    <button
+                    type="submit"
+                    onClick={taianh}
+                >
+                    Tải ảnh
+                </button>
+                </h2>
                 
                 <form className={styles.formMainDiscount} onSubmit={handleSubmit}>
                     {/* Tên sự kiện */}

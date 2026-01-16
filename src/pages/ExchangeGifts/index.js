@@ -93,23 +93,34 @@ function ExchangeGifts() {
             alert("Vui lòng nhập ít nhất 1 mã vỏ hộp!");
             return;
         }
-
+        if (!formData.image) {
+            alert("Vui lòng tải lên hình ảnh xác thực 4 nắp hũ!");
+            return;
+        }
+        
         setErrorDetail("");
         setIsSubmitting(true);
+        const bodyFormData = new FormData();
 
-        const payload = {
+        const dataPayload = {
             magiamgia: listCodes,
             sdt: phone
         };
+        bodyFormData.append('payload', JSON.stringify(dataPayload));
+        bodyFormData.append('file', formData.image);
         
         try {
-            const res = await api.post('https://chatapi.io.vn/kiem-tra-4-ma-nhan-thuong', payload);
+            const res = await api.post('kiem-tra-4-ma-nhan-thuong', bodyFormData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
             if (res.status === 200 || res.status === 201) {
-                setVerifiedPayload(payload);
+                setVerifiedPayload(dataPayload); 
+                
                 setStatus("success");
                 setSuccessStep("options");
-
                 setDeliveryForm(prev => ({...prev, phone: phone}));
             }
         } catch (error) {
@@ -119,11 +130,14 @@ function ExchangeGifts() {
             if (error.response && error.response.data && error.response.data.detail) {
                 const detailStr = error.response.data.detail;
                 if (typeof detailStr === 'string' && detailStr.includes("mã không tồn tại")) {
+
                     const matches = detailStr.match(/'([^']+)'/g);
                     if (matches && matches.length > 0) {
                         const invalidCodes = matches.map(code => code.replace(/'/g, "")).join(", ");
                         setErrorDetail(invalidCodes);
                     }
+                } else {
+                    setErrorDetail(detailStr);
                 }
             }
         } finally {
