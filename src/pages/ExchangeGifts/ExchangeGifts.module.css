@@ -87,6 +87,12 @@
     color: #206a37;
     cursor: pointer;
     font-size: 18px;
+
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
 }
 
 .uploadBtnLabelGift:hover {
@@ -258,7 +264,7 @@
 }
 @media (max-width: 678px){
     .containerGift{
-        background-image: url('/public/6moblie.png');
+        background-image: url('/public/7moblie.webp');
         background-size: cover;
         background-position: center 50px;
         padding-bottom: 280px;
