@@ -385,7 +385,7 @@ function ExchangeGifts() {
                                                 <input className={styles.inputGift} style={{fontSize: 14, padding: 8}} name="road" value={deliveryForm.road} onChange={handleDeliveryChange} placeholder="VD: 123 Nguyễn Văn Cừ" required />
                                             </div>
                                             <div style={{display: 'flex', gap: 10}}>
-                                                <button type="button" className={styles.closeBtn} onClick={() => setSuccessStep('options')} style={{background: '#999', flex: 1}}>Quay lại</button>
+                                                {/* <button type="button" className={styles.closeBtn} onClick={() => setSuccessStep('options')} style={{background: '#999', flex: 1}}>Quay lại</button> */}
                                                 <button type="submit" className={styles.submitBtnGift} style={{fontSize: 16, padding: 10, flex: 1}} disabled={isSubmitting}>{isSubmitting ? "Đang gửi..." : "Gửi đi"}</button>
                                             </div>
                                         </form>

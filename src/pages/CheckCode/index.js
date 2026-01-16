@@ -121,7 +121,40 @@ function CheckCodeAdmin() {
                     </button>
                 </form>
             </div>
-
+            <div className={styles.RulesGifts}>
+                <h3>THỂ LỆ CHƯƠNG TRÌNH</h3>
+                <h3>THU VỎ CŨ ĐỔI QUÀ MỚI</h3>
+                <h5>1. Đối tượng tham gia</h5>
+                <p>Tất cả khách hàng mua sản phẩm của hệ thống có nhãn khuyến mãi và sở hữu mã số hợp lệ dưới nắp hũ.</p>
+                <h5>2. Thời gian diễn ra</h5>
+                <p><strong>- Thời gian tích mã:</strong> Từ ngày [Ngày bắt đầu] đến hết ngày [Ngày kết thúc].</p>
+                <p><strong>- Thời gian đổi thưởng:</strong> Đến hết ngày [Ngày kết thúc đổi thưởng].</p>
+                <h5>3. Cơ cấu giải thưởng</h5>
+                <p>- Khách hàng tích lũy đủ <strong>04 mã số</strong> hợp lệ sẽ nhận được <strong>01 hũ sản phẩm</strong> cùng loại hoàn toàn miễn phí.</p>
+                <h5>4. Cách thức tham gia</h5>
+                <p><strong>- Bước 1:</strong> Khách hàng thu thập 04 mã số dưới nắp hũ sau khi sử dụng sản phẩm.</p>
+                <p className={styles.contentlink}><strong>- Bước 2:</strong> Truy cập vào website: <a href="https://sieuthidt.com/doi-qua"> https://sieuthidt.com/doi-qua</a></p>
+                <p><strong>- Bước 3:</strong> Nhập đầy đủ 04 mã số và tải lên 01 hình ảnh chụp rõ nét 4 nắp hũ (có hiển thị mã) để hệ thống xác thực.</p>
+                <p><strong>- Bước 4:</strong> Lựa chọn hình thức nhận thưởng.</p>
+                <h5>5. Hình thức nhận thưởng</h5>
+                <strong>Lựa chọn 1: Nhận trực tiếp tại cửa hàng</strong>
+                <p>- Sau khi xác nhận thành công, hệ thống gửi mã Voucher đổi thưởng về Zalo của khách hàng.</p>
+                <p>- Khách hàng mang tin nhắn Zalo chứa mã đến cửa hàng/đại lý gần nhất.</p>
+                <p>- Nhân viên cửa hàng kiểm tra mã trên hệ thống và trao quà trực tiếp cho khách hàng.</p>
+                <strong>Lựa chọn 2: Nhận quà tại nhà</strong>
+                <p>- Hệ thống tự động chuyển hướng khách hàng về trang đặt hàng với sản phẩm thưởng trị giá 0đ.</p>
+                <p>- Khách hàng cung cấp thông tin giao hàng (Họ tên, địa chỉ, số điện thoại).</p>
+                <p>- Quà tặng sẽ được gửi đến khách hàng theo hình thức chuyển phát từ 5-7 ngày.</p>
+                <h5>6. Các quy định chung</h5>
+                <p>- Mỗi mã số dưới nắp hũ chỉ được sử dụng <strong>01 lần duy nhất.</strong></p>
+                <p>- Hình ảnh nắp hũ gửi kèm phải là ảnh thật, không qua chỉnh sửa và hiển thị rõ mã số để đối chiếu khi cần thiết.</p>
+                <p>- Mã Voucher nhận qua Zalo có giá trị sử dụng trong vòng 15 ngày kể từ ngày nhận.</p>
+                <p>- Ban tổ chức có quyền từ chối trao quà nếu phát hiện hành vi gian lận hoặc mã số không tồn tại trên hệ thống.</p>
+                <p>- Mọi quyết định cuối cùng thuộc về Ban tổ chức chương trình.</p>
+                <h5>7. Thông tin hỗ trợ</h5>
+                <p>- Mọi thắc mắc về chương trình, quý khách vui lòng liên hệ:</p>
+                <p>- Hotline: 0847216868</p>
+            </div>
             {status && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
