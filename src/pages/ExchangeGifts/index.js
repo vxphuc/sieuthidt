@@ -66,7 +66,14 @@ function ExchangeGifts() {
         }
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-
+    const handleFileChange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                setFormData(prev => ({
+                    ...prev,
+                    image: e.target.files[0]
+                }));
+            }
+        };
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -94,7 +101,7 @@ function ExchangeGifts() {
             magiamgia: listCodes,
             sdt: phone
         };
-
+        
         try {
             const res = await api.post('https://chatapi.io.vn/kiem-tra-4-ma-nhan-thuong', payload);
 
@@ -221,14 +228,26 @@ function ExchangeGifts() {
                         <div className={styles.gridColGift}><label className={styles.labelGift}>Mã vỏ 3</label><input className={styles.inputGift} name="code3" value={formData.code3} onChange={handleChange} /></div>
                         <div className={styles.gridColGift}><label className={styles.labelGift}>Mã vỏ 4</label><input className={styles.inputGift} name="code4" value={formData.code4} onChange={handleChange} /></div>
                     </div>
-
+                    <div className={styles.uploadSectionGift}>
+                        <label className={styles.labelGift}>Chọn ảnh</label>
+                        <input 
+                            type="file" 
+                            id="fileUpload" 
+                            style={{ display: "none" }} 
+                            onChange={handleFileChange}
+                        />
+                        <label htmlFor="fileUpload" className={styles.uploadBtnLabelGift}>
+                            {formData.image ? formData.image.name : "Tải lên"}
+                        </label>
+                    </div>
                     <button type="submit" className={styles.submitBtnGift} disabled={isSubmitting}>
                         {isSubmitting ? "Đang kiểm tra..." : "Xác nhận"}
                     </button>
                 </form>
             </div>
             <div className={styles.RulesGifts}>
-                <h3>THỂ LỆ CHƯƠNG TRÌNH KHUYẾN MÃI: "MUA 4 TẶNG 1"</h3>
+                <h3>THỂ LỆ CHƯƠNG TRÌNH</h3>
+                <h3>THU VỎ CŨ ĐỔI QUÀ MỚI</h3>
                 <h5>1. Đối tượng tham gia</h5>
                 <p>Tất cả khách hàng mua sản phẩm của hệ thống có nhãn khuyến mãi và sở hữu mã số hợp lệ dưới nắp hũ.</p>
                 <h5>2. Thời gian diễn ra</h5>
@@ -238,15 +257,15 @@ function ExchangeGifts() {
                 <p>- Khách hàng tích lũy đủ <strong>04 mã số</strong> hợp lệ sẽ nhận được <strong>01 hũ sản phẩm</strong> cùng loại hoàn toàn miễn phí.</p>
                 <h5>4. Cách thức tham gia</h5>
                 <p><strong>- Bước 1:</strong> Khách hàng thu thập 04 mã số dưới nắp hũ sau khi sử dụng sản phẩm.</p>
-                <p className={styles.contentlink}><strong>- Bước 2:</strong> Truy cập vào website <a href="https://sieuthidt.com/doi-qua"> https://sieuthidt.com/doi-qua</a> .</p>
+                <p className={styles.contentlink}><strong>- Bước 2:</strong> Truy cập vào website: <a href="https://sieuthidt.com/doi-qua"> https://sieuthidt.com/doi-qua</a></p>
                 <p><strong>- Bước 3:</strong> Nhập đầy đủ 04 mã số và tải lên 01 hình ảnh chụp rõ nét 4 nắp hũ (có hiển thị mã) để hệ thống xác thực.</p>
                 <p><strong>- Bước 4:</strong> Lựa chọn hình thức nhận thưởng.</p>
                 <h5>5. Hình thức nhận thưởng</h5>
-                <strong>Lựa chọn 1: Nhận trực tiếp tại cửa hàng (Shop)</strong>
+                <strong>Lựa chọn 1: Nhận trực tiếp tại cửa hàng</strong>
                 <p>- Sau khi xác nhận thành công, hệ thống gửi mã Voucher đổi thưởng về Zalo của khách hàng.</p>
                 <p>- Khách hàng mang tin nhắn Zalo chứa mã đến cửa hàng/đại lý gần nhất.</p>
                 <p>- Nhân viên cửa hàng kiểm tra mã trên hệ thống và trao quà trực tiếp cho khách hàng.</p>
-                <strong>Lựa chọn 2: Nhận quà tại nhà (Ship tận nơi)</strong>
+                <strong>Lựa chọn 2: Nhận quà tại nhà</strong>
                 <p>- Hệ thống tự động chuyển hướng khách hàng về trang đặt hàng với sản phẩm thưởng trị giá 0đ.</p>
                 <p>- Khách hàng cung cấp thông tin giao hàng (Họ tên, địa chỉ, số điện thoại).</p>
                 <p>- Quà tặng sẽ được gửi đến khách hàng theo hình thức chuyển phát từ 5-7 ngày.</p>

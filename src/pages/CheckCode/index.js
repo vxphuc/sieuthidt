@@ -100,6 +100,7 @@ function CheckCodeAdmin() {
 
     return (
         <div className={styles.containerGift}>
+            <img src="/headline.png" alt="Background" className={styles.backgroundImage} />
             <div className={styles.MainGift}>
                 <h2 className={styles.titleGift}>KIỂM TRA MÃ HỢP LỆ</h2>
                 
