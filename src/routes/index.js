@@ -197,7 +197,7 @@ export const router = [
   },
   { path: "/dang-nhap", component: Login, layout: HeaderLayout },
   // login event in hue
-  { path: "/dang-nhap-event-hue", component: LoginEventInHue, layout: null },
+  { path: "/dang-nhap-su-kien", component: LoginEventInHue, layout: null },
   { path: "/dang-ky-tu-van", component: LoginEventAnhNhat, layout: null },
 
   {path:"/hoi-cho-mua-thu", component: event, layout: null},

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./ExchangeGifts.module.css";
 import api from "../../api/Code"; 
 import axios from "../../api/axios";
 import imageCompression from 'browser-image-compression';
 function ExchangeGifts() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         phoneNumber: "",
         code1: "",
@@ -13,6 +15,23 @@ function ExchangeGifts() {
         image: null
     });
     const [showScrollBtn, setShowScrollBtn] = useState(false);
+
+    // Kiểm tra đăng nhập khi component mount
+    useEffect(() => {
+        const userPhone = localStorage.getItem("userPhone");
+        
+        // Nếu chưa đăng nhập (không có số điện thoại), chuyển hướng tới login
+        if (!userPhone) {
+            navigate("/dang-nhap");
+            return;
+        }
+        
+        // Nếu đã đăng nhập, auto-fill số điện thoại
+        setFormData(prev => ({
+            ...prev,
+            phoneNumber: userPhone
+        }));
+    }, [navigate]);
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 300) {
