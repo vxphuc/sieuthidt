@@ -49,21 +49,20 @@ function Footer() {
                   <div className={styles.col2footer}>
                     <h5>Chính sách bảo mật</h5>
                     <ul>
-                      <li><a href="#" className={styles.linkfooter}>Mục đích thu thập thông tin</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Phạm vi sử dụng</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Thời gian tích trữ</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Đơn vị tiếp cận thông tin</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Cách người dùng chỉnh sửa, yêu cầu xóa dữ liệu</a></li>
+                      <li><a href="/chinh-sach-muc-dich-pham-vi-thu-thap-thong-tin" className={styles.linkfooter}>Mục đích thu thập thông tin</a></li>
+                      <li><a href="/chinh-sach-pham-vi-su-dung" className={styles.linkfooter}>Phạm vi sử dụng</a></li>
+                      <li><a href="/chinh-sach-thoi-gian-luu-tru" className={styles.linkfooter}>Thời gian tích trữ</a></li>
+                      <li><a href="/don-vi-tiep-can-thong-tin" className={styles.linkfooter}>Đơn vị tiếp cận thông tin</a></li>
+                      <li><a href="/cach-nguoi-dung-chinh-sua-yeu-cau-xoa-du-lieu" className={styles.linkfooter}>Cách người dùng chỉnh sửa, yêu cầu xóa dữ liệu</a></li>
                     </ul>
                   </div>
                   <div className={styles.col2footer}>
                     <h5>Chính sách bán hàng</h5>
                     <ul>
-                      <li><a href="#" className={styles.linkfooter}>Chính sách bán hàng</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Chính sách thanh toán</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Chính sách vận chuyển - giao nhận</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Chính sách đổi trả - hoàn tiền</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Cơ chế giải quyết khiếu nại</a></li>
+                      <li><a href="/chinh-sach-thanh-toan" className={styles.linkfooter}>Chính sách thanh toán</a></li>
+                      <li><a href="/chinh-sach-van-chuyen-giao-nhan" className={styles.linkfooter}>Chính sách vận chuyển - giao nhận</a></li>
+                      <li><a href="/chinh-sach-doi-tra" className={styles.linkfooter}>Chính sách đổi trả - hoàn tiền</a></li>
+                      <li><a href="/chinh-sach-khieu-nai" className={styles.linkfooter}>Chính sách khiếu nại</a></li>
                     </ul>
                   </div>
                   <div className={styles.col2footer}>
