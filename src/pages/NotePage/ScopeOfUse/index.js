@@ -3,7 +3,7 @@ function ScopeOfUse() {
     return (
         <div className={styles.containerScopeOfUse}>
             <h3 className={styles.titleScopeOfUse}>Phạm vi sử dụng thông tin</h3>
-            <p>Thông tin cá nhân thu thập được sẽ chỉ được Dtvietnam.com sử dụng trong nội bộ công ty và cho một hoặc tất cả các mục đích sau đây:</p>
+            <p>Thông tin cá nhân thu thập được sẽ chỉ được sieuthidt.com sử dụng trong nội bộ công ty và cho một hoặc tất cả các mục đích sau đây:</p>
             <p>- Hỗ trợ khách hàng</p>
             <p>- Cung cấp thông tin liên quan đến dịch vụ</p>
             <p>- Xử lý đơn đặt hàng và cung cấp dịch vụ và thông tin qua trang web của chúng tôi theo yêu cầu của bạn</p>

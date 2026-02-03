@@ -44,7 +44,7 @@ function TransportPolice() {
                     d) Phân định trách nhiệm của thương nhân, tổ chức cung ứng dịch vụ logistics về cung cấp chứng từ hàng hóa trong quá trình giao nhận.
                 </h5>
                 <p className={styles.textBlock}>
-                    Tất cả các đơn hàng đều được đóng gói sẵn sàng trước khi vận chuyển, được niêm phong bởi Dtvietnam.com.
+                    Tất cả các đơn hàng đều được đóng gói sẵn sàng trước khi vận chuyển, được niêm phong bởi sieuthidt.com.
                 </p>
                 <p className={styles.textBlock}>
                     Đơn vị vận chuyển sẽ chỉ chịu trách nhiệm vận chuyển hàng hóa theo nguyên tắc “nguyên đai, nguyên kiện”.
@@ -55,7 +55,7 @@ function TransportPolice() {
                     <p>Thông tin Người nhận, bao gồm: Tên người nhận, số điện thoại và địa chỉ người nhận.</p>
                     <p>Mã vận đơn của đơn hàng.</p>
                 <p className={styles.textBlock}>
-                    Để đảm bảo an toàn cho hàng hóa, Dtvietnam.com sẽ gửi kèm hóa đơn tài chính hoặc phiếu xuất kho hợp lệ của sản phẩm trong bưu kiện (nếu có).
+                    Để đảm bảo an toàn cho hàng hóa, sieuthidt.com sẽ gửi kèm hóa đơn tài chính hoặc phiếu xuất kho hợp lệ của sản phẩm trong bưu kiện (nếu có).
                 </p>
                 <p className={styles.textBlock}>
                     Hóa đơn tài chính hoặc phiếu xuất kho là căn cứ hỗ trợ quá trình xử lý khiếu nại như: xác định giá trị thị trường của hàng hóa, đảm bảo hàng hóa lưu thông hợp lệ v.v..
