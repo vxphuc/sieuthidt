@@ -8,6 +8,7 @@ function Business() {
             <p>Số điện thoại: 0336390085</p>
             <p>Email: mediateamwfour@gmail.com</p>
             <p>Mã số doanh nghiệp: 4201794039</p>
+            <p>Nơi cấp: SỞ TÀI CHÍNH TỈNH KHÁNH HÒA, PHÒNG QUẢN LÝ DOANH NGHIỆP</p>
         </div>
     );
 };

@@ -67,6 +67,7 @@ import ScopeOfUse from "../pages/NotePage/ScopeOfUse";
 import RealTimeUse from "../pages/NotePage/RealTimeUse";
 import UserUseInfo from "../pages/NotePage/UserUseInfo";
 import UpdateData from "../pages/NotePage/UpdateData";
+import Business from "../pages/NotePage/Business";
 
 export const router = [
   {
@@ -302,4 +303,9 @@ export const router = [
     component: UpdateData,
     layout: HeaderOnly
   },
+  {
+    path: "/thong-tin-doanh-nghiep",
+    component: Business,
+    layout: HeaderOnly
+  }
 ];

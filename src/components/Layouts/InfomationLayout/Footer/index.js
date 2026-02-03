@@ -69,11 +69,11 @@ function Footer() {
                   <div className={styles.col2footer}>
                     <h5>Doanh nghiệp</h5>
                     <ul>
-                      <li><a href="#" className={styles.linkfooter}>Tên doanh nghiệp</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Địa chỉ trụ sở chính</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Số điện thoại, Email hợp lệ</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Mã số doanh nghiệp / mã số thuế</a></li>
-                      <li><a href="#" className={styles.linkfooter}>Số giấy chứng nhận đăng ký kinh doanh và nơi cấp</a></li>
+                      <li><a href="/thong-tin-doanh-nghiep" className={styles.linkfooter}>Tên doanh nghiệp</a></li>
+                      <li><a href="/thong-tin-doanh-nghiep" className={styles.linkfooter}>Địa chỉ trụ sở chính</a></li>
+                      <li><a href="/thong-tin-doanh-nghiep" className={styles.linkfooter}>Số điện thoại, Email hợp lệ</a></li>
+                      <li><a href="/thong-tin-doanh-nghiep" className={styles.linkfooter}>Mã số doanh nghiệp / mã số thuế</a></li>
+                      <li><a href="/thong-tin-doanh-nghiep" className={styles.linkfooter}>Số giấy chứng nhận đăng ký kinh doanh và nơi cấp</a></li>
                     </ul>
                   </div>
                 </div>
