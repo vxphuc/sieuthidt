@@ -2,7 +2,7 @@
 .footer {
     position: relative;
     width: 100%;
-    height: 61vh;
+    height: auto;
     margin: 0px auto;
     margin-top: 3rem;
     padding: 1.5rem 0;
@@ -99,7 +99,7 @@
 }
 
 .bottomWrapperfooter {
-    position: absolute;
+    /* position: absolute; */
     bottom: 10px;
     left: 0;
     right: 0;
