@@ -57,6 +57,10 @@ import UsingDiscountCode from "../pages/UsingDiscountCode";
 import ActiveKOCList from "../pages/Admin/ActiveKOCList";
 import TopProductsKOC from "../pages/Admin/TopProductsKOC";
 
+// su kien hang loat
+import ReviewEvent from "../pages/discountpage/reviewevent";
+import eventgrift from "../pages/discountpage/eventgrift";
+import attachcodeevent from "../pages/discountpage/attachcodeevent";
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
 import ComplaintsPolice from "../pages/NotePage/ComplaintsPolice";
@@ -256,6 +260,22 @@ export const router = [
   {
     path: "/kiem-tra-ma-qua",
     component: CheckCodeAdmin,
+    layout: HeaderOnly,
+  },
+  //mã giảm giá sll
+  {
+    path: "/danh-sach-su-kien-doi-qua",
+    component: ReviewEvent,
+    layout: HeaderOnly,
+  },
+  {
+    path: "/tao-ma-giam-gia-hang-loat",
+    component: eventgrift,
+    layout: HeaderOnly,
+  },
+  {
+    path: "/gan-ma-giam-gia-vao-su-kien",
+    component: attachcodeevent,
     layout: HeaderOnly,
   },
 //chinh sach

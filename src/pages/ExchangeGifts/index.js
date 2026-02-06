@@ -288,6 +288,10 @@ function ExchangeGifts() {
                         <label className={styles.labelGift}>Nhập số điện thoại</label>
                         <input type="text" className={styles.inputGift} name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Nhập SĐT của bạn" maxLength="10" />
                     </div>
+                    {/* <div className={styles.formGroupGift}>
+                        <label className={styles.labelGift}>Nhập mã quà tặng</label>
+                        <input type="text" className={styles.inputGift} name="giftCode" value={formData.giftCode} onChange={handleChange} placeholder="Nhập mã quà tặng" />
+                    </div> */}
                     <div className={styles.gridRowGift}>
                         <div className={styles.gridColGift}><label className={styles.labelGift}>Mã vỏ 1</label><input className={styles.inputGift} name="code1" value={formData.code1} onChange={handleChange} /></div>
                         <div className={styles.gridColGift}><label className={styles.labelGift}>Mã vỏ 2</label><input className={styles.inputGift} name="code2" value={formData.code2} onChange={handleChange} /></div>

@@ -1,0 +1,173 @@
+.container {
+  padding: 90px 20px;
+  max-width: 900px;
+  margin: 0px auto;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  color: #333;
+}
+
+.title {
+  text-align: center;
+  color: #218838;
+  margin-bottom: 35px;
+  font-weight: 800;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.loading, .error {
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #dc3545;
+  background-color: #f8d7da;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #f5c6cb;
+}
+
+.actions {
+  text-align: right;
+  margin-bottom: 25px;
+}
+
+.createBtn, .submitBtn {
+  background-color: #218838;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(33, 136, 56, 0.2);
+}
+
+.createBtn:hover, .submitBtn:hover {
+  background-color: #196a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(33, 136, 56, 0.3);
+}
+
+.formBox {
+  background-color: #eaf6ec;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  border: 1px solid #c3e6cb;
+  box-shadow: 0 4px 15px rgba(33, 136, 56, 0.08);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.formBox h3 {
+  color: #218838;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #218838;
+  font-size: 0.95rem;
+}
+
+.formGroup input {
+  padding: 14px;
+  border: 2px solid #e1e5eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background-color: #fff;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #218838;
+  box-shadow: 0 0 0 4px rgba(33, 136, 56, 0.15);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eventCard {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  border-top: 5px solid #218838; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.eventCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(33, 136, 56, 0.15);
+}
+
+.eventName {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #218838;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.eventId {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #218838;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.eventCard p {
+  margin: 8px 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+.eventCard p strong, .label {
+  font-weight: 600;
+  color: #333;
+  margin-right: 8px;
+  min-width: 80px;
+  display: inline-block;
+}
+
+/* Animation xuất hiện */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
