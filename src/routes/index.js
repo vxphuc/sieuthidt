@@ -61,6 +61,7 @@ import TopProductsKOC from "../pages/Admin/TopProductsKOC";
 import ReviewEvent from "../pages/discountpage/reviewevent";
 import eventgrift from "../pages/discountpage/eventgrift";
 import attachcodeevent from "../pages/discountpage/attachcodeevent";
+import GiftRedemption from "../pages/discountpage/giftredemption";
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
 import ComplaintsPolice from "../pages/NotePage/ComplaintsPolice";
@@ -276,6 +277,11 @@ export const router = [
   {
     path: "/gan-ma-giam-gia-vao-su-kien",
     component: attachcodeevent,
+    layout: HeaderOnly,
+  },
+  {
+    path: "/doi-qua-tang",
+    component: GiftRedemption,
     layout: HeaderOnly,
   },
 //chinh sach
