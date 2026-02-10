@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './GiftRedemption.module.css';
+import { data } from 'react-router-dom';
 
 const GiftRedemption = () => {
     // State quản lý form
@@ -27,14 +28,16 @@ const GiftRedemption = () => {
             'Content-Type': 'application/json',
             },
         });
-        if (response.ok) {
-            const data = await response.json();
+        const data = await response.json();
+        if(data === "mã không hợp lệ"){
+          setError("Mã không hợp lệ");
+        }
+        else if (data && data.tensukien) {
             setGiftData(data);
             setShowPopup(true);
             setCode('');
-        }
-        else{
-            setError('Mã đổi quà không hợp lệ hoặc đã được sử dụng.');
+        } else {
+            setError("Có lỗi xảy ra hoặc mã không tồn tại.");
         }
     }catch(err){
         setError('Đã có lỗi xảy ra. Vui lòng thử lại.');
