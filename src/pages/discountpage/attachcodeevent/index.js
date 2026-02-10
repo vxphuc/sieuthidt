@@ -51,6 +51,8 @@ const attachcodeevent = () => {
                             onChange={(e) => setEventId(e.target.value)}
                             placeholder="Nhập ID sự kiện"
                             className={styles.inputNumber}
+                            onFocus={(e) => e.target.placeholder = ''}
+                            onBlur={(e) => e.target.placeholder = 'Nhập ID sự kiện'}
                         />
                         
                     </div>
@@ -63,6 +65,8 @@ const attachcodeevent = () => {
                             onChange={(e) => setCode(e.target.value)}
                             placeholder="Nhập số lượng mã"
                             className={styles.inputNumber}
+                            onFocus={(e) => e.target.placeholder = ''}
+                            onBlur={(e) => e.target.placeholder = 'Nhập số lượng mã'}
                         />
                     </div>
                     <button

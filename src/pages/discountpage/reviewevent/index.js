@@ -100,6 +100,8 @@ const ReviewEvent = () => {
               value={newEvent.tensukien}
               onChange={handleInputChange}
               placeholder="Ví dụ: Sự kiện đổi quà"
+              onFocus={(e) => e.target.placeholder = ''}
+              onBlur={(e) => e.target.placeholder = 'Ví dụ: Sự kiện đổi quà'}
             />
           </div>
 

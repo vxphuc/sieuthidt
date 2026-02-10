@@ -52,6 +52,8 @@ const eventgrift = () => {
               onChange={(e) => setQuantity(e.target.value)}
               placeholder="Nhập số lượng"
               className={styles.inputNumber}
+              onFocus={(e) => e.target.placeholder = ''}
+              onBlur={(e) => e.target.placeholder = 'Nhập số lượng'}
             />
           </div>
 
