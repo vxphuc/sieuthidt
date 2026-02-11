@@ -66,9 +66,9 @@ const eventgrift = () => {
           </button>
         </form>
 
-        <p className={styles.note}>
+        {/* <p className={styles.note}>
           * Lưu ý: Hệ thống sẽ tự động sinh ngẫu nhiên các mã dựa trên số lượng bạn nhập.
-        </p>
+        </p> */}
       </div>
     </div>
   );
