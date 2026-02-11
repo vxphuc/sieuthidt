@@ -41,13 +41,12 @@ const ReviewEvent = () => {
 
     const payload = {
       tensukien: newEvent.tensukien,
-      id:  newEvent.id,
       thoihanbatdau: new Date(newEvent.thoihanbatdau).toISOString(),
       thoihanketthuc: new Date(newEvent.thoihanketthuc).toISOString()
     };
 
     try {
-      const response = await fetch('https://chatapi.io.vn/su-kien-doi-qua', {
+      const response = await fetch('https://chatapi.io.vn/tao-su-kien-doi-qua', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
