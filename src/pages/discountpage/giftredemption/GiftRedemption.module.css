@@ -3,9 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f4fcf5; /* Nền xanh rất nhạt */
+  background-color: #f4fcf5;
 }
 
 .card {
@@ -16,7 +16,7 @@
   width: 100%;
   max-width: 450px;
   text-align: center;
-  border-top: 6px solid #218838; /* Màu chủ đạo */
+  border-top: 6px solid #218838;
 }
 
 .title {
@@ -35,6 +35,7 @@
 .inputGroup {
   margin-bottom: 20px;
 }
+
 .input {
   width: 100%;
   padding: 15px;
@@ -76,23 +77,27 @@
   cursor: not-allowed;
 }
 
+/* Style lỗi (Màu đỏ) */
 .error {
   color: #dc3545;
   background-color: #fff5f5;
-  padding: 10px;
+  padding: 12px;
   border-radius: 6px;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border: 1px solid #ffc9c9;
+  font-weight: 700;
+  animation: shake 0.3s; /* Hiệu ứng rung nhẹ gây chú ý */
 }
 
-/* --- POPUP / MODAL STYLES --- */
+/* --- POPUP / MODAL STYLES (Chỉ cho Winner) --- */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Nền đen mờ */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,13 +107,13 @@
 
 .popup {
   background: white;
-  padding: 30px;
+  padding: 30px 20px;
   border-radius: 16px;
   width: 90%;
   max-width: 400px;
   text-align: center;
   box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy */
+  animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
 }
 
@@ -130,47 +135,60 @@
   box-shadow: 0 0 0 8px rgba(33, 136, 56, 0.2);
 }
 
-.popupTitle {
-  color: #218838;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+/* Icon Vàng Cam (Dùng khi chúc may mắn) */
+.iconLuck {
+  width: 60px;
+  height: 60px;
+  background-color: #218838; /* Màu vàng */
+  color: white;
+  font-size: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 0 0 8px rgba(33, 136, 56, 0.2);
 }
 
-.eventName {
+.popupTitle {
   color: #333;
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin: 15px 0;
-  padding: 10px;
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  font-weight: 800;
+}
+
+.messageText {
+  font-size: 1.2rem;
+  color: #218838;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 15px;
   background-color: #f0fff4;
   border-radius: 8px;
   border: 1px dashed #218838;
-}
-
-.timeInfo {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 25px;
+  text-transform: capitalize;
 }
 
 .closeBtn {
   background-color: #218838;
   color: white;
   border: none;
-  padding: 12px 30px;
+  padding: 12px 35px;
   border-radius: 25px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-top: 20px;
 }
 
 .closeBtn:hover {
   background-color: #196a2e;
-  box-shadow: 0 5px 15px rgba(33, 136, 56, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(33, 136, 56, 0.2);
 }
 
-/* --- Animation Keyframes --- */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -179,4 +197,12 @@
 @keyframes scaleUp {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
 }

@@ -62,6 +62,8 @@ import ReviewEvent from "../pages/discountpage/reviewevent";
 import eventgrift from "../pages/discountpage/eventgrift";
 import attachcodeevent from "../pages/discountpage/attachcodeevent";
 import GiftRedemption from "../pages/discountpage/giftredemption";
+import CreateRewards from "../pages/discountpage/createrewards";
+
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
 import ComplaintsPolice from "../pages/NotePage/ComplaintsPolice";
@@ -284,6 +286,12 @@ export const router = [
     component: GiftRedemption,
     layout: HeaderOnly,
   },
+  {
+    path: "/tao-phan-thuong-cho-su-kien",
+    component: CreateRewards,
+    layout: HeaderOnly,
+  },
+
 //chinh sach
   {
     path: "/chinh-sach-thanh-toan",
