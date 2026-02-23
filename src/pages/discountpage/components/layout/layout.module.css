@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.sidebarWrapper {
+    width: 25%;
+    min-width: 250px;
+    flex-shrink: 0;
+}
+
+.contentWrapper {
+    width: 75%;
+    flex-grow: 1;
+    background-color: #f4fcf5;
+    overflow-y: auto;
+    position: relative;
+}
+
+.contentInner {
+    width: 100%;
+}

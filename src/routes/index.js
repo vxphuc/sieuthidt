@@ -63,6 +63,7 @@ import eventgrift from "../pages/discountpage/eventgrift";
 import attachcodeevent from "../pages/discountpage/attachcodeevent";
 import GiftRedemption from "../pages/discountpage/giftredemption";
 import CreateRewards from "../pages/discountpage/createrewards";
+import layout from "../pages/discountpage/components/layout";
 
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
@@ -269,17 +270,17 @@ export const router = [
   {
     path: "/danh-sach-su-kien-doi-qua",
     component: ReviewEvent,
-    layout: HeaderOnly,
+    layout: layout,
   },
   {
     path: "/tao-ma-giam-gia-hang-loat",
     component: eventgrift,
-    layout: HeaderOnly,
+    layout: layout,
   },
   {
     path: "/gan-ma-giam-gia-vao-su-kien",
     component: attachcodeevent,
-    layout: HeaderOnly,
+    layout: layout,
   },
   {
     path: "/doi-qua-tang",
@@ -289,9 +290,13 @@ export const router = [
   {
     path: "/tao-phan-thuong-cho-su-kien",
     component: CreateRewards,
+    layout: layout,
+  },
+  {
+    path: "/quan-tri-su-kien",
+    component: layout,
     layout: HeaderOnly,
   },
-
 //chinh sach
   {
     path: "/chinh-sach-thanh-toan",

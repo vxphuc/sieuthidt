@@ -4,11 +4,14 @@ import styles from "./CreateRewards.module.css";
 const CreateRewards = () => {
     const [events, setEvents] = useState([]);
     const [nameReward, setNameReward] = useState('');
-    const [pointReward, setPointReward] = useState();
+    const [pointReward, setPointReward] = useState('');
     const [idevent, setIdevent] = useState('');
-    
+    const [quantity, setQuantity] = useState('');
+
     const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState({ type: '', content: '' });
+    
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState({ type: '', title: '', content: '' });
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -26,22 +29,41 @@ const CreateRewards = () => {
         fetchEvents();
     }, []);
 
+    // Hàm hiển thị Popup
+    const triggerPopup = (type, title, content) => {
+        setPopupMessage({ type, title, content });
+        setShowPopup(true);
+    };
+
+    const closePopup = () => {
+        setShowPopup(false);
+        // Nếu là popup thành công thì reset form sau khi đóng
+        if (popupMessage.type === 'success') {
+            setNameReward('');
+            setPointReward('');
+            setQuantity('');
+        }
+    };
+
     const handleCreateRewards = async (e) => {
         e.preventDefault();
+        
         if (!idevent) {
-            setMessage({ type: 'error', content: 'Vui lòng chọn một sự kiện!' });
+            triggerPopup('error', 'Lỗi', 'Vui lòng chọn một sự kiện!');
             return;
         }
         if (!nameReward.trim()) {
-            setMessage({ type: 'error', content: 'Vui lòng nhập tên phần thưởng!' });
+            triggerPopup('error', 'Lỗi', 'Vui lòng nhập tên phần thưởng!');
             return;
         }
+        
         setIsLoading(true);
-        setMessage({ type: '', content: '' });
+
         const payload = {
             tenphanthuong: nameReward,
-            phantramtrungthuong: Number(pointReward),
+            phantramtrungthuong: Number(pointReward) || 0,
             id_sukiendoiqua: idevent,
+            soluong: Number(quantity) || 0 
         };
 
         try {
@@ -54,14 +76,12 @@ const CreateRewards = () => {
             });
 
             if (req.ok) {
-                setMessage({ type: 'success', content: 'Tạo phần thưởng thành công!' });
-                setNameReward('');
-                setPointReward(0);
+                triggerPopup('success', 'Thành Công!', 'Đã tạo phần thưởng mới cho sự kiện.');
             } else {
-                setMessage({ type: 'error', content: 'Có lỗi xảy ra khi tạo phần thưởng.' });
+                triggerPopup('error', 'Thất Bại', 'Có lỗi xảy ra khi tạo phần thưởng.');
             }
         } catch (error) {
-            setMessage({ type: 'error', content: 'Lỗi kết nối máy chủ.' });
+            triggerPopup('error', 'Lỗi Kết Nối', 'Không thể kết nối đến máy chủ.');
         } finally {
             setIsLoading(false);
         }
@@ -71,6 +91,7 @@ const CreateRewards = () => {
         <div className={styles.container}>
             <div className={styles.formBox}>
                 <h2 className={styles.title}>Tạo Phần Thưởng Cho Sự Kiện</h2>
+                
                 <form onSubmit={handleCreateRewards}>
                     <div className={styles.formGroup}>
                         <label htmlFor="eventSelect">Chọn sự kiện áp dụng:</label>
@@ -88,6 +109,7 @@ const CreateRewards = () => {
                             ))}
                         </select>
                     </div>
+
                     <div className={styles.formGroup}>
                         <label htmlFor="rewardName">Tên phần thưởng:</label>
                         <input
@@ -101,6 +123,21 @@ const CreateRewards = () => {
                             onBlur={(e) => e.target.placeholder = 'Ví dụ: tặng yến đường DTNest'}
                         />
                     </div>
+
+                    <div className={styles.formGroup}>
+                        <label htmlFor="rewardQuantity">Số lượng phần thưởng:</label>
+                        <input
+                            id="rewardQuantity"
+                            type="number"
+                            className={styles.input}
+                            placeholder="Nhập số lượng phần thưởng"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            onFocus={(e) => e.target.placeholder = ''}
+                            onBlur={(e) => e.target.placeholder = 'Nhập số lượng phần thưởng'}
+                        />
+                    </div>
+
                     <div className={styles.formGroup}>
                         <label htmlFor="rewardPoint">Tỷ lệ trúng thưởng (%):</label>
                         <input
@@ -117,19 +154,41 @@ const CreateRewards = () => {
                         />
                     </div>
 
-                    {/* Hiển thị thông báo lỗi/thành công */}
-                    {message.content && (
-                        <div className={message.type === 'error' ? styles.errorMsg : styles.successMsg}>
-                            {message.content}
-                        </div>
-                    )}
-
-                    {/* Nút Submit */}
                     <button type="submit" className={styles.submitBtn} disabled={isLoading}>
                         {isLoading ? 'Đang xử lý...' : 'Tạo Phần Thưởng'}
                     </button>
                 </form>
             </div>
+
+            {/* --- POPUP (MODAL) --- */}
+            {showPopup && (
+                <div className={styles.overlay}>
+                    <div className={styles.popup}>
+                        <div className={styles.popupHeader}>
+                            {/* Icon dựa trên loại thông báo: Success (Xanh) hoặc Error (Đỏ) */}
+                            <div className={popupMessage.type === 'success' ? styles.iconSuccess : styles.iconError}>
+                                {popupMessage.type === 'success' ? '✔' : '!'}
+                            </div>
+                        </div>
+                        
+                        <h3 className={styles.popupTitle} style={{ 
+                            color: popupMessage.type === 'success' ? '#218838' : '#dc3545' 
+                        }}>
+                            {popupMessage.title}
+                        </h3>
+                        
+                        <div className={styles.popupBody}>
+                            <p>{popupMessage.content}</p> 
+                        </div>
+
+                        <button onClick={closePopup} className={styles.closeBtn} style={{
+                            backgroundColor: popupMessage.type === 'success' ? '#218838' : '#dc3545'
+                        }}>
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -808,7 +808,7 @@ function Carts() {
                             Tiền mặt khi nhận hàng
                           </label>
                         </li>
-                        <li>
+                        {/* <li>
                           <label
                             onClick={() =>
                               setPayMent("Thanh toán qua ngân hàng")
@@ -823,7 +823,7 @@ function Carts() {
                             />{" "}
                             Thanh toán qua ngân hàng
                           </label>
-                        </li>
+                        </li> */}
                       </ul>
                       <button
                         className={styles.confirmButton}

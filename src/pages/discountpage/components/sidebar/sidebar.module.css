@@ -1,0 +1,62 @@
+
+.sidebarContainer {
+    background-color: #218838;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    height: 100%;
+    padding: 40px 0;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+}
+
+.logoArea {
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: 20px;
+}
+
+.logoArea h3 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.navList {
+    list-style-type: none;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.navList li {
+    margin: 5px 10px;
+    background-color: white;
+}
+.navLink {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-left: 5px solid transparent;
+}
+
+.navLink:hover {
+    background-color: #1e7e34;
+    color: white;
+    padding-left: 30px;
+}
+
+.activeLink {
+    background-color: #196a2e;
+    color: white;
+    border-left-color: #ffc107;
+}
+
+.icon {
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
