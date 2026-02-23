@@ -6,10 +6,9 @@ const GiftRedemption = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // State cho Popup
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
-    // Thêm state để phân biệt loại popup (nếu muốn đổi icon/màu sắc)
+
     const [isWin, setIsWin] = useState(true); 
 
     const handleRedeem = async (e) => {
@@ -29,25 +28,21 @@ const GiftRedemption = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                
             });
             const data = await response.json(); 
 
-            // LOGIC MỚI:
-            
-            // 1. Trường hợp lỗi: Mã không hợp lệ
             if (data === "mã không hợp lệ") {
                 setError("Mã không hợp lệ hoặc đã được sử dụng.");
             } 
-            // 2. Trường hợp: Chúc may mắn lần sau (Vẫn hiện Popup nhưng nội dung khác)
             else if (data.includes("may mắn lần sau")) {
                 setPopupMessage("Chúc bạn may mắn lần sau!");
-                setIsWin(false); // Đánh dấu là không trúng quà thật (để đổi icon nếu cần)
+                setIsWin(false);
                 setShowPopup(true);
                 setCode('');
             } 
-            // 3. Trường hợp: Trúng thưởng thật
             else {
-                setPopupMessage(data); // Ví dụ: "chúc mừng bạn đã trúng yến sữa"
+                setPopupMessage(data);
                 setIsWin(true);
                 setShowPopup(true);
                 setCode('');
