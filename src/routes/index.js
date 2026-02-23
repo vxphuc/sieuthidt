@@ -76,6 +76,7 @@ import RealTimeUse from "../pages/NotePage/RealTimeUse";
 import UserUseInfo from "../pages/NotePage/UserUseInfo";
 import UpdateData from "../pages/NotePage/UpdateData";
 import Business from "../pages/NotePage/Business";
+import InfoTransaction from "../pages/NotePage/infotransaction";
 
 export const router = [
   {
@@ -345,6 +346,11 @@ export const router = [
   {
     path: "/thong-tin-doanh-nghiep",
     component: Business,
+    layout: HeaderOnly
+  },
+  {
+    path: "/thong-tin-dieu-kien-giao-dich-chung",
+    component: InfoTransaction,
     layout: HeaderOnly
   }
 ];
