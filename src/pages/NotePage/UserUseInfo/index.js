@@ -11,6 +11,12 @@ function UserUseInfo() {
             <p>ĐỊA CHỈ: Thôn Đắc Lộc, Phường Bắc Nha Trang, Tỉnh Khánh Hòa, Việt Nam</p>
             <p>https://sieuthidt.com/</p>
             <p>Email: info@dtvietnam.com</p>
+            <h3 className={styles.titleRealTimeUse}>Thông tin về người sở hữu website</h3>
+            <p>CÔNG TY CỔ PHẦN DT FOOD</p>
+            <p>GPKD Số 4201794039 do Sở KH và ĐT TP Nha Trang cấp</p>
+            <p>ĐỊA CHỈ: Thôn Đắc Lộc, Phường Bắc Nha Trang, Tỉnh Khánh Hòa, Việt Nam</p>
+            <p>Chuyên sản xuất, phân phối và kinh doanh thương mại các loại thực phẩm, mỹ phẩm làm đẹp từ nhiên liệu thiên nhiên - đặc sản của Việt Nam.</p>
+
         </div>
     );
 };
