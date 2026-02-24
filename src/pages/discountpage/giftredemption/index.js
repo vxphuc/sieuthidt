@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './GiftRedemption.module.css';
 
 const GiftRedemption = () => {
@@ -9,10 +10,24 @@ const GiftRedemption = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
 
-    const [isWin, setIsWin] = useState(true); 
+    const [isWin, setIsWin] = useState(true);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            navigate('/dang-nhap');
+        }
+    }, [navigate]);
 
     const handleRedeem = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            navigate('/dang-nhap');
+            return;
+        }
         if (!code) {
             setError('Vui lòng nhập mã đổi quà.');
             return;
@@ -27,6 +42,7 @@ const GiftRedemption = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 
             });
