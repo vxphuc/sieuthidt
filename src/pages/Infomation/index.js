@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import api from "../../api/axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getName, getAddress } from "../../services/cartService";
 
 function Infomation() {
@@ -15,6 +15,14 @@ function Infomation() {
 
   const [address, setAddress] = useState(localAddress || []);
   const [showForm, setShowForm] = useState(false);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        navigate('/dang-nhap');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const stored = getName();

@@ -5,10 +5,16 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { NavLink } from "react-router-dom";
 import {getName} from '../../services/cartService'
-
+import { useLocation, useNavigate } from "react-router-dom";
 function Bill() {
   const [bills, setBills] = useState([]);
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        navigate('/dang-nhap');
+    }
+  }, [navigate]);
   useEffect(() => {
     const fetchBills = async () => {
       const numberPhone = getName()
