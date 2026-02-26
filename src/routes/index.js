@@ -205,7 +205,7 @@ export const router = [
     component: DetailProductBill,
     layout: AdminLayout,
   },
-  { path: "/dang-nhap", component: Login, layout: HeaderLayout },
+  { path: "/dang-nhap", component: Login, layout: HeaderOnly },
   // login event in hue
   { path: "/dang-nhap-su-kien", component: LoginEventInHue, layout: null },
   { path: "/dang-ky-tu-van", component: LoginEventAnhNhat, layout: null },

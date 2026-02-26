@@ -54,11 +54,19 @@ function Login() {
       }
       localStorage.setItem("authToken", response.data.token);
       window.history.back();
+      if (window.history.length > 2) {
+        navigate(-1);
+        setTimeout(() => {
+            window.location.reload(); 
+        }, 100);
+      } else {
+        window.location.href = '/';
+      }
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
     } finally {
-      setIsSending(false); // mở lại nút sau khi xử lý xong
+      setIsSending(false);
     }
   };
 

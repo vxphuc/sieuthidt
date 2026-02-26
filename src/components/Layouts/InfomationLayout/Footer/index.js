@@ -60,6 +60,7 @@ function Footer() {
                     <h5>Chính sách bán hàng</h5>
                     <ul>
                       {/* <li><a href="#" className={styles.linkfooter}>Chính sách bán hàng</a></li> */}
+                      <li><a href="/thong-tin-dieu-kien-giao-dich-chung" className={styles.linkfooter}>Thông tin về điều kiện giao dịch chung</a></li>
                       <li><a href="/chinh-sach-thanh-toan" className={styles.linkfooter}>Chính sách thanh toán</a></li>
                       <li><a href="/chinh-sach-van-chuyen-giao-nhan" className={styles.linkfooter}>Chính sách vận chuyển - giao nhận</a></li>
                       <li><a href="/chinh-sach-doi-tra" className={styles.linkfooter}>Chính sách đổi trả - hoàn tiền</a></li>

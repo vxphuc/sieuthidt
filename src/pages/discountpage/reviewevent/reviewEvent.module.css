@@ -34,10 +34,54 @@
   border: 1px solid #f5c6cb;
 }
 
-.actions {
-  text-align: right;
+/* --- KHU VỰC ĐIỀU KHIỂN: TÌM KIẾM + NÚT TẠO --- */
+.topControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 25px;
+  gap: 15px;
+  flex-wrap: wrap; /* Hỗ trợ mobile */
 }
+
+.searchForm {
+  display: flex;
+  flex: 1;
+  max-width: 500px; /* Không cho thanh tìm kiếm quá dài */
+  gap: 10px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px 15px;
+  border: 2px solid #e1e5eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #218838;
+  box-shadow: 0 0 0 4px rgba(33, 136, 56, 0.15);
+}
+
+.searchBtn {
+  background-color: #fff;
+  color: #218838;
+  border: 2px solid #218838;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.searchBtn:hover {
+  background-color: #218838;
+  color: #fff;
+}
+/* ----------------------------------------------- */
 
 .createBtn, .submitBtn {
   background-color: #218838;
@@ -166,8 +210,56 @@
   display: inline-block;
 }
 
-/* Animation xuất hiện */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- PHẦN PHÂN TRANG (PAGINATION) --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  gap: 20px;
+}
+
+.pageBtn {
+  background-color: white;
+  border: 2px solid #218838;
+  color: #218838;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(33, 136, 56, 0.1);
+}
+
+.pageBtn:hover:not(:disabled) {
+  background-color: #218838;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(33, 136, 56, 0.25);
+}
+
+.pageBtn:disabled {
+  border-color: #d6d6d6;
+  color: #a0a0a0;
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.pageNumber {
+  font-weight: 800;
+  color: #218838;
+  font-size: 1.1rem;
+  padding: 8px 15px;
+  background-color: #eaf6ec;
+  border-radius: 8px;
+  border: 1px solid #c3e6cb;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
