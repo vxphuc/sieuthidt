@@ -26,6 +26,11 @@ function Auth() {
   if (loading) return <p>Đang tải...</p>;
 
   const isLoggedIn = !!user;
+  const displayName = user?.name?.trim();
+  const maskedPhone = user?.numberPhone
+    ? `***${String(user.numberPhone).slice(-3)}`
+    : "";
+  const accountLabel = displayName || maskedPhone;
 
   return (
     <NavLink
@@ -34,7 +39,7 @@ function Auth() {
     >
       <button className={style.button}>
         <FontAwesomeIcon icon={faUser} className={style.userIcon} />
-        {isLoggedIn ? user.numberPhone : "Đăng nhập"}
+        {isLoggedIn ? accountLabel : "Đăng nhập"}
       </button>
     </NavLink>
   );
