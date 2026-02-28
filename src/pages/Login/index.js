@@ -4,7 +4,7 @@ import styles from "./login.module.css";
 import api from "../../api/axios"; // Import axios instance
 import { useNavigate } from "react-router-dom";
 import { getName, saveName } from "../../services/cartService";
-
+import { useLocation } from "react-router-dom";
 function Login() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -15,7 +15,7 @@ function Login() {
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
   const name = getName();
-
+  const location = useLocation();
   // Hàm kiểm tra số điện thoại Việt Nam
   const isValidVietnamPhoneNumber = (phone) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
@@ -53,14 +53,11 @@ function Login() {
         saveName(name);
       }
       localStorage.setItem("authToken", response.data.token);
-      if (window.history.length > 2) {
-        window.history.back();
-        setTimeout(() => {
-            window.location.reload(); 
-        }, 100);
-      } else {
-        window.location.href = '/';
-      }
+      const redirectTo = location.state?.from || "/";
+      navigate(redirectTo, { replace: true });
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (error) {
       console.error("Lỗi xác thực OTP:", error);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
