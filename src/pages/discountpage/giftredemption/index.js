@@ -113,12 +113,16 @@ const GiftRedemption = () => {
                     <div className={styles.popup}>
                         <div className={styles.popupHeader}>
                             <div className={isWin ? styles.iconSuccess : styles.iconLuck}>
-                                {isWin ? '✔' : '✔'}
+                                <img
+                                    src={isWin ? '/thanh cong icon.png' : '/thanh cong icon.png'}
+                                    alt={isWin ? 'Thành công' : 'Thành công'}
+                                    className={styles.statusIcon}
+                                />
                             </div>
                         </div>
                         
                         <h3 className={styles.popupTitle}>
-                            {isWin ? 'Sử dụng mã thành công!' : 'Sử dụng mã thành công!'}
+                            {isWin ? 'ĐỔI MÃ THÀNH CÔNG!' : 'ĐỔI MÃ THÀNH CÔNG!'}
                         </h3>
                         
                         <div className={styles.popupBody}>

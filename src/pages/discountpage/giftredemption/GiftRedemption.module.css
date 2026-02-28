@@ -124,7 +124,7 @@
   margin-bottom: 20px;
 }
 
-.iconSuccess {
+/* .iconSuccess {
   width: 60px;
   height: 60px;
   background-color: #218838;
@@ -136,13 +136,13 @@
   justify-content: center;
   margin: 0 auto;
   box-shadow: 0 0 0 8px rgba(33, 136, 56, 0.2);
-}
+} */
 
 /* Icon Vàng Cam (Dùng khi chúc may mắn) */
-.iconLuck {
+/* .iconLuck {
   width: 60px;
   height: 60px;
-  background-color: #218838; /* Màu vàng */
+  background-color: #218838;
   color: white;
   font-size: 30px;
   border-radius: 50%;
@@ -151,10 +151,18 @@
   justify-content: center;
   margin: 0 auto;
   box-shadow: 0 0 0 8px rgba(33, 136, 56, 0.2);
+} */
+
+.statusIcon {
+    width: 60px;
+    margin-top: -90px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
 .popupTitle {
-  color: #333;
+  color: #218838;
   font-size: 1.6rem;
   margin-bottom: 15px;
   font-weight: 800;

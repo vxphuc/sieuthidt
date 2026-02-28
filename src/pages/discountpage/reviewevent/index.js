@@ -175,7 +175,7 @@ const ReviewEvent = () => {
           <div className={styles.formGroup}>
             <label>Thời gian bắt đầu:</label>
             <input 
-              type="datetime-local" 
+              type="datetime-local"
               name="thoihanbatdau" 
               required
               value={newEvent.thoihanbatdau}
