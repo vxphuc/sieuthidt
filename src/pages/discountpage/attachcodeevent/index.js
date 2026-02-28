@@ -5,25 +5,52 @@ const AttachCodeEvent = () => {
     const [events, setEvents] = useState([]);
     const [eventId, setEventId] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [batchId, setBatchId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
+    const [batches, setBatches] = useState([]);
+    useEffect(() => {
+        const fetchBatches = async () => {
+            try {
+                const res = await fetch('https://chatapi.io.vn/ds-lo-phieu?page=1');
+                if (!res.ok) return;
+
+                const data = await res.json();
+                setBatches(data);
+                if (data.length > 0) setBatchId(data[0].id);
+            } catch (error) {
+                console.error("Lỗi tải lô:", error);
+            }
+        };
+
+        fetchBatches();
+    }, []);
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1');
-                if (response.ok) {
-                    const data = await response.json();
-                    setEvents(data);
-                    if (data.length > 0) {
-                        setEventId(data[0].id);
-                    }
-                }
+            const [res1, res2] = await Promise.all([
+                fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
+                fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=2'),
+            ]);
+
+            if (!res1.ok || !res2.ok) return;
+
+            const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
+            const merged = [...data1, ...data2];
+
+            // nếu sợ trùng id thì lọc trùng:
+            const unique = merged.filter(
+                (item, index, arr) => index === arr.findIndex((x) => x.id === item.id)
+            );
+
+            setEvents(unique);
+            if (unique.length > 0) setEventId(unique[0].id);
             } catch (error) {
-                console.error("Lỗi tải sự kiện:", error);
+            console.error("Lỗi tải sự kiện:", error);
             }
         };
+
         fetchEvents();
-    }, []);
+        }, []);
 
     const handleAttachCode = async (e) => {
         e.preventDefault();
@@ -39,7 +66,7 @@ const AttachCodeEvent = () => {
 
         setIsLoading(true);
         try {
-            const response = await fetch(`https://chatapi.io.vn/gan-ma-tuong-ung-vao-sukien?soluong=${quantity}&id_sukien=${eventId}`, {
+            const response = await fetch(`https://chatapi.io.vn/gan-ma-tuong-ung-vao-sukien?soluong=${quantity}&id_sukien=${eventId}&id_lophieu=${batchId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,6 +110,25 @@ const AttachCodeEvent = () => {
                         </select>
                     </div>
                     <div className={styles.formGroup}>
+                        <label htmlFor="batchId">Mã định danh lô:</label>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="batchId">Chọn lô:</label>
+                            <select
+                                id="batchId"
+                                className={styles.selectInput}
+                                value={batchId}
+                                onChange={(e) => setBatchId(e.target.value)}
+                            >
+                                {batches.length === 0 && <option value="">Đang tải lô...</option>}
+                                {batches.map((batch) => (
+                                    <option key={batch.id} value={batch.id}>
+                                        {batch.madinhdanh}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="quantity">Số lượng mã muốn gán:</label>
                         <input
                             id="quantity"
@@ -92,6 +138,8 @@ const AttachCodeEvent = () => {
                             placeholder="Nhập số lượng mã (VD: 100)"
                             className={styles.inputNumber}
                             min="1"
+                            onFocus={(e) => e.target.placeholder = ''}
+                            onBlur={(e) => e.target.placeholder = 'Nhập số lượng mã (VD: 100)'}
                         />
                     </div>
 

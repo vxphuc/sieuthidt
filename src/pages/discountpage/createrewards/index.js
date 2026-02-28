@@ -16,12 +16,20 @@ const CreateRewards = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1');
-                if (response.ok) {
-                    const data = await response.json();
-                    setEvents(data);
-                    if (data.length > 0) setIdevent(data[0].id);
-                }
+                const [res1, res2] = await Promise.all([
+                    fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
+                    fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=2')
+                ])
+                if (!res1.ok || !res2.ok) return;
+                
+                const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
+                const merged = [...data1, ...data2];
+                const unique = merged.filter(
+                    (item, index, arr) => index === arr.findIndex((x) => x.id === item.id)
+                );
+                setEvents(unique);
+                if (unique.length > 0) setIdevent(unique[0].id);
+
             } catch (error) {
                 console.error("Lỗi tải sự kiện:", error);
             }

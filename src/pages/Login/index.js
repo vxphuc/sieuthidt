@@ -53,9 +53,8 @@ function Login() {
         saveName(name);
       }
       localStorage.setItem("authToken", response.data.token);
-      window.history.back();
       if (window.history.length > 2) {
-        navigate(-1);
+        window.history.back();
         setTimeout(() => {
             window.location.reload(); 
         }, 100);
