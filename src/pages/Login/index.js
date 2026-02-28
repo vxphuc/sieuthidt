@@ -74,7 +74,7 @@ function Login() {
       <Container component="main" maxWidth="xs" >
         <Paper elevation={3} className={`${styles.paper}`}>
           <p className={styles.titleLogin}>
-            Để xem <b>"Đơn hàng của bạn"</b> vui lòng nhập Số điện thoại đã đặt hàng
+            Nhập <strong>Số điện thoại</strong> để đăng nhập
           </p>
           <form onSubmit={(e) => e.preventDefault()}>
             <TextField
