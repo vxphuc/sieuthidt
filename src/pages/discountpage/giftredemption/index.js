@@ -68,7 +68,7 @@ const GiftRedemption = () => {
             if (data && data.detail === "Could not validate credentials" || data && data.detail === 404) {
                 localStorage.removeItem('authToken');
                 alert("Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại!");
-                navigate('/dang-nhap');
+                navigate('/dang-nhap', { state: { from: '/doimathuong' } });
                 return;
             }
             if (data === "mã không hợp lệ") {
