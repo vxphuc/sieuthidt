@@ -17,10 +17,12 @@ const GiftRedemption = () => {
     useEffect(() => {
     const token = localStorage.getItem('authToken');
 
-    if (!token) {
-        navigate('/dang-nhap', { state: { from: '/doimathuong' } });
+    if (!token || token === "undefined" || token === "null") {
+        localStorage.removeItem("authToken");
+        navigate("/dang-nhap", { state: { from: "/doimathuong" } });
         return;
     }
+
 
     try {
         const decoded = jwtDecode(token);
@@ -29,12 +31,12 @@ const GiftRedemption = () => {
 
         if (decoded.exp < currentTime) {
             localStorage.removeItem('authToken');
-            navigate('/dang-nhap');
+            navigate("/dang-nhap", { state: { from: "/doimathuong" } });
         }
 
     } catch (error) {
         localStorage.removeItem('authToken');
-        navigate('/dang-nhap');
+        navigate("/dang-nhap", { state: { from: "/doimathuong" } });
     }
 
 }, [navigate]);
