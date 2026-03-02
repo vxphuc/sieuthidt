@@ -1,66 +1,116 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, Button, Container, Paper, Typography } from "@mui/material";
 import styles from "./login.module.css";
-import api from "../../api/axios"; // Import axios instance
-import { useNavigate } from "react-router-dom";
+import api from "../../api/axios";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getName, saveName } from "../../services/cartService";
-import { useLocation } from "react-router-dom";
+
+const OTP_SESSION_KEY = "loginOtpSession";
+const OTP_SESSION_TTL_MS = 5 * 60 * 1000;
 
 function Login() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState(false);
-  const [token, setToken] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
   const [isSending, setIsSending] = useState(false);
+
   const navigate = useNavigate();
   const name = getName();
   const location = useLocation();
-  // Hàm kiểm tra số điện thoại Việt Nam
-  const isValidVietnamPhoneNumber = (phone) => {
+
+  useEffect(() => {
+    const raw = sessionStorage.getItem(OTP_SESSION_KEY);
+    if (!raw) return;
+
+    try {
+      const session = JSON.parse(raw);
+      if (!session?.phone || !session?.expiresAt) {
+        sessionStorage.removeItem(OTP_SESSION_KEY);
+        return;
+      }
+
+      if (Date.now() > session.expiresAt) {
+        sessionStorage.removeItem(OTP_SESSION_KEY);
+        return;
+      }
+
+      setPhone(session.phone);
+      setIsOtpSent(true);
+    } catch {
+      sessionStorage.removeItem(OTP_SESSION_KEY);
+    }
+  }, []);
+
+  const saveOtpSession = (numberPhone) => {
+    const session = {
+      phone: numberPhone,
+      expiresAt: Date.now() + OTP_SESSION_TTL_MS,
+    };
+    sessionStorage.setItem(OTP_SESSION_KEY, JSON.stringify(session));
+  };
+
+  const clearOtpSession = () => {
+    sessionStorage.removeItem(OTP_SESSION_KEY);
+  };
+
+  const isValidVietnamPhoneNumber = (value) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
-    return regex.test(phone);
+    return regex.test(value);
   };
 
   const inputPhone = (e) => {
-    const value = e.target.value.replace(/\D/g, ""); // Chỉ nhận số
+    const value = e.target.value.replace(/\D/g, "");
     setPhone(value);
     if (error) setError(false);
   };
 
-  const handleSendOtp = async () =>{
-    setIsOtpSent(!isOtpSent)
-    const response = await api.post('/sign-in/create-otp', {
-      numberPhone: phone
-    })
-    console.log(response)
-  }
+  const handleSendOtp = async () => {
+    if (!isValidVietnamPhoneNumber(phone)) {
+      setError(true);
+      return;
+    }
 
-  // Xác thực OTP
+    setIsSending(true);
+    try {
+      await api.post("/sign-in/create-otp", {
+        numberPhone: phone,
+      });
+      setIsOtpSent(true);
+      saveOtpSession(phone);
+    } catch (err) {
+      console.error("Lỗi gửi OTP:", err);
+      alert("Không gửi được OTP. Vui lòng thử lại.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   const handleVerifyOtp = async () => {
     setIsSending(true);
     try {
-      // Gửi token lên backend
       const response = await api.post("/sign-in", {
         numberPhone: phone,
-        otp
+        otp,
       });
+
       if (!name || name.length === 0) {
-        // Nếu chưa có tên, lưu tên mới
         saveName([{ name: "", phone }]);
       } else {
         name[0].phone = phone;
         saveName(name);
       }
+
       localStorage.setItem("authToken", response.data.token);
+      clearOtpSession();
+
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo, { replace: true });
       setTimeout(() => {
         window.location.reload();
       }, 100);
-    } catch (error) {
-      console.error("Lỗi xác thực OTP:", error);
+    } catch (err) {
+      console.error("Lỗi xác thực OTP:", err);
       alert("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
     } finally {
       setIsSending(false);
@@ -69,8 +119,8 @@ function Login() {
 
   return (
     <div className={styles.wrapper}>
-      <Container component="main" maxWidth="xs" >
-        <Paper elevation={3} className={`${styles.paper}`}>
+      <Container component="main" maxWidth="xs">
+        <Paper elevation={3} className={styles.paper}>
           <p className={styles.titleLogin}>
             Nhập <strong>Số điện thoại</strong> để đăng nhập
           </p>
@@ -90,15 +140,15 @@ function Login() {
                 }
               }}
               sx={{
-                '& .MuiInputLabel-root': { color: '#206a37' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#206a37' },
-                '& .MuiOutlinedInput-root': {
-                  color: '#206a37',
-                  '& fieldset': { borderColor: '#206a37', borderRadius: 10 },
-                  '&:hover fieldset': { borderColor: '#206a37', borderRadius: 10 },
-                  '&.Mui-focused fieldset': { borderColor: '#206a37', borderRadius: 10 },
+                "& .MuiInputLabel-root": { color: "#206a37" },
+                "& .MuiInputLabel-root.Mui-focused": { color: "#206a37" },
+                "& .MuiOutlinedInput-root": {
+                  color: "#206a37",
+                  "& fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                  "&:hover fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                  "&.Mui-focused fieldset": { borderColor: "#206a37", borderRadius: 10 },
                 },
-                '& .MuiOutlinedInput-input': { color: '#206a37' }
+                "& .MuiOutlinedInput-input": { color: "#206a37" },
               }}
             />
             {error ? (
@@ -123,16 +173,16 @@ function Login() {
                   }
                 }}
                 sx={{
-                '& .MuiInputLabel-root': { color: '#206a37' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#206a37' },
-                '& .MuiOutlinedInput-root': {
-                  color: '#206a37',
-                  '& fieldset': { borderColor: '#206a37', borderRadius: 10 },
-                  '&:hover fieldset': { borderColor: '#206a37', borderRadius: 10 },
-                  '&.Mui-focused fieldset': { borderColor: '#206a37', borderRadius: 10 },
-                },
-                '& .MuiOutlinedInput-input': { color: '#206a37' }
-              }}
+                  "& .MuiInputLabel-root": { color: "#206a37" },
+                  "& .MuiInputLabel-root.Mui-focused": { color: "#206a37" },
+                  "& .MuiOutlinedInput-root": {
+                    color: "#206a37",
+                    "& fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                    "&:hover fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                    "&.Mui-focused fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                  },
+                  "& .MuiOutlinedInput-input": { color: "#206a37" },
+                }}
               />
             )}
             {!isOtpSent ? (
@@ -140,23 +190,22 @@ function Login() {
                 fullWidth
                 variant="contained"
                 className={styles.btnBackLogin}
-                sx={{ backgroundColor: '#206a37', color: '#ffffff', borderRadius: '15px', mt: 1 }}
+                sx={{ backgroundColor: "#206a37", color: "#ffffff", borderRadius: "15px", mt: 1 }}
                 onClick={handleSendOtp}
-                // onClick={handleVerifyOtp}
                 disabled={phone.length !== 10 || isSending}
               >
-                {isSending ? "Đang gửi..." : "đăng nhập"}
+                {isSending ? "Đang gửi..." : "Đăng nhập"}
               </Button>
             ) : (
               <Button
                 className={styles.btnBackLogin}
                 fullWidth
                 variant="contained"
-                sx={{ backgroundColor: '#206a37', color: '#ffffff', borderRadius: '15px', mt: 1 }}
+                sx={{ backgroundColor: "#206a37", color: "#ffffff", borderRadius: "15px", mt: 1 }}
                 onClick={handleVerifyOtp}
                 disabled={otp.length < 4 || isSending}
               >
-                {isSending ? "Đợi Xác Thực..." : "Xác Thực OTP"}
+                {isSending ? "Đợi xác thực..." : "Xác thực OTP"}
               </Button>
             )}
           </form>
