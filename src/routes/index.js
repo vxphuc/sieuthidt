@@ -4,7 +4,7 @@ import ProductAdmin from "../pages/Admin/ProductAdmin";
 import CreateProduct from "../pages/Admin/CreateProduct";
 import AdminLayout from "../components/Layouts/AdminLayout";
 import HeaderLayout from "../components/Layouts/HeaderLayout";
-
+import QRCodePage from "../pages/qrcode";
 // import HeaderLayout from "../components/Layouts/HeaderEvent";
 import Header from "../components/Layouts/HeaderEvent";
 import event from "../pages/Event_Hue";
@@ -284,7 +284,7 @@ export const router = [
     layout: layout,
   },
   {
-    path: "/doimaduthuong",
+    path: "/doimathuong",
     component: GiftRedemption,
     layout: HeaderOnly,
   },
@@ -351,6 +351,11 @@ export const router = [
   {
     path: "/thong-tin-dieu-kien-giao-dich-chung",
     component: InfoTransaction,
+    layout: HeaderOnly
+  },
+  {
+    path: "/qr-code",
+    component: QRCodePage,
     layout: HeaderOnly
   }
 ];
