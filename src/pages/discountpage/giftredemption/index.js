@@ -17,7 +17,7 @@ const GiftRedemption = () => {
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (!token) {
-            navigate('/dang-nhap', { state: { from: '/doi-qua-tang' } });
+            navigate('/dang-nhap', { state: { from: '/doimaduthuong' } });
         }
     }, [navigate]);
 
@@ -25,7 +25,7 @@ const GiftRedemption = () => {
         e.preventDefault();
         const token = localStorage.getItem('authToken');
         if (!token) {
-            navigate('/dang-nhap', { state: { from: '/doi-qua-tang' } });
+            navigate('/dang-nhap', { state: { from: '/doimaduthuong' } });
             return;
         }
         if (!code) {

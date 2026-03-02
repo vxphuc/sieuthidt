@@ -284,7 +284,7 @@ export const router = [
     layout: layout,
   },
   {
-    path: "/doi-qua-tang",
+    path: "/doimaduthuong",
     component: GiftRedemption,
     layout: HeaderOnly,
   },
