@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './GiftRedemption.module.css';
-
+import { jwtDecode } from "jwt-decode";
 const GiftRedemption = () => {
     const [code, setCode] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -15,11 +15,29 @@ const GiftRedemption = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            navigate('/dang-nhap', { state: { from: '/doimathuong' } });
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        navigate('/dang-nhap', { state: { from: '/doimathuong' } });
+        return;
+    }
+
+    try {
+        const decoded = jwtDecode(token);
+
+        const currentTime = Date.now() / 1000;
+
+        if (decoded.exp < currentTime) {
+            localStorage.removeItem('authToken');
+            navigate('/dang-nhap');
         }
-    }, [navigate]);
+
+    } catch (error) {
+        localStorage.removeItem('authToken');
+        navigate('/dang-nhap');
+    }
+
+}, [navigate]);
 
     const handleRedeem = async (e) => {
         e.preventDefault();
