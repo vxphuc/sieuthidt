@@ -20,25 +20,25 @@ function Login() {
   const location = useLocation();
 
   useEffect(() => {
-    const raw = sessionStorage.getItem(OTP_SESSION_KEY);
+    const raw = localStorage.getItem(OTP_SESSION_KEY);
     if (!raw) return;
 
     try {
       const session = JSON.parse(raw);
       if (!session?.phone || !session?.expiresAt) {
-        sessionStorage.removeItem(OTP_SESSION_KEY);
+        localStorage.removeItem(OTP_SESSION_KEY);
         return;
       }
 
       if (Date.now() > session.expiresAt) {
-        sessionStorage.removeItem(OTP_SESSION_KEY);
+        localStorage.removeItem(OTP_SESSION_KEY);
         return;
       }
 
       setPhone(session.phone);
       setIsOtpSent(true);
     } catch {
-      sessionStorage.removeItem(OTP_SESSION_KEY);
+      localStorage.removeItem(OTP_SESSION_KEY);
     }
   }, []);
 
@@ -47,11 +47,11 @@ function Login() {
       phone: numberPhone,
       expiresAt: Date.now() + OTP_SESSION_TTL_MS,
     };
-    sessionStorage.setItem(OTP_SESSION_KEY, JSON.stringify(session));
+    localStorage.setItem(OTP_SESSION_KEY, JSON.stringify(session));
   };
 
   const clearOtpSession = () => {
-    sessionStorage.removeItem(OTP_SESSION_KEY);
+    localStorage.removeItem(OTP_SESSION_KEY);
   };
 
   const isValidVietnamPhoneNumber = (value) => {
