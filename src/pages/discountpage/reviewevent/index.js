@@ -176,6 +176,7 @@ const ReviewEvent = () => {
             <label>Thời gian bắt đầu:</label>
             <input 
               type="datetime-local"
+              lang="en-US"
               name="thoihanbatdau" 
               required
               value={newEvent.thoihanbatdau}
@@ -188,6 +189,7 @@ const ReviewEvent = () => {
             <label>Thời gian kết thúc:</label>
             <input 
               type="datetime-local" 
+              lang="en-US"
               name="thoihanketthuc" 
               required
               value={newEvent.thoihanketthuc}
