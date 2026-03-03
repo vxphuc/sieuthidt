@@ -7,6 +7,7 @@ import { getName, saveName } from "../../services/cartService";
 
 const OTP_SESSION_KEY = "loginOtpSession";
 const OTP_SESSION_TTL_MS = 5 * 60 * 1000;
+const OTP_RESEND_COOLDOWN_MS = 60 * 1000;
 
 function Login() {
   const [phone, setPhone] = useState("");
@@ -14,6 +15,7 @@ function Login() {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const navigate = useNavigate();
   const name = getName();
@@ -37,15 +39,30 @@ function Login() {
 
       setPhone(session.phone);
       setIsOtpSent(true);
+      if (session.resendAvailableAt) {
+        const remaining = Math.ceil((session.resendAvailableAt - Date.now()) / 1000);
+        setResendCooldown(remaining > 0 ? remaining : 0);
+      }
     } catch {
       localStorage.removeItem(OTP_SESSION_KEY);
     }
   }, []);
 
-  const saveOtpSession = (numberPhone) => {
+  useEffect(() => {
+    if (resendCooldown <= 0) return undefined;
+
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  const saveOtpSession = (numberPhone, resendAvailableAt) => {
     const session = {
       phone: numberPhone,
       expiresAt: Date.now() + OTP_SESSION_TTL_MS,
+      resendAvailableAt,
     };
     localStorage.setItem(OTP_SESSION_KEY, JSON.stringify(session));
   };
@@ -65,11 +82,13 @@ function Login() {
     if (error) setError(false);
   };
 
-  const handleSendOtp = async () => {
+  const sendOtpRequest = async () => {
     if (!isValidVietnamPhoneNumber(phone)) {
       setError(true);
       return;
     }
+
+    const resendAvailableAt = Date.now() + OTP_RESEND_COOLDOWN_MS;
 
     setIsSending(true);
     try {
@@ -77,13 +96,23 @@ function Login() {
         numberPhone: phone,
       });
       setIsOtpSent(true);
-      saveOtpSession(phone);
+      setResendCooldown(Math.ceil(OTP_RESEND_COOLDOWN_MS / 1000));
+      saveOtpSession(phone, resendAvailableAt);
     } catch (err) {
       console.error("Lỗi gửi OTP:", err);
       alert("Không gửi được OTP. Vui lòng thử lại.");
     } finally {
       setIsSending(false);
     }
+  };
+
+  const handleSendOtp = async () => {
+    await sendOtpRequest();
+  };
+
+  const handleResendOtp = async () => {
+    if (resendCooldown > 0 || isSending) return;
+    await sendOtpRequest();
   };
 
   const handleVerifyOtp = async () => {
@@ -159,31 +188,44 @@ function Login() {
               ""
             )}
             {isOtpSent && (
-              <TextField
-                fullWidth
-                label="Mã OTP Zalo"
-                variant="outlined"
-                margin="normal"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                inputProps={{ maxLength: 6 }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && otp.length >= 4) {
-                    handleVerifyOtp();
-                  }
-                }}
-                sx={{
-                  "& .MuiInputLabel-root": { color: "#206a37" },
-                  "& .MuiInputLabel-root.Mui-focused": { color: "#206a37" },
-                  "& .MuiOutlinedInput-root": {
-                    color: "#206a37",
-                    "& fieldset": { borderColor: "#206a37", borderRadius: 10 },
-                    "&:hover fieldset": { borderColor: "#206a37", borderRadius: 10 },
-                    "&.Mui-focused fieldset": { borderColor: "#206a37", borderRadius: 10 },
-                  },
-                  "& .MuiOutlinedInput-input": { color: "#206a37" },
-                }}
-              />
+              <>
+                <TextField
+                  fullWidth
+                  label="Mã OTP Zalo"
+                  variant="outlined"
+                  margin="normal"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  inputProps={{ maxLength: 6 }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && otp.length >= 4) {
+                      handleVerifyOtp();
+                    }
+                  }}
+                  sx={{
+                    "& .MuiInputLabel-root": { color: "#206a37" },
+                    "& .MuiInputLabel-root.Mui-focused": { color: "#206a37" },
+                    "& .MuiOutlinedInput-root": {
+                      color: "#206a37",
+                      "& fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                      "&:hover fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                      "&.Mui-focused fieldset": { borderColor: "#206a37", borderRadius: 10 },
+                    },
+                    "& .MuiOutlinedInput-input": { color: "#206a37" },
+                  }}
+                />
+                <Button
+                  fullWidth
+                  variant="text"
+                  onClick={handleResendOtp}
+                  disabled={resendCooldown > 0 || isSending}
+                  sx={{ color: "#206a37", mt: 0.5, textTransform: "none" }}
+                >
+                  {resendCooldown > 0
+                    ? `Lấy lại mã sau ${resendCooldown}s`
+                    : "Lấy lại mã OTP"}
+                </Button>
+              </>
             )}
             {!isOtpSent ? (
               <Button
