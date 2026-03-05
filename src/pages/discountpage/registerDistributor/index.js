@@ -11,12 +11,13 @@ function RegisterDistributor() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-
+        const token = sessionStorage.getItem("token");
         try {
-            const response = await fetch('https://staging.chatapi.io.vn/dang-ky-dai-ly',{
+            const response = await fetch('https://chatapi.io.vn/dang-ky-dai-ly',{
                 method: 'POST',
                 headers:{
-                    'content-type': 'application/json'
+                    'content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     tendaily: tendaily,
@@ -102,6 +103,9 @@ function RegisterDistributor() {
                             onBlur={(e) => e.target.placeholder = "Nhập địa chỉ cụ thể"}
                         />
                     </div>
+                    {message && (
+                        <p className={styles.message}>{message}</p>
+                    )}
                     <button type="submit" disabled={isLoading} className={styles.submitBtn}>
                         {isLoading ? "Đang xử lý..." : "Đăng ký"}
                     </button>

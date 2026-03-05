@@ -6,48 +6,21 @@ const GiftRedemption = () => {
     const [code, setCode] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
-
     const [isWin, setIsWin] = useState(true);
-
     const navigate = useNavigate();
 
     useEffect(() => {
-    const token = localStorage.getItem('authToken');
+        const phone = sessionStorage.getItem("phone");
 
-    if (!token || token === "undefined" || token === "null") {
-        localStorage.removeItem("authToken");
-        navigate("/dang-nhap", { state: { from: "/doimathuong" } });
-        return;
-    }
-
-
-    try {
-        const decoded = jwtDecode(token);
-
-        const currentTime = Date.now() / 1000;
-
-        if (decoded.exp < currentTime) {
-            localStorage.removeItem('authToken');
-            navigate("/dang-nhap", { state: { from: "/doimathuong" } });
+        if (!phone) {
+            navigate("/dang-nhap-nhan-qua");
         }
-
-    } catch (error) {
-        localStorage.removeItem('authToken');
-        navigate("/dang-nhap", { state: { from: "/doimathuong" } });
-    }
-
-}, [navigate]);
+    }, []);
 
     const handleRedeem = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            navigate('/dang-nhap', { state: { from: '/doimathuong' } });
-            return;
-        }
         if (!code) {
             setError('Vui lòng nhập mã đổi quà.');
             return;
@@ -58,21 +31,15 @@ const GiftRedemption = () => {
         setPopupMessage('');
 
         try {
-            const response = await fetch(`https://staging.chatapi.io.vn/tham-du-giai-thuong?ma=${code}`, {
+            const phone = sessionStorage.getItem("phone");
+            const response = await fetch(`https://chatapi.io.vn/tham-du-giai-thuong?ma=${code}&sodienthoai=${phone}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 
             });
             const data = await response.json(); 
-            if (data && data.detail === "Could not validate credentials" || data && data.detail === 404) {
-                localStorage.removeItem('authToken');
-                alert("Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại!");
-                navigate('/dang-nhap', { state: { from: '/doimathuong' } });
-                return;
-            }
             if (data === "mã không hợp lệ") {
                 setError("Mã không hợp lệ hoặc đã được sử dụng.");
             } 

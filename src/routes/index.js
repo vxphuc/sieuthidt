@@ -56,6 +56,7 @@ import RevenueStatistics from "../pages/Admin/RevenueStatistics";
 import UsingDiscountCode from "../pages/UsingDiscountCode";
 import ActiveKOCList from "../pages/Admin/ActiveKOCList";
 import TopProductsKOC from "../pages/Admin/TopProductsKOC";
+import Logingift from "../pages/discountpage/logingift";
 
 // su kien hang loat
 import ReviewEvent from "../pages/discountpage/reviewevent";
@@ -311,7 +312,11 @@ export const router = [
     component: RegisterDistributor,
     layout: HeaderOnly,
   },
-
+  {
+    path: "/dang-nhap-nhan-qua",
+    component: Logingift,
+    layout: HeaderOnly
+  },
 //chinh sach
   {
     path: "/chinh-sach-thanh-toan",

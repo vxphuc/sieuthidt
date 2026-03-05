@@ -51,7 +51,7 @@ function RegisterAccount() {
     setMessageType("");
 
     try {
-      const response = await fetch('https://staging.chatapi.io.vn/dang-ky-voi-mat-khau', {
+      const response = await fetch('https://chatapi.io.vn/dang-ky-voi-mat-khau', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,12 +65,14 @@ function RegisterAccount() {
 
       const data = await response.json();
       if (response.ok) {
-        if (data.token) {
-            localStorage.setItem("token", data.token);
+        if (data){
+          sessionStorage.setItem("token", data);
         }
         setMessage("Đăng ký thành công!");
         setMessageType("success");
-        window.location.href = "/dang-nhap";
+        setTimeout(() => {
+          window.location.href = "/dang-ky-dai-ly";
+        }, 1000);
       } else {
         setMessage(extractErrorMessage(data?.detail));
         setMessageType("error");
