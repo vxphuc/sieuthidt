@@ -58,7 +58,7 @@ const GiftRedemption = () => {
         setPopupMessage('');
 
         try {
-            const response = await fetch(`https://chatapi.io.vn/tham-du-giai-thuong?ma=${code}`, {
+            const response = await fetch(`https://staging.chatapi.io.vn/tham-du-giai-thuong?ma=${code}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -65,6 +65,7 @@ import GiftRedemption from "../pages/discountpage/giftredemption";
 import CreateRewards from "../pages/discountpage/createrewards";
 import layout from "../pages/discountpage/components/layout";
 import RegisterAccount from "../pages/discountpage/registerAccount";
+import RegisterDistributor from "../pages/discountpage/registerDistributor";
 
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
@@ -303,6 +304,11 @@ export const router = [
   {
     path: "/dang-ky-tai-khoan",
     component: RegisterAccount,
+    layout: HeaderOnly,
+  },
+  {
+    path: "/dang-ky-dai-ly",
+    component: RegisterDistributor,
     layout: HeaderOnly,
   },
 
