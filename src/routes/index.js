@@ -64,6 +64,7 @@ import attachcodeevent from "../pages/discountpage/attachcodeevent";
 import GiftRedemption from "../pages/discountpage/giftredemption";
 import CreateRewards from "../pages/discountpage/createrewards";
 import layout from "../pages/discountpage/components/layout";
+import RegisterAccount from "../pages/discountpage/registerAccount";
 
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
@@ -267,6 +268,7 @@ export const router = [
     component: CheckCodeAdmin,
     layout: HeaderOnly,
   },
+
   //mã giảm giá sll
   {
     path: "/danh-sach-su-kien-doi-qua",
@@ -298,6 +300,12 @@ export const router = [
     component: layout,
     layout: HeaderOnly,
   },
+  {
+    path: "/dang-ky-tai-khoan",
+    component: RegisterAccount,
+    layout: HeaderOnly,
+  },
+
 //chinh sach
   {
     path: "/chinh-sach-thanh-toan",
