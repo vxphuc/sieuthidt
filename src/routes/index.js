@@ -67,7 +67,7 @@ import CreateRewards from "../pages/discountpage/createrewards";
 import layout from "../pages/discountpage/components/layout";
 import RegisterAccount from "../pages/discountpage/registerAccount";
 import RegisterDistributor from "../pages/discountpage/registerDistributor";
-
+import ListDistributor from "../pages/discountpage/listdistributor";
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
 import ComplaintsPolice from "../pages/NotePage/ComplaintsPolice";
@@ -315,6 +315,11 @@ export const router = [
   {
     path: "/dang-nhap-nhan-qua",
     component: Logingift,
+    layout: HeaderOnly
+  },
+  {
+    path: "/danh-sach-dai-ly",
+    component: ListDistributor,
     layout: HeaderOnly
   },
 //chinh sach
