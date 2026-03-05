@@ -33,6 +33,11 @@ const Sidebar = () => {
                         <span className={styles.icon}></span> Tạo Phần Thưởng Cho Sự Kiện
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink to="/danh-sach-dai-ly" className={getNavLinkClass}>
+                        <span className={styles.icon}></span> Danh Sách Đại Lý
+                    </NavLink>
+                </li>
             </ul>
         </div>
         

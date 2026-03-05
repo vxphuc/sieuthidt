@@ -320,7 +320,7 @@ export const router = [
   {
     path: "/danh-sach-dai-ly",
     component: ListDistributor,
-    layout: HeaderOnly
+    layout: layout
   },
 //chinh sach
   {
