@@ -26,7 +26,32 @@ const ListDistributor = () => {
     useEffect(() => {
         fetchData();
     }, [page]);
+    const approveDistributor = async (id) => {
+        try {
 
+            const token = localStorage.getItem("authToken");
+                const response = await fetch(
+                `https://chatapi.io.vn/duyet-dai-ly?id=${id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                    }
+                }
+                );
+                const data = await response.json();
+                if (response.ok) {
+                    alert("Duyệt đại lý thành công!");
+                } else {
+                    alert("Duyệt đại lý thất bại. Vui lòng thử lại.");
+                }
+                fetchData();
+
+            } catch (error) {
+                console.error("Lỗi duyệt đại lý:", error);
+        }
+    };
     return(
         <div className={styles.container}>
             <table className={styles.table}>
@@ -38,6 +63,7 @@ const ListDistributor = () => {
                         <th>Xã</th>
                         <th>Địa chỉ</th>
                         <th>Trạng thái</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +75,14 @@ const ListDistributor = () => {
                             <td>{item.xa}</td>
                             <td>{item.diachicuthe}</td>
                             <td>{item.trangthai}</td>
+                            <td>
+                                <button
+                                onClick={() => approveDistributor(item.id)}
+                                className={styles.approveBtn}
+                                >
+                                Duyệt
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

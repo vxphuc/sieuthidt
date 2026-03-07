@@ -53,3 +53,15 @@
     border: none;
     border-radius: 4px;
 }
+.approveBtn{
+    background:#218838;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.approveBtn:hover{
+    background:#1e7e34;
+}
