@@ -13,7 +13,6 @@ const eventgrift = () => {
   const [dsLo, setDsLo] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
-  //limit
   const [showLimitForm, setShowLimitForm] = useState(false);
   const [selectedLoId, setSelectedLoId] = useState("");
   const [limitValue, setLimitValue] = useState("");
@@ -37,9 +36,9 @@ const eventgrift = () => {
   const handleLimitLo = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("authToken");
+    const token = sessionStorage.getItem("token");
     if (!token) {
-      navigate("/dang-nhap");
+      navigate("/dang-nhap-dai-ly", { state: { from: "/tao-ma-giam-gia-hang-loat" } });
       return;
     }
 
@@ -57,7 +56,7 @@ const eventgrift = () => {
 
     try {
       const res = await fetch(
-        "https://chatapi.io.vn/gan-ma-hang-loat-vao-lo",
+        "https://staging.chatapi.io.vn/gan-ma-hang-loat-vao-lo",
         {
           method: "POST",
           headers: {
@@ -73,9 +72,9 @@ const eventgrift = () => {
 
       const data = await res.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('token');
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-            navigate('/dang-nhap');
+            navigate('/dang-nhap-dai-ly', { state: { from: "/tao-ma-giam-gia-hang-loat" } });
             return;
         }
       if (res.ok) {
@@ -108,7 +107,7 @@ const eventgrift = () => {
 
   const fetchDsLo = async () => {
     try {
-      const res = await fetch('https://chatapi.io.vn/ds-lo-phieu?page=1');
+      const res = await fetch('https://staging.chatapi.io.vn/ds-lo-phieu?page=1');
       
       const data = await res.json();
       if (res.ok) {
@@ -121,17 +120,17 @@ const eventgrift = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('token');
     if (!token) {
-      navigate('/dang-nhap');
+      navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
     }
   }, [navigate]);
 
   const handleCreateBatch = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('token');
     if (!token) {
-      navigate('/dang-nhap');
+      navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
       return;
     }
     if(!maDinhDanh.trim()){
@@ -140,7 +139,7 @@ const eventgrift = () => {
     }
     setIsLoading(true);
     try{
-      const response = await fetch(`https://chatapi.io.vn/tao-lo-phieu?madinhdanh=${maDinhDanh}`,
+      const response = await fetch(`https://staging.chatapi.io.vn/tao-lo-phieu?madinhdanh=${maDinhDanh}`,
         {
           method: 'POST',
           headers: {
@@ -151,9 +150,9 @@ const eventgrift = () => {
       );
       const data = await response.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('token');
         alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-        navigate('/dang-nhap');
+        navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
         return;
       }
       if (response.ok) {
@@ -173,9 +172,9 @@ const eventgrift = () => {
 
   const handleCreateCodes = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('token');
     if (!token) {
-        navigate('/dang-nhap');
+        navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
         return;
     }
     if (quantity <= 0) {
@@ -186,7 +185,7 @@ const eventgrift = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`https://chatapi.io.vn/tao-ma-hang-loat?soluong=${quantity}`, {
+      const response = await fetch(`https://staging.chatapi.io.vn/tao-ma-hang-loat?soluong=${quantity}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -195,9 +194,9 @@ const eventgrift = () => {
       });
       const data = await response.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('token');
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-            navigate('/dang-nhap');
+            navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
             return;
         }
       if (response.ok) {
@@ -214,9 +213,9 @@ const eventgrift = () => {
   };
   const handleCreate = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('authToken');
+    const token = sessionStorage.getItem('token');
     if (!token) {
-      navigate('/dang-nhap');
+      navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
       return;
     }
 
@@ -234,7 +233,7 @@ const eventgrift = () => {
 
     try {
       const response = await fetch(
-        "https://chatapi.io.vn/tao-ma-va-gan-vao-lo",
+        "https://staging.chatapi.io.vn/tao-ma-va-gan-vao-lo",
         {
           method: "POST",
           headers: {
@@ -250,9 +249,9 @@ const eventgrift = () => {
 
       const data = await response.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('token');
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-            navigate('/dang-nhap');
+            navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
             return;
         }
       if (response.ok) {

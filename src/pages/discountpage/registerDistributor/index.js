@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./registerDistributor.module.css";
+import { Navigate } from "react-router-dom";
 function RegisterDistributor() {
     const [tendaily, setTendaily] = useState("");
     const [tinh, setTinh] = useState("");
@@ -7,13 +8,37 @@ function RegisterDistributor() {
     const [diachicuthe, setDiachicuthe] = useState("");
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+    const token = sessionStorage.getItem("token");
+        if (!token) {
+            Navigate("/dang-nhap-dai-ly", {
+                state: { from: "/dang-ky-dai-ly" }
+            });
+            return;
+        }
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const exp = payload.exp * 1000;
 
+            if (Date.now() > exp) {
+                sessionStorage.removeItem("token");
+                Navigate("/dang-nhap-dai-ly", {
+                    state: { from: "/dang-ky-dai-ly" }
+                });
+            }
+        } catch (error) {
+            sessionStorage.removeItem("token");
+            Navigate("/dang-nhap-dai-ly", {
+                state: { from: "/dang-ky-dai-ly" }
+            });
+        }
+    }, [Navigate]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
         try {
-            const response = await fetch('https://chatapi.io.vn/dang-ky-dai-ly',{
+            const response = await fetch('https://staging.chatapi.io.vn/dang-ky-dai-ly',{
                 method: 'POST',
                 headers:{
                     'content-type': 'application/json',
@@ -108,6 +133,13 @@ function RegisterDistributor() {
                     )}
                     <button type="submit" disabled={isLoading} className={styles.submitBtn}>
                         {isLoading ? "Đang xử lý..." : "Đăng ký"}
+                    </button>
+                    <button
+                        type="button"
+                        className={styles.approveBtn}
+                        onClick={() => window.location.href = "/duyet-phan-thuong"}
+                    >
+                        Duyệt phần thưởng
                     </button>
                 </form>
             </div>

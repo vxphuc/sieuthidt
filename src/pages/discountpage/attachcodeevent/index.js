@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import styles from './attachCode.module.css';
-
+import { useNavigate } from "react-router-dom";
 const AttachCodeEvent = () => {
+    const navigate = useNavigate();
     const [events, setEvents] = useState([]);
     const [eventId, setEventId] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -9,9 +10,36 @@ const AttachCodeEvent = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [batches, setBatches] = useState([]);
     useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập để tiếp tục.");
+            navigate("/dang-nhap-dai-ly", {
+                state: { from: "/gan-ma-vao-su-kien" }
+            });
+            return;
+        }
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const exp = payload.exp * 1000;
+            if (Date.now() > exp) {
+                sessionStorage.removeItem("token");
+                alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+                navigate("/dang-nhap-dai-ly", {
+                    state: { from: "/gan-ma-vao-su-kien" }
+                });
+            }
+        } catch (error) {
+            sessionStorage.removeItem("token");
+            alert("Token không hợp lệ. Vui lòng đăng nhập lại.");
+            navigate("/dang-nhap-dai-ly", {
+                state: { from: "/gan-ma-vao-su-kien" }
+            });
+        }
+    }, [navigate]);
+    useEffect(() => {
         const fetchBatches = async () => {
             try {
-                const res = await fetch('https://chatapi.io.vn/ds-lo-phieu?page=1');
+                const res = await fetch('https://staging.chatapi.io.vn/ds-lo-phieu?page=1');
                 if (!res.ok) return;
 
                 const data = await res.json();
@@ -28,8 +56,8 @@ const AttachCodeEvent = () => {
         const fetchEvents = async () => {
             try {
             const [res1, res2] = await Promise.all([
-                fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
-                fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=2'),
+                fetch('https://staging.chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
+                fetch('https://staging.chatapi.io.vn/xem-su-kien-doi-qua?page=2'),
             ]);
 
             if (!res1.ok || !res2.ok) return;
@@ -54,7 +82,12 @@ const AttachCodeEvent = () => {
 
     const handleAttachCode = async (e) => {
         e.preventDefault();
-
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập để tiếp tục.");
+            navigate("/dang-nhap-dai-ly", { state: { from: "/gan-ma-vao-su-kien" } });
+            return;
+        }
         if (!eventId) {
             alert("Vui lòng chọn một sự kiện!");
             return;
@@ -66,10 +99,11 @@ const AttachCodeEvent = () => {
 
         setIsLoading(true);
         try {
-            const response = await fetch(`https://chatapi.io.vn/gan-ma-tuong-ung-vao-sukien?soluong=${quantity}&id_sukien=${eventId}&id_lophieu=${batchId}`, {
+            const response = await fetch(`https://staging.chatapi.io.vn/gan-ma-tuong-ung-vao-sukien?soluong=${quantity}&id_sukien=${eventId}&id_lophieu=${batchId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
             });
 

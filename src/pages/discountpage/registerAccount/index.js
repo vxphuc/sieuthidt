@@ -51,7 +51,7 @@ function RegisterAccount() {
     setMessageType("");
 
     try {
-      const response = await fetch('https://chatapi.io.vn/dang-ky-voi-mat-khau', {
+      const response = await fetch('https://staging.chatapi.io.vn/dang-ky-voi-mat-khau', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

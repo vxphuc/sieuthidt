@@ -68,6 +68,9 @@ import layout from "../pages/discountpage/components/layout";
 import RegisterAccount from "../pages/discountpage/registerAccount";
 import RegisterDistributor from "../pages/discountpage/registerDistributor";
 import ListDistributor from "../pages/discountpage/listdistributor";
+import LoginDistributor from "../pages/discountpage/loginDistributor";
+import CheckPhone from "../pages/discountpage/checkphone";
+import PayRewards from "../pages/discountpage/payrewards";
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
 import ComplaintsPolice from "../pages/NotePage/ComplaintsPolice";
@@ -313,6 +316,11 @@ export const router = [
     layout: HeaderOnly,
   },
   {
+    path: "/dang-nhap-dai-ly",
+    component: LoginDistributor,
+    layout: HeaderOnly
+  },
+  {
     path: "/dang-nhap-nhan-qua",
     component: Logingift,
     layout: HeaderOnly
@@ -321,6 +329,16 @@ export const router = [
     path: "/danh-sach-dai-ly",
     component: ListDistributor,
     layout: layout
+  },
+  {
+    path: "/kiem-tra-nguoi-trung-thuong",
+    component: CheckPhone,
+    layout: layout
+  },
+  {
+    path: "/duyet-phan-thuong",
+    component: PayRewards,
+    layout: HeaderOnly
   },
 //chinh sach
   {

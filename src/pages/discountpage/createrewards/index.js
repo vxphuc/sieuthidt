@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CreateRewards.module.css";
-
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 const CreateRewards = () => {
+    const navigate = useNavigate();
     const [events, setEvents] = useState([]);
     const [nameReward, setNameReward] = useState('');
     const [pointReward, setPointReward] = useState('');
@@ -12,13 +14,39 @@ const CreateRewards = () => {
     
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState({ type: '', title: '', content: '' });
-
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập để tiếp tục.");
+            navigate("/dang-nhap-dai-ly", {
+                state: { from: "/tao-phan-thuong-cho-su-kien" }
+            });
+            return;
+        }
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const exp = payload.exp * 1000;
+            if (Date.now() > exp) {
+                sessionStorage.removeItem("token");
+                alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+                navigate("/dang-nhap-dai-ly", {
+                    state: { from: "/tao-phan-thuong-cho-su-kien" }
+                });
+            }
+        } catch (error) {
+            sessionStorage.removeItem("token");
+            alert("Token không hợp lệ. Vui lòng đăng nhập lại.");
+            navigate("/dang-nhap-dai-ly", {
+                state: { from: "/tao-phan-thuong-cho-su-kien" }
+            });
+        }
+    }, [navigate]);
     useEffect(() => {
         const fetchEvents = async () => {
             try {
                 const [res1, res2] = await Promise.all([
-                    fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
-                    fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=2')
+                    fetch('https://staging.chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
+                    fetch('https://staging.chatapi.io.vn/xem-su-kien-doi-qua?page=2')
                 ])
                 if (!res1.ok || !res2.ok) return;
                 
@@ -55,7 +83,12 @@ const CreateRewards = () => {
 
     const handleCreateRewards = async (e) => {
         e.preventDefault();
-        
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập để tiếp tục.");
+            navigate("/dang-nhap-dai-ly", { state: { from: "/tao-phan-thuong-cho-su-kien" } });
+            return;
+        }
         if (!idevent) {
             triggerPopup('error', 'Lỗi', 'Vui lòng chọn một sự kiện!');
             return;
@@ -75,10 +108,11 @@ const CreateRewards = () => {
         };
 
         try {
-            const req = await fetch(`https://chatapi.io.vn/them-phan-thuong-vao-su-kien`, {
+            const req = await fetch(`https://staging.chatapi.io.vn/them-phan-thuong-vao-su-kien`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(payload),
             });

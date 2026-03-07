@@ -36,7 +36,7 @@ const ReviewEvent = () => {
   const fetchEvents = async () => {
     setIsLoading(true);
     try {
-      let url = `https://chatapi.io.vn/xem-su-kien-doi-qua?page=${page}`;
+      let url = `https://staging.chatapi.io.vn/xem-su-kien-doi-qua?page=${page}`;
       if (activeQuery) {
         url += `&q=${encodeURIComponent(activeQuery)}`;
       }
@@ -70,7 +70,11 @@ const ReviewEvent = () => {
 
   const handleCreateEvent = async (e) => {
     e.preventDefault();
-
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("Bạn cần đăng nhập để tiếp tục.");
+      return;
+    }
     const payload = {
       tensukien: newEvent.tensukien,
       thoihanbatdau: new Date(newEvent.thoihanbatdau).toISOString(),
@@ -78,14 +82,15 @@ const ReviewEvent = () => {
     };
 
     try {
-      const response = await fetch('https://chatapi.io.vn/tao-su-kien-doi-qua', {
+      const response = await fetch('https://staging.chatapi.io.vn/tao-su-kien-doi-qua', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(payload),
       });
-
+      const data = await response.json();
       if (response.ok) {
         alert("Tạo sự kiện thành công!");
         setShowForm(false);
@@ -132,7 +137,6 @@ const ReviewEvent = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>Quản Lý Sự Kiện</h2>
 
-      {/* --- THANH CÔNG CỤ: TÌM KIẾM & NÚT TẠO --- */}
       <div className={styles.topControls}>
         <form className={styles.searchForm} onSubmit={handleSearch}>
           <input 

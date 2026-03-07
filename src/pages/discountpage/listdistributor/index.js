@@ -1,15 +1,43 @@
 import React, { useEffect, useState} from "react";
 "use client";
 import styles from "./listdistributor.module.css";
-
+import { useNavigate } from "react-router-dom";
 const ListDistributor = () => {
+    const navigate = useNavigate();
     const [list, setList] = useState([]);
     const [page, setPage] = useState(1);
-
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("Bạn cần đăng nhập để tiếp tục.");
+            navigate("/dang-nhap-dai-ly", {
+                state: { from: "/duyet-phan-thuong" }
+            });
+            return;
+        }
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const exp = payload.exp * 1000;
+            if (Date.now() > exp) {
+                sessionStorage.removeItem("token");
+                alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+                navigate("/dang-nhap-dai-ly", {
+                    state: { from: "/duyet-phan-thuong" }
+                });
+            }
+        } catch (error) {
+            sessionStorage.removeItem("token");
+            alert("Token không hợp lệ. Vui lòng đăng nhập lại.");
+            navigate("/dang-nhap-dai-ly", {
+                state: { from: "/duyet-phan-thuong" }
+            });
+        }
+    }
+    , [navigate]);
     const fetchData = async () => {
         try{
-            const token = localStorage.getItem("authToken");
-            const response = await fetch(`https://chatapi.io.vn/dai-ly-chua-duoc-duyet?page=${page}`,{
+            const token = sessionStorage.getItem("token");
+            const response = await fetch(`https://staging.chatapi.io.vn/dai-ly-chua-duoc-duyet?page=${page}`,{
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -29,9 +57,9 @@ const ListDistributor = () => {
     const approveDistributor = async (id) => {
         try {
 
-            const token = localStorage.getItem("authToken");
+            const token = sessionStorage.getItem("token");
                 const response = await fetch(
-                `https://chatapi.io.vn/duyet-dai-ly?id=${id}`,
+                `https://staging.chatapi.io.vn/duyet-dai-ly?id=${id}`,
                 {
                     method: "PATCH",
                     headers: {
