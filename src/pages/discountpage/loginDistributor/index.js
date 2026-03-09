@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./loginDistributor.module.css";
 import { Link } from "react-router-dom";
 const LoginDistributor = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [sodienthoai, setSodienthoai] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
