@@ -136,7 +136,7 @@ function RegisterDistributor() {
                     </button>
                     <button
                         type="button"
-                        className={styles.approveBtn}
+                        className={styles.submitBtn}
                         onClick={() => window.location.href = "/duyet-phan-thuong"}
                     >
                         Duyệt phần thưởng
