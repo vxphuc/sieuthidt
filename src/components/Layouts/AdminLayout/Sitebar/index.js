@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Style from "./Sitebar.module.css";
 import { AiFillSignal } from "react-icons/ai";
-import { FaShoppingBasket, FaUser } from "react-icons/fa";
+import { FaGift, FaShoppingBasket, FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { MdDiscount } from "react-icons/md";
 
@@ -16,12 +16,16 @@ function Sitebar() {
   const productsActive = location.pathname.startsWith('/quan-tri/san-pham') && !location.pathname.startsWith('/quan-tri/san-pham-mua-nhieu-koc') || location.pathname.startsWith('/quan-tri/loai-san-pham');
   const ordersActive = location.pathname.startsWith('/quan-tri/hoa-don');
   const functionsActive = location.pathname.startsWith('/quan-tri/quan-ly-tai-khoan') || location.pathname.startsWith('/quan-tri/banner') || location.pathname.startsWith('/quan-tri/quan-ly-ctv');
+  const giftEventsActive = location.pathname.startsWith('/quan-tri/danh-sach-su-kien-doi-qua') || location.pathname.startsWith('/quan-tri/tao-ma-giam-gia-hang-loat')
+                      || location.pathname.startsWith('/quan-tri/gan-ma-giam-gia-vao-su-kien') || location.pathname.startsWith('/quan-tri/tao-phan-thuong-cho-su-kien')
+                      || location.pathname.startsWith('/quan-tri/danh-sach-dai-ly');
   const luckyActive = location.pathname.startsWith('/quan-tri/LuckyWheel');
   const CreateDiscountActive = location.pathname.startsWith('/quan-tri/tao-giam-gia');
   const [showStats, setShowStats] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
   const [showFunctions, setShowFunctions] = useState(false);
+  const [showGiftEvents, setShowGiftEvents] = useState(false);
   const [showDiscount, setShowDiscount] = useState(false);
   const [showLucky, setShowLucky] = useState(false);
 
@@ -39,8 +43,9 @@ function Sitebar() {
     if (productsActive) setShowProducts(true);
     if (ordersActive) setShowOrders(true);
     if (functionsActive) setShowFunctions(true);
+    if (giftEventsActive) setShowGiftEvents(true);
     if (CreateDiscountActive) setShowDiscount(true);
-  }, [statsActive, productsActive, ordersActive, functionsActive, CreateDiscountActive]);
+  }, [statsActive, productsActive, ordersActive, functionsActive, giftEventsActive, CreateDiscountActive]);
   return (
     <div className={Style.container}>
       <div className={`${Style.Thunerdashboard} ${statsActive ? Style.activeBlock : ""}`}>
@@ -195,6 +200,45 @@ function Sitebar() {
           >
             <div className={Style.ContentDashboard}>Tạo giảm giá</div>
           </NavLink>
+        )}
+      </div>
+      <div className={`${giftEventsActive ? Style.activeBlock : ""}`}>
+        <h3 className={Style.TitleDashboard} onClick={() => setShowGiftEvents(s => !s)} style={{ cursor: 'pointer' }}>
+          <FaGift style={{ paddingBottom: "4px" }} /> Đổi Quà {showGiftEvents}
+        </h3>
+        {showGiftEvents && (
+          <>
+            <NavLink
+              to="/quan-tri/danh-sach-su-kien-doi-qua"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Danh sách sự kiện</div>
+            </NavLink>
+            <NavLink
+              to="/quan-tri/tao-ma-giam-gia-hang-loat"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Tạo mã giảm giá hàng loạt</div>
+            </NavLink>
+            <NavLink
+              to="/quan-tri/gan-ma-giam-gia-vao-su-kien"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Gán mã giảm giá</div>
+            </NavLink>
+            <NavLink
+              to="/quan-tri/tao-phan-thuong-cho-su-kien"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Tạo phần thưởng</div>
+            </NavLink>
+            <NavLink
+              to="/quan-tri/danh-sach-dai-ly"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Danh sách đại lý</div>
+            </NavLink>
+          </>
         )}
       </div>
       <div className={`${luckyActive ? Style.activeBlock : ""}`}>

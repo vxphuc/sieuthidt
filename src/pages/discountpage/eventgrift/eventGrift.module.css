@@ -1,5 +1,5 @@
 .container {
-  padding: 40px 20px;
+  padding: 10px;
   display: flex;
   justify-content: center;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -11,7 +11,6 @@
   border-radius: 12px;
   width: 100%;
   max-width: 500px;
-  margin-top: 4%;
   /* border-top: 6px solid #218838; */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }

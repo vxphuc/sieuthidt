@@ -276,19 +276,19 @@ export const router = [
 
   //mã giảm giá sll
   {
-    path: "/danh-sach-su-kien-doi-qua",
+    path: "/quan-tri/danh-sach-su-kien-doi-qua",
     component: ReviewEvent,
-    layout: layout,
+    layout: AdminLayout,
   },
   {
-    path: "/tao-ma-giam-gia-hang-loat",
+    path: "/quan-tri/tao-ma-giam-gia-hang-loat",
     component: eventgrift,
-    layout: layout,
+    layout: AdminLayout,
   },
   {
-    path: "/gan-ma-giam-gia-vao-su-kien",
+    path: "/quan-tri/gan-ma-giam-gia-vao-su-kien",
     component: attachcodeevent,
-    layout: layout,
+    layout: AdminLayout,
   },
   {
     path: "/doimathuong",
@@ -296,9 +296,9 @@ export const router = [
     layout: HeaderOnly,
   },
   {
-    path: "/tao-phan-thuong-cho-su-kien",
+    path: "/quan-tri/tao-phan-thuong-cho-su-kien",
     component: CreateRewards,
-    layout: layout,
+    layout: AdminLayout,
   },
   {
     path: "/quan-tri-su-kien",
@@ -326,9 +326,9 @@ export const router = [
     layout: HeaderOnly
   },
   {
-    path: "/danh-sach-dai-ly",
+    path: "/quan-tri/danh-sach-dai-ly",
     component: ListDistributor,
-    layout: layout
+    layout: AdminLayout
   },
   {
     path: "/kiem-tra-nguoi-trung-thuong",
