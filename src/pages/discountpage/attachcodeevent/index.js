@@ -10,11 +10,11 @@ const AttachCodeEvent = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [batches, setBatches] = useState([]);
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
         if (!token) {
             alert("Bạn cần đăng nhập để tiếp tục.");
-            navigate("/dang-nhap-dai-ly", {
-                state: { from: "/gan-ma-vao-su-kien" }
+            navigate("/dang-nhap", {
+                state: { from: "/quan-tri/gan-ma-vao-su-kien" }
             });
             return;
         }
@@ -22,17 +22,17 @@ const AttachCodeEvent = () => {
             const payload = JSON.parse(atob(token.split(".")[1]));
             const exp = payload.exp * 1000;
             if (Date.now() > exp) {
-                sessionStorage.removeItem("token");
+                localStorage.removeItem("authToken");
                 alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-                navigate("/dang-nhap-dai-ly", {
-                    state: { from: "/gan-ma-vao-su-kien" }
+                navigate("/dang-nhap", {
+                    state: { from: "/quan-tri/gan-ma-vao-su-kien" }
                 });
             }
         } catch (error) {
-            sessionStorage.removeItem("token");
+            localStorage.removeItem("authToken");
             alert("Token không hợp lệ. Vui lòng đăng nhập lại.");
-            navigate("/dang-nhap-dai-ly", {
-                state: { from: "/gan-ma-vao-su-kien" }
+            navigate("/dang-nhap", {
+                state: { from: "/quan-tri/gan-ma-vao-su-kien" }
             });
         }
     }, [navigate]);
@@ -82,10 +82,10 @@ const AttachCodeEvent = () => {
 
     const handleAttachCode = async (e) => {
         e.preventDefault();
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
         if (!token) {
             alert("Bạn cần đăng nhập để tiếp tục.");
-            navigate("/dang-nhap-dai-ly", { state: { from: "/gan-ma-vao-su-kien" } });
+            navigate("/dang-nhap", { state: { from: "/quan-tri/gan-ma-vao-su-kien" } });
             return;
         }
         if (!eventId) {

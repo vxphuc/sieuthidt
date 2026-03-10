@@ -70,7 +70,7 @@ const ReviewEvent = () => {
 
   const handleCreateEvent = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     if (!token) {
       alert("Bạn cần đăng nhập để tiếp tục.");
       return;

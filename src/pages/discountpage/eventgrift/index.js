@@ -36,9 +36,9 @@ const eventgrift = () => {
   const handleLimitLo = async (e) => {
     e.preventDefault();
 
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     if (!token) {
-      navigate("/dang-nhap-dai-ly", { state: { from: "/tao-ma-giam-gia-hang-loat" } });
+      navigate("/dang-nhap", { state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" } });
       return;
     }
 
@@ -72,9 +72,9 @@ const eventgrift = () => {
 
       const data = await res.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('authToken');
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-            navigate('/dang-nhap-dai-ly', { state: { from: "/tao-ma-giam-gia-hang-loat" } });
+            navigate('/dang-nhap', { state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" } });
             return;
         }
       if (res.ok) {
@@ -120,17 +120,17 @@ const eventgrift = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+      navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
     }
   }, [navigate]);
 
   const handleCreateBatch = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+      navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
       return;
     }
     if(!maDinhDanh.trim()){
@@ -150,9 +150,9 @@ const eventgrift = () => {
       );
       const data = await response.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('authToken');
         alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-        navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+        navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
         return;
       }
       if (response.ok) {
@@ -172,9 +172,9 @@ const eventgrift = () => {
 
   const handleCreateCodes = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     if (!token) {
-        navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+        navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
         return;
     }
     if (quantity <= 0) {
@@ -194,9 +194,9 @@ const eventgrift = () => {
       });
       const data = await response.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('authToken');
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-            navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+            navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
             return;
         }
       if (response.ok) {
@@ -213,9 +213,9 @@ const eventgrift = () => {
   };
   const handleCreate = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+      navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
       return;
     }
 
@@ -249,9 +249,9 @@ const eventgrift = () => {
 
       const data = await response.json();
       if (data?.detail === "Could not validate credentials" || data?.detail === 404) {
-            sessionStorage.removeItem('token');
+            localStorage.removeItem('authToken');
             alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-            navigate('/dang-nhap-dai-ly', {state: { from: "/tao-ma-giam-gia-hang-loat" }});
+            navigate('/dang-nhap', {state: { from: "/quan-tri/tao-ma-giam-gia-hang-loat" }});
             return;
         }
       if (response.ok) {

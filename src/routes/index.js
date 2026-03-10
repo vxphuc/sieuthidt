@@ -300,11 +300,11 @@ export const router = [
     component: CreateRewards,
     layout: AdminLayout,
   },
-  {
-    path: "/quan-tri-su-kien",
-    component: layout,
-    layout: HeaderOnly,
-  },
+  // {
+  //   path: "/quan-tri-su-kien",
+  //   component: layout,
+  //   layout: HeaderOnly,
+  // },
   {
     path: "/dang-ky-tai-khoan",
     component: RegisterAccount,

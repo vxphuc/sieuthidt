@@ -15,11 +15,11 @@ const CreateRewards = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState({ type: '', title: '', content: '' });
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
         if (!token) {
             alert("Bạn cần đăng nhập để tiếp tục.");
-            navigate("/dang-nhap-dai-ly", {
-                state: { from: "/tao-phan-thuong-cho-su-kien" }
+            navigate("/dang-nhap", {
+                state: { from: "/quan-tri/tao-phan-thuong-cho-su-kien" }
             });
             return;
         }
@@ -27,17 +27,17 @@ const CreateRewards = () => {
             const payload = JSON.parse(atob(token.split(".")[1]));
             const exp = payload.exp * 1000;
             if (Date.now() > exp) {
-                sessionStorage.removeItem("token");
+                localStorage.removeItem("authToken");
                 alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-                navigate("/dang-nhap-dai-ly", {
-                    state: { from: "/tao-phan-thuong-cho-su-kien" }
+                navigate("/dang-nhap", {
+                    state: { from: "/quan-tri/tao-phan-thuong-cho-su-kien" }
                 });
             }
         } catch (error) {
-            sessionStorage.removeItem("token");
+            localStorage.removeItem("authToken");
             alert("Token không hợp lệ. Vui lòng đăng nhập lại.");
-            navigate("/dang-nhap-dai-ly", {
-                state: { from: "/tao-phan-thuong-cho-su-kien" }
+            navigate("/dang-nhap", {
+                state: { from: "/quan-tri/tao-phan-thuong-cho-su-kien" }
             });
         }
     }, [navigate]);
@@ -83,10 +83,10 @@ const CreateRewards = () => {
 
     const handleCreateRewards = async (e) => {
         e.preventDefault();
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
         if (!token) {
             alert("Bạn cần đăng nhập để tiếp tục.");
-            navigate("/dang-nhap-dai-ly", { state: { from: "/tao-phan-thuong-cho-su-kien" } });
+            navigate("/dang-nhap", { state: { from: "/quan-tri/tao-phan-thuong-cho-su-kien" } });
             return;
         }
         if (!idevent) {

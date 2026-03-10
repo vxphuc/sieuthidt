@@ -7,11 +7,11 @@ const ListDistributor = () => {
     const [list, setList] = useState([]);
     const [page, setPage] = useState(1);
     useEffect(() => {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
         if (!token) {
             alert("Bạn cần đăng nhập để tiếp tục.");
-            navigate("/dang-nhap-dai-ly", {
-                state: { from: "/duyet-phan-thuong" }
+            navigate("/dang-nhap", {
+                state: { from: "/quan-tri/duyet-phan-thuong" }
             });
             return;
         }
@@ -19,24 +19,24 @@ const ListDistributor = () => {
             const payload = JSON.parse(atob(token.split(".")[1]));
             const exp = payload.exp * 1000;
             if (Date.now() > exp) {
-                sessionStorage.removeItem("token");
+                localStorage.removeItem("authToken");
                 alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-                navigate("/dang-nhap-dai-ly", {
-                    state: { from: "/duyet-phan-thuong" }
+                navigate("/dang-nhap", {
+                    state: { from: "/quan-tri/duyet-phan-thuong" }
                 });
             }
         } catch (error) {
-            sessionStorage.removeItem("token");
+            localStorage.removeItem("authToken");
             alert("Token không hợp lệ. Vui lòng đăng nhập lại.");
-            navigate("/dang-nhap-dai-ly", {
-                state: { from: "/duyet-phan-thuong" }
+            navigate("/dang-nhap", {
+                state: { from: "/quan-tri/duyet-phan-thuong" }
             });
         }
     }
     , [navigate]);
     const fetchData = async () => {
         try{
-            const token = sessionStorage.getItem("token");
+            const token = localStorage.getItem("authToken");
             const response = await fetch(`https://staging.chatapi.io.vn/dai-ly-chua-duoc-duyet?page=${page}`,{
                 method: "GET",
                 headers: {
@@ -57,7 +57,7 @@ const ListDistributor = () => {
     const approveDistributor = async (id) => {
         try {
 
-            const token = sessionStorage.getItem("token");
+            const token = localStorage.getItem("authToken");
                 const response = await fetch(
                 `https://staging.chatapi.io.vn/duyet-dai-ly?id=${id}`,
                 {
