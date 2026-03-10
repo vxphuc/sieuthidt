@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function CheckAndApproveReward() {
   const [phone, setPhone] = useState("");
-  const [winnerId, setWinnerId] = useState("");
-  const [status, setStatus] = useState("");
+  const [rewards, setRewards] = useState([]);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -52,17 +51,20 @@ function CheckAndApproveReward() {
       );
 
       const data = await res.json();
-      if(data.detail === "Permission denied" && res.status === 403){
-        setWinnerId("");
-        setStatus("");
+
+      console.log("API DATA:", data);
+
+      if (data.detail === "Permission denied" && res.status === 403) {
         setMessage("Đợi duyệt đăng ký đại lý để kiểm tra phần thưởng");
+        setRewards([]);
         return;
       }
-      if (res.ok) {
-        setWinnerId(data.id);
-        setStatus(data["trạng thái nhận thưởng"]);
-        setMessage(`SĐT: ${data.numberphone} - ${data["trạng thái nhận thưởng"]}`);
+
+      if (res.ok && Array.isArray(data) && data.length > 0) {
+        setRewards(data);
+        setMessage(`Tìm thấy ${data.length} phần thưởng`);
       } else {
+        setRewards([]);
         setMessage("Không tìm thấy người trúng thưởng");
       }
     } catch {
@@ -70,12 +72,12 @@ function CheckAndApproveReward() {
     }
   };
 
-  const handleApprove = async () => {
+  const handleApprove = async (id) => {
     const token = sessionStorage.getItem("token");
 
     try {
       const res = await fetch(
-        `https://staging.chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${winnerId}`,
+        `https://staging.chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
         {
           method: "POST",
           headers: {
@@ -88,7 +90,13 @@ function CheckAndApproveReward() {
 
       if (res.ok) {
         setMessage("Duyệt phần thưởng thành công");
-        setStatus("Đã nhận thưởng");
+        setRewards((prev) =>
+          prev.map((item) =>
+            item.id === id
+              ? { ...item, "trạng thái nhận thưởng": "đã nhận thưởng" }
+              : item
+          )
+        );
       } else {
         setMessage(data.detail || "Duyệt thất bại");
       }
@@ -108,8 +116,6 @@ function CheckAndApproveReward() {
             placeholder="Nhập số điện thoại"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            onFocus={(e) => e.target.placeholder = ""}
-            onBlur={(e) => e.target.placeholder = "Nhập số điện thoại"}
             className={styles.input}
           />
 
@@ -118,19 +124,35 @@ function CheckAndApproveReward() {
           </button>
         </form>
 
-        {winnerId && (
+        {rewards.length > 0 && (
           <div className={styles.result}>
-            <p>ID người trúng thưởng: {winnerId}</p>
-            <p>Trạng thái: {status}</p>
+            {rewards.map((item) => {
+              const status =
+                item["trạng thái nhận thưởng"] ||
+                item["trang_thai_nhan_thuong"] ||
+                "không rõ";
 
-            {status !== "Đã nhận thưởng" && (
-              <button
-                onClick={handleApprove}
-                className={styles.button}
-              >
-                Duyệt phần thưởng
-              </button>
-            )}
+              return (
+                <div key={item.id} className={styles.rewardItem}>
+                  <p>
+                    <b>Tên phần thưởng:</b> {item.tenphanthuong}
+                  </p>
+
+                  <p>
+                    <b>Trạng thái:</b> {status}
+                  </p>
+
+                  {status !== "đã nhận thưởng" && (
+                    <button
+                      onClick={() => handleApprove(item.id)}
+                      className={styles.button}
+                    >
+                      Duyệt phần thưởng
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
