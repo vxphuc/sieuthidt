@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./registerDistributor.module.css";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function RegisterDistributor() {
+    const navigate = useNavigate();
     const [tendaily, setTendaily] = useState("");
     const [tinh, setTinh] = useState("");
     const [xa, setXa] = useState("");
@@ -11,7 +12,7 @@ function RegisterDistributor() {
     useEffect(() => {
     const token = sessionStorage.getItem("token");
         if (!token) {
-            Navigate("/dang-nhap-dai-ly", {
+            navigate("/dang-nhap-dai-ly", {
                 state: { from: "/dang-ky-dai-ly" }
             });
             return;
@@ -22,17 +23,17 @@ function RegisterDistributor() {
 
             if (Date.now() > exp) {
                 sessionStorage.removeItem("token");
-                Navigate("/dang-nhap-dai-ly", {
+                navigate("/dang-nhap-dai-ly", {
                     state: { from: "/dang-ky-dai-ly" }
                 });
             }
         } catch (error) {
             sessionStorage.removeItem("token");
-            Navigate("/dang-nhap-dai-ly", {
+            navigate("/dang-nhap-dai-ly", {
                 state: { from: "/dang-ky-dai-ly" }
             });
         }
-    }, [Navigate]);
+    }, [navigate]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -58,6 +59,7 @@ function RegisterDistributor() {
                 setTinh("");
                 setXa("");
                 setDiachicuthe("");
+                navigate("/duyet-phan-thuong");
             }else {
                 setMessage("Đăng ký thất bại. Vui lòng thử lại.");
             }
