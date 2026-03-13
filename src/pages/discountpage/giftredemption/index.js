@@ -119,7 +119,7 @@ const GiftRedemption = () => {
                         </div>
                         {showPopup && isWin && (
                             <div className={styles.textMessage}>
-                                Mã nhận quà sẽ được gửi đến zalo của bạn, mang đến cửa hàng để nhận quà nhé!
+                                Chúc mừng bạn đã trúng thưởng, hãy đến cửa tiệm gần nhất đọc số điện thoại để nhận quà bạn nhé!
                             </div>
                         )}
                         <button onClick={closePopup} className={styles.closeBtn}>
