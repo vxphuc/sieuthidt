@@ -13,8 +13,8 @@ const GiftRedemption = () => {
 
     useEffect(() => {
         const phone = sessionStorage.getItem("phone");
-
-        if (!phone) {
+        const name = sessionStorage.getItem("name");
+        if (!phone || !name) {
             navigate("/dang-nhap-nhan-qua");
         }
     }, []);
@@ -32,13 +32,15 @@ const GiftRedemption = () => {
 
         try {
             const phone = sessionStorage.getItem("phone");
-            const response = await fetch(`https://staging.chatapi.io.vn/tham-du-giai-thuong?ma=${code}&sodienthoai=${phone}`, {
+            const name = sessionStorage.getItem("name");
+            const response = await fetch(`https://staging.chatapi.io.vn/tham-du-giai-thuong?ma=${code}&sodienthoai=${phone}&hovaten=${name}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 
             });
+            
             const data = await response.json(); 
             if (data === "mã không hợp lệ") {
                 setError("Mã không hợp lệ hoặc đã được sử dụng.");

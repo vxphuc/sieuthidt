@@ -36,6 +36,7 @@
   border: 1px solid #c3e6cb;
   outline: none;
   font-size: 15px;
+  margin-bottom: 10px;
   transition: 0.25s;
 }
 
@@ -46,7 +47,7 @@
 
 .button {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 12px;
   border: none;
   border-radius: 8px;

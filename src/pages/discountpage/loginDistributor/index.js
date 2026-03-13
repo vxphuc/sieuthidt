@@ -120,6 +120,12 @@ const LoginDistributor = () => {
                         Đăng ký ngay
                     </span>
                 </p>
+                <p className={styles.rgtAcount}>
+                    Quên mật khẩu? {" "}
+                    <span className={styles.rgtAcountLink} onClick={() => navigate("/quen-mat-khau")}>
+                        Tạo mới mật khẩu
+                    </span>
+                </p>
             </div>
         </div>
     )

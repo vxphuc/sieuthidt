@@ -57,6 +57,7 @@ import UsingDiscountCode from "../pages/UsingDiscountCode";
 import ActiveKOCList from "../pages/Admin/ActiveKOCList";
 import TopProductsKOC from "../pages/Admin/TopProductsKOC";
 import Logingift from "../pages/discountpage/logingift";
+import ForgotPassword from "../pages/discountpage/forgotpassword";
 
 // su kien hang loat
 import ReviewEvent from "../pages/discountpage/reviewevent";
@@ -338,6 +339,11 @@ export const router = [
   {
     path: "/duyet-phan-thuong",
     component: PayRewards,
+    layout: HeaderOnly
+  },
+  {
+    path: "/quen-mat-khau",
+    component: ForgotPassword,
     layout: HeaderOnly
   },
 //chinh sach

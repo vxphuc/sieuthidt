@@ -7,21 +7,53 @@ function CheckAndApproveReward() {
   const [rewards, setRewards] = useState([]);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [approvedRewards, setApprovedRewards] = useState([]);
+  const [showHistoryPopup, setShowHistoryPopup] = useState(false);
+  const [historyName, setHistoryName] = useState("");
+  const [historyPage, setHistoryPage] = useState(1);
+  const [historyData, setHistoryData] = useState([]);
+  
+  const handleSearchHistory = async () => {
+    const token = sessionStorage.getItem("token");
+    if (!historyName) {
+      setMessage("Vui lòng nhập tên phần thưởng");
+      return;
+    }
+    try {
+      const res = await fetch(
+        `https://staging.chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?tenphanthuong=${encodeURIComponent(historyName)}&page=${historyPage}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setHistoryData(data);
+      } else {
+        setMessage("Không tìm thấy lịch sử");
+      }
+    } catch {
+      setMessage("Lỗi kết nối server");
+    }
+  };
 
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value.replace(/\D/g, ""));
+  };
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-
     if (!token) {
       navigate("/dang-nhap-dai-ly", {
         state: { from: "/duyet-phan-thuong" },
       });
       return;
     }
-
     try {
       const payload = JSON.parse(atob(token.split(".")[1]));
       const exp = payload.exp * 1000;
-
       if (Date.now() > exp) {
         sessionStorage.removeItem("token");
         navigate("/dang-nhap-dai-ly", {
@@ -33,6 +65,47 @@ function CheckAndApproveReward() {
       navigate("/dang-nhap-dai-ly");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchApprovedRewards = async () => {
+      const token = sessionStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch(
+          "https://staging.chatapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await res.json();
+        console.log("Danh sách phần thưởng:", data);
+
+        if (res.ok) {
+          setApprovedRewards(data);
+        }
+      } catch (error) {
+        console.log("Lỗi lấy danh sách phần thưởng:", error);
+      }
+    };
+
+    fetchApprovedRewards();
+  }, []);
+
+  const groupedRewards = approvedRewards.reduce((acc, item) => {
+    const name = item.tenphanthuong;
+
+    if (!acc[name]) {
+      acc[name] = 1;
+    } else {
+      acc[name] += 1;
+    }
+
+    return acc;
+  }, {});
 
   const handleCheckPhone = async (e) => {
     e.preventDefault();
@@ -115,7 +188,9 @@ function CheckAndApproveReward() {
             type="text"
             placeholder="Nhập số điện thoại"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={handlePhoneChange}
+            inputMode="numeric"
+            pattern="[0-9]*"
             className={styles.input}
           />
 
@@ -155,9 +230,96 @@ function CheckAndApproveReward() {
             })}
           </div>
         )}
-
         {message && <p className={styles.message}>{message}</p>}
       </div>
+      {approvedRewards.length > 0 && (
+        <div className={styles.approvedSection}>
+          <h4>Danh sách mã trúng thưởng đã duyệt</h4>
+          {Object.entries(groupedRewards).map(([name, count], index) => (
+            <div key={index} className={styles.rewardItem}>
+              <p>
+                <b>Tên phần thưởng:</b> {name}
+                {count > 1 && (
+                  <span className={styles.count}> ×{count}</span>
+                )}
+              </p>
+            </div>
+          ))}
+          <button
+          className={styles.buttonhtory}
+          onClick={() => setShowHistoryPopup(true)}
+        >
+          Xem lịch sử nhận thưởng
+        </button>
+        </div>
+      )}
+      {showHistoryPopup && (
+        <div
+          className={styles.popupOverlay}
+          onClick={() => setShowHistoryPopup(false)}
+        >
+          <div
+            className={styles.popup}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={styles.closeBtn}
+              onClick={() => setShowHistoryPopup(false)}
+            >
+              ×
+            </button>
+
+            <h3 className={styles.popupTitle}>
+              Tìm lịch sử nhận thưởng
+            </h3>
+
+            <div className={styles.popupForm}>
+              <input
+                type="text"
+                placeholder="Nhập tên phần thưởng"
+                value={historyName}
+                onChange={(e) => setHistoryName(e.target.value)}
+                className={styles.popupInput}
+              />
+
+              <input
+                type="number"
+                placeholder="Page"
+                value={historyPage}
+                onChange={(e) => setHistoryPage(e.target.value)}
+                className={styles.popupInput}
+              />
+
+              <button
+                className={styles.popupButton}
+                onClick={handleSearchHistory}
+              >
+                Tìm lịch sử
+              </button>
+            </div>
+
+            {historyData.length > 0 && (
+              <div className={styles.historyList}>
+                {historyData.map((item, index) => (
+                  <div key={index} className={styles.historyItem}>
+                    <p>
+                      <b>Phần thưởng:</b> {item.tenphanthuong}
+                    </p>
+
+                    <p>
+                      <b>SĐT:</b> {item.numberphone}
+                    </p>
+
+                    <p>
+                      <b>Họ tên:</b> {item.hovaten || "Chưa cập nhật"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
