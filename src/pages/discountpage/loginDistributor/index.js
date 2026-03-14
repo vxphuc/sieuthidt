@@ -49,13 +49,29 @@ const LoginDistributor = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                if (data){
+                if (data) {
                     sessionStorage.setItem("token", data);
                 }
                 setMessage("Đăng nhập thành công!");
                 setMessageType("success");
-                const redirectTo = location.state?.from || "/dang-ky-dai-ly";
-                navigate(redirectTo, { replace: true });
+                const checkRes = await fetch(
+                    "https://staging.chatapi.io.vn/trang-thai-duyet-daily",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Bearer ${data}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                const checkData = await checkRes.json();
+                if (checkData) {
+                    navigate("/duyet-phan-thuong");
+                } 
+                else {
+                    navigate("/dang-ky-dai-ly");
+                }
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 100);
