@@ -37,7 +37,7 @@ const LoginDistributor = () => {
         setMessage("");
         setMessageType("");
         try {
-            const response = await fetch(`https://staging.chatapi.io.vn/dang-nhap-voi-mat-khau`,{
+            const response = await fetch(`https://chatapi.io.vn/dang-nhap-voi-mat-khau`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const LoginDistributor = () => {
                 setMessage("Đăng nhập thành công!");
                 setMessageType("success");
                 const checkRes = await fetch(
-                    "https://staging.chatapi.io.vn/trang-thai-duyet-daily",
+                    "https://chatapi.io.vn/trang-thai-duyet-daily",
                     {
                         method: "GET",
                         headers: {
@@ -137,9 +137,8 @@ const LoginDistributor = () => {
                     </span>
                 </p>
                 <p className={styles.rgtAcount}>
-                    Quên mật khẩu? {" "}
                     <span className={styles.rgtAcountLink} onClick={() => navigate("/quen-mat-khau")}>
-                        Tạo mới mật khẩu
+                        Quên mật khẩu?
                     </span>
                 </p>
             </div>

@@ -52,7 +52,7 @@ const CheckPhone = () => {
         setMessage("");
         setMessageType("");
         try {
-            const response = await fetch(`https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`, {
+            const response = await fetch(`https://chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${toke}`

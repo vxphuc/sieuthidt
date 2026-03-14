@@ -36,7 +36,7 @@ const ReviewEvent = () => {
   const fetchEvents = async () => {
     setIsLoading(true);
     try {
-      let url = `https://staging.chatapi.io.vn/xem-su-kien-doi-qua?page=${page}`;
+      let url = `https://chatapi.io.vn/xem-su-kien-doi-qua?page=${page}`;
       if (activeQuery) {
         url += `&q=${encodeURIComponent(activeQuery)}`;
       }
@@ -82,7 +82,7 @@ const ReviewEvent = () => {
     };
 
     try {
-      const response = await fetch('https://staging.chatapi.io.vn/tao-su-kien-doi-qua', {
+      const response = await fetch('https://chatapi.io.vn/tao-su-kien-doi-qua', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
