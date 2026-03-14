@@ -21,7 +21,7 @@ function CheckAndApproveReward() {
     }
     try {
       const res = await fetch(
-        `https://chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?tenphanthuong=${encodeURIComponent(historyName)}&page=${historyPage}`,
+        `https://staging.chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?tenphanthuong=${encodeURIComponent(historyName)}&page=${historyPage}`,
         {
           method: "GET",
           headers: {
@@ -73,7 +73,7 @@ function CheckAndApproveReward() {
 
       try {
         const res = await fetch(
-          "https://chatapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
+          "https://staging.chatapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
           {
             method: "GET",
             headers: {
@@ -114,7 +114,7 @@ function CheckAndApproveReward() {
 
     try {
       const res = await fetch(
-        `https://chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
+        `https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
         {
           method: "GET",
           headers: {
@@ -150,7 +150,7 @@ function CheckAndApproveReward() {
 
     try {
       const res = await fetch(
-        `https://chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
+        `https://staging.chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
         {
           method: "POST",
           headers: {

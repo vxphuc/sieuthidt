@@ -39,7 +39,7 @@ function RegisterDistributor() {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
         try {
-            const response = await fetch('https://chatapi.io.vn/dang-ky-dai-ly',{
+            const response = await fetch('https://staging.chatapi.io.vn/dang-ky-dai-ly',{
                 method: 'POST',
                 headers:{
                     'content-type': 'application/json',

@@ -204,7 +204,7 @@ function ExchangeGifts() {
         setIsSubmitting(true);
         try {
             // [API 2] Post lại payload đã lưu để lấy mã quà tặng
-            const res = await api.post('https://chatapi.io.vn/tra-ve-ma-nhan-thuong', verifiedPayload);
+            const res = await api.post('https://staging.chatapi.io.vn/tra-ve-ma-nhan-thuong', verifiedPayload);
 
             if (res.status === 200 || res.status === 201) {
                 setGiftCode(res.data); // Lưu mã quà tặng trả về
