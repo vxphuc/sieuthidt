@@ -136,13 +136,13 @@ function RegisterDistributor() {
                     <button type="submit" disabled={isLoading} className={styles.submitBtn}>
                         {isLoading ? "Đang xử lý..." : "Đăng ký"}
                     </button>
-                    <button
+                    {/* <button
                         type="button"
                         className={styles.submitBtn}
                         onClick={() => window.location.href = "/duyet-phan-thuong"}
                     >
                         Duyệt phần thưởng
-                    </button>
+                    </button> */}
                 </form>
             </div>
         </div>
