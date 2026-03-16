@@ -50,7 +50,7 @@ function CheckAndApproveReward() {
       try {
 
         const res = await fetch(
-          "https://staging.chatapi.io.vn/xem-su-kien-doi-qua-daily",
+          "https://chatapi.io.vn/xem-su-kien-doi-qua-daily",
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -74,7 +74,7 @@ function CheckAndApproveReward() {
     const token = sessionStorage.getItem("token");
     try {
       const res = await fetch(
-        `https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
+        `https://chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -99,7 +99,7 @@ function CheckAndApproveReward() {
     const token = sessionStorage.getItem("token");
     try {
       const res = await fetch(
-        `https://staging.chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
+        `https://chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
         {
           method: "POST",
           headers: {
@@ -148,7 +148,7 @@ function CheckAndApproveReward() {
     }
     try {
       let url =
-        `https://staging.chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?ngaybatdau=${startDate}&ngayketthuc=${endDate}`;
+        `https://chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?ngaybatdau=${startDate}&ngayketthuc=${endDate}`;
 
       if (selectedEvent) {
         url += `&tensukien=${encodeURIComponent(selectedEvent)}`;
@@ -213,17 +213,6 @@ function CheckAndApproveReward() {
 
   return (
     <div className={styles.wrapper}>
-      <button
-          className={styles.buttonhtory}
-          onClick={() => {
-            setShowHistoryPopup(true);
-            setTimeout(() => {
-              handleViewHistory();
-            }, 100);
-          }}
-        >
-          Xem danh sách duyệt thưởng
-      </button>
       <div className={styles.container}>
         <p className={styles.title}>Kiểm tra & Duyệt phần thưởng</p>
         <form onSubmit={handleCheckPhone} className={styles.form}>
@@ -263,7 +252,19 @@ function CheckAndApproveReward() {
           </div>
         )}
         {message && <p className={styles.message}>{message}</p>}
+        
       </div>
+      <button
+          className={styles.buttonhtory}
+          onClick={() => {
+            setShowHistoryPopup(true);
+            setTimeout(() => {
+              handleViewHistory();
+            }, 100);
+          }}
+        >
+          Xem danh sách duyệt thưởng
+      </button>
 
       {showHistoryPopup && (
         <div

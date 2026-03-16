@@ -37,7 +37,7 @@ const ListDistributor = () => {
     const fetchData = async () => {
         try{
             const token = localStorage.getItem("authToken");
-            const response = await fetch(`https://staging.chatapi.io.vn/dai-ly-chua-duoc-duyet?page=${page}`,{
+            const response = await fetch(`https://chatapi.io.vn/dai-ly-chua-duoc-duyet?page=${page}`,{
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -59,7 +59,7 @@ const ListDistributor = () => {
 
             const token = localStorage.getItem("authToken");
                 const response = await fetch(
-                `https://staging.chatapi.io.vn/duyet-dai-ly?id=${id}`,
+                `https://chatapi.io.vn/duyet-dai-ly?id=${id}`,
                 {
                     method: "PATCH",
                     headers: {
