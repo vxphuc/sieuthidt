@@ -112,9 +112,17 @@ function CheckAndApproveReward() {
         }
       );
       const data = await res.json();
-      if (res.ok && Array.isArray(data) && data.length > 0) {
-        setRewards(data);
-        setMessage(`Tìm thấy ${data.length} phần thưởng`);
+      if (res.ok && Array.isArray(data)) {
+        const filteredRewards = data.filter(
+          (item) =>
+            !item.tenphanthuong?.toLowerCase().includes("may mắn lần sau")
+        );
+        setRewards(filteredRewards);
+        if (filteredRewards.length > 0) {
+          setMessage(`Tìm thấy ${filteredRewards.length} phần thưởng`);
+        } else {
+          setMessage("Không có phần thưởng");
+        }
       } else {
         setRewards([]);
         setMessage("Không tìm thấy người trúng thưởng");
