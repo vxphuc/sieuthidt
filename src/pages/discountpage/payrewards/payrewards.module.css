@@ -170,10 +170,8 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  width: 250px;
+  width: 260px;
   transition: 0.2s;
-  margin-right: 150px;
-  margin-left: 10px;
   margin-top: 10px;
 }
 
@@ -421,9 +419,22 @@
   border-radius:8px;
   color: #1e7e34;
   background:#e8f5e9;
-  font-size:16px;
+  font-size:17px;
   font-weight:600;
 }
 input[type="datetime-local"] {
   font-family: inherit;
+}
+.dateItem{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:1;
+  min-width:160px;
+}
+
+.dateLabel{
+  font-weight:600;
+  color:#1e7e34;
+  white-space:nowrap;
 }

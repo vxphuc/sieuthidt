@@ -15,6 +15,8 @@ function CheckAndApproveReward() {
   const [showHistoryPopup, setShowHistoryPopup] = useState(false);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
+  const [rewardList, setRewardList] = useState([]);
+  const [selectedReward, setSelectedReward] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [historyData, setHistoryData] = useState([]);
@@ -66,6 +68,34 @@ function CheckAndApproveReward() {
       }
     };
     fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    const fetchRewards = async () => {
+      const token = sessionStorage.getItem("token");
+
+      try {
+        const res = await fetch(
+          "https://staging.chatapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const data = await res.json();
+
+        if (res.ok) {
+          setRewardList(data);
+        }
+
+      } catch (error) {
+        console.log("Lỗi lấy danh sách phần thưởng", error);
+      }
+    };
+
+    fetchRewards();
   }, []);
 
   // kiểm tra số điện thoại
@@ -152,6 +182,9 @@ function CheckAndApproveReward() {
 
       if (selectedEvent) {
         url += `&tensukien=${encodeURIComponent(selectedEvent)}`;
+      }
+      if (selectedReward) {
+        url += `&phanthuong=${encodeURIComponent(selectedReward)}`;
       }
       const res = await fetch(url, {
         headers: {
@@ -299,20 +332,41 @@ function CheckAndApproveReward() {
                   </option>
                 ))}
               </select>
-              <input
-                type="datetime-local"
-                step="60"
+              <select
                 className={styles.popupInput}
-                value={startDate || ""}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <input
-                type="datetime-local"
-                step={60}
-                className={styles.popupInput}
-                value={endDate || ""}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
+                value={selectedReward}
+                onChange={(e) => setSelectedReward(e.target.value)}
+              >
+                <option value="">Tất cả phần thưởng</option>
+
+                {rewardList.map((reward) => (
+                  <option key={reward.id} value={reward.tenphanthuong}>
+                    {reward.tenphanthuong}
+                  </option>
+                ))}
+              </select>
+
+              <div className={styles.dateItem}>
+                  <span className={styles.dateLabel}>Từ</span>
+                  <input
+                    type="datetime-local"
+                    step="60"
+                    className={styles.popupInput}
+                    value={startDate || ""}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+              </div>
+
+              <div className={styles.dateItem}>
+                  <span className={styles.dateLabel}>Đến</span>
+                  <input
+                    type="datetime-local"
+                    step={60}
+                    className={styles.popupInput}
+                    value={endDate || ""}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+              </div>
 
               <button
                 className={styles.popupButton}
@@ -365,6 +419,10 @@ function CheckAndApproveReward() {
 
                   {/* mobile */}
                   <div className={styles.mobileHistory}>
+                    <div className={styles.totalMobile}>
+                      <div><b>Tổng số Khách Hàng:</b> {totalPhones}</div>
+                      <div><b>Tổng số lượng phần thưởng:</b> {totalQuantity}</div>
+                    </div>
                     {groupedHistory.map((user, index) => (
                       <div key={index} className={styles.historyCard}>
 
@@ -392,10 +450,7 @@ function CheckAndApproveReward() {
                       </div>
                       
                     ))}
-                    <div className={styles.totalMobile}>
-                          <div><b>Tổng số điện thoại:</b> {totalPhones}</div>
-                          <div><b>Tổng số lượng:</b> {totalQuantity}</div>
-                        </div>
+                  
                   </div>
                 </>
               )}

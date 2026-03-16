@@ -31,12 +31,12 @@
 
 .subtitle {
   color: #666;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 /* --- Form & Input --- */
 .inputGroup {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .input {
@@ -230,4 +230,8 @@
 .textMessage{
   color: #218838;
   margin-top: 5px;
+}
+.notetext{
+  color: #666;
+  margin-bottom: 10px;
 }

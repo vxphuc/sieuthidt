@@ -26,14 +26,15 @@ const Logingift = () => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Đăng nhập nhận quà</h2>
-        <p className={styles.subtitle}>Nhập tên và số điện thoại để tiếp tục</p>
+        <h2 className={styles.title}>Thông Tin Nhận Thưởng</h2>
+        <p className={styles.subtitle}>Vui lòng nhập tên và số điện thoại</p>
 
         <form onSubmit={handleLogin}>
           <input
             type="text"
             placeholder="Nhập tên nhận thưởng"
             value={name}
+            required
             onChange={(e) => setName(e.target.value)}
             onFocus={(e) => e.target.placeholder = ''}
             onBlur={(e) => e.target.placeholder = 'Nhập tên nhận thưởng'}
@@ -44,6 +45,7 @@ const Logingift = () => {
             type="text"
             placeholder="Nhập số điện thoại"
             value={phone}
+            required
             onChange={handlePhoneChange}
             inputMode="numeric"
             pattern="[0-9]*"

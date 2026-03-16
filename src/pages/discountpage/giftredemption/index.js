@@ -90,7 +90,7 @@ const GiftRedemption = () => {
                     </div>
                     
                     {error && <p className={styles.error}>{error}</p>}
-                    
+                    <p className={styles.notetext}><strong>Lưu ý:</strong> mỗi mã cào chỉ được nhận thưởng một lần!</p>
                     <button type='submit' className={styles.button} disabled={isLoading}>
                         {isLoading ? 'Đang xử lý...' : 'Đổi Quà'}
                     </button>
@@ -119,7 +119,7 @@ const GiftRedemption = () => {
                         </div>
                         {showPopup && isWin && (
                             <div className={styles.textMessage}>
-                                Chúc mừng bạn đã trúng thưởng, hãy đến cửa tiệm gần nhất đọc số điện thoại để nhận quà bạn nhé!
+                                Vui lòng hãy đến cửa hàng gần nhất và đọc số điện thoại để nhận quà!
                             </div>
                         )}
                         <button onClick={closePopup} className={styles.closeBtn}>
