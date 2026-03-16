@@ -21,49 +21,32 @@ function CheckAndApproveReward() {
 
   // kiểm tra token
   useEffect(() => {
-
     const token = sessionStorage.getItem("token");
-
     if (!token) {
       navigate("/dang-nhap-dai-ly", {
         state: { from: "/duyet-phan-thuong" }
       });
       return;
     }
-
     try {
-
       const payload = JSON.parse(atob(token.split(".")[1]));
       const exp = payload.exp * 1000;
-
       if (Date.now() > exp) {
-
         sessionStorage.removeItem("token");
-
         navigate("/dang-nhap-dai-ly", {
           state: { from: "/duyet-phan-thuong" }
         });
-
       }
-
     } catch {
-
       sessionStorage.removeItem("token");
       navigate("/dang-nhap-dai-ly");
-
     }
-
   }, [navigate]);
-
-
 
   // lấy danh sách sự kiện
   useEffect(() => {
-
     const fetchEvents = async () => {
-
       const token = sessionStorage.getItem("token");
-
       try {
 
         const res = await fetch(
@@ -74,38 +57,22 @@ function CheckAndApproveReward() {
             }
           }
         );
-
         const data = await res.json();
-
         if (res.ok) {
-
           setEvents(data);
-
         }
-
       } catch (error) {
-
         console.log("Lỗi lấy sự kiện", error);
-
       }
-
     };
-
     fetchEvents();
-
   }, []);
-
-
 
   // kiểm tra số điện thoại
   const handleCheckPhone = async (e) => {
-
     e.preventDefault();
-
     const token = sessionStorage.getItem("token");
-
     try {
-
       const res = await fetch(
         `https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
         {
@@ -114,38 +81,23 @@ function CheckAndApproveReward() {
           }
         }
       );
-
       const data = await res.json();
-
       if (res.ok && Array.isArray(data) && data.length > 0) {
-
         setRewards(data);
         setMessage(`Tìm thấy ${data.length} phần thưởng`);
-
       } else {
-
         setRewards([]);
         setMessage("Không tìm thấy người trúng thưởng");
-
       }
-
     } catch {
-
       setMessage("Lỗi kết nối server");
-
     }
-
   };
-
-
 
   // duyệt thưởng
   const handleApprove = async (id) => {
-
     const token = sessionStorage.getItem("token");
-
     try {
-
       const res = await fetch(
         `https://staging.chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
         {
@@ -155,13 +107,9 @@ function CheckAndApproveReward() {
           }
         }
       );
-
       const data = await res.json();
-
       if (res.ok) {
-
         setMessage("Duyệt phần thưởng thành công");
-
         setRewards((prev) =>
           prev.map((item) =>
             item.id === id
@@ -169,24 +117,16 @@ function CheckAndApproveReward() {
               : item
           )
         );
-
       } else {
-
         setMessage(data.detail || "Duyệt thất bại");
-
       }
-
     } catch {
-
       setMessage("Lỗi kết nối server");
-
     }
-
   };
 
   const formatDateTimeLocal = (date) => {
     const pad = (n) => String(n).padStart(2, "0");
-
     return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   };
   useEffect(() => {
@@ -198,6 +138,7 @@ function CheckAndApproveReward() {
     setStartDate(formatDateTimeLocal(sevenDaysAgo));
     setEndDate(formatDateTimeLocal(now));
   }, []);
+
   // xem lịch sử
   const handleViewHistory = async () => {
     const token = sessionStorage.getItem("token");
@@ -206,7 +147,6 @@ function CheckAndApproveReward() {
       return;
     }
     try {
-
       let url =
         `https://staging.chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?ngaybatdau=${startDate}&ngayketthuc=${endDate}`;
 
@@ -245,7 +185,27 @@ function CheckAndApproveReward() {
       });
       return acc;
     }, {})
+    
   );
+
+  const totalPhones = groupedHistory.length;
+  const totalQuantity = historyData.reduce(
+    (sum, item) => sum + (item.soluong || 0),
+    0
+  );
+  const totalNames = new Set(
+    groupedHistory
+      .map(u => (u.hovaten || "").trim())
+      .filter(name => name && name !== "chưa cập nhật")
+  ).size;
+
+  const totalRewards = new Set(
+    historyData.map(item => item.tenphanthuong)
+  ).size;
+
+  const totalEvents = new Set(
+    historyData.map(item => item.tensukien)
+  ).size;
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value.replace(/\D/g, ""));
@@ -360,7 +320,7 @@ function CheckAndApproveReward() {
             </div>
               {groupedHistory.length > 0 && (
                 <>
-                  {/* DESKTOP TABLE */}
+                  {/* destop */}
                   <div className={styles.desktopTable}>
                     <table className={styles.historyTable}>
                       <thead>
@@ -380,21 +340,27 @@ function CheckAndApproveReward() {
                               {i === 0 && (
                                 <>
                                   <td rowSpan={user.rewards.length}>{user.numberphone}</td>
-                                  <td rowSpan={user.rewards.length}>{user.hovaten || "—"}</td>
+                                  <td rowSpan={user.rewards.length}>{user.hovaten || "chưa cập nhật"}</td>
                                 </>
                               )}
-
                               <td>{r.tenphanthuong}</td>
                               <td>{r.soluong}</td>
                               <td>{r.tensukien}</td>
                             </tr>
                           ))
                         )}
+                        <tr className={styles.totalRow}>
+                          <td><b>{totalPhones} SĐT</b></td>
+                          <td><b>{totalNames} tên</b></td>
+                          <td><b>{totalRewards} phần thưởng</b></td>
+                          <td><b>{totalQuantity}</b></td>
+                          <td><b>{totalEvents} sự kiện</b></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
 
-                  {/* MOBILE CARD */}
+                  {/* mobile */}
                   <div className={styles.mobileHistory}>
                     {groupedHistory.map((user, index) => (
                       <div key={index} className={styles.historyCard}>
@@ -404,7 +370,7 @@ function CheckAndApproveReward() {
                         </div>
 
                         <div className={styles.historyName}>
-                          {user.hovaten || "—"}
+                          {user.hovaten || "chưa cập nhật"}
                         </div>
 
                         {user.rewards.map((r, i) => (
@@ -420,9 +386,13 @@ function CheckAndApproveReward() {
                             </div>
                           </div>
                         ))}
-
                       </div>
+                      
                     ))}
+                    <div className={styles.totalMobile}>
+                          <div><b>Tổng số điện thoại:</b> {totalPhones}</div>
+                          <div><b>Tổng số lượng:</b> {totalQuantity}</div>
+                        </div>
                   </div>
                 </>
               )}

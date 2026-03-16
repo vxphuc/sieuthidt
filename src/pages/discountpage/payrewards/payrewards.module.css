@@ -409,3 +409,18 @@
   }
 
 }
+.totalRow{
+  background:#e8f5e9;
+  font-weight:400;
+  color: #1e7e34;
+}
+
+.totalMobile{
+  margin-top:10px;
+  padding:12px;
+  border-radius:8px;
+  color: #1e7e34;
+  background:#e8f5e9;
+  font-size:16px;
+  font-weight:600;
+}
