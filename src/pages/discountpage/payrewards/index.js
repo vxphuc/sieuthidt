@@ -300,12 +300,14 @@ function CheckAndApproveReward() {
               </select>
               <input
                 type="datetime-local"
+                step="60"
                 className={styles.popupInput}
                 value={startDate || ""}
                 onChange={(e) => setStartDate(e.target.value)}
               />
               <input
                 type="datetime-local"
+                step={60}
                 className={styles.popupInput}
                 value={endDate || ""}
                 onChange={(e) => setEndDate(e.target.value)}
