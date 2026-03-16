@@ -1,4 +1,5 @@
 .wrapper {
+  margin-top: 100px;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -9,7 +10,6 @@
 }
 
 .container {
-  margin-top: 100px;
   max-width: 420px;
   background: #ffffff;
   padding: 35px;
@@ -172,6 +172,9 @@
   cursor: pointer;
   width: 250px;
   transition: 0.2s;
+  margin-right: 150px;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .closeBtn{
@@ -211,12 +214,12 @@
 
 .popup{
   position:relative;
-  width:400px;
-  max-height:80vh;
+  width:95%;
+  max-height:90vh;
   overflow:auto;
   background:white;
   border-radius:12px;
-  padding:25px;
+  padding:20px;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
@@ -230,10 +233,14 @@
 
 .popupForm{
   display:flex;
-  flex-direction:column;
-  gap:12px;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
 }
-
+.popupInput{
+  flex:1;
+  min-width:140px;
+}
 .popupInput{
   width:100%;
   padding:12px;
@@ -290,4 +297,115 @@
   border-radius:8px;
   border:1px solid #eee;
   background:#f9f9f9;
+}
+.historyTable{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  font-size:14px;
+}
+.historyTable th{
+  background:#1e7e34;
+  color:white;
+  padding:10px;
+  text-align:left;
+}
+
+.historyTable td{
+  padding:10px;
+  border:1px solid #ddd;
+}
+
+.historyTable tr:nth-child(even){
+  background:#f7f7f7;
+}
+
+.historyTable tr:hover{
+  background:#eef7ee;
+}
+@media (max-width:768px){
+
+  .historyTable thead{
+    display:none;
+  }
+
+  .historyTable,
+  .historyTable tbody,
+  .historyTable tr,
+  .historyTable td{
+    display:block;
+    width:100%;
+  }
+
+  .historyTable tr{
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:10px;
+    background:white;
+  }
+
+  .historyTable td{
+    border:none;
+    padding:6px 0;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  .historyTable td:before{
+    font-weight:600;
+    color:#1e7e34;
+  }
+
+  .historyTable td:nth-child(1):before{content:"SĐT";}
+  .historyTable td:nth-child(2):before{content:"Tên";}
+  .historyTable td:nth-child(3):before{content:"Phần thưởng";}
+  .historyTable td:nth-child(4):before{content:"Số lượng";}
+  .historyTable td:nth-child(5):before{content:"Sự kiện";}
+}
+.desktopTable{
+  display:block;
+}
+
+.mobileHistory{
+  display:none;
+}
+
+.historyCard{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:12px;
+}
+
+.historyPhone{
+  font-weight:700;
+  font-size:16px;
+  color:#1e7e34;
+  margin-bottom:4px;
+}
+
+.historyName{
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.historyReward{
+  border-top:1px solid #eee;
+  padding-top:6px;
+  margin-top:6px;
+  font-size:14px;
+}
+
+@media (max-width:768px){
+
+  .desktopTable{
+    display:none;
+  }
+
+  .mobileHistory{
+    display:block;
+  }
+
 }

@@ -3,166 +3,165 @@ import styles from "./payrewards.module.css";
 import { useNavigate } from "react-router-dom";
 
 function CheckAndApproveReward() {
+
+  const navigate = useNavigate();
+
   const [phone, setPhone] = useState("");
   const [rewards, setRewards] = useState([]);
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
-  const [approvedRewards, setApprovedRewards] = useState([]);
-  const [showHistoryPopup, setShowHistoryPopup] = useState(false);
-  const [historyName, setHistoryName] = useState("");
-  const [historyPage, setHistoryPage] = useState(1);
-  const [historyData, setHistoryData] = useState([]);
-  
-  const handleSearchHistory = async () => {
-    const token = sessionStorage.getItem("token");
-    if (!historyName) {
-      setMessage("Vui lòng nhập tên phần thưởng");
-      return;
-    }
-    try {
-      const res = await fetch(
-        `https://staging.chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?tenphanthuong=${encodeURIComponent(historyName)}&page=${historyPage}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await res.json();
-      if (res.ok) {
-        setHistoryData(data);
-      } else {
-        setMessage("Không tìm thấy lịch sử");
-      }
-    } catch {
-      setMessage("Lỗi kết nối server");
-    }
-  };
 
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value.replace(/\D/g, ""));
-  };
+  const [approvedRewards, setApprovedRewards] = useState([]);
+
+  const [showHistoryPopup, setShowHistoryPopup] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [historyData, setHistoryData] = useState([]);
+
+  // kiểm tra token
   useEffect(() => {
+
     const token = sessionStorage.getItem("token");
+
     if (!token) {
       navigate("/dang-nhap-dai-ly", {
-        state: { from: "/duyet-phan-thuong" },
+        state: { from: "/duyet-phan-thuong" }
       });
       return;
     }
+
     try {
+
       const payload = JSON.parse(atob(token.split(".")[1]));
       const exp = payload.exp * 1000;
+
       if (Date.now() > exp) {
+
         sessionStorage.removeItem("token");
+
         navigate("/dang-nhap-dai-ly", {
-          state: { from: "/duyet-phan-thuong" },
+          state: { from: "/duyet-phan-thuong" }
         });
+
       }
+
     } catch {
+
       sessionStorage.removeItem("token");
       navigate("/dang-nhap-dai-ly");
+
     }
+
   }, [navigate]);
 
+
+
+  // lấy danh sách sự kiện
   useEffect(() => {
-    const fetchApprovedRewards = async () => {
+
+    const fetchEvents = async () => {
+
       const token = sessionStorage.getItem("token");
-      if (!token) return;
 
       try {
+
         const res = await fetch(
-          "https://staging.chatapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
+          "https://staging.chatapi.io.vn/xem-su-kien-doi-qua-daily",
           {
-            method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           }
         );
+
         const data = await res.json();
-        console.log("Danh sách phần thưởng:", data);
 
         if (res.ok) {
-          setApprovedRewards(data);
+
+          setEvents(data);
+
         }
+
       } catch (error) {
-        console.log("Lỗi lấy danh sách phần thưởng:", error);
+
+        console.log("Lỗi lấy sự kiện", error);
+
       }
+
     };
 
-    fetchApprovedRewards();
+    fetchEvents();
+
   }, []);
 
-  const groupedRewards = approvedRewards.reduce((acc, item) => {
-    const name = item.tenphanthuong;
 
-    if (!acc[name]) {
-      acc[name] = 1;
-    } else {
-      acc[name] += 1;
-    }
 
-    return acc;
-  }, {});
-
+  // kiểm tra số điện thoại
   const handleCheckPhone = async (e) => {
+
     e.preventDefault();
 
     const token = sessionStorage.getItem("token");
 
     try {
+
       const res = await fetch(
         `https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
         {
-          method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 
       const data = await res.json();
 
-      console.log("API DATA:", data);
-
-      if (data.detail === "Permission denied" && res.status === 403) {
-        setMessage("Đợi duyệt đăng ký đại lý để kiểm tra phần thưởng");
-        setRewards([]);
-        return;
-      }
-
       if (res.ok && Array.isArray(data) && data.length > 0) {
+
         setRewards(data);
         setMessage(`Tìm thấy ${data.length} phần thưởng`);
+
       } else {
+
         setRewards([]);
         setMessage("Không tìm thấy người trúng thưởng");
+
       }
+
     } catch {
+
       setMessage("Lỗi kết nối server");
+
     }
+
   };
 
+
+
+  // duyệt thưởng
   const handleApprove = async (id) => {
+
     const token = sessionStorage.getItem("token");
 
     try {
+
       const res = await fetch(
         `https://staging.chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 
       const data = await res.json();
 
       if (res.ok) {
+
         setMessage("Duyệt phần thưởng thành công");
+
         setRewards((prev) =>
           prev.map((item) =>
             item.id === id
@@ -170,35 +169,115 @@ function CheckAndApproveReward() {
               : item
           )
         );
+
       } else {
+
         setMessage(data.detail || "Duyệt thất bại");
+
+      }
+
+    } catch {
+
+      setMessage("Lỗi kết nối server");
+
+    }
+
+  };
+
+  const formatDateTimeLocal = (date) => {
+    const pad = (n) => String(n).padStart(2, "0");
+
+    return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  };
+  useEffect(() => {
+    const now = new Date();
+    const sevenDaysAgo = new Date();
+
+    sevenDaysAgo.setDate(now.getDate() - 7);
+
+    setStartDate(formatDateTimeLocal(sevenDaysAgo));
+    setEndDate(formatDateTimeLocal(now));
+  }, []);
+  // xem lịch sử
+  const handleViewHistory = async () => {
+    const token = sessionStorage.getItem("token");
+    if (!startDate || !endDate) {
+      setMessage("Vui lòng chọn ngày bắt đầu và ngày kết thúc");
+      return;
+    }
+    try {
+
+      let url =
+        `https://staging.chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?ngaybatdau=${startDate}&ngayketthuc=${endDate}`;
+
+      if (selectedEvent) {
+        url += `&tensukien=${encodeURIComponent(selectedEvent)}`;
+      }
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setHistoryData(data);
       }
     } catch {
-      setMessage("Lỗi kết nối server");
+      setMessage("Lỗi lấy lịch sử");
     }
+  };
+
+  const groupedHistory = Object.values(
+    historyData.reduce((acc, item) => {
+      const phone = item.numberphone.replace(/^84/, "0");
+      if (!acc[phone]) {
+        acc[phone] = {
+          numberphone: phone,
+          hovaten: item.hovaten,
+          rewards: []
+        };
+      }
+      acc[phone].rewards.push({
+        tenphanthuong: item.tenphanthuong,
+        soluong: item.soluong,
+        tensukien: item.tensukien
+      });
+      return acc;
+    }, {})
+  );
+
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value.replace(/\D/g, ""));
   };
 
   return (
     <div className={styles.wrapper}>
+      <button
+          className={styles.buttonhtory}
+          onClick={() => {
+            setShowHistoryPopup(true);
+            setTimeout(() => {
+              handleViewHistory();
+            }, 100);
+          }}
+        >
+          Xem danh sách duyệt thưởng
+      </button>
       <div className={styles.container}>
         <p className={styles.title}>Kiểm tra & Duyệt phần thưởng</p>
-
         <form onSubmit={handleCheckPhone} className={styles.form}>
           <input
             type="text"
             placeholder="Nhập số điện thoại"
             value={phone}
             onChange={handlePhoneChange}
-            inputMode="numeric"
-            pattern="[0-9]*"
             className={styles.input}
           />
-
           <button type="submit" className={styles.button}>
             Kiểm tra
           </button>
         </form>
-
         {rewards.length > 0 && (
           <div className={styles.result}>
             {rewards.map((item) => {
@@ -206,17 +285,10 @@ function CheckAndApproveReward() {
                 item["trạng thái nhận thưởng"] ||
                 item["trang_thai_nhan_thuong"] ||
                 "không rõ";
-
               return (
                 <div key={item.id} className={styles.rewardItem}>
-                  <p>
-                    <b>Tên phần thưởng:</b> {item.tenphanthuong}
-                  </p>
-
-                  <p>
-                    <b>Trạng thái:</b> {status}
-                  </p>
-
+                  <p><b>Tên phần thưởng:</b> {item.tenphanthuong}</p>
+                  <p><b>Trạng thái:</b> {status}</p>
                   {status !== "đã nhận thưởng" && (
                     <button
                       onClick={() => handleApprove(item.id)}
@@ -232,27 +304,7 @@ function CheckAndApproveReward() {
         )}
         {message && <p className={styles.message}>{message}</p>}
       </div>
-      {approvedRewards.length > 0 && (
-        <div className={styles.approvedSection}>
-          <h4>Danh sách mã trúng thưởng đã duyệt</h4>
-          {Object.entries(groupedRewards).map(([name, count], index) => (
-            <div key={index} className={styles.rewardItem}>
-              <p>
-                <b>Tên phần thưởng:</b> {name}
-                {count > 1 && (
-                  <span className={styles.count}> ×{count}</span>
-                )}
-              </p>
-            </div>
-          ))}
-          <button
-          className={styles.buttonhtory}
-          onClick={() => setShowHistoryPopup(true)}
-        >
-          Xem lịch sử nhận thưởng
-        </button>
-        </div>
-      )}
+
       {showHistoryPopup && (
         <div
           className={styles.popupOverlay}
@@ -269,59 +321,115 @@ function CheckAndApproveReward() {
               ×
             </button>
 
-            <h3 className={styles.popupTitle}>
-              Tìm lịch sử nhận thưởng
-            </h3>
-
+            <div className={styles.popupTitle}>
+              Xem lịch sử duyệt thưởng
+            </div>
             <div className={styles.popupForm}>
-              <input
-                type="text"
-                placeholder="Nhập tên phần thưởng"
-                value={historyName}
-                onChange={(e) => setHistoryName(e.target.value)}
+              <select
                 className={styles.popupInput}
-              />
+                value={selectedEvent}
+                onChange={(e) => setSelectedEvent(e.target.value)}
+              >
+                <option value="">Tất cả sự kiện</option>
 
+                {events.map((event) => (
+                  <option key={event.id} value={event.tensukien}>
+                    {event.tensukien}
+                  </option>
+                ))}
+              </select>
               <input
-                type="number"
-                placeholder="Page"
-                value={historyPage}
-                onChange={(e) => setHistoryPage(e.target.value)}
+                type="datetime-local"
                 className={styles.popupInput}
+                value={startDate || ""}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <input
+                type="datetime-local"
+                className={styles.popupInput}
+                value={endDate || ""}
+                onChange={(e) => setEndDate(e.target.value)}
               />
 
               <button
                 className={styles.popupButton}
-                onClick={handleSearchHistory}
+                onClick={handleViewHistory}
               >
-                Tìm lịch sử
+                Xem lịch sử
               </button>
             </div>
+              {groupedHistory.length > 0 && (
+                <>
+                  {/* DESKTOP TABLE */}
+                  <div className={styles.desktopTable}>
+                    <table className={styles.historyTable}>
+                      <thead>
+                        <tr>
+                          <th>Số điện thoại</th>
+                          <th>Họ và tên</th>
+                          <th>Phần thưởng</th>
+                          <th>Số lượng</th>
+                          <th>Sự kiện</th>
+                        </tr>
+                      </thead>
 
-            {historyData.length > 0 && (
-              <div className={styles.historyList}>
-                {historyData.map((item, index) => (
-                  <div key={index} className={styles.historyItem}>
-                    <p>
-                      <b>Phần thưởng:</b> {item.tenphanthuong}
-                    </p>
+                      <tbody>
+                        {groupedHistory.map((user, index) =>
+                          user.rewards.map((r, i) => (
+                            <tr key={index + "-" + i}>
+                              {i === 0 && (
+                                <>
+                                  <td rowSpan={user.rewards.length}>{user.numberphone}</td>
+                                  <td rowSpan={user.rewards.length}>{user.hovaten || "—"}</td>
+                                </>
+                              )}
 
-                    <p>
-                      <b>SĐT:</b> {item.numberphone}
-                    </p>
-
-                    <p>
-                      <b>Họ tên:</b> {item.hovaten || "Chưa cập nhật"}
-                    </p>
+                              <td>{r.tenphanthuong}</td>
+                              <td>{r.soluong}</td>
+                              <td>{r.tensukien}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
                   </div>
-                ))}
-              </div>
-            )}
+
+                  {/* MOBILE CARD */}
+                  <div className={styles.mobileHistory}>
+                    {groupedHistory.map((user, index) => (
+                      <div key={index} className={styles.historyCard}>
+
+                        <div className={styles.historyPhone}>
+                          {user.numberphone}
+                        </div>
+
+                        <div className={styles.historyName}>
+                          {user.hovaten || "—"}
+                        </div>
+
+                        {user.rewards.map((r, i) => (
+                          <div key={i} className={styles.historyReward}>
+                            <div>
+                              <b>Phần thưởng:</b> {r.tenphanthuong}
+                            </div>
+                            <div>
+                              <b>Số lượng:</b> {r.soluong}
+                            </div>
+                            <div>
+                              <b>Sự kiện:</b> {r.tensukien}
+                            </div>
+                          </div>
+                        ))}
+
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
           </div>
         </div>
       )}
     </div>
   );
 }
-
 export default CheckAndApproveReward;
