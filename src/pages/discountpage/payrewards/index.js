@@ -262,15 +262,22 @@ function CheckAndApproveReward() {
         </form>
         {rewards.length > 0 && (
           <div className={styles.result}>
-            {rewards.map((item) => {
+            {rewards
+            .filter(
+              (item) =>
+                !item.tenphanthuong?.toLowerCase().includes("may mắn lần sau")
+            )
+            .map((item) => {
               const status =
                 item["trạng thái nhận thưởng"] ||
                 item["trang_thai_nhan_thuong"] ||
                 "không rõ";
+
               return (
                 <div key={item.id} className={styles.rewardItem}>
                   <p><b>Tên phần thưởng:</b> {item.tenphanthuong}</p>
                   <p><b>Trạng thái:</b> {status}</p>
+
                   {status !== "đã nhận thưởng" && (
                     <button
                       onClick={() => handleApprove(item.id)}
