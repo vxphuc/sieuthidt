@@ -252,6 +252,13 @@ function CheckAndApproveReward() {
     setPhone(e.target.value.replace(/\D/g, ""));
   };
 
+  const maskPhoneNumber = (phoneNumber) => {
+    if (!phoneNumber) return "";
+    const normalizedPhone = String(phoneNumber);
+    if (normalizedPhone.length <= 5) return normalizedPhone;
+    return `${"*".repeat(Math.min(5, normalizedPhone.length - 5))}${normalizedPhone.slice(-5)}`;
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -411,7 +418,7 @@ function CheckAndApproveReward() {
                             <tr key={index + "-" + i}>
                               {i === 0 && (
                                 <>
-                                  <td rowSpan={user.rewards.length}>{user.numberphone}</td>
+                                  <td rowSpan={user.rewards.length}>{maskPhoneNumber(user.numberphone)}</td>
                                   <td rowSpan={user.rewards.length}>{user.hovaten || "chưa cập nhật"}</td>
                                 </>
                               )}
@@ -442,7 +449,7 @@ function CheckAndApproveReward() {
                       <div key={index} className={styles.historyCard}>
 
                         <div className={styles.historyPhone}>
-                          {user.numberphone}
+                          {maskPhoneNumber(user.numberphone)}
                         </div>
 
                         <div className={styles.historyName}>
