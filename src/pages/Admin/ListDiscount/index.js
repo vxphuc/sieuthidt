@@ -6,88 +6,144 @@ import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 function ListDiscount() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [submittedSearch, setSubmittedSearch] = useState('');
+
+    const [filters, setFilters] = useState({
+        tensukien: '',
+        is_active: '',
+        is_koc: ''
+    });
+
+    const [submittedFilters, setSubmittedFilters] = useState(filters);
     const [currentPage, setCurrentPage] = useState(1);
-    const LIMIT = 10;
-    // Hàm gọi API lấy danh sách
-    const fetchEvents = async (page, query) => {
+
+    // ✅ build query string
+    const buildQuery = (params) => {
+        return Object.entries(params)
+            .filter(([_, v]) => v !== '' && v !== undefined)
+            .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+            .join('&');
+    };
+
+    // ✅ CALL API bằng URL
+    const fetchEvents = async (page, filterData) => {
         setLoading(true);
+
         try {
-            const response = await api.get(`/tat-ca-su-kien`, {
-                params: {
-                    q: query,
-                    limit: LIMIT,
-                    page: page
-                }
+            const query = buildQuery({
+                page,
+                tensukien: filterData.tensukien,
+                is_active: filterData.is_active,
+                is_koc: filterData.is_koc
             });
-            const data = Array.isArray(response.data) ? response.data : [];
+
+            const url = `/xem-su-kien?${query}`;
+
+            console.log("CALL API:", url);
+
+            const response = await api.get(url);
+
+            const data = response.data?.data || response.data || [];
+
             setEvents(data);
-            
-            // Nếu dữ liệu trả về rỗng mà không phải trang 1, lùi lại 1 trang
+
             if (data.length === 0 && page > 1) {
                 setCurrentPage(prev => prev - 1);
             }
 
         } catch (error) {
-            console.error("Lỗi lấy danh sách:", error);
+            console.error("Lỗi API:", error);
         } finally {
             setLoading(false);
         }
     };
-    useEffect(() => {
-        fetchEvents(currentPage, submittedSearch);
-    }, [currentPage, submittedSearch]);
 
+    useEffect(() => {
+        fetchEvents(currentPage, submittedFilters);
+    }, [currentPage, submittedFilters]);
+
+    // ✅ handle change
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFilters(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    // ✅ submit search
     const handleSearch = (e) => {
         e.preventDefault();
-        setSubmittedSearch(searchTerm);
+        setSubmittedFilters(filters);
         setCurrentPage(1);
     };
+
+    // pagination
     const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(prev => prev - 1);
-        }
+        if (currentPage > 1) setCurrentPage(prev => prev - 1);
     };
 
     const handleNextPage = () => {
-        if (events.length === LIMIT) {
-            setCurrentPage(prev => prev + 1);
-        }
+        if (events.length > 0) setCurrentPage(prev => prev + 1);
     };
 
+    // format date
     const formatDate = (dateString) => {
         if (!dateString) return "---";
-        const date = new Date(dateString);
-        return date.toLocaleString('vi-VN', {
-            hour: '2-digit', minute: '2-digit',
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        });
+        return new Date(dateString).toLocaleString('vi-VN');
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.card}>
-                {/* Header & Tìm kiếm */}
+
+                {/* HEADER */}
                 <div className={styles.header}>
                     <h2 className={styles.title}>Danh Sách Khuyến Mãi</h2>
-                    
+
                     <form onSubmit={handleSearch} className={styles.searchBox}>
-                        <input 
-                            type="text" 
-                            placeholder="Tìm tên sự kiện..." 
+
+                        {/* Tên sự kiện */}
+                        <input
+                            type="text"
+                            name="tensukien"
+                            placeholder="Tên sự kiện..."
                             className={styles.searchInput}
-                            value={searchTerm}
-                            // Chỉ cập nhật searchTerm khi gõ, chưa gọi API
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            value={filters.tensukien}
+                            onChange={handleChange}
                         />
+
+                        {/* is_active */}
+                        <select
+                            name="is_active"
+                            value={filters.is_active}
+                            onChange={handleChange}
+                            className={styles.searchInput}
+                        >
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="true">Đang chạy</option>
+                            <option value="false">Đã tắt</option>
+                        </select>
+
+                        {/* is_koc */}
+                        <select
+                            name="is_koc"
+                            value={filters.is_koc}
+                            onChange={handleChange}
+                            className={styles.searchInput}
+                        >
+                            <option value="">Tất cả</option>
+                            <option value="true">KOC</option>
+                            <option value="false">Không KOC</option>
+                        </select>
+
                         <button type="submit" className={styles.btnSearch}>
                             <FaSearch /> Tìm
                         </button>
                     </form>
                 </div>
 
-                {/* Bảng Dữ Liệu */}
+                {/* TABLE */}
                 <div className={styles.tableContainer}>
                     {loading ? (
                         <div className={styles.loading}>Đang tải dữ liệu...</div>
@@ -95,23 +151,26 @@ function ListDiscount() {
                         <>
                             <table className={styles.table}>
                                 <thead>
-                                    <tr className={styles.tableHeader}>
+                                    <tr>
                                         <th>ID</th>
-                                        <th>Tên Sự Kiện</th>
-                                        <th>Giảm Giá</th>
-                                        <th>Thời Gian Bắt Đầu</th>
-                                        <th>Thời Gian Kết Thúc</th>
-                                        <th>Trạng Thái</th>
+                                        <th>Tên sự kiện</th>
+                                        <th>Giảm giá</th>
+                                        <th>Bắt đầu</th>
+                                        <th>Kết thúc</th>
+                                        <th>Trạng thái</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     {events.length > 0 ? (
-                                        events.map((item) => (
+                                        events.map(item => (
                                             <tr key={item.id}>
                                                 <td>#{item.id}</td>
                                                 <td>
                                                     <strong>{item.tensukien}</strong>
-                                                    {item.is_koc && <span className={styles.kocBadge}>KOC</span>}
+                                                    {item.is_koc && (
+                                                        <span className={styles.kocBadge}>KOC</span>
+                                                    )}
                                                 </td>
                                                 <td style={{ color: '#206a37', fontWeight: 'bold' }}>
                                                     {item.giatrigiamgia}%
@@ -120,41 +179,41 @@ function ListDiscount() {
                                                 <td>{formatDate(item.thoigianketthuc)}</td>
                                                 <td>
                                                     {item.is_active ? (
-                                                        <span className={`${styles.badge} ${styles.active}`}>Đang chạy</span>
+                                                        <span className={`${styles.badge} ${styles.active}`}>
+                                                            Đang chạy
+                                                        </span>
                                                     ) : (
-                                                        <span className={`${styles.badge} ${styles.inactive}`}>Đã tắt</span>
+                                                        <span className={`${styles.badge} ${styles.inactive}`}>
+                                                            Đã tắt
+                                                        </span>
                                                     )}
                                                 </td>
                                             </tr>
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="6" style={{textAlign: 'center', padding: '20px'}}>
-                                                Không tìm thấy sự kiện nào.
+                                            <td colSpan="6" style={{ textAlign: 'center', padding: 20 }}>
+                                                Không có dữ liệu
                                             </td>
                                         </tr>
                                     )}
                                 </tbody>
                             </table>
 
-                            {/* --- PHẦN ĐIỀU KHIỂN PHÂN TRANG --- */}
+                            {/* PAGINATION */}
                             <div className={styles.pagination}>
-                                <button 
-                                    className={styles.pageBtn} 
-                                    onClick={handlePrevPage} 
+                                <button
+                                    onClick={handlePrevPage}
                                     disabled={currentPage === 1 || loading}
                                 >
                                     <FaChevronLeft /> Trước
                                 </button>
-                                
-                                <span className={styles.pageInfo}>
-                                    Trang {currentPage}
-                                </span>
-                                
-                                <button 
-                                    className={styles.pageBtn} 
-                                    onClick={handleNextPage} 
-                                    disabled={events.length < LIMIT || loading}
+
+                                <span>Trang {currentPage}</span>
+
+                                <button
+                                    onClick={handleNextPage}
+                                    disabled={loading}
                                 >
                                     Sau <FaChevronRight />
                                 </button>
@@ -166,4 +225,5 @@ function ListDiscount() {
         </div>
     );
 }
+
 export default ListDiscount;

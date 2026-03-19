@@ -130,3 +130,35 @@
     color: #6c757d;
     font-style: italic;
 }
+.filterBox {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input {
+  flex: 1;
+  padding: 8px;
+}
+
+.select {
+  padding: 8px;
+}
+
+.btnSearch {
+  padding: 8px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+}
+.btnReject {
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.waiting { color: orange; }
+.approved { color: green; }
+.reject { color: red; }

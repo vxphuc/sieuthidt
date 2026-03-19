@@ -42,8 +42,6 @@ import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
 import DetailUsers from "../pages/Admin/DetailUser";
 import LuckyWheel from "../pages/Admin/luckywheel/index";
 import LuckyWheelPage from "../pages/Admin/luckywheel/LuckyWheel/index";
-import ExchangeGifts from "../pages/ExchangeGifts";
-import CheckCodeAdmin from "../pages/CheckCode";
 
 //ctv import
 import ManageCTV from "../pages/Admin/ManageCTV";
@@ -264,16 +262,6 @@ export const router = [
   },
   { path: "/san-pham/:slug", component: Product },
   { path: "/:slug/:slug", component: DetailProduct, layout: HeaderOnly},
-  {
-    path: "/doi-qua",
-    component: ExchangeGifts,
-    layout: HeaderOnly,
-  },
-  {
-    path: "/kiem-tra-ma-qua",
-    component: CheckCodeAdmin,
-    layout: HeaderOnly,
-  },
 
   //mã giảm giá sll
   {
