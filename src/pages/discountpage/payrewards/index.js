@@ -104,7 +104,7 @@ function CheckAndApproveReward() {
     const token = sessionStorage.getItem("token");
     try {
       const res = await fetch(
-        `https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?sdt=${phone}`,
+        `https://staging.chatapi.io.vn/kiem-tra-nguoi-trung-thuong?data=${phone}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -249,7 +249,7 @@ function CheckAndApproveReward() {
   ).size;
 
   const handlePhoneChange = (e) => {
-    setPhone(e.target.value.replace(/\D/g, ""));
+    setPhone(e.target.value);
   };
 
   const maskPhoneNumber = (phoneNumber) => {
