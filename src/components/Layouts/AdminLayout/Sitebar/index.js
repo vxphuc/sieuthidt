@@ -18,7 +18,7 @@ function Sitebar() {
   const functionsActive = location.pathname.startsWith('/quan-tri/quan-ly-tai-khoan') || location.pathname.startsWith('/quan-tri/banner') || location.pathname.startsWith('/quan-tri/quan-ly-ctv');
   const giftEventsActive = location.pathname.startsWith('/quan-tri/danh-sach-su-kien-doi-qua') || location.pathname.startsWith('/quan-tri/tao-ma-giam-gia-hang-loat')
                       || location.pathname.startsWith('/quan-tri/gan-ma-giam-gia-vao-su-kien') || location.pathname.startsWith('/quan-tri/tao-phan-thuong-cho-su-kien')
-                      || location.pathname.startsWith('/quan-tri/danh-sach-dai-ly');
+                      || location.pathname.startsWith('/quan-tri/danh-sach-dai-ly') || location.pathname.startsWith('/quan-tri/quan-ly-du-lieu-su-kien-doi-qua');
   const luckyActive = location.pathname.startsWith('/quan-tri/LuckyWheel');
   const CreateDiscountActive = location.pathname.startsWith('/quan-tri/tao-giam-gia');
   const [showStats, setShowStats] = useState(false);
@@ -208,6 +208,12 @@ function Sitebar() {
         </h3>
         {showGiftEvents && (
           <>
+            <NavLink
+              to="/quan-tri/quan-ly-du-lieu-su-kien-doi-qua"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Quản trị sự kiện</div>
+            </NavLink>
             <NavLink
               to="/quan-tri/danh-sach-su-kien-doi-qua"
               className={({ isActive }) => (isActive ? Style.active : "")}

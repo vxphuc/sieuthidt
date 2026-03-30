@@ -69,6 +69,7 @@ import RegisterDistributor from "../pages/discountpage/registerDistributor";
 import ListDistributor from "../pages/discountpage/listdistributor";
 import LoginDistributor from "../pages/discountpage/loginDistributor";
 import CheckPhone from "../pages/discountpage/checkphone";
+import SpecialEventReport from "../pages/discountpage/adminEvent";
 import PayRewards from "../pages/discountpage/payrewards";
 //chinh sach
 import PaymentPolice from "../pages/NotePage/PaymentPolice";
@@ -264,6 +265,11 @@ export const router = [
   { path: "/:slug/:slug", component: DetailProduct, layout: HeaderOnly},
 
   //mã giảm giá sll
+  {
+    path: "/quan-tri/quan-ly-du-lieu-su-kien-doi-qua",
+    component: SpecialEventReport,
+    layout: AdminLayout,
+  },
   {
     path: "/quan-tri/danh-sach-su-kien-doi-qua",
     component: ReviewEvent,
