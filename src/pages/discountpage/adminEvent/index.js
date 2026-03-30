@@ -198,18 +198,29 @@ const defaultStartDay = new Date(
     }, [eventId, page, pageUser, pageDistributor, startDate, endDate]);
 
   // lọc bỏ "may mắn lần sau"
-  const filteredData = data;
-//   .filter(
-//     (item) =>
-//       !item.tenphanthuong?.toLowerCase().includes("may mắn")
-//   );
+    const filteredData = data.filter((item) => {
+        const rewardName = item.tenphanthuong?.toLowerCase() || "";
+
+        return (
+            !rewardName.includes("may mắn lần sau") &&
+            !rewardName.includes("chúc bạn may mắn") &&
+            !rewardName.includes("may mắn")
+        );
+    });
 
   const summary = data[0] || {};
 
     const rewardColumns = [
         ...new Set(
             distributorData.flatMap((item) =>
-            item.phanthuong ? Object.keys(item.phanthuong) : []
+            item.phanthuong ? Object.keys(item.phanthuong).filter((reward) => {
+                const rewardName = reward.toLocaleLowerCase();
+                return (
+                    !rewardName.includes("may mắn lần sau") &&
+                    !rewardName.includes("chúc bạn may mắn") &&
+                    !rewardName.includes("may mắn")
+                );
+            }) : []
             )
         ),
     ];
@@ -524,9 +535,17 @@ const defaultStartDay = new Date(
                             </tr>
                         </thead>
                         <tbody>
-                            {userDetail.map((item, index) => {
+                            {userDetail.filter((item) => {
+                                const rewardName = item.tenphanthuong?.toLowerCase() || "";
+                                return (
+                                    !rewardName.includes("may mắn lần sau") &&
+                                    !rewardName.includes("chúc bạn may mắn") &&
+                                    !rewardName.includes("may mắn")
+                                );
+                            }).map((item, index) => {
                                 const date = new Date(item.thoidiemtrungthuong)
                                     return(
+                                        
                                         <tr key={index}>
                                             <td>{item.ma || "-"}</td>
                                             <td>{item.tenphanthuong}</td>
@@ -573,7 +592,14 @@ const defaultStartDay = new Date(
                     </thead>
 
                     <tbody>
-                    {shopHistory.map((item, index) => (
+                    {shopHistory.filter((item) => {
+                        const rewardName = item.tenphanthuong?.toLowerCase() || "";
+                        return(
+                            !rewardName.includes("may mắn lần sau") &&
+                            !rewardName.includes("chúc bạn may mắn") &&
+                            !rewardName.includes("may mắn")
+                        );
+                    }).map((item, index) => (
                         <tr key={index}>
                         <td>{item.hovaten || "Chưa cập nhật"}</td>
                         <td>{item.numberphone?.replace(/^84/, "0")}</td>

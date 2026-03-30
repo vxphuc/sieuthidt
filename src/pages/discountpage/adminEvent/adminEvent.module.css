@@ -40,19 +40,46 @@
 }
 
 /* TABLE */
+/* TABLE */
 .table {
   width: 100%;
   border-collapse: collapse;
-  border: 3px solid #000; /* viền ngoài đậm */
+  margin-bottom: 0;
+  background: #fff;
+  table-layout: fixed;
 }
 
+.table thead th {
+  background-color: #206a37;
+  color: #ffffff;
+  padding: 5px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: solid 1px #ffffff;
+  text-align: center;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.table tbody td {
+  padding: 5px;
+  border: solid 1px #206a37;
+  vertical-align: middle;
+  color: #495057;
+  font-size: 15px;
+  text-align: center;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f8f3;
+}
 .table th,
 .table td {
-  border: 2px solid #000; /* viền ô rõ */
-  padding: 10px;
-  text-align: center;
+  word-break: break-word;
+  white-space: normal;
 }
-
 .headerTop {
   background: #28a745;
   color: white;
@@ -85,7 +112,7 @@
   background: white;
   padding: 20px;
   border-radius: 10px;
-  min-width: 600px;
+  width: 60%;
   max-height: 80vh;
   overflow: auto;
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
