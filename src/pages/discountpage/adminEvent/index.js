@@ -15,6 +15,7 @@ const EventReport = () => {
   const [pageDistributor,setPageDistributor] = useState(1);
   const [pagePopupUs, setPagePopupUs] = useState(1);
   const [pagePopupDis, setPagePopupDis] = useState(1);
+  const [selectedShopId, setSelectedShopId] = useState(null);
   const [shopHistory, setShopHistory] = useState([]);
   const [showShopPopup, setShowShopPopup] = useState(false);
 
@@ -42,7 +43,7 @@ const defaultStartDay = new Date(
 // popup dữ liệu shop
     const fetchShopHistory = async (shopId) => {
         try {
-            let url = `https://staging.chatapi.io.vn/lichSuDanhSachDoiThuongBoiDaiLy?id=${shopId}`;
+            let url = `https://staging.chatapi.io.vn/lichSuDanhSachDoiThuongBoiDaiLy?id=${shopId}&page=${pagePopupDis}&limit=20`;
 
             if (startDate) {
                 url += `&ngaybatdau=${startDate.slice(0, 10)}T00:00:00`;
@@ -62,6 +63,7 @@ const defaultStartDay = new Date(
 
             if (res.ok) {
             setShopHistory(data);
+            setSelectedShopId(shopId);
             setShowShopPopup(true);
             }
         } catch (err) {
@@ -71,7 +73,7 @@ const defaultStartDay = new Date(
 // popup dữ liệu người dùng
   const fetchUserDetail = async (userId) => {
     try{
-        const res = await fetch(`https://staging.chatapi.io.vn/user-detail-joins-an-event?id_nguoidung=${userId}&id_sukien=${eventId}`,{
+        const res = await fetch(`https://staging.chatapi.io.vn/user-detail-joins-an-event?id_nguoidung=${userId}&id_sukien=${eventId}&page=${pagePopupUs}&limit=20`,{
             headers: {Authorization: `Bearer ${token}`},
         });
         const data = await res.json();
@@ -226,6 +228,34 @@ const defaultStartDay = new Date(
             )
         ),
     ];
+    useEffect(() => {
+        if (showPopup && selectedUser?.id_nguoidung) {
+            fetchUserDetail(selectedUser.id_nguoidung);
+        }
+    }, [pagePopupUs]);
+    const filteredUserDetail = userDetail.filter((item) => {
+        const rewardName = item.tenphanthuong?.toLowerCase() || "";
+
+        return (
+            !rewardName.includes("may mắn lần sau") &&
+            !rewardName.includes("chúc bạn may mắn") &&
+            !rewardName.includes("may mắn")
+        );
+    });
+    useEffect(() => {
+        if (showShopPopup && selectedShopId) {
+            fetchShopHistory(selectedShopId);
+        }
+    }, [pagePopupDis]);
+    const filteredShopHistory = shopHistory.filter((item) => {
+        const rewardName = item.tenphanthuong?.toLowerCase() || "";
+
+        return (
+            !rewardName.includes("may mắn lần sau") &&
+            !rewardName.includes("chúc bạn may mắn") &&
+            !rewardName.includes("may mắn")
+        );
+    });
   return (
     <div className={styles.containerData}>
         <div className={styles.wrapper}>
@@ -510,7 +540,6 @@ const defaultStartDay = new Date(
                     </button>
                 </div>
             </div>
-            
         </div>
         {showPopup && (
             <div className={styles.popupOverlay} onClick={() => setShowPopup(false)}>
@@ -537,14 +566,7 @@ const defaultStartDay = new Date(
                             </tr>
                         </thead>
                         <tbody>
-                            {userDetail.filter((item) => {
-                                const rewardName = item.tenphanthuong?.toLowerCase() || "";
-                                return (
-                                    !rewardName.includes("may mắn lần sau") &&
-                                    !rewardName.includes("chúc bạn may mắn") &&
-                                    !rewardName.includes("may mắn")
-                                );
-                            }).map((item, index) => {
+                            {filteredUserDetail.map((item, index) => {
                                 const date = new Date(item.thoidiemtrungthuong)
                                     return(
                                         
@@ -558,6 +580,35 @@ const defaultStartDay = new Date(
                             })}
                         </tbody>
                     </table>
+                    <div className={styles.pageSeting}>
+                        <button
+                            className={styles.button}
+                            disabled={pagePopupUs === 1}
+                            onClick={() => setPagePopupUs((prev) => Math.max(prev - 1, 1))}
+                            style={{
+                            opacity: pagePopupUs === 1 ? 0.5 : 1,
+                            cursor: pagePopupUs === 1 ? "not-allowed" : "pointer",
+                            }}
+                        >
+                            Trang trước
+                        </button>
+
+                        <span className={styles.firtPage}>
+                            Trang {pagePopupUs}
+                        </span>
+
+                        <button
+                            className={styles.button}
+                            disabled={filteredUserDetail.length < 20}
+                            onClick={() => setPagePopupUs((prev) => prev + 1)}
+                            style={{
+                            opacity: filteredUserDetail.length < 20 ? 0.5 : 1,
+                            cursor: filteredUserDetail.length < 20 ? "not-allowed" : "pointer",
+                            }}
+                        >
+                            Trang sau
+                        </button>
+                    </div>
                 </div>
             </div>
         )}
@@ -594,14 +645,7 @@ const defaultStartDay = new Date(
                     </thead>
 
                     <tbody>
-                    {shopHistory.filter((item) => {
-                        const rewardName = item.tenphanthuong?.toLowerCase() || "";
-                        return(
-                            !rewardName.includes("may mắn lần sau") &&
-                            !rewardName.includes("chúc bạn may mắn") &&
-                            !rewardName.includes("may mắn")
-                        );
-                    }).map((item, index) => (
+                    {filteredShopHistory.map((item, index) => (
                         <tr key={index}>
                         <td>{item.hovaten || "Chưa cập nhật"}</td>
                         <td>{item.numberphone?.replace(/^84/, "0")}</td>
@@ -615,6 +659,33 @@ const defaultStartDay = new Date(
                     ))}
                     </tbody>
                 </table>
+                <div className={pageSeting}>
+                    <button
+                        className={styles.button}
+                        disabled = {pagePopupDis === 1}
+                        onClick={() => setPagePopupDis((prev) => Math.max(prev -1, 1))}
+                        style={{
+                            opacity: pagePopupDis === 1 ? 0.5 : 1,
+                            cursor: pagePopupDis === 1 ? "not-allowed" : "pointer",
+                        }}
+                    >
+                        Trang trước
+                    </button>
+                    <span className={styles.firtPage}>
+                        Trang {pagePopupDis}
+                    </span>
+                    <button
+                        className={styles.button}
+                        disabled={filteredShopHistory.length < 20}
+                        onClick={() => setPagePopupDis((prev) => prev + 1)}
+                        style={{
+                        opacity: filteredShopHistory.length < 20 ? 0.5 : 1,
+                        cursor: filteredShopHistory.length < 20 ? "not-allowed" : "pointer",
+                        }}
+                    >
+                        Trang sau
+                    </button>
+                </div>
                 </div>
             </div>
         )}

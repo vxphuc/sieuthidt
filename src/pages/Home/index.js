@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ProductHome from "../ProductHome";
 import { CartContext } from "../../contexts/CartContext";
 import BackgroundPopup from "../../components/BackgroundPopup";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import api from "../../api/axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { getCart, saveCart } from "../../services/cartService";
@@ -19,7 +19,7 @@ function Home() {
   const currentIndex = useRef(0);
   const intervalRef = useRef(null);
   const [newProduct, setNewProduct] = useState([]);
-  const socket = useRef(null);
+  // const socket = useRef(null);
   const [isAdding, setIsAdding] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -29,12 +29,12 @@ function Home() {
   const [quantity, setQuantity] = useState(1);
 
   // Kết nối socket một lần duy nhất
-  useEffect(() => {
-    socket.current = io("https://dtweb.onrender.com");
-    return () => {
-      if (socket.current) socket.current.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   socket.current = io("https://dtweb.onrender.com");
+  //   return () => {
+  //     if (socket.current) socket.current.disconnect();
+  //   };
+  // }, []);
 
   // Gộp API gọi song song
   useEffect(() => {
