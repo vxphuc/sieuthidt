@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './GiftRedemption.module.css';
 import { jwtDecode } from "jwt-decode";
 const GiftRedemption = () => {
@@ -10,14 +10,29 @@ const GiftRedemption = () => {
     const [popupMessage, setPopupMessage] = useState('');
     const [isWin, setIsWin] = useState(true);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
+        const params = new URLSearchParams(location.search);
+
+        const phoneFromUrl = params.get("sodienthoai");
+        const nameFromUrl = params.get("hovaten");
+
+        if (phoneFromUrl) {
+            sessionStorage.setItem("phone", phoneFromUrl);
+        }
+
+        if (nameFromUrl) {
+            sessionStorage.setItem("name", decodeURIComponent(nameFromUrl));
+        }
+
         const phone = sessionStorage.getItem("phone");
         const name = sessionStorage.getItem("name");
+
         if (!phone || !name) {
             navigate("/dang-nhap-nhan-qua");
         }
-    }, []);
+    }, [location.search, navigate]);
 
     const handleRedeem = async (e) => {
         e.preventDefault();

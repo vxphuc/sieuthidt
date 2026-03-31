@@ -13,6 +13,8 @@ const EventReport = () => {
   const [page, setPage] = useState(1);
   const [pageUser, setPageUser] = useState(1);
   const [pageDistributor,setPageDistributor] = useState(1);
+  const [pagePopupUs, setPagePopupUs] = useState(1);
+  const [pagePopupDis, setPagePopupDis] = useState(1);
   const [shopHistory, setShopHistory] = useState([]);
   const [showShopPopup, setShowShopPopup] = useState(false);
 
@@ -147,7 +149,7 @@ const defaultStartDay = new Date(
             setData(result);
         }
         if (eventId) {
-            let userUrl = `https://staging.chatapi.io.vn/users-join-an-event?id_sukien=${eventId}&page=${pageUser}&limit=100`;
+            let userUrl = `https://staging.chatapi.io.vn/users-join-an-event?id_sukien=${eventId}&page=${pageUser}&limit=10`;
 
             if (startDate) {
                 const start = `${startDate.slice(0, 10)}T00:00:00`;
