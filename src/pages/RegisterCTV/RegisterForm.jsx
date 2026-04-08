@@ -27,7 +27,6 @@ export default function RegisterForm({ onSuccess }) {
                 diachi: form.diachi 
             });
             
-            // Nếu thành công, báo cho file cha biết
             onSuccess(); 
         } catch (err) {
             console.error(err);
