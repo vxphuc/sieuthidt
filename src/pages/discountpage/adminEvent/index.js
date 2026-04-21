@@ -43,7 +43,7 @@ const defaultStartDay = new Date(
 // popup dữ liệu shop
     const fetchShopHistory = async (shopId) => {
         try {
-            let url = `https://staging.chatapi.io.vn/lichSuDanhSachDoiThuongBoiDaiLy?id=${shopId}&page=${pagePopupDis}&limit=20`;
+            let url = `https://chatapi.io.vn/lichSuDanhSachDoiThuongBoiDaiLy?id=${shopId}&page=${pagePopupDis}&limit=20`;
 
             if (startDate) {
                 url += `&ngaybatdau=${startDate.slice(0, 10)}T00:00:00`;
@@ -73,7 +73,7 @@ const defaultStartDay = new Date(
 // popup dữ liệu người dùng
   const fetchUserDetail = async (userId) => {
     try{
-        const res = await fetch(`https://staging.chatapi.io.vn/user-detail-joins-an-event?id_nguoidung=${userId}&id_sukien=${eventId}&page=${pagePopupUs}&limit=20`,{
+        const res = await fetch(`https://chatapi.io.vn/user-detail-joins-an-event?id_nguoidung=${userId}&id_sukien=${eventId}&page=${pagePopupUs}&limit=20`,{
             headers: {Authorization: `Bearer ${token}`},
         });
         const data = await res.json();
@@ -91,7 +91,7 @@ const defaultStartDay = new Date(
     const fetchEvents = async () => {
         try {
         const res = await fetch(
-            "https://staging.chatapi.io.vn/xem-su-kien-doi-qua-daily"
+            "https://chatapi.io.vn/xem-su-kien-doi-qua-daily"
         );
 
         const data = await res.json();
@@ -126,7 +126,7 @@ const defaultStartDay = new Date(
         }
     }
     try {
-        let url = `https://staging.chatapi.io.vn/special-Event-reports?page=${page}&limit=10`;
+        let url = `https://chatapi.io.vn/special-Event-reports?page=${page}&limit=10`;
 
         if (eventId) url += `&id_event=${eventId}`;
         if (startDate) {
@@ -151,7 +151,7 @@ const defaultStartDay = new Date(
             setData(result);
         }
         if (eventId) {
-            let userUrl = `https://staging.chatapi.io.vn/users-join-an-event?id_sukien=${eventId}&page=${pageUser}&limit=10`;
+            let userUrl = `https://chatapi.io.vn/users-join-an-event?id_sukien=${eventId}&page=${pageUser}&limit=10`;
 
             if (startDate) {
                 const start = `${startDate.slice(0, 10)}T00:00:00`;
@@ -172,7 +172,7 @@ const defaultStartDay = new Date(
             if (resUser.ok) {
                 setUsers(userData);
             }
-            let distributorUrl = `https://staging.chatapi.io.vn/information-shop-and-event?id_sukien=${eventId}&page=${pageDistributor}`;
+            let distributorUrl = `https://chatapi.io.vn/information-shop-and-event?id_sukien=${eventId}&page=${pageDistributor}`;
             if (startDate) {
                 const start = `${startDate.slice(0, 10)}T00:00:00`;
                 distributorUrl += `&start_date=${start}`;

@@ -48,7 +48,7 @@ const GiftRedemption = () => {
         try {
             const phone = sessionStorage.getItem("phone");
             const name = sessionStorage.getItem("name");
-            const response = await fetch(`https://staging.chatapi.io.vn/tham-du-giai-thuong?ma=${code}&sodienthoai=${phone}&hovaten=${name}`, {
+            const response = await fetch(`https://chatapi.io.vn/tham-du-giai-thuong?ma=${code}&sodienthoai=${phone}&hovaten=${name}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
