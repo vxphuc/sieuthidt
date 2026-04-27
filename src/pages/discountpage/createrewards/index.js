@@ -45,8 +45,8 @@ const CreateRewards = () => {
         const fetchEvents = async () => {
             try {
                 const [res1, res2] = await Promise.all([
-                    fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
-                    fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=2')
+                    fetch('https://kocapi.io.vn/xem-su-kien-doi-qua?page=1'),
+                    fetch('https://kocapi.io.vn/xem-su-kien-doi-qua?page=2')
                 ])
                 if (!res1.ok || !res2.ok) return;
                 
@@ -108,7 +108,7 @@ const CreateRewards = () => {
         };
 
         try {
-            const req = await fetch(`https://chatapi.io.vn/them-phan-thuong-vao-su-kien`, {
+            const req = await fetch(`https://kocapi.io.vn/them-phan-thuong-vao-su-kien`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

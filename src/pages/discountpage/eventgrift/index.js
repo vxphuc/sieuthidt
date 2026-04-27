@@ -56,7 +56,7 @@ const eventgrift = () => {
 
     try {
       const res = await fetch(
-        "https://chatapi.io.vn/gan-ma-hang-loat-vao-lo",
+        "https://kocapi.io.vn/gan-ma-hang-loat-vao-lo",
         {
           method: "POST",
           headers: {
@@ -107,7 +107,7 @@ const eventgrift = () => {
 
   const fetchDsLo = async () => {
     try {
-      const res = await fetch('https://chatapi.io.vn/ds-lo-phieu?page=1');
+      const res = await fetch('https://kocapi.io.vn/ds-lo-phieu?page=1');
       
       const data = await res.json();
       if (res.ok) {
@@ -139,7 +139,7 @@ const eventgrift = () => {
     }
     setIsLoading(true);
     try{
-      const response = await fetch(`https://chatapi.io.vn/tao-lo-phieu?madinhdanh=${maDinhDanh}`,
+      const response = await fetch(`https://kocapi.io.vn/tao-lo-phieu?madinhdanh=${maDinhDanh}`,
         {
           method: 'POST',
           headers: {
@@ -185,7 +185,7 @@ const eventgrift = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`https://chatapi.io.vn/tao-ma-hang-loat?soluong=${quantity}`, {
+      const response = await fetch(`https://kocapi.io.vn/tao-ma-hang-loat?soluong=${quantity}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ const eventgrift = () => {
 
     try {
       const response = await fetch(
-        "https://chatapi.io.vn/tao-ma-va-gan-vao-lo",
+        "https://kocapi.io.vn/tao-ma-va-gan-vao-lo",
         {
           method: "POST",
           headers: {

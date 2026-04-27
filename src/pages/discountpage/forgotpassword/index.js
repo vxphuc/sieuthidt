@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     }
     try {
       const res = await fetch(
-        "https://chatapi.io.vn/kiem-tra-nguoi-va-tai-khoan",
+        "https://kocapi.io.vn/kiem-tra-nguoi-va-tai-khoan",
         {
           method: "POST",
           headers: {
@@ -59,7 +59,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await fetch(
-        "https://chatapi.io.vn/check-otp",
+        "https://kocapi.io.vn/check-otp",
         {
           method: "POST",
           headers: {
@@ -97,7 +97,7 @@ const ForgotPassword = () => {
     try {
 
       const res = await fetch(
-        "https://chatapi.io.vn/doi-mat-khau",
+        "https://kocapi.io.vn/doi-mat-khau",
         {
           method: "PATCH",
           headers: {

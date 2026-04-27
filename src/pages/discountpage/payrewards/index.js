@@ -52,7 +52,7 @@ function CheckAndApproveReward() {
       try {
 
         const res = await fetch(
-          "https://chatapi.io.vn/xem-su-kien-doi-qua-daily",
+          "https://kocapi.io.vn/xem-su-kien-doi-qua-daily",
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -76,7 +76,7 @@ function CheckAndApproveReward() {
 
       try {
         const res = await fetch(
-          "https://chatapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
+          "https://kocapi.io.vn/danh-sach-phan-thuong-danh-cho-dai-ly",
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -104,7 +104,7 @@ function CheckAndApproveReward() {
     const token = sessionStorage.getItem("token");
     try {
       const res = await fetch(
-        `https://chatapi.io.vn/kiem-tra-nguoi-trung-thuong?data=${phone}`,
+        `https://kocapi.io.vn/kiem-tra-nguoi-trung-thuong?data=${phone}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -137,7 +137,7 @@ function CheckAndApproveReward() {
     const token = sessionStorage.getItem("token");
     try {
       const res = await fetch(
-        `https://chatapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
+        `https://kocapi.io.vn/duyet-phan-thuong?idnguoitrungthuong=${id}`,
         {
           method: "POST",
           headers: {
@@ -186,7 +186,7 @@ function CheckAndApproveReward() {
     }
     try {
       let url =
-        `https://chatapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?ngaybatdau=${startDate}&ngayketthuc=${endDate}`;
+        `https://kocapi.io.vn/xem-lich-su-duyet-thuong-danh-cho-dai-ly?ngaybatdau=${startDate}&ngayketthuc=${endDate}`;
 
       if (selectedEvent) {
         url += `&tensukien=${encodeURIComponent(selectedEvent)}`;

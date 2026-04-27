@@ -39,7 +39,7 @@ const AttachCodeEvent = () => {
     useEffect(() => {
         const fetchBatches = async () => {
             try {
-                const res = await fetch('https://chatapi.io.vn/ds-lo-phieu?page=1');
+                const res = await fetch('https://kocapi.io.vn/ds-lo-phieu?page=1');
                 if (!res.ok) return;
 
                 const data = await res.json();
@@ -56,8 +56,8 @@ const AttachCodeEvent = () => {
         const fetchEvents = async () => {
             try {
             const [res1, res2] = await Promise.all([
-                fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=1'),
-                fetch('https://chatapi.io.vn/xem-su-kien-doi-qua?page=2'),
+                fetch('https://kocapi.io.vn/xem-su-kien-doi-qua?page=1'),
+                fetch('https://kocapi.io.vn/xem-su-kien-doi-qua?page=2'),
             ]);
 
             if (!res1.ok || !res2.ok) return;
@@ -99,7 +99,7 @@ const AttachCodeEvent = () => {
 
         setIsLoading(true);
         try {
-            const response = await fetch(`https://chatapi.io.vn/gan-ma-tuong-ung-vao-sukien?soluong=${quantity}&id_sukien=${eventId}&id_lophieu=${batchId}`, {
+            const response = await fetch(`https://kocapi.io.vn/gan-ma-tuong-ung-vao-sukien?soluong=${quantity}&id_sukien=${eventId}&id_lophieu=${batchId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
