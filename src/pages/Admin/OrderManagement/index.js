@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
 import ButtonOrderStatus from "../../../components/ButtonorrderStatus";
 import api from "../../../api/axios";
+import styles from "./orderManagement.module.css";
+
+const ORDER_STATUS = {
+  WAITING: "chờ xác nhận",
+  CONFIRMED: "đã xác nhận",
+  SHIPPING: "đang giao hàng",
+  CANCELED: "hủy đơn hàng",
+  DELIVERED: "đã giao hàng",
+};
+
 function OrderManagement() {
   const [orders, setOrders] = useState([]);
 
@@ -17,245 +26,225 @@ function OrderManagement() {
         console.error("Error fetching orders:", error);
       }
     };
+
     fetchOrders();
   }, []);
-  console.log(orders)
 
-  const handleConfirmOrder = async (orderId) => {
+  const updateOrderStatus = async (orderId, status) => {
     try {
-      const response = await api.patch(
+      await api.patch(
         `/bill/billstatus/${orderId}`,
-        {
-          OrderStatus: "đã xác nhận",
-        },
+        { OrderStatus: status },
         { withCredentials: true }
       );
-      // Cập nhật lại danh sách đơn hàng sau khi xác nhận
-      setOrders((prevOrders) => {
-        return prevOrders.map((order) =>
-          order._id === orderId
-            ? { ...order, OrderStatus: "đã xác nhận" }
-            : order
-        );
-      });
-    } catch (error) {
-      console.error("Error confirming order:", error);
-    }
-  };
 
-  const handleCancelOrder = async (orderId) => {
-    try {
-      const response = await api.patch(
-        `/bill/billstatus/${orderId}`,
-        {
-          OrderStatus: "hủy đơn hàng",
-        },
-        { withCredentials: true }
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, OrderStatus: status } : order
+        )
       );
-      // Cập nhật lại danh sách đơn hàng sau khi hủy
-      setOrders((prevOrders) => {
-        return prevOrders.map((order) =>
-          order._id === orderId
-            ? { ...order, OrderStatus: "hủy đơn hàng" }
-            : order
-        );
-      });
     } catch (error) {
-      console.error("Error canceling order:", error);
-    }
-  };
-
-    const handleConversion = async (orderId) => {
-    try {
-      const response = await api.patch(
-        `/bill/billstatus/${orderId}`,
-        {
-          OrderStatus: "đang giao hàng",
-        },
-        { withCredentials: true }
-      );
-      // Cập nhật lại danh sách đơn hàng 
-      setOrders((prevOrders) => {
-        return prevOrders.map((order) =>
-          order._id === orderId
-            ? { ...order, OrderStatus: "đang giao hàng" }
-            : order
-        );
-      });
-    } catch (error) {
-      console.error("Error canceling order:", error);
-    }
-  };
-
-  const handleConversionSuccsess = async (orderId) => {
-    try {
-      const response = await api.patch(
-        `/bill/billstatus/${orderId}`,
-        {
-          OrderStatus: "đã giao hàng",
-        },
-        { withCredentials: true }
-      );
-      // Cập nhật lại danh sách đơn hàng 
-      setOrders((prevOrders) => {
-        return prevOrders.map((order) =>
-          order._id === orderId
-            ? { ...order, OrderStatus: "đã giao hàng" }
-            : order
-        );
-      });
-    } catch (error) {
-      console.error("Error canceling order:", error);
+      console.error("Error updating order:", error);
     }
   };
 
   const handleClick = async (selectedStatus) => {
     try {
-      const response = await api.get(
-        `/bill?status=${selectedStatus}`,
-        { withCredentials: true }
-      );
+      const response = await api.get(`/bill?status=${selectedStatus}`, {
+        withCredentials: true,
+      });
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
 
+  const getStatusClass = (status) => {
+    switch (status) {
+      case ORDER_STATUS.WAITING:
+        return styles.statusWaiting;
+      case ORDER_STATUS.CONFIRMED:
+        return styles.statusConfirmed;
+      case ORDER_STATUS.SHIPPING:
+        return styles.statusShipping;
+      case ORDER_STATUS.CANCELED:
+        return styles.statusCanceled;
+      case ORDER_STATUS.DELIVERED:
+        return styles.statusDelivered;
+      default:
+        return styles.statusDefault;
+    }
+  };
+
   return (
-    <div>
-      <div className="mb-3">
-        <ButtonOrderStatus
-          onStatusClick={handleClick}
-          datastatus="chờ xác nhận"
-          className={`btn btn-primary`}
-        >
-          chờ xác nhận
-        </ButtonOrderStatus>
-        <ButtonOrderStatus
-          onStatusClick={handleClick}
-          datastatus="đã xác nhận"
-          className={`btn btn-info ms-2`}
-        >
-          đã xác nhận
-        </ButtonOrderStatus>
-        <ButtonOrderStatus
-          onStatusClick={handleClick}
-          datastatus="đang giao hàng"
-          className={`btn btn-warning ms-2`}
-        >
-          đang vận chuyển
-        </ButtonOrderStatus>
-        <ButtonOrderStatus
-          onStatusClick={handleClick}
-          datastatus="hủy đơn hàng"
-          className={`btn btn-danger ms-2`}
-        >
-          đơn hàng hủy
-        </ButtonOrderStatus>
-        <ButtonOrderStatus
-          onStatusClick={handleClick}
-          datastatus="đã giao hàng"
-          className={`btn btn-success ms-2`}
-        >
-          đã giao hàng
-        </ButtonOrderStatus>
-      </div>
-      <table className="table table-striped table-bordered table-hover table-sm">
-        <thead>
-          <tr className="table-info">
-            <th scope="col">#</th>
-            <th scope="col">Mã đơn hàng</th>
-            <th scope="col">Tên khách hàng</th>
-            <th scope="col">Số điện thoại</th>
-            <th scope="col">Địa chỉ giao hàng</th>
-            <th scope="col">Tổng tiền đơn hàng</th>
-            <th scope="col">Trạng thái đơn</th>
-            <th scope="col">Ngày đặt hàng</th>
-            {/* Nút thao tác như: Xem chi tiết / Xác nhận đơn / Hủy đơn / In đơn */}
-            <th scope="col">Thao tác</th>
-            {/* Nút thao tác như: Xem chi tiết / Xác nhận đơn / Hủy đơn / In đơn */}
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, index) => {
-            const Intomoney = order.Intomoney.$numberDecimal;
-            const totalPrice = Number.parseFloat(Intomoney).toLocaleString(
-              "vi-VN",
-              {
-                style: "currency",
-                currency: "VND",
-              }
-            );
-            return (
-              <tr key={order._id}>
-                <th scope="row">{index + 1}</th>
-                <td>
-                  <NavLink
-                    className={"text-primary"}
-                    to={`/quan-tri/chi-tiet/${order._id}`}
-                  >
-                    {order._id}
-                  </NavLink>
-                </td>
-                <td>{order.UserName}</td>
-                <td>{order.phoneNumber}</td>
-                <td>{`${order.road}, ${order.ward}, ${order.province}`}</td>
-                <td>{totalPrice}</td>
-                <td>{order.OrderStatus}</td>
-                <td>{new Date(order.createDate).toLocaleDateString()}</td>
-                <td className="text-center">
-                  <NavLink
-                    to={`/quan-tri/chi-tiet/${order._id}`}
-                    className={`btn btn-primary`}
-                  >
-                    Xem chi tiết
-                  </NavLink>{" "}
-                  {order.OrderStatus === "chờ xác nhận" ? (
-                    <NavLink
-                      onClick={() => handleConfirmOrder(order._id)}
-                      className={`btn btn-success mt-1`}
-                    >
-                      Xác nhận
-                    </NavLink>
-                  ) : (
-                    ""
-                  )}
-                  {order.OrderStatus === "chờ xác nhận" ? (
-                    <NavLink
-                      onClick={() => handleCancelOrder(order._id)}
-                      className={`btn btn-danger mt-1`}
-                    >
-                      Hủy đơn
-                    </NavLink>
-                  ) : (
-                    ""
-                  )}
-                  {order.OrderStatus === "đã xác nhận" ? (
-                    <NavLink
-                      onClick={() => handleConversion(order._id)}
-                      className={`btn btn-warning mt-1`}
-                    >
-                      giao vận chuyển
-                    </NavLink>
-                  ) : (
-                    ""
-                  )}
-                  {order.OrderStatus === "đang giao hàng" ? (
-                    <NavLink
-                      onClick={() => handleConversionSuccsess(order._id)}
-                      className={`btn btn-success mt-1`}
-                    >
-                      xác nhận giao thành công
-                    </NavLink>
-                  ) : (
-                    ""
-                  )}
-                </td>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <div>
+            <h2 className={styles.title}>Quản lý đơn hàng</h2>
+            <p className={styles.subtitle}>
+              Theo dõi trạng thái và xử lý các đơn hàng trong hệ thống
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.statusFilter}>
+          <ButtonOrderStatus
+            onStatusClick={handleClick}
+            datastatus={ORDER_STATUS.WAITING}
+            className={`${styles.filterButton} ${styles.filterPrimary}`}
+          >
+            Chờ xác nhận
+          </ButtonOrderStatus>
+          <ButtonOrderStatus
+            onStatusClick={handleClick}
+            datastatus={ORDER_STATUS.CONFIRMED}
+            className={`${styles.filterButton} ${styles.filterInfo}`}
+          >
+            Đã xác nhận
+          </ButtonOrderStatus>
+          <ButtonOrderStatus
+            onStatusClick={handleClick}
+            datastatus={ORDER_STATUS.SHIPPING}
+            className={`${styles.filterButton} ${styles.filterWarning}`}
+          >
+            Đang vận chuyển
+          </ButtonOrderStatus>
+          <ButtonOrderStatus
+            onStatusClick={handleClick}
+            datastatus={ORDER_STATUS.CANCELED}
+            className={`${styles.filterButton} ${styles.filterDanger}`}
+          >
+            Đơn hàng hủy
+          </ButtonOrderStatus>
+          <ButtonOrderStatus
+            onStatusClick={handleClick}
+            datastatus={ORDER_STATUS.DELIVERED}
+            className={`${styles.filterButton} ${styles.filterSuccess}`}
+          >
+            Đã giao hàng
+          </ButtonOrderStatus>
+        </div>
+
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Mã đơn hàng</th>
+                <th scope="col">Tên khách hàng</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Địa chỉ giao hàng</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Ngày đặt</th>
+                <th scope="col">Thao tác</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {orders.length > 0 ? (
+                orders.map((order, index) => {
+                  const intoMoney = order.Intomoney?.$numberDecimal || 0;
+                  const totalPrice = Number.parseFloat(intoMoney).toLocaleString(
+                    "vi-VN",
+                    {
+                      style: "currency",
+                      currency: "VND",
+                    }
+                  );
+
+                  return (
+                    <tr key={order._id}>
+                      <th scope="row">{index + 1}</th>
+                      <td>
+                        <NavLink
+                          className={styles.orderLink}
+                          to={`/quan-tri/chi-tiet/${order._id}`}
+                        >
+                          {order._id}
+                        </NavLink>
+                      </td>
+                      <td className={styles.customerName}>{order.UserName}</td>
+                      <td>{order.phoneNumber}</td>
+                      <td>{`${order.road}, ${order.ward}, ${order.province}`}</td>
+                      <td className={styles.totalPrice}>{totalPrice}</td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${getStatusClass(order.OrderStatus)}`}>
+                          {order.OrderStatus}
+                        </span>
+                      </td>
+                      <td>{new Date(order.createDate).toLocaleDateString("vi-VN")}</td>
+                      <td>
+                        <div className={styles.actionGroup}>
+                          <NavLink
+                            to={`/quan-tri/chi-tiet/${order._id}`}
+                            className={`${styles.actionButton} ${styles.actionOutline}`}
+                          >
+                            Xem chi tiết
+                          </NavLink>
+
+                          {order.OrderStatus === ORDER_STATUS.WAITING && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  updateOrderStatus(order._id, ORDER_STATUS.CONFIRMED)
+                                }
+                                className={`${styles.actionButton} ${styles.actionSuccess}`}
+                              >
+                                Xác nhận
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  updateOrderStatus(order._id, ORDER_STATUS.CANCELED)
+                                }
+                                className={`${styles.actionButton} ${styles.actionDanger}`}
+                              >
+                                Hủy đơn
+                              </button>
+                            </>
+                          )}
+
+                          {order.OrderStatus === ORDER_STATUS.CONFIRMED && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateOrderStatus(order._id, ORDER_STATUS.SHIPPING)
+                              }
+                              className={`${styles.actionButton} ${styles.actionWarning}`}
+                            >
+                              Giao vận chuyển
+                            </button>
+                          )}
+
+                          {order.OrderStatus === ORDER_STATUS.SHIPPING && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateOrderStatus(order._id, ORDER_STATUS.DELIVERED)
+                              }
+                              className={`${styles.actionButton} ${styles.actionSuccess}`}
+                            >
+                              Xác nhận giao thành công
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="9" className={styles.emptyRow}>
+                    Không có đơn hàng nào.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
 import style from "./productAdmin.module.css";
 import Pagination from "../../../components/Pagination";
 import api from "../../../api/axios";
+
 function ProductAdmin() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    const query = searchTerm ? `&search=${searchTerm}` : "";
+    const query = searchTerm.trim()
+      ? `&search=${encodeURIComponent(searchTerm.trim())}`
+      : "";
+
     api
       .get(`/product?page=${currentPage}${query}`)
       .then((res) => {
@@ -24,7 +26,7 @@ function ProductAdmin() {
       });
   }, [currentPage, searchTerm]);
 
-  const handldeleted = (id) => {
+  const handleDeleted = (id) => {
     api
       .patch(`/product/${id}/destroy`)
       .then(() => {
@@ -36,121 +38,137 @@ function ProductAdmin() {
   };
 
   const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    setCurrentPage(1); // Reset to first page when searching
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
   };
 
   return (
-    <div className="container">
-      <div className="mb-3">
-        <div className="row mb-3">
-          <div className="col-md-6">
+    <div className={style.container}>
+      <div className={style.card}>
+        <div className={style.header}>
+          <div>
+            <h2 className={style.title}>Quản lý sản phẩm</h2>
+            <p className={style.subtitle}>
+              Theo dõi, tìm kiếm và cập nhật danh sách sản phẩm
+            </p>
+          </div>
+        </div>
+
+        <div className={style.toolbar}>
+          <div className={style.searchBox}>
             <input
               type="text"
-              className="form-control"
+              className={style.searchInput}
               placeholder="Tìm kiếm sản phẩm..."
               value={searchTerm}
               onChange={handleSearch}
             />
           </div>
+
+          <div className={style.actionGroup}>
+            <NavLink
+              to="/quan-tri/san-pham/them-moi-san-pham"
+              className={`${style.btn} ${style.btnPrimary}`}
+            >
+              Thêm mới sản phẩm
+            </NavLink>
+            <NavLink
+              to="/quan-tri/san-pham/thung-rac"
+              className={`${style.btn} ${style.btnDanger}`}
+            >
+              Thùng rác ({products.count ? products.count : "0"})
+            </NavLink>
+          </div>
         </div>
-        <div className="mb-2">
-          <NavLink
-            to="/quan-tri/san-pham/them-moi-san-pham"
-            className="btn btn-primary "
-          >
-            {" "}
-            Thêm mới sản phẩm
-          </NavLink>
-          <NavLink
-            to="/quan-tri/san-pham/thung-rac"
-            className="btn btn-danger ms-2"
-          >
-            {` Thùng rác (${products.count ? products.count : "0"}) `}
-          </NavLink>
-        </div>
-        
-      </div>
-      <table className="table table-hover">
-        <thead>
-          <tr className="table-primary">
-            <th scope="col">#</th>
-            <th scope="col">Tên sản phẩm</th>
-            <th scope="col">Giá</th>
-            <th scope="col">Loại sản phẩm</th>
-            <th scope="col">số lượng sản phẩm</th>
-            <th scope="col">Ảnh sản phẩm</th>
-            <th scope="col">Giảm giá</th>
-            <th scope="col">tùy chọn</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.results && Array.isArray(products.results) ? (
-            products.results.map((product, index) => {
-              const parseFloat = Number.parseFloat(product.price);
-              let typeProduct;
-              for (let i = 0; i < product.typeProduct.length; i++) {
-                typeProduct = product.typeProduct[i].name;
-              }
-              return (
-                <tr key={product._id}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{product.name}</td>
-                  <td>
-                    {parseFloat.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>
-                  <td>{typeProduct}</td>
-                  <td>{product.quantity}</td>
-                  <td>
-                    <img
-                      className={style.product_image}
-                      src={`${product.image[0]}`}
-                    ></img>
-                  </td>
-                  <td>
-                    {product.discount}%
-                  </td>
-                  <td>
-                    <NavLink className="btn btn-primary ">
-                      {" "}
-                      Xem chi tiết
-                    </NavLink>
-                    <NavLink
-                      to={`/quan-tri/san-pham/${product.slug}/cap-nhap-san-pham`}
-                      className="btn btn-success ms-2"
-                    >
-                      {" "}
-                      Sửa
-                    </NavLink>
-                    <button
-                      onClick={() => handldeleted(product._id)}
-                      className="btn btn-danger ms-2"
-                    >
-                      {" "}
-                      Xóa
-                    </button>
+
+        <div className={style.tableWrapper}>
+          <table className={style.table}>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Loại sản phẩm</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Ảnh sản phẩm</th>
+                <th scope="col">Giảm giá</th>
+                <th scope="col">Tùy chọn</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.results && Array.isArray(products.results) ? (
+                products.results.map((product, index) => {
+                  const productPrice = Number.parseFloat(product.price);
+                  const typeProduct =
+                    product.typeProduct?.map((item) => item.name).join(", ") ||
+                    "Chưa phân loại";
+                  const productImage = product.image?.[0];
+
+                  return (
+                    <tr key={product._id}>
+                      <th scope="row">{index + 1}</th>
+                      <td className={style.productName}>{product.name}</td>
+                      <td>
+                        {productPrice.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </td>
+                      <td>{typeProduct}</td>
+                      <td>{product.quantity}</td>
+                      <td>
+                        {productImage ? (
+                          <img
+                            className={style.productImage}
+                            src={productImage}
+                            alt={product.name}
+                          />
+                        ) : (
+                          <span className={style.emptyText}>Chưa có ảnh</span>
+                        )}
+                      </td>
+                      <td>{product.discount}%</td>
+                      <td>
+                        <div className={style.rowActions}>
+                          <NavLink className={`${style.btnSmall} ${style.btnOutline}`}>
+                            Xem chi tiết
+                          </NavLink>
+                          <NavLink
+                            to={`/quan-tri/san-pham/${product.slug}/cap-nhap-san-pham`}
+                            className={`${style.btnSmall} ${style.btnPrimary}`}
+                          >
+                            Sửa
+                          </NavLink>
+                          <button
+                            onClick={() => handleDeleted(product._id)}
+                            className={`${style.btnSmall} ${style.btnDanger}`}
+                          >
+                            Xóa
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="8" className={style.emptyRow}>
+                    Không có sản phẩm nào.
                   </td>
                 </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="6" className="text-center">
-                Không có sản phẩm nào.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className={style.pagination}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </div>
+      </div>
     </div>
   );
 }
