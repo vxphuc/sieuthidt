@@ -131,7 +131,7 @@ function Home() {
       {/* New Product */}
       <div className={styles.newProduct}>
         <div className={styles.title}>
-          <h2>Sản phẩm mới DT</h2>
+          <h2>Sản phẩm mới</h2>
         </div>
         <div className={styles.products}>
           {newProduct.map((product) => {
