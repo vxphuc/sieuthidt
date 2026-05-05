@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./adminEvent.module.css";
+import * as XLSX from "xlsx";
 
 const EventReport = () => {
     const [distributorData, setDistributorData] = useState([]);
@@ -256,6 +257,78 @@ const defaultStartDay = new Date(
             !rewardName.includes("may mắn")
         );
     });
+
+    // Hàm xuất Excel cho Chi tiết trúng thưởng
+    const exportToExcel = (data, fileName = "Chi_tiet_trung_thuong.xlsx") => {
+        try {
+            // Chuẩn bị dữ liệu với headers
+            const exportData = data.map((item) => {
+                const date = new Date(item.thoidiemtrungthuong);
+                return {
+                    "Mã trúng": item.ma || "-",
+                    "Sản phẩm": item.tenphanthuong,
+                    "Thời gian": date.toLocaleDateString("vi-VN"),
+                    "Trạng thái": item.trang_thai,
+                };
+            });
+
+            // Tạo workbook và worksheet
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Chi tiết");
+
+            // Thiết lập độ rộng cột
+            const colWidths = [
+                { wch: 15 }, // Mã trúng
+                { wch: 25 }, // Sản phẩm
+                { wch: 15 }, // Thời gian
+                { wch: 15 }, // Trạng thái
+            ];
+            worksheet["!cols"] = colWidths;
+
+            // Xuất file
+            XLSX.writeFile(workbook, fileName);
+        } catch (err) {
+            console.error("Lỗi xuất Excel:", err);
+            alert("Lỗi khi xuất file Excel");
+        }
+    };
+
+    // Hàm xuất Excel cho Lịch sử đổi thưởng đại lý
+    const exportShopHistoryToExcel = (data, fileName = "Lich_su_doi_thuong_daily.xlsx") => {
+        try {
+            const exportData = data.map((item) => {
+                return {
+                    "Tên khách hàng": item.hovaten || "Chưa cập nhật",
+                    "Số điện thoại": item.numberphone?.replace(/^84/, "0"),
+                    "Tên phần thưởng": item.tenphanthuong,
+                    "Sự kiện": item.tensukien,
+                    "Số lượng": item.soluong,
+                    "Trạng thái": item.duyet_thuong === 1 ? "Đã duyệt" : "Chưa duyệt",
+                };
+            });
+
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch sử");
+
+            const colWidths = [
+                { wch: 20 }, // Tên khách hàng
+                { wch: 15 }, // Số điện thoại
+                { wch: 25 }, // Tên phần thưởng
+                { wch: 20 }, // Sự kiện
+                { wch: 10 }, // Số lượng
+                { wch: 15 }, // Trạng thái
+            ];
+            worksheet["!cols"] = colWidths;
+
+            XLSX.writeFile(workbook, fileName);
+        } catch (err) {
+            console.error("Lỗi xuất Excel:", err);
+            alert("Lỗi khi xuất file Excel");
+        }
+    };
+
   return (
     <div className={styles.containerData}>
         <div className={styles.wrapper}>
@@ -548,13 +621,21 @@ const defaultStartDay = new Date(
                         <h3>
                             Chi tiết trúng thưởng
                         </h3>
-                        <button
-                            className={styles.button}
-                            style={{ marginTop: 10 }}
-                            onClick={() => setShowPopup(false)}
-                        >
-                            Đóng
-                        </button>
+                        <div style={{ display: "flex", gap: "10px", marginTop: 10 }}>
+                            <button
+                                className={styles.button}
+                                onClick={() => exportToExcel(filteredUserDetail)}
+                                style={{ backgroundColor: "#28a745" }}
+                            >
+                                📥 Xuất Excel
+                            </button>
+                            <button
+                                className={styles.button}
+                                onClick={() => setShowPopup(false)}
+                            >
+                                Đóng
+                            </button>
+                        </div>
                     </div>
                     <table className={styles.table}>
                         <thead>
@@ -624,12 +705,21 @@ const defaultStartDay = new Date(
                 <div className={styles.popupTitle}>
                     <h3>Lịch sử đổi thưởng đại lý</h3>
 
-                    <button
-                    className={styles.button}
-                    onClick={() => setShowShopPopup(false)}
-                    >
-                    Đóng
-                    </button>
+                    <div style={{ display: "flex", gap: "10px", marginTop: 10 }}>
+                        <button
+                            className={styles.button}
+                            onClick={() => exportShopHistoryToExcel(filteredShopHistory)}
+                            style={{ backgroundColor: "#28a745" }}
+                        >
+                            📥 Xuất Excel
+                        </button>
+                        <button
+                            className={styles.button}
+                            onClick={() => setShowShopPopup(false)}
+                        >
+                            Đóng
+                        </button>
+                    </div>
                 </div>
 
                 <table className={styles.table}>
