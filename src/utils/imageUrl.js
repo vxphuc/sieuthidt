@@ -1,4 +1,5 @@
-const LEGACY_UPLOAD_BASE_URL = "https://sieuthidt.io.vn/uploads/";
+const apiBaseUrl = process.env.REACT_APP_SIEU_THI_API || "https://besieuthidt.io.vn";
+const UPLOAD_BASE_URL = `${apiBaseUrl.replace(/\/$/, "")}/uploads/`;
 
 export const getImageUrl = (image) => {
   if (!image) return "";
@@ -13,5 +14,5 @@ export const getImageUrl = (image) => {
     return value;
   }
 
-  return `${LEGACY_UPLOAD_BASE_URL}${encodeURI(value)}`;
+  return `${UPLOAD_BASE_URL}${encodeURI(value)}`;
 };

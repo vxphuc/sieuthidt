@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import styles from "./TypeProduct.module.css";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
+import api from "../../../../api/axios";
+import { getImageUrl } from "../../../../utils/imageUrl";
 
 function TypeProduct() {
   const [data, setData] = useState([]);
@@ -52,7 +53,7 @@ function TypeProduct() {
   useEffect(() => {
     const fetchTypeProducts = async () => {
       try {
-        const response = await axios.get("https://sieuthidt.io.vn/typeProduct");
+        const response = await api.get("/typeProduct");
         setData(response.data.typeProducts);
       } catch (error) {
         console.error("Lỗi kết nối server:", error);
@@ -101,7 +102,7 @@ function TypeProduct() {
           <span>{element.name}</span>
         </NavLink>
       ))}
-      <img className={`${styles.imga1}`} width={'100%'} src="https://sieuthidt.io.vn/uploads/web 1-01.png"></img>
+      <img className={`${styles.imga1}`} width={'100%'} src={getImageUrl("web 1-01.png")}></img>
     </div>
   </div>
   

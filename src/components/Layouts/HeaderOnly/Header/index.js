@@ -5,10 +5,10 @@ import Search from "../../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faBars, faBell, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useRef, useContext } from "react";
-import axios from "axios";
 import { CartContext } from "../../../../contexts/CartContext";
 import { io } from "socket.io-client";
 import api from "../../../../api/axios"
+import { getImageUrl } from "../../../../utils/imageUrl";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -114,7 +114,7 @@ function Header() {
             <img
               width="50%"
               height="50%"
-              src="https://sieuthidt.io.vn/uploads/logo%20trang.png"
+              src={getImageUrl("logo trang.png")}
               alt="Logo"
             />
           </NavLink>
