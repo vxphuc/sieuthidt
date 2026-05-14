@@ -3,6 +3,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import style from "./ShowBanner.module.css";
 import api from "../../../api/axios";
+import { getImageUrl } from "../../../utils/imageUrl";
 function ShowBanner() {
   const [dataBanner, setDataBanner] = useState([]);
 
@@ -45,7 +46,7 @@ function ShowBanner() {
                   <img
                     width="300px"
                     height="200px"
-                    src={`https://sieuthidt.io.vn/uploads/${banner.image}`}
+                    src={getImageUrl(banner.image)}
                   ></img>
                 </td>
                 <td>{banner.dateCreate}</td>

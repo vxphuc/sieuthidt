@@ -11,6 +11,7 @@ import BackgroundPopup from "../../components/BackgroundPopup";
 import api from "../../api/axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { getCart, saveCart } from "../../services/cartService";
+import { getImageUrl } from "../../utils/imageUrl";
 
 function Home() {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ function Home() {
           {img.map((image) => (
             <LazyLoadImage
               key={image._id}
-              src={`https://sieuthidt.io.vn/uploads/${image.image}`}
+              src={getImageUrl(image.image)}
             />
           ))}
         </div>
