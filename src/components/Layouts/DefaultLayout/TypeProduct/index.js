@@ -102,7 +102,7 @@ function TypeProduct() {
           <span>{element.name}</span>
         </NavLink>
       ))}
-      <img className={`${styles.imga1}`} width={'100%'} src={getImageUrl("web 1-01.png")}></img>
+      <img className={`${styles.imga1}`} width={'100%'} src={getImageUrl("post 2.png")}></img>
     </div>
   </div>
   
