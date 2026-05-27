@@ -97,7 +97,7 @@ body {
   width: 100%;
 }
 .btnBuy button {
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
   width: 100%;
   height: 36px;
   color: rgb(255, 255, 255);
