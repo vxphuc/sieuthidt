@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import QRCode from "qrcode";
 
-const TARGET_URL = "https://sieuthidt.com/doimathuong";
+const TARGET_URL = "https://heyzine.com/flip-book/5a21d6b845.html";
 
 const QRCodePage = () => {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
