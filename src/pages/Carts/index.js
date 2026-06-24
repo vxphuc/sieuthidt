@@ -8,7 +8,6 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext, useRef } from "react";
 import api from "../../api/axios";
-import axios from "../../api/koc";
 import CartsEmpty from "../../components/CartEmpty";
 import BackgroundPopup from "../../components/BackgroundPopup";
 import { CartContext } from "../../contexts/CartContext";
@@ -27,6 +26,8 @@ function Carts() {
   const [discountMessage, setDiscountMessage] = useState({ text: "", type: "" });
   const [discountInfo, setDiscountInfo] = useState(null);
   const [appliedDiscountCode, setAppliedDiscountCode] = useState("");
+  const [quoteToken, setQuoteToken] = useState("");
+  const [quotedTotal, setQuotedTotal] = useState(null);
   // State giỏ hàng luôn là nguồn dữ liệu duy nhất, luôn lấy từ localStorage
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,8 +59,15 @@ function Carts() {
   const [alertMessage, setAlertMessage] = useState("");
   const [product, setProduct] = useState([]);
 
-  // Áp dụng mã giảm giá
-  // Áp dụng mã giảm giá
+  const clearAppliedDiscount = () => {
+    setDiscountInfo(null);
+    setAppliedDiscountCode("");
+    setQuoteToken("");
+    setQuotedTotal(null);
+    setDiscountMessage({ text: "", type: "" });
+  };
+
+  // Backend lấy giá thật từ database, kiểm tra mã và trả về quote có chữ ký.
   const handleApplyDiscount = async () => {
     if (!discountCode.trim()) {
       setDiscountMessage({ text: "Vui lòng nhập mã giảm giá!", type: "error" });
@@ -70,71 +78,51 @@ function Carts() {
       return;
     }
 
-    // Nếu cần check user phone thì giữ lại, nếu không thì có thể bỏ qua check phone để giống Postman
     if (!user || user.length === 0 || !user[0].phone) {
-       // Tạm thời log warning thay vì chặn luôn nếu muốn test giống postman
-       console.warn("User phone not found");
+      setDiscountMessage({
+        text: "Vui lòng nhập số điện thoại trước khi áp dụng mã.",
+        type: "error",
+      });
+      return;
     }
-    
-    const userPhone = user && user[0] ? user[0].phone : "";
+
+    const orderItems = product.map((item) => ({
+      productID: item._id,
+      quantity: Number(item.quantity),
+    }));
+    if (orderItems.length === 0) {
+      setDiscountMessage({ text: "Giỏ hàng đang trống.", type: "error" });
+      return;
+    }
+
     setDiscountMessage({ text: "", type: "" });
 
     try {
-      // Dùng axios từ import (lưu ý: anh nên đồng bộ dùng biến 'api' thay vì 'axios' để tránh nhầm lẫn file config)
-      const response = await axios.post("/su-dung-ma-giam-gia", {
-        tenmagiamgia: discountCode,
-        phone: userPhone 
+      const response = await api.post("/bill/quote", {
+        products: orderItems,
+        code: discountCode.trim(),
+        phoneNumber: user[0].phone,
       });
+      const percentage = Number(response.data.discountPercentage);
 
-      console.log("API Response:", response.data); // Log để debug
-
-      // --- SỬA LẠI LOGIC BẮT DỮ LIỆU ---
-      
-      // Trường hợp 1: Server trả về đúng như ảnh Postman { "giatrimagiam": 25 }
-      if (response.data && response.data.giatrimagiam !== undefined) {
-        const value = response.data.giatrimagiam;
-        
-        // Tạo object info để khớp với logic tính tiền ở dưới
-        const discountInfoObj = {
-            discount_value: value,       // Map 'giatrimagiam' sang 'discount_value'
-            discount_type: "percentage"  // Giả định là % (vì trong ảnh thấy số 25 nhỏ, nếu là tiền mặt 25đ thì quá ít)
-        };
-
-        setDiscountInfo(discountInfoObj);
-        setAppliedDiscountCode(discountCode);
-        setDiscountMessage({ text: `Áp dụng thành công! Giảm ${value}%`, type: "success" });
-      }
-      // Trường hợp 2: Server trả về cấu trúc cũ (dạng mảng) - Giữ lại để dự phòng
-      else if (response.data && response.data.value && Array.isArray(response.data.value) && response.data.value.length > 0) {
-        const discountData = response.data.value[0];
-        setDiscountInfo(discountData);
-        setAppliedDiscountCode(discountCode);
-        setDiscountMessage({ text: "Áp dụng mã giảm giá thành công!", type: "success" });
-      } 
-      // Trường hợp lỗi trả về từ server (dạng string)
-      else if (response.data && typeof response.data.value === 'string') {
-        setDiscountInfo(null);
-        setAppliedDiscountCode(""); 
-        setDiscountMessage({ text: response.data.value, type: "error" });
-      } 
-      // Fallback
-      else {
-        setDiscountInfo(null);
-        setAppliedDiscountCode("");
-        setDiscountMessage({ text: "Mã giảm giá không hợp lệ hoặc lỗi cấu trúc dữ liệu.", type: "error" });
-      }
-
+      setDiscountInfo({
+        discount_value: percentage,
+        discount_type: "percentage",
+      });
+      setAppliedDiscountCode(discountCode.trim());
+      setQuoteToken(response.data.quoteToken || "");
+      setQuotedTotal(Number(response.data.total));
+      setDiscountMessage({
+        text: `Áp dụng thành công! Giảm ${percentage}%`,
+        type: "success",
+      });
     } catch (error) {
-      if (error.response && error.response.status === 422 && error.response.data.err) {
-          setDiscountInfo(null);
-          setAppliedDiscountCode("");
-          setDiscountMessage({ text: error.response.data.err, type: "error" });
-      } else {
-          setDiscountInfo(null);
-          setAppliedDiscountCode("");
-          setDiscountMessage({ text: "Lỗi hệ thống hoặc mã không tồn tại.", type: "error" });
-          console.error("Error applying discount code:", error);
-      }
+      clearAppliedDiscount();
+      setDiscountMessage({
+        text: error.response?.data?.message || "Không thể áp dụng mã giảm giá.",
+        type: "error",
+      });
+      console.error("Error applying discount code:", error);
     }
   };
   //hết
@@ -210,29 +198,13 @@ function Carts() {
     setSubtotal(newSubtotal);
   }, [product, cart]);
   useEffect(() => {
-    // Nếu không có thông tin giảm giá (chưa áp dụng hoặc áp dụng lỗi)
-    if (!discountInfo) {
-      setTotalOrder(subtotal); // Tổng đơn hàng = Tạm tính
-      return;
+    // Khi có mã giảm giá, chỉ hiển thị tổng tiền do backend đã xác minh.
+    if (discountInfo && Number.isFinite(quotedTotal)) {
+      setTotalOrder(quotedTotal);
+    } else {
+      setTotalOrder(subtotal);
     }
-
-    // Nếu có thông tin giảm giá, bắt đầu tính toán
-    const { discount_type, discount_value } = discountInfo;
-    let discountAmount = 0;
-
-    // Dựa trên loại giảm giá (từ ảnh bạn gửi là "percentage")
-    if (discount_type === "percentage") {
-      discountAmount = (subtotal * parseFloat(discount_value)) / 100;
-    } 
-    // else if (discount_type === "fixed_amount") { // Bạn có thể thêm logic cho giảm giá tiền cố định
-    //   discountAmount = parseFloat(discount_value);
-    // }
-    
-    // Đảm bảo tổng tiền không bao giờ bị âm
-    const finalTotal = Math.max(0, subtotal - discountAmount);
-    setTotalOrder(finalTotal);
-
-  }, [subtotal, discountInfo]);
+  }, [subtotal, discountInfo, quotedTotal]);
 
   // Tự động blur input khi scroll (UX improvement)
   useEffect(() => {
@@ -261,6 +233,7 @@ function Carts() {
 
   // Xóa sản phẩm khỏi giỏ
   const handleDelete = (id) => {
+    clearAppliedDiscount();
     const newCart = cart.filter((item) => item.id !== id);
     saveCart(newCart);
     setCart(newCart);
@@ -270,6 +243,7 @@ function Carts() {
 
   // Tăng/giảm số lượng sản phẩm
   const handleQuantityChange = (id, type) => {
+    clearAppliedDiscount();
     let updatedCart = [...cart];
     const idx = updatedCart.findIndex((item) => item.id === id);
     console.log(idx);
@@ -287,6 +261,7 @@ function Carts() {
 
   // Nhập số lượng bằng input
   const handleQuantityInputChange = (id, value) => {
+    clearAppliedDiscount();
     let num = parseInt(value, 10);
     if (isNaN(num) || num < 1) num = 1;
     let updatedCart = [...cart];
@@ -360,16 +335,12 @@ function Carts() {
       }
       const products = product.map((item) => {
         return {
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
           productID: item._id,
-          img: item.image[0],
+          quantity: Number(item.quantity),
         };
       });
       const payload = {
         products: products,
-        Intomoney: subtotal, // Tổng tiền
         UserName: user[0].name,
         PaymentForm: payMent,
         province: address[0].province,
@@ -378,17 +349,9 @@ function Carts() {
         alternateReceiverName,
         alternateReceiverPhone,
         phoneNumber: user[0].phone,
+        code: appliedDiscountCode || "",
+        quoteToken: appliedDiscountCode ? quoteToken : undefined,
       };
-
-      // 2. Chỉ thêm thông tin giảm giá nếu có
-      if (discountInfo && appliedDiscountCode) {
-        payload.code = appliedDiscountCode; // Thêm mã code
-        payload.discount_value = discountInfo.discount_value; // Thêm giá trị giảm
-      }
-      else {
-        payload.code = ""; // Gửi mã rỗng
-        payload.discount_value = 0; // Gửi giá trị giảm là 0
-      }
       const response = await api.post("/bill/create", payload);
       console.log(response.data._id);
       if (payMent === "Thanh toán qua ngân hàng") {
@@ -416,7 +379,7 @@ function Carts() {
         setIsAdding(false);
         return;
       }
-      alert("Có lỗi khi thanh toán. Vui lòng thử lại!");
+      alert(err.response?.data?.message || "Có lỗi khi thanh toán. Vui lòng thử lại!");
       console.error(err);
       setIsAdding(false);
     }
@@ -700,7 +663,10 @@ function Carts() {
                           borderRadius: "4px",
                         }}
                         value={discountCode}
-                        onChange={(e) => setDiscountCode(e.target.value)}
+                        onChange={(e) => {
+                          if (appliedDiscountCode) clearAppliedDiscount();
+                          setDiscountCode(e.target.value);
+                        }}
                       />
                     </td>
                     <td>

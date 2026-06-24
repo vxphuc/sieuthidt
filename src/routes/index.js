@@ -83,6 +83,7 @@ import UserUseInfo from "../pages/NotePage/UserUseInfo";
 import UpdateData from "../pages/NotePage/UpdateData";
 import Business from "../pages/NotePage/Business";
 import InfoTransaction from "../pages/NotePage/infotransaction";
+import Brochure from "../pages/Brochure";
 
 export const router = [
   {
@@ -180,6 +181,7 @@ export const router = [
   },
   { path: "/gio-hang/cap-nhap-dia-chi", component: Adress, layout: HeaderOnly },
   { path: "/", component: Home },
+  { path: "/brochure", component: Brochure, layout: HeaderOnly },
   { path: "/gio-hang", component: Carts, layout: HeaderOnly },
   {
     path: "/quan-tri/sua-tai-khoan-nguoi-dung/:id",
