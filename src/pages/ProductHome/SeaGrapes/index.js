@@ -111,7 +111,7 @@ function SeaGrapes() {
             );
           })}
           <div className={`${style.viewMore}`}>
-            <NavLink to={"/san-pham/Rong-nho"} className={`${style.seeMore}`}>
+            <NavLink to={"/san-pham/Rong-Nho"} className={`${style.seeMore}`}>
               Xem thêm
             </NavLink>
           </div>
