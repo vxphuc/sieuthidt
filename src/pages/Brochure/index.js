@@ -25,7 +25,51 @@ function Brochure() {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const brochureId = useMemo(getRequestedBrochureId, []);
+  const [ready, setReady] = useState(false);
+  const [bookSize, setBookSize] = useState({
+    width: 800,
+    height: 1100,
+  });
+  useEffect(() => {
+
+    function updateBookSize() {
+      const mobile = window.innerWidth <= 768;
+      const header = mobile ? 56 : 64;
+      const horizontalPadding = mobile ? 20 : 40;
+      const controlsSpace = mobile ? 96 : 90;
+      const maxHeight = window.innerHeight - header - controlsSpace;
+      const maxWidth = window.innerWidth - horizontalPadding;
+      let pageHeight = maxHeight;
+      let pageWidth = pageHeight / 1.5;
+
+      // Mobile hiển thị một trang; desktop dành đủ chiều rộng cho hai trang.
+      const requiredWidth = mobile ? pageWidth : pageWidth * 2;
+      if (requiredWidth > maxWidth) {
+          pageWidth = mobile ? maxWidth : maxWidth / 2;
+          pageHeight = pageWidth * 1.5;
+      }
+
+      if (pageWidth < 220) {
+          pageWidth = 220;
+          pageHeight = pageWidth * 1.5;
+      }
+
+      setIsMobile(mobile);
+      setBookSize({
+          width: Math.floor(pageWidth),
+          height: Math.floor(pageHeight),
+      });
+      setReady(true);
+    }
+
+    updateBookSize();
+      window.addEventListener("resize",updateBookSize);
+      return ()=>{
+          window.removeEventListener("resize",updateBookSize);
+      }
+  },[]);
 
   const loadBrochure = useCallback(async () => {
     setLoading(true);
@@ -86,6 +130,22 @@ function Brochure() {
     }
   };
 
+  useEffect(() => {
+
+    if (!ready) return;
+
+    const timer = setTimeout(() => {
+
+        flipBookRef.current
+            ?.pageFlip()
+            ?.update();
+
+    },100);
+
+    return ()=>clearTimeout(timer);
+
+  },[ready,pages,bookSize,isMobile]);
+
   return (
     <main className={styles.page}>
       <header className={styles.header}>
@@ -129,15 +189,21 @@ function Brochure() {
                     currentPage === 1 ? styles.coverCentered : ""
                   }`}
                 >
+                {ready && (
                   <HTMLFlipBook
+                    key={isMobile ? "portrait" : "landscape"}
                     ref={flipBookRef}
-                    width={480}
-                    height={520}
-                    size="stretch"
+                    width={bookSize.width}
+                    height={bookSize.height}
+                    size="fixed"
+                    minWidth={315}
+                    maxWidth={1200}
+                    minHeight={450}
+                    maxHeight={1700}
                     maxShadowOpacity={0.25}
                     showCover
-                    usePortrait
-                    mobileScrollSupport
+                    usePortrait={isMobile}
+                    mobileScrollSupport={isMobile}
                     drawShadow
                     flippingTime={650}
                     className={styles.flipBook}
@@ -154,6 +220,7 @@ function Brochure() {
                       </div>
                     ))}
                   </HTMLFlipBook>
+                )}
                 </div>
               </div>
 
