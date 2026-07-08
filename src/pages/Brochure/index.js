@@ -37,8 +37,8 @@ function Brochure() {
     function updateBookSize() {
       const mobile = window.innerWidth <= 768;
       const header = mobile ? 56 : 64;
-      const horizontalPadding = mobile ? 20 : 40;
-      const controlsSpace = mobile ? 96 : 90;
+      const horizontalPadding = mobile ? 20 : 20;
+      const controlsSpace = mobile ? 70 : 25;
       const maxHeight = window.innerHeight - header - controlsSpace;
       const maxWidth = window.innerWidth - horizontalPadding;
       let pageHeight = maxHeight;
