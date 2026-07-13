@@ -15,7 +15,8 @@ function Sitebar() {
                        || location.pathname.startsWith('/quan-tri/san-pham-mua-nhieu-koc');
   const productsActive = location.pathname.startsWith('/quan-tri/san-pham') && !location.pathname.startsWith('/quan-tri/san-pham-mua-nhieu-koc') || location.pathname.startsWith('/quan-tri/loai-san-pham');
   const ordersActive = location.pathname.startsWith('/quan-tri/hoa-don');
-  const functionsActive = location.pathname.startsWith('/quan-tri/quan-ly-tai-khoan') || location.pathname.startsWith('/quan-tri/banner') || location.pathname.startsWith('/quan-tri/quan-ly-ctv');
+  const functionsActive = location.pathname.startsWith('/quan-tri/quan-ly-tai-khoan') || location.pathname.startsWith('/quan-tri/banner') || location.pathname.startsWith('/quan-tri/quan-ly-ctv')
+                         || location.pathname.startsWith('/quan-tri/qr-dong');
   const giftEventsActive = location.pathname.startsWith('/quan-tri/danh-sach-su-kien-doi-qua') || location.pathname.startsWith('/quan-tri/tao-ma-giam-gia-hang-loat')
                       || location.pathname.startsWith('/quan-tri/gan-ma-giam-gia-vao-su-kien') || location.pathname.startsWith('/quan-tri/tao-phan-thuong-cho-su-kien')
                       || location.pathname.startsWith('/quan-tri/danh-sach-dai-ly') || location.pathname.startsWith('/quan-tri/quan-ly-du-lieu-su-kien-doi-qua');
@@ -185,6 +186,12 @@ function Sitebar() {
               className={({ isActive }) => (isActive ? Style.active : "")}
             >
               <div className={Style.ContentDashboard}>Banner</div>
+            </NavLink>
+            <NavLink
+              to="/quan-tri/qr-dong"
+              className={({ isActive }) => (isActive ? Style.active : "")}
+            >
+              <div className={Style.ContentDashboard}>Quản lý QR</div>
             </NavLink>
           </>
         )}

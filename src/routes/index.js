@@ -5,6 +5,7 @@ import CreateProduct from "../pages/Admin/CreateProduct";
 import AdminLayout from "../components/Layouts/AdminLayout";
 import HeaderLayout from "../components/Layouts/HeaderLayout";
 import QRCodePage from "../pages/qrcode";
+import DynamicQr from "../pages/DynamicQr";
 // import HeaderLayout from "../components/Layouts/HeaderEvent";
 import Header from "../components/Layouts/HeaderEvent";
 import event from "../pages/Event_Hue";
@@ -36,6 +37,7 @@ import InvoiceDetails from "../pages/InvoiceDetails";
 import SearchPage from "../pages/SearchPage";
 import OrderManagement from "../pages/Admin/OrderManagement";
 import ChatBot from "../pages/Admin/ChatBot";
+import DynamicQrAdmin from "../pages/Admin/DynamicQrAdmin";
 import DetailProductBill from "../pages/Admin/DetailProductBill";
 import Taikhoanquanly from "../pages/Admin/Taikhoanquanly";
 import Suataikhoannguoidung from "../pages/Admin/Suataikhoannguoidung";
@@ -93,6 +95,11 @@ export const router = [
   {
     path: "/quan-tri/chat-bot",
     component: ChatBot,
+    layout: AdminLayout,
+  },
+  {
+    path: "/quan-tri/qr-dong",
+    component: DynamicQrAdmin,
     layout: AdminLayout,
   },
   {
@@ -261,6 +268,11 @@ export const router = [
   {
     path: "/vongquaymayman",
     component: LuckyWheelPage,
+    layout: HeaderOnly,
+  },
+  {
+    path: "/qr-dong",
+    component: DynamicQr,
     layout: HeaderOnly,
   },
   { path: "/san-pham/:slug", component: Product },
