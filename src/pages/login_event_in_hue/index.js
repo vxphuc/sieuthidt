@@ -30,8 +30,8 @@ function Login() {
     }
     setIsSending(true);
     try {
-      const response = await api.post("https://sieuthidt.io.vn/sign-in/event", {
-        phone: phone,
+      const response = await api.post("https://kocapi.io.vn/danh-sach-so-dien-thoai", {
+        sodienthoai: phone,
       });
 
       if (!name || name.length === 0) {
@@ -41,7 +41,9 @@ function Login() {
         saveName(name);
       }
 
-      localStorage.setItem("authToken", response.data.token);
+      if (response.data?.token) {
+        localStorage.setItem("authToken", response.data.token);
+      }
       navigate("/hoi-cho-mua-thu");
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
@@ -60,11 +62,11 @@ function Login() {
     }}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} className={styles.paper}>
-          <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold" }}>
-            Chào mừng Quý Khách
-            <p>
+          <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold", color: "#206a37" }}>
+            Nhập "Số điện thoại" để đăng nhập
+            {/* <p>
               Đến tham quan DT Group
-            </p>
+            </p> */}
             
           </Typography>
           {/* <Typography variant="body2" gutterBottom align="center">
@@ -80,6 +82,14 @@ function Login() {
               onChange={inputPhone}
               inputProps={{ maxLength: 10 }}
               autoFocus
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#206a37",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#206a37",
+                },
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && phone.length === 10) {
                   handleLogin();
@@ -100,7 +110,7 @@ function Login() {
               disabled={phone.length !== 10 || isSending}
               style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
             >
-              {isSending ? "Đang xử lý..." : "Tham quan"}
+              {isSending ? "Đang xử lý..." : "Đăng nhập"}
             </Button>
           </form>
         </Paper>
