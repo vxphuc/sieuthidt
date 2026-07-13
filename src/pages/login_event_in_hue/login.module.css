@@ -2,9 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: stretch;
-  min-height: 100vh; /* chiếm toàn màn hình */
+  max-height: 100vh; /* chiếm toàn màn hình */
   position: relative;
-  padding-top: 70px;
+  padding-top: 80px;
   /* width: 80%;
   margin: 0 auto; */
 }
