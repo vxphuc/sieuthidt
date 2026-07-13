@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
+  padding: 28px 16px;
 }
 
 .panel {
@@ -23,7 +23,7 @@
 
 .eyebrow {
   color: #0f766e;
-  font-size: 13px;
+  font-size: 23px;
   font-weight: 700;
   margin-bottom: 6px;
   text-transform: uppercase;

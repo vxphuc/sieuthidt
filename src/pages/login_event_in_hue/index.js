@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { TextField, Button, Container, Paper, Typography } from "@mui/material";
 import styles from "./login.module.css";
-import api from "../../api/axios";
+import axios from "axios";
 import { getName, saveName } from "../../services/cartService";
-import { useNavigate } from "react-router-dom";
+
+const publicApi = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  timeout: 10000,
+});
 
 function Login() {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [dynamicLink, setDynamicLink] = useState("");
+  const [linkError, setLinkError] = useState("");
   const name = getName();
-  const navigate = useNavigate();
 
   const isValidVietnamPhoneNumber = (phone) => {
     const regex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
@@ -21,6 +26,8 @@ function Login() {
     const value = e.target.value.replace(/\D/g, "");
     setPhone(value);
     if (error) setError(false);
+    if (dynamicLink) setDynamicLink("");
+    if (linkError) setLinkError("");
   };
 
   const handleLogin = async () => {
@@ -29,8 +36,9 @@ function Login() {
       return;
     }
     setIsSending(true);
+    setLinkError("");
     try {
-      const response = await api.post("https://kocapi.io.vn/danh-sach-so-dien-thoai", {
+      await publicApi.post("/danh-sach-so-dien-thoai", {
         sodienthoai: phone,
       });
 
@@ -41,15 +49,26 @@ function Login() {
         saveName(name);
       }
 
-      if (response.data?.token) {
-        localStorage.setItem("authToken", response.data.token);
+      const linkResponse = await publicApi.get("/qr-dong");
+      const nextLink = linkResponse.data?.link;
+
+      if (!nextLink) {
+        setLinkError("Chưa có link để tiếp tục. Vui lòng liên hệ nhân viên.");
+        return;
       }
-      navigate("/hoi-cho-mua-thu");
+
+      setDynamicLink(nextLink);
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       alert("Đăng nhập thất bại. Vui lòng thử lại.");
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleContinueToLink = () => {
+    if (dynamicLink) {
+      window.location.href = dynamicLink;
     }
   };
 
@@ -101,6 +120,11 @@ function Login() {
                 * Vui lòng nhập số điện thoại hợp lệ
               </Typography>
             )}
+            {linkError && (
+              <Typography variant="body2" color="error">
+                * {linkError}
+              </Typography>
+            )}
             <Button
               fullWidth
               variant="contained"
@@ -110,8 +134,27 @@ function Login() {
               disabled={phone.length !== 10 || isSending}
               style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
             >
-              {isSending ? "Đang xử lý..." : "Đăng nhập"}
+              {isSending ? "Đang xử lý..." : "Tiếp tục"}
             </Button>
+            {dynamicLink && (
+              <div className={styles.dynamicLinkBox}>
+                <Typography variant="body2" className={styles.dynamicLinkLabel}>
+                  Link sự kiện
+                </Typography>
+                <a href={dynamicLink} target="_blank" rel="noreferrer" className={styles.dynamicLink}>
+                  {dynamicLink}
+                </a>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className="mt-3"
+                  onClick={handleContinueToLink}
+                  style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
+                >
+                  Tiếp tục
+                </Button>
+              </div>
+            )}
           </form>
         </Paper>
       </Container>

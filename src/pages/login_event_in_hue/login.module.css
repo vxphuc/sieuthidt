@@ -22,6 +22,29 @@
 .title {
   font-weight: bold;
 }
+.dynamicLinkBox {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid #d7eadb;
+  border-radius: 8px;
+  background: #f4fbf5;
+}
+.dynamicLinkLabel {
+  color: #206a37;
+  font-weight: 700 !important;
+  margin-bottom: 6px !important;
+}
+.dynamicLink {
+  display: block;
+  color: #0f5fb8;
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.dynamicLink:hover {
+  text-decoration: underline;
+}
 @media (max-width: 600px) {
   .wrapper{
     width: 100%;

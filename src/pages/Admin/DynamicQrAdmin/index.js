@@ -4,7 +4,7 @@ import QRCode from "qrcode";
 import styles from "./DynamicQrAdmin.module.css";
 
 const publicApi = axios.create({
-  baseURL: process.env.REACT_APP_SIEU_THI_API,
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000,
 });
 
@@ -91,7 +91,7 @@ function DynamicQrAdmin() {
       const value = link.trim();
       await publicApi.patch("/admin/qr-dong", { link: value });
       await buildQr(value);
-      setMessage("Da cap nhat link QR thanh cong.");
+      setMessage("Đã cập nhật link QR thành công.");
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.detail || "Cap nhat link QR that bai.");
@@ -103,13 +103,13 @@ function DynamicQrAdmin() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <p className={styles.eyebrow}>Quan tri QR dong</p>
-        <h1>Thay doi link ma QR</h1>
+        <p className={styles.eyebrow}>Quản trị QR</p>
+        <h1>Thay đổi link mã QR</h1>
       </div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.label} htmlFor="dynamic-qr-link">
-          Link hien tai
+          Link hiện tại
         </label>
         <div className={styles.inputRow}>
           <input
@@ -123,7 +123,7 @@ function DynamicQrAdmin() {
             required
           />
           <button className={styles.button} type="submit" disabled={loading || saving}>
-            {saving ? "Dang luu" : "Luu"}
+            {saving ? "Đang lưu" : "Lưu"}
           </button>
         </div>
       </form>
@@ -133,9 +133,9 @@ function DynamicQrAdmin() {
 
       <div className={styles.preview}>
         <h2>Xem truoc QR</h2>
-        {loading ? <p className={styles.status}>Dang tai...</p> : null}
-        {!loading && !qrImage ? <p className={styles.status}>Nhap link de tao QR.</p> : null}
-        {qrImage ? <img src={qrImage} alt="QR dong" className={styles.qrImage} /> : null}
+        {loading ? <p className={styles.status}>Đang tải...</p> : null}
+        {!loading && !qrImage ? <p className={styles.status}>Nhập link để tạo QR.</p> : null}
+        {qrImage ? <img src={qrImage} alt="QR động" className={styles.qrImage} /> : null}
       </div>
     </div>
   );

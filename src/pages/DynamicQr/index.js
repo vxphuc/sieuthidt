@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./DynamicQr.module.css";
 
 const publicApi = axios.create({
-  baseURL: process.env.REACT_APP_SIEU_THI_API,
+  baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000,
 });
 
@@ -35,7 +35,7 @@ function DynamicQr() {
       } catch (err) {
         console.error(err);
         if (isMounted) {
-          setError("Khong the tai ma QR. Vui long thu lai sau.");
+          setError("Không thể tải mã QR. Vui lòng thử lại sau.");
         }
       } finally {
         if (isMounted) {
@@ -55,8 +55,8 @@ function DynamicQr() {
     <main className={styles.page}>
       <section className={styles.panel}>
         <div className={styles.header}>
-          <p className={styles.eyebrow}>QR dong</p>
-          <h1>Ma QR hien tai</h1>
+          <p className={styles.eyebrow}>Mã QR</p>
+          {/* <h1>Ma QR hiện tại</h1> */}
         </div>
 
         {loading ? <p className={styles.status}>Dang tai...</p> : null}
