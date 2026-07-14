@@ -59,11 +59,11 @@ function DynamicQr() {
           {/* <h1>Ma QR hiện tại</h1> */}
         </div>
 
-        {loading ? <p className={styles.status}>Dang tai...</p> : null}
+        {loading ? <p className={styles.status}>Đang tải...</p> : null}
         {error ? <p className={styles.error}>{error}</p> : null}
 
         {!loading && !error && !qrData?.link ? (
-          <p className={styles.status}>Chua co link QR.</p>
+          <p className={styles.status}>Chưa có link QR.</p>
         ) : null}
 
         {qrImage ? (

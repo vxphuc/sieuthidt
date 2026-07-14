@@ -6,6 +6,7 @@ import AdminLayout from "../components/Layouts/AdminLayout";
 import HeaderLayout from "../components/Layouts/HeaderLayout";
 import QRCodePage from "../pages/qrcode";
 import DynamicQr from "../pages/DynamicQr";
+import QRCodePageAhoc from "../pages/qrcodeahoc";
 // import HeaderLayout from "../components/Layouts/HeaderEvent";
 import Header from "../components/Layouts/HeaderEvent";
 import event from "../pages/Event_Hue";
@@ -412,6 +413,11 @@ export const router = [
   {
     path: "/qr-code",
     component: QRCodePage,
+    layout: HeaderOnly
+  },
+  {
+    path: "/qr-code-ahoc",
+    component: QRCodePageAhoc,
     layout: HeaderOnly
   }
 ];
