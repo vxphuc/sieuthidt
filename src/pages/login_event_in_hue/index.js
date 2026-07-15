@@ -89,13 +89,10 @@ function Login() {
     }}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} className={styles.paper}>
-          <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold", color: "#206a37" }}>
+          {/* <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold", color: "#206a37" }}>
             Tham gia trò chơi
-            {/* <p>
-              Đến tham quan DT Group
-            </p> */}
             
-          </Typography>
+          </Typography> */}
           {/* <Typography variant="body2" gutterBottom align="center">
             Vui lòng nhập số điện thoại
           </Typography> */}
