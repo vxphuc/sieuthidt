@@ -157,7 +157,7 @@ function Login() {
               color="primary"
               className="mt-3"
               onClick={handleLogin}
-              disabled={phone.length !== 10 || !ten.trim() || isSending}
+              disabled={isSending}
               style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff", borderRadius: "10px" }}
             >
               {isSending ? "Đang xử lý..." : "Tiếp tục"}
