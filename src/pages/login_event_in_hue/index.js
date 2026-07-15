@@ -11,9 +11,10 @@ const publicApi = axios.create({
 
 function Login() {
   const [phone, setPhone] = useState("");
+  const [ten, setTen] = useState("");
   const [error, setError] = useState(false);
+  const [nameError, setNameError] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [dynamicLink, setDynamicLink] = useState("");
   const [linkError, setLinkError] = useState("");
   const name = getName();
 
@@ -26,7 +27,12 @@ function Login() {
     const value = e.target.value.replace(/\D/g, "");
     setPhone(value);
     if (error) setError(false);
-    if (dynamicLink) setDynamicLink("");
+    if (linkError) setLinkError("");
+  };
+
+  const inputTen = (e) => {
+    setTen(e.target.value);
+    if (nameError) setNameError(false);
     if (linkError) setLinkError("");
   };
 
@@ -35,16 +41,24 @@ function Login() {
       setError(true);
       return;
     }
+
+    if (!ten.trim()) {
+      setNameError(true);
+      return;
+    }
+
     setIsSending(true);
     setLinkError("");
     try {
       await publicApi.post("/danh-sach-so-dien-thoai", {
         sodienthoai: phone,
+        ten: ten.trim(),
       });
 
       if (!name || name.length === 0) {
-        saveName([{ name: "", phone }]);
+        saveName([{ name: ten.trim(), phone }]);
       } else {
+        name[0].name = ten.trim();
         name[0].phone = phone;
         saveName(name);
       }
@@ -57,18 +71,12 @@ function Login() {
         return;
       }
 
-      setDynamicLink(nextLink);
+      window.location.href = nextLink;
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       alert("Đăng nhập thất bại. Vui lòng thử lại.");
     } finally {
       setIsSending(false);
-    }
-  };
-
-  const handleContinueToLink = () => {
-    if (dynamicLink) {
-      window.location.href = dynamicLink;
     }
   };
 
@@ -82,7 +90,7 @@ function Login() {
       <Container component="main" maxWidth="xs">
         <Paper elevation={6} className={styles.paper}>
           <Typography variant="h6" gutterBottom align="center" style={{ fontWeight: "bold", color: "#206a37" }}>
-            Nhập "Số điện thoại" để đăng nhập
+            Tham gia trò chơi
             {/* <p>
               Đến tham quan DT Group
             </p> */}
@@ -92,6 +100,27 @@ function Login() {
             Vui lòng nhập số điện thoại
           </Typography> */}
           <form onSubmit={(e) => e.preventDefault()}>
+            <TextField
+              fullWidth
+              label="Tên"
+              variant="outlined"
+              margin="normal"
+              value={ten}
+              onChange={inputTen}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#206a37",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#206a37",
+                },
+              }}
+            />
+            {nameError && (
+              <Typography variant="body2" color="error">
+                * Vui lòng nhập tên
+              </Typography>
+            )}
             <TextField
               fullWidth
               label="Số điện thoại"
@@ -131,30 +160,11 @@ function Login() {
               color="primary"
               className="mt-3"
               onClick={handleLogin}
-              disabled={phone.length !== 10 || isSending}
-              style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
+              disabled={phone.length !== 10 || !ten.trim() || isSending}
+              style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff", borderRadius: "10px" }}
             >
               {isSending ? "Đang xử lý..." : "Tiếp tục"}
             </Button>
-            {dynamicLink && (
-              <div className={styles.dynamicLinkBox}>
-                <Typography variant="body2" className={styles.dynamicLinkLabel}>
-                  Link sự kiện
-                </Typography>
-                <a href={dynamicLink} target="_blank" rel="noreferrer" className={styles.dynamicLink}>
-                  {dynamicLink}
-                </a>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  className="mt-3"
-                  onClick={handleContinueToLink}
-                  style={{ color: "#ffff", fontWeight: "600", backgroundColor: "#087515ff" }}
-                >
-                  Tiếp tục
-                </Button>
-              </div>
-            )}
           </form>
         </Paper>
       </Container>
