@@ -12,8 +12,9 @@ import BackgroundPopup from "../../components/BackgroundPopup";
 
 function PayMentBank() {
   const { id } = useParams();
-  const bank_id = process.env.REACT_APP_BANK_ID;
-  const ACCOUNT_NO = process.env.REACT_APP_ACCOUNT_NO;
+  const bankId = process.env.REACT_APP_BANK_ID || "";
+  const accountNo = process.env.REACT_APP_ACCOUNT_NO || "";
+  const accountName = process.env.REACT_APP_ACCOUNT_NAME || "";
   const [bill, setBill] = useState({});
   const [billError, setBillError] = useState(false);
   const [billLoading, setBillLoading] = useState(true);
@@ -94,7 +95,7 @@ useEffect(() => {
         setBillLoading(false);
       });
   }, [id]);
-  const qrUrl = `https://img.vietqr.io/image/970422-0001856423848-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=Phung The Vinh`;
+  const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${data.Intomoney?.$numberDecimal}&addInfo=${data._id}&accountName=${encodeURIComponent(accountName)}`;
 
   if (billLoading) {
     return (
@@ -162,10 +163,10 @@ useEffect(() => {
               <tr>
                 <td>Số tài khoản:</td>
                 <td className={`${styles.tdin}`}>
-                  0001856423848
+                  {accountNo}
                   <button
                     type="button"
-                    onClick={() => handleCopy("0001856423848")}
+                    onClick={() => handleCopy(accountNo)}
                   >
                     sao chép
                   </button>
@@ -173,7 +174,7 @@ useEffect(() => {
               </tr>
               <tr>
                 <td>Người hưởng thụ:</td>
-                <td className={`${styles.tdin}`}>Phung The Vinh</td>
+                <td className={`${styles.tdin}`}>{accountName}</td>
               </tr>
               <tr>
                 <td>Số tiền:</td>
